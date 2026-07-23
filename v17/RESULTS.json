@@ -1,0 +1,38 @@
+{
+  "current_version": "V17",
+  "primary_result": "Finite bounded-size local obstruction catalogues cannot solve every linear MAJ3 range-avoidance instance with m>n.",
+  "barrier_theorem": {
+    "status": "machine-checked finite components plus literature-backed existence theorem",
+    "v16_max_incidence_girth": 8,
+    "acyclic_exhaustive_valid": true
+  },
+  "explicit_host": {
+    "construction": "deterministic PEG (3,4)-biregular Tanner graph",
+    "seed": 13,
+    "vertices": 450,
+    "hyperedges": 600,
+    "stretch": 1.3333333333333333,
+    "vertex_degree": 4,
+    "edge_size": 3,
+    "incidence_vertices": 1050,
+    "incidence_edges": 1800,
+    "incidence_girth": 10,
+    "connected": true,
+    "linear": true,
+    "cycle_rank": 751,
+    "avoids_all_v16_supports": true
+  },
+  "independent_verification": {
+    "motif_girths": {"U1": 6, "U2": 6, "U3": 8},
+    "acyclic_labelings_checked": 32054,
+    "unsatisfiable_acyclic": 0,
+    "matches_certificate": true
+  },
+  "scientific_assessment": {
+    "internal_level": 3,
+    "external_conservative_level": 3,
+    "p_vs_np_resolved": false,
+    "novelty_confirmed": false
+  },
+  "v18_primary": "Variable-length signed-cycle automata and global implication certificates."
+}
