@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this computational research note, cite it."
+title: "Zero-Set Polynomial Dependencies for Symmetric Local Range Avoidance"
+type: software
+authors:
+  - family-names: "Suarez"
+    given-names: "Rafael Vieira"
+version: "22.0"
+date-released: "2026-07-23"
+license: MIT
+abstract: >
+  A candidate polynomial-dependency method for symmetric NC0_k range
+  avoidance, including a quadratic sufficient threshold for fan-in four.
