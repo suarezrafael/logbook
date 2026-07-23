@@ -1,0 +1,39 @@
+{
+  "version": "V27",
+  "primary_result": "Every left-nullspace relation among exact GF(2) output ANFs gives an affine parity constraint H y = H c on the circuit range.",
+  "structural_conditions": {
+    "exact": "nonconstant coefficient rank < m",
+    "active_features": "m > |A(C)|",
+    "coarse": "m > |V| + |partial_2 H| + |T_active|",
+    "degeneracy": "m > v*(1+delta+binom(delta,2))"
+  },
+  "catalogue": {
+    "hard_functions": 1280,
+    "distinct_nonconstant_vectors": 640,
+    "complement_pairs": 640,
+    "noncomplement_affine_triples": 5120,
+    "smallest_relation_size": 3,
+    "smallest_masks": ["0x7f80", "0x078f", "0x780f"],
+    "allowed_outputs": ["000", "011", "101", "110"],
+    "missing_outputs": ["001", "010", "100", "111"]
+  },
+  "experiments": {
+    "benchmark_cases": 96,
+    "failures": 0,
+    "median_nullity": 1.0,
+    "median_certified_missing_fraction": 0.5,
+    "median_f2_feature_improvement_over_f5": 3.5,
+    "independent_verification": true
+  },
+  "external_validation": {
+    "email_sent_to_paper_authors": true,
+    "status": "awaiting reply"
+  },
+  "scientific_status": {
+    "internal_level": 4.4,
+    "external_conservative_level": 3.5,
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false
+  }
+}
