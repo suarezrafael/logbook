@@ -1,0 +1,60 @@
+{
+  "current_version": "V26",
+  "primary_result": {
+    "condition": "m > |F(C)|, where F(C) is the union of monomials appearing in the chosen GF(5) zero-set witnesses; or more generally coefficient-rank < m.",
+    "coarse_condition": "m > 1 + |V| + |partial_2 H| + |T_active|.",
+    "degeneracy_condition": "m > 1 + v*(1+delta+binom(delta,2)).",
+    "scope": "All four-input Boolean gates, using degree<=2 witnesses for 215 NPN classes and degree-3 witnesses for the seven remaining classes."
+  },
+  "cubic_barrier": {
+    "v25_hard_classes": 7,
+    "mapped_paper_indices": [356, 327, 321, 320, 200, 199, 195],
+    "all_self_complement": true,
+    "all_or3": true,
+    "all_degree3": true,
+    "nrd_conclusion": "Each of the seven homogeneous predicates has NRD Theta(n^3).",
+    "barrier_scope": "This rules out subcubic guarantees for all-ones-except-one redundancy certificates, not arbitrary range-avoidance outputs."
+  },
+  "experiments": {
+    "mapping_rows": 7,
+    "benchmark_instances": 96,
+    "benchmark_failures": 0,
+    "successful_benchmarks": 96,
+    "median_seconds": 0.0019018215007235995,
+    "median_feature_union": 31.5,
+    "median_active_triples": 5.5
+  },
+  "scientific_assessment": {
+    "internal_level": 4.35,
+    "external_conservative_level": 3.5,
+    "level_4_confirmed": false,
+    "novelty_confirmed": false,
+    "peer_reviewed": false,
+    "p_vs_np_resolved": false,
+    "assessment": "The exact literature mapping removes a false novelty risk and proves a cubic barrier for redundancy-based strategies. The positive result is a structural all-predicate theorem, but not a worst-case improvement for NC0_4-Avoid."
+  },
+  "independent_verification": {
+    "author_predicate_classes": 400,
+    "mapping_rows": 7,
+    "mapping_failures": [],
+    "mapped_indices": [195, 199, 200, 320, 321, 327, 356],
+    "all_self_complement": true,
+    "all_or3_reconstructed": true,
+    "benchmark_cases": 96,
+    "case_failures": [],
+    "all_polynomial_semantics": true,
+    "all_dependencies": true,
+    "all_feature_unions": true,
+    "all_ranks": true,
+    "all_missing_outputs": true,
+    "matches_claims": true
+  },
+  "literature_context": {
+    "mapped_predicates": [195, 199, 200, 320, 321, 327, 356],
+    "paper_exceptional_predicates": [181, 299, 317],
+    "v25_barriers_are_paper_exceptions": false,
+    "barrier_scope": "all-ones-except-one redundancy targets",
+    "novelty_confirmed": false
+  },
+  "v27_primary": "Abandon one-violation redundancy as the primary route for the seven hard predicates. Search for multi-bit forbidden-output certificates, especially low-codimension algebraic relations or cycle automata that bypass Theta(n^3) NRD."
+}
