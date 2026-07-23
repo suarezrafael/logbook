@@ -25,15 +25,27 @@ The project does **not** claim to resolve P versus NP.
 
 ## Active result
 
-Laboratory V20/V21 studies symmetric fan-in-three range avoidance. The current proof candidate states that a circuit with threshold, parity, and exact-residue output families can be avoided in deterministic polynomial time when
+Laboratory V22 studies symmetric local range avoidance through zero-set polynomials. The current proof candidate states:
+
+```text
+For fixed fan-in k, let d=floor((k+1)/2).
+SYMMETRIC-NC0_k-Avoid is deterministic polynomial time when
+m > sum_{j=0}^d binom(n,j).
+```
+
+The general lemma applies whenever normalized outputs have the form `g_i(x)=1 iff p_i(x)=0` and the polynomial coefficient vectors are linearly dependent. For fan-in four the uniform corollary is:
+
+```text
+m > 1 + n + binom(n,2).
+```
+
+**Status:** internal level-4 candidate; not peer reviewed; novelty and priority not established.
+
+The V20/V21 effective-dimension result for symmetric fan-in three remains a separate proof candidate:
 
 ```text
 m > |V_T| + rank_GF2(A_P) + rank_GF3(A_R).
 ```
-
-The uniform corollary is `m > 3n`. The argument depends on the published polynomial-time algorithm for monotone `NC0_3-Avoid` and uses explicit finite-field dependency certificates for the other two branches.
-
-**Status:** internal level-4 candidate; not peer reviewed; novelty and priority not established.
 
 ## Version map
 
@@ -44,7 +56,8 @@ The uniform corollary is `m > 3n`. The argument depends on the published polynom
 | V18 | Six-state path relation algebra | Exact finite algebra |
 | V19 | Multi-source parity finder and signed path algebra | Algorithmic optimization |
 | V20 | Effective-dimension theorem candidate for symmetric `NC0_3-Avoid` | Proof candidate |
-| V21 | External validation, publication preparation, and scientific repository organization | Active |
+| V21 | External validation, publication preparation, and scientific repository organization | Validation stage |
+| V22 | Zero-set polynomial dependency theorem candidate and quadratic symmetric fan-in-four corollary | Active proof candidate |
 
 ## Reproducibility standard
 
