@@ -1,5 +1,11 @@
 {
-  "status": "passed",
+  "status": "passed_with_retraction_regression",
+  "scientific_status": {
+    "union_free_substitution_lemma_preserved": true,
+    "incidence_girth_implication_retracted": true,
+    "omega_log_family_retracted": true,
+    "use_v54_as_current_record": true
+  },
   "finite_examples": [
     {
       "name": "UF2",
@@ -30,5 +36,18 @@
       "edges": [[4,7,11],[5,10,13],[1,4,10],[8,11,12],[0,1,7],[3,7,12],[2,4,5],[5,8,14],[2,3,14],[2,10,12],[3,9,13],[2,9,11],[0,6,12],[0,8,13],[4,6,9],[1,9,14]]
     }
   ],
-  "summary": {"examples":2,"union_values_checked":743,"field_rank_checks":6,"exact_degree_checks":2,"failures":0}
+  "retraction_regression": {
+    "acyclic_counterexample_edges": [[0,1,2],[0,3,4],[1,5,6],[2,7,8]],
+    "equal_union_families": [[1,2,3],[0,1,2,3]],
+    "four_union_free": false,
+    "failure_mode": "nested cover collision"
+  },
+  "summary": {
+    "examples": 2,
+    "union_values_checked": 743,
+    "field_rank_checks": 6,
+    "exact_degree_checks": 2,
+    "retraction_regressions": 1,
+    "failures": 0
+  }
 }
