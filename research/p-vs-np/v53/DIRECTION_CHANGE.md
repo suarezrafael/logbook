@@ -1,37 +1,50 @@
-# V53 direction change — from NC⁰₄ to NC⁰₃
+# V53 direction change — from NC⁰₄ to NC⁰₃, with V54 correction
 
-The initial V53 context proposed searching for growing syndrome degree inside `NC⁰₄`. Rafael challenged that target using the published hierarchy:
+The strategic move from `NC⁰₄` to stretch-one `NC⁰₃-Avoid` remains justified:
 
 - `NC⁰₂-Avoid` has a polynomial-time algorithm;
 - stretch-one `NC⁰₃-Avoid` remains open;
 - important explicit-construction problems already reduce to `NC⁰₄-Avoid`;
-- cryptographic work gives evidence against overly general deterministic Avoid algorithms.
+- cryptographic work gives evidence against overly general deterministic Avoid algorithms, without directly ruling out stretch-one `NC⁰₃-Avoid`.
 
-The criticism was correct in its main strategic conclusion. The best risk/return target for the syndrome method is `NC⁰₃`, not `NC⁰₄`.
+## Preserved V53 theorem
 
-## Bibliographic refinements
+For a pure `AND₃` circuit, output monomials indexed by edge subfamilies map to input monomials indexed by their vertex unions. Therefore bounded-size union-distinctness implies injectivity of the substitution and excludes low-degree vanishing identities.
 
-Two qualifications were added during verification:
+## Retracted V53 claim
 
-1. The Ilango–Li–Williams barrier concerns general Avoid under cryptographic assumptions; it is not a theorem that directly rules out a polynomial algorithm for stretch-one `NC⁰₃-Avoid`.
-2. Monotone `NC⁰₃-Avoid` is now known to be polynomial-time solvable. Therefore an `AND₃` family with high syndrome degree is a barrier to the **syndrome method**, not evidence of Avoid hardness.
+The original V53 package incorrectly claimed:
 
-## New V53 question
+```text
+incidence girth > 4t
+        => t-union-free
+        => syndrome degree > t.
+```
 
-The revised falsifiable question became:
+The first implication is false for nested collisions. After removing common edges from equal-union families, one residual family may be empty.
 
-> Can a stretch-one `NC⁰₃` image require polynomial identities of unbounded degree, even though the underlying Avoid instance may be easy by another method?
+An edge may be covered by the union of other edges even when the incidence graph is acyclic. Consequently, the claimed stretch-one family with syndrome degree `Ω(log n)` is retracted.
 
-V53 answers yes, with a logarithmic lower bound from union-free high-girth hypergraphs.
+## Correct replacement from V54
+
+Every positive-excess `k`-uniform support hypergraph has a nonempty 2-core. A core edge is covered by at most one witness edge through each of its vertices, producing:
+
+```text
+(1-Y_e) product_f Y_f = 0
+```
+
+with degree at most `k+1`.
+
+For pure `AND₃`, an explicit missing target always has separating degree at most four.
 
 ## Methodological lesson
 
-A negative result against one certificate family can be valuable on an open problem only when it is positioned precisely:
+The target `NC⁰₃-Avoid` remains correct, but the lesson changed:
 
 ```text
-high syndrome degree
-    does not imply
-hard Range Avoidance.
+high girth
+    does not prevent
+nested cover relations.
 ```
 
-It says that progress on `NC⁰₃-Avoid` must combine or replace constant-degree global identities with other tools such as Turán-type structure, recursive elimination, hitting sets, pseudodeterminism, or interactive counting.
+Future work must move beyond singleton-fiber gates and must run both cycle and cover/union-collision regressions before promoting asymptotic claims.
