@@ -1,53 +1,59 @@
-# Resumo para o público leigo — V53
+# Resumo para o público leigo — V53, corrigido pela V54
 
-## Por que o laboratório mudou de alvo?
+> **Resultado assintótico retirado.** A alegação de que ciclos longos forçariam grau de síndrome crescente estava errada. Use a V54 como registro científico atual.
 
-Até a V52, o foco estava em circuitos nos quais cada saída dependia de quatro entradas.
+## O que permaneceu correto?
 
-Você observou que a fronteira científica mais interessante está um nível antes:
+Para um circuito formado por portas `AND₃`, cada produto de saídas corresponde à união dos suportes das portas escolhidas.
 
-- com duas entradas por saída, já existe algoritmo eficiente;
-- com três entradas, o caso geral ainda está aberto;
-- com quatro entradas, já existem fortes conexões com problemas considerados difíceis.
+Se dois grupos pequenos de portas sempre tiverem uniões diferentes, esses produtos continuam algebricamente independentes. Essa transferência `union-free → independência de baixo grau` permanece válida.
 
-A V53 aceitou essa crítica e mudou o foco para três entradas.
+Os dois exemplos finitos também permanecem corretos:
 
-## O que é uma síndrome?
+- UF2 tem grau exato 3;
+- UF3 tem grau exato 4.
 
-Uma síndrome é uma equação que todas as saídas verdadeiras do circuito obedecem.
+## Qual foi o erro?
 
-Se encontramos uma palavra que viola essa equação, sabemos que o circuito nunca produz essa palavra.
+A V53 afirmava que girth elevado no grafo de incidência impediria todas as colisões de união.
 
-As versões anteriores tentavam procurar equações de grau pequeno, porque elas podem ser encontradas com álgebra linear.
+Isso é falso quando um grupo de arestas contém o outro. Uma aresta pode estar completamente coberta pela união de outras três sem criar ciclo algum.
 
-## O que a V53 descobriu?
+Exemplo:
 
-Construímos circuitos muito simples. Cada saída é ligada somente quando três entradas específicas estão ligadas — uma porta `AND` de três entradas.
+```text
+e  = {0,1,2}
+f0 = {0,3,4}
+f1 = {1,5,6}
+f2 = {2,7,8}
+```
 
-As trincas são organizadas para que pequenos grupos diferentes cubram conjuntos diferentes de entradas.
+O grafo de incidência é uma árvore, mas:
 
-Isso faz com que produtos diferentes das saídas continuem matematicamente independentes. Como consequência, nenhuma equação de grau pequeno consegue se anular em toda a imagem.
+```text
+union({f0,f1,f2}) = union({e,f0,f1,f2}).
+```
 
-Usando redes com ciclos muito longos, o grau necessário cresce pelo menos como o logaritmo do tamanho do circuito.
+Por isso, foram retirados:
 
-## Isso torna o problema difícil?
+- `girth > 4t ⇒ t-union-free`;
+- a família com suposto grau `Ω(log n)`;
+- a conclusão de que síndromes de grau constante falhariam nessa família.
 
-Não necessariamente.
+## Qual foi o resultado positivo escondido no erro?
 
-Essa família é monotônica, e já existe outro algoritmo eficiente para encontrar uma saída ausente nessa subclasse.
+A V54 provou o sentido oposto para circuitos puros `AND₃` com mais saídas que entradas.
 
-O resultado diz algo mais específico:
+O hipergrafo possui um 2-core. Dentro dele, uma porta central é forçada por no máximo três portas testemunhas. Isso produz a equação:
 
-> Mesmo quando Range Avoidance é fácil, o método de procurar uma equação global de grau constante pode falhar.
+```text
+(1-Y_e) · Y_f1 · Y_f2 · Y_f3 = 0.
+```
 
-Assim, o avanço é descobrir uma limitação real da ferramenta, não provar que `NC⁰₃-Avoid` é difícil.
+Assim, existe sempre uma palavra ausente com separador de grau no máximo quatro.
 
-## O que vem depois?
+## O que aprendemos?
 
-A próxima versão deve combinar ferramentas, em vez de depender apenas de uma síndrome:
+A infraestrutura de verificação precisa testar não apenas ciclos curtos, mas também colisões por cobertura e contenção.
 
-- estrutura de hipergrafos;
-- algoritmos de Turán;
-- equações esparsas ou locais;
-- hitting sets;
-- seleção pseudodeterminística de alvos.
+O caso realmente aberto continua sendo `NC⁰₃-Avoid` geral, especialmente para portas ternárias fora da órbita de `AND₃` e suas negações.
