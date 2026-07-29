@@ -1,36 +1,22 @@
 # P versus NP Laboratory V55
 
+> **Strengthened by V56.** The V55 block-subspace theorem and all finite classifications remain valid. V56 improves the general mixed affine-fiber threshold from `m>n+1` to the minimum positive stretch `m>n` by first separating the inconsistent case and then translating a common solution to remove the augmented constant coordinate. Use `research/p-vs-np/v56` for the strongest current statement.
+
 ## Affine-fiber block redundancy for ternary Range Avoidance
 
-**Scientific status:** internally proved and independently verified research
-package. Not peer reviewed. Novelty is not established. This work does not
-solve general `NC0_3-Avoid`, prove an unrestricted circuit lower bound, or
-resolve P versus NP.
+**Scientific status:** internally proved and independently verified research package. Not peer reviewed. Novelty is not established. This work does not solve general `NC0_3-Avoid`, prove an unrestricted circuit lower bound, or resolve P versus NP.
 
-## Main result
+## Preserved V55 results
 
-The essential ternary NPN class with canonical mask `0x18` has an active fiber
-formed by two antipodal assignments. Every output gate is equivalent to a
-block of two affine parity equations.
+The essential ternary NPN class with canonical mask `0x18` has an active fiber formed by two antipodal assignments. Every output gate is equivalent to a block of two affine parity equations. V55 proved a stretch-one algorithm for this genuinely ternary, nonmonotone class.
 
-All lifted equation rows lie in an `n`-dimensional augmented subspace. Hence,
-when `m>n`, one complete gate block is implied by the others. Requesting the
-implying gates to be active and the implied gate to be inactive constructs a
-missing output in deterministic polynomial time.
-
-This gives a stretch-one algorithm for a genuinely ternary, nonmonotone NPN
-class beyond the singleton-fiber orbit treated in V54.
-
-## General theorem
-
-For any circuit in which every output has a nonempty affine fiber, block
-redundancy gives deterministic Range Avoidance when
+V55 also proved the general augmented-space statement:
 
 ```text
-m>n+1.
+If every output has a nonempty affine fiber, m>n+1 suffices.
 ```
 
-The theorem allows arbitrary mixtures of affine-fiber ternary NPN classes.
+That statement is correct but no longer optimal. V56 proves `m>n` for arbitrary mixtures by a consistency-or-redundancy dichotomy.
 
 ## Classification
 
@@ -48,7 +34,7 @@ Essential non-affine frontier:
 0x07, 0x16, 0x17, 0x19, 0x1b, 0x1e.
 ```
 
-## Reproduce
+## Reproduce V55
 
 ```bash
 python verify.py
@@ -76,12 +62,12 @@ V55 independent verification passed:
 
 ## Files
 
-- `THEOREM.md` — theorem statements and scope;
-- `PROOF.md` — detailed proofs;
+- `THEOREM.md` — V55 theorem statements and the V56 strengthening notice;
+- `PROOF.md` — detailed V55 proofs;
 - `NPN_CLASSIFICATION.md` — all 14 classes and algorithmic routes;
-- `AFFINE_FIBER_METHOD.md` — executable algorithm specification;
+- `AFFINE_FIBER_METHOD.md` — V55 augmented-space algorithm;
 - `CLASSIFICATION.json` — machine-readable catalogue;
 - `CERTIFICATES.json` — serialized finite certificates;
 - `v55_core.py` — primary implementation;
 - `verify.py` and `verify_independent.py` — independent audits;
-- `V56_CORE_CONTEXT.md` — next research program.
+- `V56_CORE_CONTEXT.md` — historical context, now annotated with the V56 outcome.
