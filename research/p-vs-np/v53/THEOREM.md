@@ -1,109 +1,51 @@
-# V53 theorem — union-free supports force high syndrome degree
+# V53 theorem status — corrected by V54
 
-## Definitions
+## Preserved theorem
 
-Let `F` be a field and let `S subseteq {0,1}^m`. Define
-
-```text
-sd_F(S) = min deg(Q),
-```
-
-where the minimum is over nonzero multilinear polynomials `Q in F[Y_1,...,Y_m]` that vanish on every point of `S`.
-
-A hypergraph `H=(V,E)` is **t-union-free** when any two distinct edge subfamilies `A,B subseteq E` with `|A|,|B| <= t` satisfy
+Let `H=(V,E)` be a 3-uniform hypergraph and define
 
 ```text
-union(A) != union(B).
+C_H(x)_e = product_{v in e} x_v.
 ```
 
-For a 3-uniform hypergraph `H`, define the local Boolean circuit
+If any two distinct edge subfamilies of size at most `t` have distinct vertex unions, then the substitution
 
 ```text
-C_H : {0,1}^V -> {0,1}^E,
-C_H(x)_e = AND_{v in e} x_v.
+Y_e -> product_{v in e} X_v
 ```
 
-Each output has fan-in exactly three.
-
-## Theorem 1 — union-free transfer
-
-If `H` is t-union-free, then over every field `F`,
+is injective on multilinear output polynomials of degree at most `t`. Consequently, over every field,
 
 ```text
 sd_F(Range(C_H)) > t.
 ```
 
-Equivalently, the substitution homomorphism
+This is the valid central theorem of V53.
+
+## Retracted statements
+
+The following statements from the original V53 package are false and retracted:
+
+1. `incidence_girth(H) > 4t` implies full `t`-union-freeness;
+2. the derived stretch-one `AND3` family with syndrome degree `Omega(log n)`.
+
+The proof failed for nested equal-union collisions. For example, an edge can be contained in the union of three other edges even when the incidence graph is a tree.
+
+## Correct replacement from V54
+
+Every `k`-uniform hypergraph with more edges than vertices has a nonempty 2-core. A core edge is contained in the union of at most `k` other core edges, yielding
 
 ```text
-Phi_H : F[Y_e : e in E]_{multilinear, degree<=t}
-        -> F[X_v : v in V]_{multilinear}
-Phi_H(Y_e) = product_{v in e} X_v
+(1-Y_e) product_f Y_f = 0
 ```
 
-is injective.
+on the image. Thus pure `AND_k` has an explicit separator of degree at most `k+1`; in particular, positive-stretch pure `AND3` has degree at most four.
 
-## Theorem 2 — incidence girth criterion
-
-If the incidence graph of `H` has girth strictly greater than `4t`, then `H` is t-union-free.
-
-Therefore,
+The finite V53 examples remain correct:
 
 ```text
-incidence_girth(H) > 4t
-    => sd_F(Range(C_H)) > t
+UF2: exact syndrome/separating degree 3,
+UF3: exact syndrome/separating degree 4.
 ```
 
-for every field `F`.
-
-## Theorem 3 — stretch-one NC⁰₃ family with growing degree
-
-There is a randomized polynomial-time constructible infinite family of 3-uniform hypergraphs `H_N` with
-
-```text
-|E(H_N)| = |V(H_N)| + 1
-```
-
-and incidence girth `Omega(log |V(H_N)|)`.
-
-Consequently, the `AND₃` circuits `C_{H_N}` have stretch one and satisfy
-
-```text
-sd_F(Range(C_{H_N})) = Omega(log n)
-```
-
-simultaneously over every field.
-
-The construction starts from cubic graphs of logarithmic girth, takes bipartite double covers, uses three disjoint copies, and adds one new left incidence vertex connected once into each copy.
-
-## Theorem 4 — output complements preserve the parameter
-
-For any fixed `a in {0,1}^m`, let
-
-```text
-S+a = {y XOR a : y in S}.
-```
-
-Then
-
-```text
-sd_F(S+a) = sd_F(S).
-```
-
-The coordinate substitution is `Y_i -> Y_i` when `a_i=0` and `Y_i -> 1-Y_i` when `a_i=1`; it is an invertible degree-preserving affine automorphism of the Boolean coordinate ring.
-
-## Scientific interpretation
-
-The result proves that **constant-degree vanishing identities cannot be a universal solution method even for stretch-one `NC⁰₃` circuits**.
-
-It does not prove that these circuits are hard to avoid. The constructed circuits use monotone `AND₃` gates, and monotone `NC⁰₃-Avoid` is already solvable in polynomial time by a different combinatorial method.
-
-The likely reusable contribution is the transfer:
-
-```text
-union-free hypergraph / incidence girth
-              -> injective low-degree substitution
-              -> lower bound on syndrome degree.
-```
-
-Union-free hypergraphs and evaluation-code ideas are established subjects. Priority for this exact Range-Avoidance formulation is not claimed.
+Use Laboratory V54 for the proofs, validation, and current scientific status.
