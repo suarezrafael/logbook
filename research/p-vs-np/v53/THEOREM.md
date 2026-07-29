@@ -90,7 +90,7 @@ Then
 sd_F(S+a) = sd_F(S).
 ```
 
-The coordinate substitution `Y_i -> Y_i + a_i` is an invertible degree-preserving affine automorphism of the Boolean coordinate ring.
+The coordinate substitution is `Y_i -> Y_i` when `a_i=0` and `Y_i -> 1-Y_i` when `a_i=1`; it is an invertible degree-preserving affine automorphism of the Boolean coordinate ring.
 
 ## Scientific interpretation
 
