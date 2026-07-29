@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "n3_multisets": 249900,
+  "n4_normalized_families": 376992,
+  "n4_irredundant": 12,
+  "boundary_subsets": 65804,
+  "explicit_gadget_witnesses": [10, 4, 6, 8, 14],
+  "failures": 0
+}
