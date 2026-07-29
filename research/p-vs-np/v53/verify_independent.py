@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independent audit: no import from v53_core."""
+"""Independent audit of the preserved V53 finite results and V54 retraction."""
 import itertools, json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent
@@ -45,6 +45,19 @@ def rank_columns(points,m,d):
     return rank,len(columns)
 
 
+def first_union_collision(edges,t):
+    masks=[edge_mask(e) for e in edges]
+    seen={}
+    for size in range(t+1):
+        for chosen in itertools.combinations(range(len(edges)),size):
+            union=0
+            for i in chosen: union |= masks[i]
+            if union in seen:
+                return seen[union], chosen
+            seen[union]=chosen
+    return None
+
+
 def main():
     records=json.loads((ROOT/'FINITE_EXAMPLES.json').read_text(encoding='utf-8'))
     union_checks=0
@@ -63,9 +76,18 @@ def main():
             rank,count=rank_columns(points,m,degree); assert rank==count
         rank,count=rank_columns(points,m,t+1); assert rank<count
         assert record['minimum_syndrome_degree_gf2']==t+1
-    print('V53 independent verification passed:')
-    print(f'  {len(records)} examples rebuilt from JSON;')
+
+    nested_cover=[(0,1,2),(0,3,4),(1,5,6),(2,7,8)]
+    collision=first_union_collision(nested_cover,4)
+    assert collision is not None
+    left,right=collision
+    assert set(left)=={1,2,3}
+    assert set(right)=={0,1,2,3}
+
+    print('V53 corrected independent verification passed:')
+    print(f'  {len(records)} finite examples rebuilt from JSON;')
     print(f'  {union_checks} union values independently checked;')
-    print('  exact GF(2) syndrome degrees independently reconstructed.')
+    print('  exact GF(2) syndrome degrees independently reconstructed;')
+    print('  acyclic nested-cover collision independently detected.')
 
 if __name__=='__main__': main()
