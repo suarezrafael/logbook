@@ -1,0 +1,37 @@
+{
+  "version": "V55",
+  "status": "passed",
+  "seed": 550055,
+  "theorems": {
+    "general_affine_fiber_threshold": "m>n+1",
+    "antipodal_pair_threshold": "m>n",
+    "antipodal_canonical_mask": "0x18",
+    "antipodal_orbit_size": 8,
+    "parity3_threshold": "m>n",
+    "remaining_nonaffine_essential_classes": ["0x07","0x16","0x17","0x19","0x1b","0x1e"]
+  },
+  "classification": {
+    "boolean_functions": 256,
+    "npn_classes": 14,
+    "affine_orientable_classes": 8,
+    "essential_affine_classes": ["0x01","0x06","0x18","0x69"],
+    "essential_nonaffine_classes": ["0x07","0x16","0x17","0x19","0x1b","0x1e"]
+  },
+  "validation": {
+    "exhaustive_antipodal_n3_m4": 4096,
+    "random_antipodal_stretch_one": 360,
+    "random_mixed_affine_n_plus_2": 280,
+    "distance_two_pair_n_plus_2": 160,
+    "parity3_stretch_one": 250,
+    "abstract_block_subspace_cases": 550,
+    "saved_certificates": 19,
+    "failures": 0
+  },
+  "constructed_separator_degree_histogram_n3": {"2":2176,"3":1920},
+  "scientific_status": {
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "general_nc0_3_avoid_solved": false,
+    "p_vs_np_resolved": false
+  }
+}
