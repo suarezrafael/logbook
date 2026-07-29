@@ -1,0 +1,48 @@
+{
+  "version": "V56",
+  "status": "passed",
+  "seed": 560056,
+  "theorems": {
+    "consistency_or_redundancy_threshold": "m>n",
+    "scope": "any mixture of output coordinates with a computable nonempty affine GF(2) fiber",
+    "adaptive_condition": "all-active affine system inconsistent, or number of blocks exceeds coefficient rank",
+    "separator_degree_bound": "at most n+1",
+    "essential_ternary_affine_classes_solved_at_stretch_one": ["0x01", "0x06", "0x18", "0x69"],
+    "supersedes_v55_general_threshold": "m>n+1 -> m>n",
+    "supersedes_v54_arbitrary_singleton_threshold": "m>2n -> m>n"
+  },
+  "frontier": {
+    "essential_nonaffine_classes": ["0x07", "0x16", "0x17", "0x19", "0x1b", "0x1e"],
+    "bijunctive_classes": ["0x07", "0x17", "0x1b"],
+    "nonbijunctive_classes": ["0x16", "0x19", "0x1e"],
+    "all_fibers_minimum_affine_partition_cells": 2,
+    "affine_extension_projection_barrier": true
+  },
+  "classification": {
+    "boolean_functions": 256,
+    "npn_classes": 14,
+    "affine_orientable_classes": 8,
+    "affine_truth_tables": 88,
+    "affine_subsets_f2_3": 51,
+    "affine_subspaces_f2_4_checked": 307
+  },
+  "validation": {
+    "distance_two_exhaustive_multisets_n3_m4": 17550,
+    "singleton_exhaustive_multisets_n3_m4": 3876,
+    "consistent_mixed_stretch_one": 350,
+    "unconditioned_mixed_stretch_one": 350,
+    "repeated_support_cases": 210,
+    "abstract_block_cases": 720,
+    "affine_projection_checks": 307,
+    "saved_certificates": 20,
+    "branch_counts": {"CONSISTENT_REDUNDANT_BLOCK": 1349, "INCONSISTENT_ALL_ACTIVE_SUBSYSTEM": 20987},
+    "separator_degree_histogram": {"1": 114, "2": 18800, "3": 3239, "4": 118, "5": 51, "6": 13, "7": 1},
+    "failures": 0
+  },
+  "scientific_status": {
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "general_nc0_3_avoid_solved": false,
+    "p_vs_np_resolved": false
+  }
+}
