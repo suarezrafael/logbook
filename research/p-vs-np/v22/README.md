@@ -28,13 +28,26 @@ For fan-in four:
 m > 1+n+binom(n,2).
 ```
 
-## Verification
+## Scientific status after V61 audit
 
-- 1,022 symmetric truth-table normalizations;
-- 65 circuits above the uniform dimension threshold;
-- 60 rank-deficient circuits below that threshold;
-- 125/125 complete certificates independently accepted;
-- every selected target compared with the complete range on the test instances.
+**Proof candidate; not repository-reproduced.**
+
+The human-readable theorem and proof remain available. `RESULTS.json` records an earlier run claiming 125 accepted serialized certificates, but the required artifact
+
+```text
+full_certificate_cases.json
+```
+
+was never committed. The current `verify.py` requires a results directory containing that file. Aggregate counts in `RESULTS.json` are insufficient to reconstruct the original circuits, dependency coefficients and missing-output certificates.
+
+Accordingly:
+
+- the historical `125/125` claim is preserved as an unverified run record;
+- the cumulative runner reports V22 as `SKIP` with an explicit reason;
+- V22 is not listed as a repository-reproduced finite result;
+- no replacement dataset will be presented as the original artifact.
+
+See `REPRODUCIBILITY_STATUS.md`.
 
 ## Scope
 
@@ -42,7 +55,8 @@ This is a proof candidate for symmetric local output functions, not arbitrary `N
 
 ## Files
 
-- `THEOREM.md`: human-readable proof;
+- `THEOREM.md`: human-readable proof candidate;
 - `RESEARCH_NOTE.md`: concise research note;
-- `RESULTS.json`: machine-readable summary;
-- `verify.py`: standalone certificate verifier.
+- `RESULTS.json`: aggregate historical summary;
+- `verify.py`: verifier requiring the absent serialized dataset;
+- `REPRODUCIBILITY_STATUS.md`: V61 correction record.
