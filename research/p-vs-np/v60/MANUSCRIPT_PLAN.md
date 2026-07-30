@@ -4,99 +4,113 @@
 
 **Range Avoidance for Local Boolean Circuits: Affine Algorithms, Bijunctive Barriers and Orientation Depth**
 
-## Intended contribution
+## Central story
 
-A self-contained structural paper about `NC0_k-Avoid`, with reproducible finite classifications and explicit negative results. The paper should not use P versus NP as its headline or imply that the current regime directly yields unrestricted lower bounds.
+The paper is organized around one positive/negative pair:
+
+> efficiently represented affine output fibers admit a deterministic consistency-or-redundancy algorithm at minimum positive stretch, while the natural block-redundancy extension to bijunctive fibers fails through an explicit minimal construction and an infinite family.
+
+Orientation depth, boundary geometry and randomized easy-membership are supporting results that explain what remains after this failure.
 
 ## Proposed structure
 
 ### 1. Introduction
 
 - Range Avoidance and local Boolean circuits.
-- Difference between finding an absent output and deciding image membership.
-- Summary of positive affine results, bijunctive barriers and geometric localization.
-- Exact statement of limitations.
+- The affine-versus-bijunctive dichotomy.
+- Difference between randomized avoidance and deterministic localization.
+- Exact limitations and novelty status.
 
 ### 2. Preliminaries
 
-- Boolean circuits and positive stretch.
-- NPN equivalence.
-- Output fibers, orientations and image membership.
-- Affine systems, 2-CNF and implication graphs.
+- Boolean circuits, positive stretch and output fibers.
+- Ternary NPN equivalence and the 14-class classification.
+- Affine systems, 2-CNF, implication graphs and block entailment.
 - Internal vertex boundary and orientation depth.
 
-### 3. Local classifications
+### 3. Affine-fiber avoidance
 
-- Ternary 14-class NPN classification.
-- Four-input 222-class classification as supplementary context.
-- Affine and non-affine fiber frontier.
-
-### 4. Affine-fiber avoidance
-
-- Pure `AND_k` forcing-core separator.
+- Pure `AND_k` forcing-core separator, with explicit comparison to monotone `NC0_3-Avoid` prior work.
 - V56 consistency-or-redundancy dichotomy.
 - Minimum-positive-stretch deterministic algorithm.
+- Constructive certificates and complexity.
 
-### 5. Bijunctive redundancy barrier
+### 4. Bijunctive redundancy barrier
 
-- Explicit five-block `0x07` construction.
+- Standard 2-CNF redundancy and irredundant-equivalent-subset terminology.
+- Explicit five-block orbit-`0x07` construction.
 - Complete irredundancy proof.
+- Exhaustive minimality evidence at `n=4,m=5`.
 - Infinite direct-sum family.
-- Why dimension, SCC count and forced-variable count do not replace affine rank.
+- Why affine rank, SCC count and forced-variable count do not extend.
 
-### 6. Orientation depth
+### 5. Orientation depth
 
 - Boundary/forcing equivalence.
 - Definition of orientation depth.
 - `m^{O(d)} poly(n+m)` algorithm.
-- Complete one-flip audit through `n=8` and the limited role of `n=9`.
+- Complete one-flip audit through `n=8`.
+- Limited falsification role of `n=9`.
 
-### 7. Boundary abundance and localization barriers
+### 6. Boundary abundance and localization barriers
 
-- Harper profile for internal boundary.
+- Boolean-cube vertex isoperimetry.
 - Uniform-image versus uniform-input measures.
 - Flat exact-forcing, unit-propagation and fiber-size potentials.
-- Limits of monotone walking arguments.
+- Limits of strict-improvement walking arguments.
 
-### 8. Easy-membership randomized regime
+### 7. Easy-membership randomized regime
 
-- Las Vegas theorem with expected trials at most two.
-- Why the theorem is elementary but strategically decisive.
-- Separation between randomized avoidance and deterministic derandomization.
+- Las Vegas sampling theorem.
+- Tightness at stretch one.
+- Why this is a scope theorem rather than a novelty claim.
+- Separation between avoidance and derandomization.
 
-### 9. Computational methodology
+### 8. Computational methodology
 
-- Symmetry normalization.
+- Symmetry normalization and complete finite searches.
 - Independent verifiers.
-- Retraction protocol and preserved regression cases.
+- Retraction protocol and regression cases.
+- V22 missing-artifact correction.
 - Machine-readable results and hashes.
 
-### 10. Related work
+### 9. Related work
 
-External review must specifically check:
+At minimum:
 
-- Range Avoidance and explicit constructions;
-- local circuit image problems;
-- 2-CNF irredundant subsets and implication systems;
-- CSP redundancy and minimal unsatisfiable/irredundant formulas;
-- isoperimetry of the Boolean cube;
-- proof-producing exhaustive generation and SAT Modulo Symmetries.
+- Korten; Ren–Santhanam–Wang; Guruswami–Lyu–Wang; Gajulapalli et al. on Range Avoidance.
+- Kuntewar–Sarma on monotone `NC0_3-Avoid` at `m>n`.
+- Liberatore on CNF and 2-CNF redundancy and irredundant equivalent subsets.
+- Savický on UCP-irredundant formulas.
+- Boolean-cube isoperimetry.
+- CSP solution-graph and reconfiguration parameters potentially related to orientation depth.
 
-### 11. Limitations and open problems
+### 10. Limitations and open problems
 
 - no general deterministic `NC0_3-Avoid` algorithm;
-- no universal bounded depth;
+- no universal bounded orientation depth;
 - no completed `n=9` classification;
 - no unrestricted lower bound;
-- novelty pending review.
+- exact novelty of V56–V58 pending specialist review.
 
-## Material to omit from the main narrative
+## Supplementary material
+
+The complete four-input V25 classification and V26–V27 follow-up are scientifically valid but not part of the main V54–V60 theorem chain. They may appear as:
+
+- a separate appendix;
+- an online supplementary note; or
+- a later independent paper.
+
+They should not occupy a main narrative section unless a reviewer identifies a direct conceptual dependency.
+
+## Material to omit
 
 - obsolete progress indices measuring distance to P versus NP;
 - incomplete searches presented as confidence evidence;
 - detailed version-by-version diary prose;
 - unimplemented SMS/DRAT plans except as future-work notes;
-- claims whose only support was retracted in V53.
+- claims whose only support was retracted in V53;
+- any statement that general 2-CNF irredundancy is new.
 
 ## External-review package
 
@@ -104,12 +118,8 @@ Before submission:
 
 1. run `verify_all.sh --full` in a clean environment;
 2. reconcile every theorem statement against `LEDGER.json`;
-3. produce one archive and SHA-256 manifest;
-4. obtain at least one specialist review of the affine proof;
-5. obtain at least one specialist review of the bijunctive construction and orientation-depth proof;
-6. perform a dedicated prior-art review;
+3. recover or formally close the V22 artifact issue;
+4. obtain specialist review of the affine proof;
+5. obtain specialist review of the bijunctive construction and orientation-depth proof;
+6. complete a source-by-source novelty audit;
 7. record all corrections before changing external-contact status.
-
-## Suggested article boundary
-
-The strongest coherent paper ends at V60. A future project on general lower bounds or hard-membership regimes should use a new directory, new state ledger and a new motivating reduction rather than silently extending this version sequence.
