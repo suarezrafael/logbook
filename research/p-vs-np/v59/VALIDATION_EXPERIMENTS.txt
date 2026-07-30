@@ -1,0 +1,9 @@
+V59 boundary-sampling experiment:
+  cases: 4000;
+  n=5 cases=690 min_input_boundary=0.875000 min_image_boundary=0.904762
+  n=6 cases=642 min_input_boundary=0.859375 min_image_boundary=0.972222
+  n=7 cases=649 min_input_boundary=0.976562 min_image_boundary=0.984615
+  n=8 cases=686 min_input_boundary=0.953125 min_image_boundary=0.990909
+  n=9 cases=669 min_input_boundary=0.962891 min_image_boundary=0.993243
+  n=10 cases=664 min_input_boundary=0.996094 min_image_boundary=0.998031
+  all Harper sampling bounds passed: True.

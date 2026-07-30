@@ -1,0 +1,23 @@
+{
+  "rows": [
+    {"m":2,"minimum_ratio_in_simplicial_profile":1.0,"attained_size":1,"boundary":1,"half_size":2,"central_binomial_ratio":1.0,"matches_half":false,"scaled_ratio_sqrt_m":1.4142135623730951},
+    {"m":3,"minimum_ratio_in_simplicial_profile":0.75,"attained_size":4,"boundary":3,"half_size":4,"central_binomial_ratio":0.75,"matches_half":true,"scaled_ratio_sqrt_m":1.299038105676658},
+    {"m":4,"minimum_ratio_in_simplicial_profile":0.75,"attained_size":8,"boundary":6,"half_size":8,"central_binomial_ratio":0.75,"matches_half":true,"scaled_ratio_sqrt_m":1.5},
+    {"m":5,"minimum_ratio_in_simplicial_profile":0.625,"attained_size":16,"boundary":10,"half_size":16,"central_binomial_ratio":0.625,"matches_half":true,"scaled_ratio_sqrt_m":1.3975424859373686},
+    {"m":6,"minimum_ratio_in_simplicial_profile":0.625,"attained_size":32,"boundary":20,"half_size":32,"central_binomial_ratio":0.625,"matches_half":true,"scaled_ratio_sqrt_m":1.5309310892394863},
+    {"m":7,"minimum_ratio_in_simplicial_profile":0.546875,"attained_size":64,"boundary":35,"half_size":64,"central_binomial_ratio":0.546875,"matches_half":true,"scaled_ratio_sqrt_m":1.446895248238448},
+    {"m":8,"minimum_ratio_in_simplicial_profile":0.546875,"attained_size":128,"boundary":70,"half_size":128,"central_binomial_ratio":0.546875,"matches_half":true,"scaled_ratio_sqrt_m":1.5467960838455728},
+    {"m":9,"minimum_ratio_in_simplicial_profile":0.4921875,"attained_size":256,"boundary":126,"half_size":256,"central_binomial_ratio":0.4921875,"matches_half":true,"scaled_ratio_sqrt_m":1.4765625},
+    {"m":10,"minimum_ratio_in_simplicial_profile":0.4921875,"attained_size":512,"boundary":252,"half_size":512,"central_binomial_ratio":0.4921875,"matches_half":true,"scaled_ratio_sqrt_m":1.5564335358641244},
+    {"m":11,"minimum_ratio_in_simplicial_profile":0.451171875,"attained_size":1024,"boundary":462,"half_size":1024,"central_binomial_ratio":0.451171875,"matches_half":true,"scaled_ratio_sqrt_m":1.4963678253361277},
+    {"m":12,"minimum_ratio_in_simplicial_profile":0.451171875,"attained_size":2048,"boundary":924,"half_size":2048,"central_binomial_ratio":0.451171875,"matches_half":true,"scaled_ratio_sqrt_m":1.562905220892229},
+    {"m":13,"minimum_ratio_in_simplicial_profile":0.4189453125,"attained_size":4096,"boundary":1716,"half_size":4096,"central_binomial_ratio":0.4189453125,"matches_half":true,"scaled_ratio_sqrt_m":1.5105288058340345},
+    {"m":14,"minimum_ratio_in_simplicial_profile":0.4189453125,"attained_size":8192,"boundary":3432,"half_size":8192,"central_binomial_ratio":0.4189453125,"matches_half":true,"scaled_ratio_sqrt_m":1.5675498231699423},
+    {"m":15,"minimum_ratio_in_simplicial_profile":0.39276123046875,"attained_size":16384,"boundary":6435,"half_size":16384,"central_binomial_ratio":0.39276123046875,"matches_half":true,"scaled_ratio_sqrt_m":1.521157704641402},
+    {"m":16,"minimum_ratio_in_simplicial_profile":0.39276123046875,"attained_size":32768,"boundary":12870,"half_size":32768,"central_binomial_ratio":0.39276123046875,"matches_half":true,"scaled_ratio_sqrt_m":1.571044921875},
+    {"m":17,"minimum_ratio_in_simplicial_profile":0.370941162109375,"attained_size":65536,"boundary":24310,"half_size":65536,"central_binomial_ratio":0.370941162109375,"matches_half":true,"scaled_ratio_sqrt_m":1.5294295922663166},
+    {"m":18,"minimum_ratio_in_simplicial_profile":0.370941162109375,"attained_size":131072,"boundary":48620,"half_size":131072,"central_binomial_ratio":0.370941162109375,"matches_half":true,"scaled_ratio_sqrt_m":1.5737700668925447}
+  ],
+  "all_match_half": false,
+  "min_scaled_constant": 1.299038105676658
+}

@@ -1,0 +1,24 @@
+{
+  "version": "V59",
+  "n": 9,
+  "m": 10,
+  "complete": false,
+  "counterexample_found": false,
+  "runs": [
+    {
+      "canonical_type": 1,
+      "nodes": 3559977,
+      "complete": false,
+      "branch_limit": 100000,
+      "threads": 8
+    },
+    {
+      "canonical_type": 3,
+      "nodes": 2637185,
+      "complete": false,
+      "branch_limit": 100000,
+      "threads": 8
+    }
+  ],
+  "interpretation": "partial falsification search only; no theorem follows"
+}

@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "direct_sum_cases": [
+    {
+      "k": 0,
+      "n": 4,
+      "m": 5,
+      "image_size": 9,
+      "boundary_size": 8
+    },
+    {
+      "k": 1,
+      "n": 7,
+      "m": 8,
+      "image_size": 45,
+      "boundary_size": 44
+    },
+    {
+      "k": 2,
+      "n": 10,
+      "m": 11,
+      "image_size": 225,
+      "boundary_size": 224
+    },
+    {
+      "k": 3,
+      "n": 13,
+      "m": 14,
+      "image_size": 1125,
+      "boundary_size": 1124
+    }
+  ],
+  "harper_checks": 23,
+  "failures": 0,
+  "elapsed_seconds": 0.020537
+}
