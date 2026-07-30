@@ -1,0 +1,4 @@
+V58 exact verifier passed:
+  complete symmetry-reduced search for n=3..8;
+  both normalized first-block types checked;
+  126607 DFS nodes; zero one-flip counterexamples.
