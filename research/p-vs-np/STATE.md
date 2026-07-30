@@ -1,6 +1,6 @@
 # Cumulative scientific state
 
-**Current laboratory:** V60  
+**Current laboratory:** V61  
 **Updated:** 2026-07-30  
 **Program name:** `NC0_k-Avoid Laboratory`  
 **P-versus-NP route active:** no  
@@ -9,58 +9,51 @@
 
 ## One-paragraph state
 
-The repository now supports a coherent research article about range avoidance for local Boolean circuits. The strongest positive result is the V56 deterministic polynomial-time algorithm for arbitrary mixtures of efficiently represented affine output fibers at minimum positive stretch `m>n`. V57 shows that the analogous fixed-orientation redundancy principle fails for bijunctive fibers, V58 introduces orientation depth and an `m^{O(d)} poly(n+m)` algorithm, and V59 proves global boundary abundance while preserving a direct-sum family that defeats several natural strict-improvement potentials. V60 records that, whenever image membership is polynomial-time and `m>n`, uniform output sampling already gives a Las Vegas range-avoidance algorithm with at most two expected trials. The remaining deterministic questions are legitimate but are no longer described as an active route to P versus NP.
+The coherent manuscript is now centered on a positive/negative dichotomy. V56 gives a deterministic polynomial-time consistency-or-redundancy algorithm for efficiently represented affine output fibers at minimum positive stretch `m>n`. V57 shows that the analogous block-redundancy argument fails for bijunctive fibers, through an explicit five-block orbit-`0x07` construction and an infinite direct-sum family. V58 introduces orientation depth and an `m^{O(d)} poly(n+m)` deterministic algorithm; V59 proves boundary abundance and barriers to several strict-improvement potentials; V60 records that polynomial-time image membership makes positive-stretch Avoid Las Vegas-easy in at most two expected trials. V61 repairs the historical V22 reproducibility status and narrows novelty claims against primary literature.
 
-## Stable results
+## Main manuscript chain
 
-### Local classifications and algebraic certificates
+1. **Affine positive result — V56.** Efficient affine-fiber mixtures are deterministically avoidable in polynomial time for `m>n`.
+2. **Bijunctive negative result — V57.** Joint consistency does not force a redundant 2-CNF block, even with five orbit-`0x07` gates on four variables.
+3. **Infinite obstruction.** The V57 construction extends to `n=4+3k`, `m=n+1`.
+4. **Localization parameter — V58.** Orientation depth `d` gives an `m^{O(d)} poly(n+m)` algorithm.
+5. **Geometry and barriers — V59.** The internal boundary is globally abundant, but forced-count, unit-propagation count and fiber size can all be flat at the first step.
+6. **Regime separation — V60.** If image membership is in P, uniform output sampling succeeds with probability at least `1-2^(n-m)` and expected trials at most two.
 
-1. V16 gives a finite signed-MAJ3 obstruction classification.
-2. V20–V22 develop effective-dimension and zero-set-polynomial dependency candidates.
-3. V25 classifies all 65,536 four-input Boolean functions into 222 NPN classes.
-4. V25 finds 215 of 222 four-input NPN classes representable by zero sets of degree at most two over `GF(5)` after optional output complementation.
-5. V27 gives affine-parity certificates for the seven cubic four-input classes.
-6. V55 classifies all 256 ternary truth tables into 14 NPN classes.
+## Historical and supplementary results
 
-### Affine-fiber positive results
+- V20–V22 contain proof candidates on effective dimension and zero-set polynomial dependencies.
+- V22's aggregate `RESULTS.json` survives, but the original `full_certificate_cases.json` containing 125 serialized cases was never committed. Its verifier is therefore not repository-executable.
+- V25's complete four-input NPN classification is a valid finite result but is supplementary to the V54–V60 paper narrative.
+- V53 preserves the union-free substitution lemma and two finite computations; its girth implication and derived logarithmic claim remain retracted.
 
-7. V54 constructs a degree-at-most-`k+1` range separator for positive-stretch pure `AND_k` circuits.
-8. V56 proves a consistency-or-redundancy dichotomy for affine output fibers.
-9. For `C:{0,1}^n -> {0,1}^m`, `m>n`, arbitrary mixtures of efficiently represented affine fibers are avoidable deterministically in polynomial time.
-10. The affine ternary classes include canonical representatives `0x01`, `0x06`, `0x18`, and `0x69`.
+## Prior-art audit at V61
 
-### Bijunctive frontier
+### Known background or direct overlap
 
-11. V57 gives five `0x07`-orbit gates on four variables whose chosen 2-CNF fibers are jointly consistent and completely irredundant.
-12. The V57 construction extends by direct sum to `n=4+3k`, `m=n+1` for every `k>=0`.
-13. A boundary edge of the image is equivalent to a context that forces one output bit.
-14. V58 defines orientation depth as distance from a baseline image point to the internal boundary.
-15. For bijunctive fibers, depth `d` yields an `m^{O(d)} poly(n+m)` deterministic algorithm.
-16. The exact one-flip search is complete through `n=8`; `n=9` remains open.
-17. The 12 finite V57 families form one variable-isomorphism class and have depth one.
+1. General CNF redundancy and irredundant equivalent subsets were studied by Liberatore before this project.
+2. The 2-CNF-specific redundancy and irredundant-equivalent-subset problem was studied explicitly by Liberatore.
+3. UCP-irredundance is an established, distinct notion; V59's unit-propagation plateau must not be marketed as inventing that subject.
+4. The randomized output-sampling observation for Avoid is elementary and part of the standard problem framing.
+5. Range Avoidance connections to explicit constructions and lower bounds are established in the Korten, Ren–Santhanam–Wang and Guruswami–Lyu–Wang lines.
+6. A 2025 result gives deterministic polynomial-time `MONOTONE-NC0_3-Avoid` for `m>n`. Any claim around V54 for monotone ternary circuits must state this overlap.
 
-### Geometry and randomization
+### Contributions whose exact prior-art status remains unresolved
 
-18. V59 applies the vertex-isoperimetric profile of the cube: for nonempty `S` with `|S|<=2^(m-1)`,
+7. The exact V56 block-system formulation for arbitrary mixtures of efficiently represented affine output fibers.
+8. The smallest same-orbit circuit-image instance underlying V57, including the complete `n=4,m=5` classification.
+9. The V57 infinite direct-sum family under the local-gate restrictions.
+10. Orientation depth and its exact Range-Avoidance formulation.
+11. The combination of boundary geometry with the explicit flat-potential family.
 
-```text
-|internal_boundary(S)| / |S|
-  >= binom(m,floor(m/2)) / 2^(m-1)
-   = Theta(1/sqrt(m)).
-```
+These are not declared novel until specialist review.
 
-19. The V57 direct-sum family has a unique interior point, while exact forced-variable count, unit-propagation count, and fiber size are flat from that point to every neighbor.
-20. Therefore no universal walking proof can require strict improvement of any one of those three potentials on its first step.
-21. V60 records the elementary easy-membership theorem: if image membership is decidable in polynomial time and `m>n`, sampling `y` uniformly from `{0,1}^m` succeeds with probability at least `1-2^(n-m)`.
-22. The expected number of trials is at most `1/(1-2^(n-m))`, hence at most two.
-23. At stretch one, equality in the two-trial upper bound is possible when the circuit is injective.
-
-## Corrections and retractions
+## Corrections, retractions and reproducibility debt
 
 1. **V53 retraction:** incidence girth greater than `4t` does not imply `t`-union-freeness.
 2. **V53 retraction:** the derived stretch-one `AND3` syndrome-degree `Omega(log n)` family is unsupported.
-3. **Preserved from V53:** the union-free substitution lemma and finite UF2/UF3 computations.
-4. Acyclic nested-cover examples remain permanent regression tests.
+3. **V22 reproducibility correction:** the verifier requires an absent directory artifact and cannot reproduce the recorded 125 cases from `RESULTS.json`.
+4. The V22 runner row is `SKIP`, not `PASS`.
 5. No incomplete `n=9` search is evidence of a theorem.
 6. Random experiments are diagnostics only.
 
@@ -72,38 +65,29 @@ The project does not establish:
 - a universal bounded orientation depth;
 - a universal monotone potential for walking to the boundary;
 - completion of the `n=9` exact classification;
+- novelty of the general notions of CNF or 2-CNF irredundancy;
+- novelty of randomized output sampling for Avoid;
 - circuit lower bounds for unrestricted circuits;
-- `P != NP` or any equivalent consequence;
-- novelty or priority without external literature review.
+- `P != NP` or any equivalent consequence.
 
 ## Current open questions
 
-1. Can deterministic avoidance for non-affine local fibers be proved without solving general image membership?
-2. Is orientation depth bounded or efficiently navigable for a meaningful nontrivial subclass beyond the affine case?
-3. Can the direct-sum plateau be crossed by a rigorously analyzed nonmonotone or memory-based rule?
-4. Is there a useful deterministic sampler or hitting set for the complements of these circuit images?
-5. Which results are already implicit in the 2-CNF irredundancy, CSP, proof-complexity, and range-avoidance literature?
-6. Does the `n=9` finite case reveal any structural obstruction worth retaining after manuscript review?
+1. Is the V56 affine-block theorem already explicit in coding, CSP or Range-Avoidance literature?
+2. Is the V57 orbit-constrained minimal example new after translating it into standard IES terminology?
+3. Does orientation depth coincide with an existing parameter in CSP reconfiguration, solution-graph geometry or proof complexity?
+4. Can deterministic avoidance be proved for a meaningful non-affine subclass not already covered by monotone `NC0_3` algorithms?
+5. Which external reviewer can independently audit both the affine proof and the bijunctive construction?
 
-## Program decision at V60
+## Program decision at V61
 
-The active objective is now **manuscript readiness and external validation**, not further narrowing toward a finite `n=9` computation. Exact search remains available for falsification, regression and reviewer-requested checks. A separate future lower-bounds program would need to leave the easy-membership regime and define a new connection to explicit constructions; it must not be presented as a continuation automatically justified by the current results.
+The active objective is manuscript readiness and external validation. The main narrative excludes the V25 four-input classification except as optional supplementary material. Exact `n=9` search remains available only for falsification, regression and reviewer-requested checks. No new score measuring progress toward P versus NP may be introduced.
 
 ## Repository entry points
 
 - `README.md` — orientation and version map.
-- `STATE.md` — this compact cumulative state.
-- `LEDGER.json` — machine-readable claims and versions.
-- `SCIENTIFIC_METHOD.md` — promotion and retraction policy.
-- `verify_all.sh` — curated verifier runner.
-- `v60/MANUSCRIPT_PLAN.md` — proposed paper structure.
-- `v60/V61_CORE_CONTEXT.md` — next-session context.
-
-## Verification
-
-```bash
-bash ./verify_all.sh
-bash ./verify_all.sh --full
-```
-
-Default mode avoids intentionally expensive exact search. `--full` includes exact verifiers where present. A missing historical verifier is `SKIP`, not `PASS`.
+- `STATE.md` — this compact state.
+- `LEDGER.json` — machine-readable claims, corrections and prior-art status.
+- `verify_all.sh` — curated verifier runner with explicit skips.
+- `v61/PRIOR_ART_AUDIT.md` — source-by-source audit.
+- `v61/MANUSCRIPT_ABSTRACT.md` — refocused abstract.
+- `v61/V62_CORE_CONTEXT.md` — next-session context.
