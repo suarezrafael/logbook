@@ -1,0 +1,58 @@
+{
+  "version": "V62",
+  "status": "passed_internal",
+  "laboratory_type": "integrated_manuscript_and_external_review_request",
+  "central_outputs": {
+    "integrated_manuscript": true,
+    "source_to_claim_entries": 15,
+    "v57_ies_translation": true,
+    "v54_kuntewar_sarma_comparison": true,
+    "external_messages_sent": 2,
+    "external_replies_received": 0
+  },
+  "v57_translation": {
+    "variables": 4,
+    "blocks": 5,
+    "unique_clauses_after_duplicate_collapse": 6,
+    "models_of_full_formula": 1,
+    "unique_model": "0000",
+    "block_irredundant": true,
+    "clause_irredundant": true,
+    "all_gate_masks_in_0x07_npn_orbit": true
+  },
+  "prior_art": {
+    "general_cnf_ies_known": true,
+    "two_cnf_ies_known": true,
+    "monotone_nc0_3_m_gt_n_known": true,
+    "solution_graph_geometry_known": true,
+    "v56_exact_source_located": false,
+    "orientation_depth_exact_source_located": false,
+    "negative_search_is_novelty_proof": false
+  },
+  "comparison": {
+    "v54_pure_and3_algorithm_subsumed_by_monotone_result": true,
+    "v54_low_degree_separator_equivalence_resolved": false,
+    "claim_language": "direct algorithmic overlap; certificate equivalence unresolved"
+  },
+  "external_contact": {
+    "status": "sent_awaiting_reply",
+    "sent_date": "2026-07-30",
+    "messages": 2,
+    "range_avoidance_recipients": 3,
+    "two_cnf_specialist_recipients": 1
+  },
+  "verification": {
+    "primary_checks": 71,
+    "independent_checks": 38,
+    "failures": 0,
+    "full_historical_runner_local_status": "not_executed_missing_complete_checkout_due_dns",
+    "clean_ci_workflow_added": true
+  },
+  "scientific_status": {
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "general_nc0_3_avoid_solved": false,
+    "unrestricted_lower_bound_proved": false,
+    "p_vs_np_resolved": false
+  }
+}
