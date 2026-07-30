@@ -1,0 +1,5 @@
+V58 independent verification passed:
+  12 V57 families collapsed to one isomorphism class;
+  60 single flips independently checked;
+  exact no-counterexample search independently rebuilt for n=3..7;
+  500 boundary/ball checks; zero failures.
