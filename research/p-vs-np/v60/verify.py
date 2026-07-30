@@ -71,7 +71,7 @@ def verify_repository_state() -> int:
     root_readme = (ROOT / "README.md").read_text(encoding="utf-8")
     for token in ("STATE.md", "LEDGER.json", "verify_all.sh", "v60/"):
         assert token in root_readme
-    assert "V22" in root_readme
+    assert "V22" in root_readme  # retained as historical entry, not active result
     assert "Current position" in root_readme
 
     state = (ROOT / "STATE.md").read_text(encoding="utf-8")
