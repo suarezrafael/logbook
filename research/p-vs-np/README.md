@@ -1,16 +1,62 @@
-# P versus NP / Range-Avoidance Laboratory
+# NC0_k-Avoid Laboratory
 
-## Scope
+> Historical path: `research/p-vs-np/`. The current research product is a structural study of range avoidance for local Boolean circuits. It is **not** presented as an active route to resolving P versus NP.
 
-This directory indexes a long-running experimental and mathematical research program on:
+## Start here
 
-- range avoidance for local Boolean circuits;
-- proof-producing SAT and circuit refuters;
-- finite obstruction classifications;
-- constructive circuit lower-bound techniques;
-- the methodological distance to P versus NP.
+- [STATE.md](STATE.md) — compact cumulative scientific state.
+- [LEDGER.json](LEDGER.json) — machine-readable version and claim ledger.
+- [SCIENTIFIC_METHOD.md](SCIENTIFIC_METHOD.md) — claim, verification and retraction policy.
+- [`v60/`](v60/) — current laboratory and program repositioning.
+- [`verify_all.sh`](verify_all.sh) — one-command verifier runner.
 
-The project does **not** claim to resolve P versus NP.
+## Current position
+
+Laboratory V60 consolidates the results through V59 and makes the strategic boundary explicit:
+
+1. the repository contains a coherent body of results about `NC0_k-Avoid`;
+2. the current bijunctive stretch-one regime has polynomial-time image membership;
+3. for `m>n`, uniform output sampling finds a missing word with success probability at least `1-2^(n-m)` per trial;
+4. therefore this regime is randomized-easy, while deterministic localization remains a narrower derandomization question;
+5. exact classification at `n=9` is retained for falsification and regression, not as the main scientific priority.
+
+The project does **not** claim a deterministic algorithm for general `NC0_3-Avoid`, unrestricted circuit lower bounds, or a resolution of P versus NP.
+
+## Stable contribution chain
+
+| Version | Main contribution | Current status |
+|---|---|---|
+| V16 | Minimum signed-MAJ3 obstruction classification | Finite computer-assisted result |
+| V17–V19 | Finite-locality barriers and path-relation tools | Preserved historical line |
+| V20–V22 | Effective-dimension and zero-set-polynomial proof candidates | Internal, not externally reviewed |
+| V25 | Complete four-input NPN and zero-set-degree classification | Finite computer-assisted result |
+| V26–V27 | Literature alignment and affine-parity certificates for hard four-input classes | Internal proof candidates |
+| V53 | Union-free substitution lemma; false girth implication retracted | Partially preserved, formally corrected |
+| V54 | Degree-at-most-`k+1` separator for positive-stretch pure `AND_k` | Internally verified theorem package |
+| V55 | Fourteen ternary NPN classes and affine-fiber methods | Valid, strengthened by V56 |
+| V56 | Consistency-or-redundancy algorithm for affine fibers at `m>n` | Internally verified theorem package |
+| V57 | Bijunctive irredundancy counterexample and infinite direct-sum family | Internally verified barrier |
+| V58 | Orientation depth and `m^{O(d)} poly(n+m)` algorithm | Internally verified parameterized result |
+| V59 | Isoperimetric abundance, randomized localization bound and flat-potential barrier | Internally verified geometric/negative result |
+| V60 | Program consolidation, easy-membership randomized theorem and stable repository ledger | Current laboratory |
+
+Versions V23–V24 and V28–V52 are not represented by promoted package directories in this branch. Their absence must not be interpreted as missing theorems.
+
+## Reproducibility
+
+From this directory:
+
+```bash
+bash ./verify_all.sh
+```
+
+The default run executes curated primary and independent checks while avoiding intentionally expensive exact searches. To include exact verifiers where available:
+
+```bash
+bash ./verify_all.sh --full
+```
+
+Each row reports `PASS`, `FAIL`, or `SKIP`; missing historical scripts are reported rather than silently ignored.
 
 ## Scientific status vocabulary
 
@@ -18,69 +64,21 @@ The project does **not** claim to resolve P versus NP.
 |---|---|
 | Reproduced | A published result was independently reimplemented or checked. |
 | Finite computer-assisted result | Complete for an explicitly bounded universe, with a verifier. |
-| Proof candidate | A human-readable argument exists but has not received external review. |
+| Internally verified theorem package | Human-readable proof plus executable checks; not peer reviewed. |
+| Proof candidate | A human-readable argument exists but external review is pending. |
 | Conjecture | Falsifiable statement under active investigation. |
 | Counterexample | A preserved instance falsifying a stated hypothesis. |
+| Retracted | The claim is false and retained only as part of the correction record. |
 | Confirmed theorem | Reserved for externally reviewed or formally checked results. |
 
-## Active result
+## Publication direction
 
-Laboratory V22 studies symmetric local range avoidance through zero-set polynomials. The current proof candidate states:
+The preferred product is a paper on local-circuit range avoidance covering:
 
-```text
-For fixed fan-in k, let d=floor((k+1)/2).
-SYMMETRIC-NC0_k-Avoid is deterministic polynomial time when
-m > sum_{j=0}^d binom(n,j).
-```
+- NPN classification and affine-fiber algorithms;
+- the bijunctive block-redundancy barrier;
+- orientation depth and its FPT algorithm;
+- isoperimetric abundance versus deterministic localization;
+- reproducible finite searches and explicit methodological limitations.
 
-The general lemma applies whenever normalized outputs have the form `g_i(x)=1 iff p_i(x)=0` and the polynomial coefficient vectors are linearly dependent. For fan-in four the uniform corollary is:
-
-```text
-m > 1 + n + binom(n,2).
-```
-
-**Status:** internal level-4 candidate; not peer reviewed; novelty and priority not established.
-
-The V20/V21 effective-dimension result for symmetric fan-in three remains a separate proof candidate:
-
-```text
-m > |V_T| + rank_GF2(A_P) + rank_GF3(A_R).
-```
-
-## Version map
-
-| Version | Main contribution | Status |
-|---|---|---|
-| V16 | Minimum five-gate signed-MAJ3 obstruction classification | Finite computer-assisted result |
-| V17 | Finite-locality barrier via high-girth hosts | Proof plus literature dependency |
-| V18 | Six-state path relation algebra | Exact finite algebra |
-| V19 | Multi-source parity finder and signed path algebra | Algorithmic optimization |
-| V20 | Effective-dimension theorem candidate for symmetric `NC0_3-Avoid` | Proof candidate |
-| V21 | External validation, publication preparation, and scientific repository organization | Validation stage |
-| V22 | Zero-set polynomial dependency theorem candidate and quadratic symmetric fan-in-four corollary | Active proof candidate |
-
-## Reproducibility standard
-
-Every promoted result should include:
-
-1. a precise theorem or falsifiable hypothesis;
-2. executable code with deterministic seeds where relevant;
-3. a second verifier that does not reuse the same critical implementation;
-4. machine-readable results and SHA-256 hashes;
-5. a limitations section;
-6. a distinction between proof, experiment, reproduction, and conjecture;
-7. a compact context file for the next laboratory version.
-
-See [SCIENTIFIC_METHOD.md](SCIENTIFIC_METHOD.md) for the review protocol.
-
-## Publication status
-
-The current GitHub pull request is intentionally a draft. The intended sequence is:
-
-1. external technical review;
-2. correction or withdrawal of any flawed claim;
-3. ECCC or arXiv preprint submission;
-4. a dedicated repository release;
-5. Zenodo archival and DOI assignment.
-
-A DOI should not be minted for a theorem claim before the review package is stable.
+External mathematical review remains the next promotion gate. Contact drafts may exist in version packages, but no message is considered sent unless `EXTERNAL_CONTACT_STATUS` and the cumulative ledger record it explicitly.
