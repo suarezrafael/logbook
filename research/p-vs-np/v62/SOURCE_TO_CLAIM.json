@@ -2,20 +2,125 @@
   "schema_version": 1,
   "version": "V62",
   "entries": [
-    {"claim_id":"avoid-definition-randomized-baseline","manuscript_role":"background","claim":"Range Avoidance asks for a point outside the range of a stretching circuit, and uniform output sampling is the natural randomized baseline.","sources":["Gajulapalli-Golovnev-Nagargoje-Saraogi 2023"],"status":"known_background","repository_novelty_claim":false},
-    {"claim_id":"lower-bound-connections","manuscript_role":"background","claim":"Algorithms for appropriate Range-Avoidance classes imply explicit constructions and lower-bound consequences.","sources":["Ren-Santhanam-Wang 2022","Guruswami-Lyu-Wang 2022","Gajulapalli et al. 2023"],"status":"known_background","repository_novelty_claim":false},
-    {"claim_id":"nc0-2-algorithm","manuscript_role":"background","claim":"NC0_2-Avoid has deterministic polynomial-time algorithms at positive stretch.","sources":["Guruswami-Lyu-Wang 2022"],"status":"known_background","repository_novelty_claim":false},
-    {"claim_id":"monotone-nc0-3-positive-stretch","manuscript_role":"direct_overlap","claim":"MONOTONE-NC0_3-Avoid is deterministic polynomial time for m>n.","sources":["Kuntewar-Sarma 2025"],"status":"published_prior_result","repository_novelty_claim":false},
-    {"claim_id":"cnf-ies","manuscript_role":"terminology","claim":"Clause redundancy and irredundant equivalent subsets are established for CNF.","sources":["Liberatore 2005 journal version of 2002 preprint"],"status":"known_background","repository_novelty_claim":false},
-    {"claim_id":"2cnf-ies","manuscript_role":"terminology","claim":"Redundancy and IES questions for 2-CNF are established prior art.","sources":["Liberatore 2008 journal version of 2005 preprint"],"status":"known_background","repository_novelty_claim":false},
-    {"claim_id":"ucp-irredundancy","manuscript_role":"terminology","claim":"UCP-irredundant CNF is an established neighboring notion.","sources":["Savicky 2023"],"status":"known_background","repository_novelty_claim":false},
-    {"claim_id":"solution-graph-geometry","manuscript_role":"nearby_literature","claim":"Boolean CSP solution graphs, connectivity and component diameter are established research topics.","sources":["Gopalan-Kolaitis-Maneva-Papadimitriou 2009"],"status":"nearby_not_equivalent","repository_novelty_claim":false},
-    {"claim_id":"v54-separator","manuscript_role":"internal_result","claim":"Pure AND_k circuits with m>n admit an explicit separator of degree at most k+1.","sources":["V54 internal proof and two verifiers"],"status":"internally_verified_algorithmic_overlap_for_k3","repository_novelty_claim":false},
-    {"claim_id":"v56-affine-block","manuscript_role":"central_positive_result","claim":"Arbitrary mixtures of efficiently represented affine output fibers are avoidable deterministically in polynomial time for m>n.","sources":["V56 internal proof and two verifiers"],"status":"internally_verified_exact_prior_art_not_located","repository_novelty_claim":false},
-    {"claim_id":"v57-orbit-block-barrier","manuscript_role":"central_negative_result","claim":"Five orbit-0x07 gate-fiber blocks on four variables are jointly consistent and completely block-irredundant, and direct sums give an infinite stretch-one family.","sources":["V57 direct proof, exhaustive search and independent verifier","Liberatore 2-CNF terminology for context"],"status":"internally_verified_specific_prior_art_not_located","repository_novelty_claim":false},
-    {"claim_id":"v58-orientation-depth","manuscript_role":"parameterized_result","claim":"Orientation depth d yields an m^{O(d)} poly(n+m) deterministic algorithm for bijunctive fibers.","sources":["V58 internal proof, exact audit and independent verifier","solution-graph literature as nearby context"],"status":"internally_verified_exact_prior_art_not_located","repository_novelty_claim":false},
-    {"claim_id":"v59-isoperimetry","manuscript_role":"classical_application","claim":"The internal boundary of a set occupying at most half the cube has fraction at least binom(m,floor(m/2))/2^(m-1).","sources":["Harper vertex-isoperimetric theorem","V59 application"],"status":"classical_application","repository_novelty_claim":false},
-    {"claim_id":"v59-flat-potentials","manuscript_role":"negative_result","claim":"The V57 direct-sum family is flat for exact forced count, unit-propagation count and exact fiber size on the first boundary step.","sources":["V59 proof and independent verifier"],"status":"internally_verified_specific_barrier","repository_novelty_claim":false},
-    {"claim_id":"v60-randomized-easy-membership","manuscript_role":"scope_result","claim":"When image membership is polynomial-time and m>n, uniform output sampling finds a missing word in at most two expected trials.","sources":["elementary counting","modern Range-Avoidance problem framing"],"status":"elementary_known_background","repository_novelty_claim":false}
+    {
+      "claim_id": "avoid-definition-randomized-baseline",
+      "manuscript_role": "background",
+      "claim": "Range Avoidance asks for a point outside the range of a stretching circuit, and uniform output sampling is the natural randomized baseline.",
+      "sources": ["Gajulapalli-Golovnev-Nagargoje-Saraogi 2023"],
+      "status": "known_background",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "lower-bound-connections",
+      "manuscript_role": "background",
+      "claim": "Algorithms for appropriate Range-Avoidance classes imply explicit constructions and lower-bound consequences.",
+      "sources": ["Ren-Santhanam-Wang 2022", "Guruswami-Lyu-Wang 2022", "Gajulapalli et al. 2023"],
+      "status": "known_background",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "nc0-2-algorithm",
+      "manuscript_role": "background",
+      "claim": "NC0_2-Avoid has deterministic polynomial-time algorithms at positive stretch.",
+      "sources": ["Guruswami-Lyu-Wang 2022"],
+      "status": "known_background",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "monotone-nc0-3-positive-stretch",
+      "manuscript_role": "direct_overlap",
+      "claim": "MONOTONE-NC0_3-Avoid is deterministic polynomial time for m>n.",
+      "sources": ["Kuntewar-Sarma 2025"],
+      "status": "published_prior_result",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "cnf-ies",
+      "manuscript_role": "terminology",
+      "claim": "Clause redundancy and irredundant equivalent subsets are established for CNF.",
+      "sources": ["Liberatore 2005 journal version of 2002 preprint"],
+      "status": "known_background",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "2cnf-ies",
+      "manuscript_role": "terminology",
+      "claim": "Redundancy and IES questions for 2-CNF are established prior art.",
+      "sources": ["Liberatore 2008 journal version of 2005 preprint"],
+      "status": "known_background",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "ucp-irredundancy",
+      "manuscript_role": "terminology",
+      "claim": "UCP-irredundant CNF is an established neighboring notion.",
+      "sources": ["Savicky 2023"],
+      "status": "known_background",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "solution-graph-geometry",
+      "manuscript_role": "nearby_literature",
+      "claim": "Boolean CSP solution graphs, connectivity and component diameter are established research topics.",
+      "sources": ["Gopalan-Kolaitis-Maneva-Papadimitriou 2009"],
+      "status": "nearby_not_equivalent",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "v54-separator",
+      "manuscript_role": "internal_result",
+      "claim": "Pure AND_k circuits with m>n admit an explicit separator of degree at most k+1.",
+      "sources": ["V54 internal proof and two verifiers"],
+      "status": "internally_verified_algorithmic_overlap_for_k3",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "v56-affine-block",
+      "manuscript_role": "central_positive_result",
+      "claim": "Arbitrary mixtures of efficiently represented affine output fibers are avoidable deterministically in polynomial time for m>n.",
+      "sources": ["V56 internal proof and two verifiers"],
+      "status": "internally_verified_exact_prior_art_not_located",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "v57-orbit-block-barrier",
+      "manuscript_role": "central_negative_result",
+      "claim": "Five orbit-0x07 gate-fiber blocks on four variables are jointly consistent and completely block-irredundant, and direct sums give an infinite stretch-one family.",
+      "sources": ["V57 direct proof, exhaustive search and independent verifier", "Liberatore 2-CNF terminology for context"],
+      "status": "internally_verified_specific_prior_art_not_located",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "v58-orientation-depth",
+      "manuscript_role": "parameterized_result",
+      "claim": "Orientation depth d yields an m^{O(d)} poly(n+m) deterministic algorithm for bijunctive fibers.",
+      "sources": ["V58 internal proof, exact audit and independent verifier", "solution-graph literature as nearby context"],
+      "status": "internally_verified_exact_prior_art_not_located",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "v59-isoperimetry",
+      "manuscript_role": "classical_application",
+      "claim": "The internal boundary of a set occupying at most half the cube has fraction at least binom(m,floor(m/2))/2^(m-1).",
+      "sources": ["Harper vertex-isoperimetric theorem", "V59 application"],
+      "status": "classical_application",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "v59-flat-potentials",
+      "manuscript_role": "negative_result",
+      "claim": "The V57 direct-sum family is flat for exact forced count, unit-propagation count and exact fiber size on the first boundary step.",
+      "sources": ["V59 proof and independent verifier"],
+      "status": "internally_verified_specific_barrier",
+      "repository_novelty_claim": false
+    },
+    {
+      "claim_id": "v60-randomized-easy-membership",
+      "manuscript_role": "scope_result",
+      "claim": "When image membership is polynomial-time and m>n, uniform output sampling finds a missing word in at most two expected trials.",
+      "sources": ["elementary counting", "modern Range-Avoidance problem framing"],
+      "status": "elementary_known_background",
+      "repository_novelty_claim": false
+    }
   ]
 }
