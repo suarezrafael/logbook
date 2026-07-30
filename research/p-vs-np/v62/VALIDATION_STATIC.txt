@@ -1,0 +1,7 @@
+V62 static validation passed:
+- verify_all.sh shell syntax valid;
+- LEDGER.json valid JSON;
+- RESULTS.json valid JSON;
+- SOURCE_TO_CLAIM.json valid JSON;
+- V61 verifier patches compile as Python;
+- GitHub Actions workflow present for quick and full runs.
