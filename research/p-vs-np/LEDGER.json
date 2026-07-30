@@ -1,7 +1,7 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "updated": "2026-07-30",
-  "current_version": "V61",
+  "current_version": "V62",
   "program": {
     "name": "NC0_k-Avoid Laboratory",
     "repository_path": "research/p-vs-np",
@@ -12,36 +12,37 @@
     "novelty_confirmed": false
   },
   "current_decision": {
-    "primary_goal": "Prepare the affine-versus-bijunctive manuscript and obtain external mathematical review",
+    "primary_goal": "Obtain external responses and revise the integrated affine-versus-bijunctive manuscript",
     "main_narrative": "affine_positive_vs_bijunctive_barrier",
     "v25_role": "supplementary_only",
     "exact_n9_priority": "falsification_and_regression_only",
-    "new_lower_bound_program_required_for_p_vs_np_route": true
+    "new_lower_bound_program_required_for_p_vs_np_route": true,
+    "commit_policy": "one_commit_per_laboratory"
   },
   "stable_results": [
     {
       "id": "v54-andk-separator",
       "version": "V54",
       "claim": "Positive-stretch pure AND_k circuits admit an explicit separator of degree at most k+1.",
-      "status": "internally_verified_overlap_check_required_for_monotone_k3"
+      "status": "internally_verified_direct_algorithmic_overlap_for_monotone_k3"
     },
     {
       "id": "v56-affine-dichotomy",
       "version": "V56",
       "claim": "Efficiently represented affine output-fiber mixtures are deterministically avoidable in polynomial time for m>n.",
-      "status": "internally_verified_novelty_unconfirmed"
+      "status": "internally_verified_novelty_unconfirmed_external_question_sent"
     },
     {
       "id": "v57-bijunctive-barrier",
       "version": "V57",
       "claim": "A five-block orbit-0x07 instance and an infinite direct-sum family refute the direct affine-style block-redundancy analogy.",
-      "status": "internally_verified_specific_construction_novelty_unconfirmed"
+      "status": "internally_verified_specific_construction_novelty_unconfirmed_external_question_sent"
     },
     {
       "id": "v58-orientation-depth",
       "version": "V58",
       "claim": "Bijunctive orientation depth d gives an m^{O(d)} poly(n+m) deterministic avoidance algorithm.",
-      "status": "internally_verified_novelty_unconfirmed"
+      "status": "internally_verified_novelty_unconfirmed_external_question_sent"
     },
     {
       "id": "v59-isoperimetry",
@@ -60,6 +61,12 @@
       "version": "V60",
       "claim": "If image membership is polynomial-time and m>n, uniform output sampling is Las Vegas with expected trials at most two.",
       "status": "elementary_known_background"
+    },
+    {
+      "id": "v62-ies-translation",
+      "version": "V62",
+      "claim": "The V57 collapsed conjunction is a clause-irredundant 2-CNF, while the circuit statement is complete irredundancy of five orbit-constrained gate blocks.",
+      "status": "internally_verified_translation_general_ies_prior_art"
     }
   ],
   "retractions": [
@@ -134,117 +141,40 @@
       "topic": "Monotone NC0_3-Avoid at m>n",
       "source": "arXiv:2503.17114; ECCC TR25-034",
       "impact": "direct overlap for monotone ternary claims"
+    },
+    {
+      "id": "gopalan-et-al-solution-graphs",
+      "topic": "Boolean CSP solution graphs and connectivity",
+      "source": "DOI 10.1137/07070440X; arXiv:cs/0609072",
+      "impact": "nearby geometry; no exact orientation-depth equivalence located"
     }
   ],
   "open_questions": [
     "Exact prior-art status of the V56 affine block formulation",
-    "Exact prior-art status of the orbit-constrained V57 minimal example",
+    "Exact prior-art status of the orbit-constrained V57 minimal example and direct-sum family",
     "Relationship between orientation depth and existing CSP or solution-graph parameters",
-    "External specialist review"
+    "Whether the V54 forcing-core separator is implicit in Kuntewar-Sarma 2025",
+    "External specialist responses and proof review"
   ],
   "versions": [
-    {
-      "version": "V16",
-      "path": "research/p-vs-np-lab-v16",
-      "contribution": "Signed-MAJ3 obstruction classification",
-      "status": "finite_computer_assisted"
-    },
-    {
-      "version": "V17",
-      "path": "v17",
-      "contribution": "Finite-locality barrier via high-girth hosts",
-      "status": "historical_proof_line"
-    },
-    {
-      "version": "V20",
-      "path": "v20",
-      "contribution": "Effective-dimension theorem candidate",
-      "status": "proof_candidate"
-    },
-    {
-      "version": "V21",
-      "path": "research/p-vs-np/v21",
-      "contribution": "Validation and publication preparation",
-      "status": "validation_stage"
-    },
-    {
-      "version": "V22",
-      "path": "research/p-vs-np/v22",
-      "contribution": "Zero-set polynomial dependency theorem candidate",
-      "status": "proof_candidate_missing_original_certificate_artifact"
-    },
-    {
-      "version": "V25",
-      "path": "research/p-vs-np/v25",
-      "contribution": "Four-input NPN and zero-set-degree classification",
-      "status": "finite_computer_assisted_supplementary"
-    },
-    {
-      "version": "V26",
-      "path": "research/p-vs-np/v26",
-      "contribution": "Literature mapping and mixed active-shadow theorem",
-      "status": "internal_candidate"
-    },
-    {
-      "version": "V27",
-      "path": "research/p-vs-np/v27",
-      "contribution": "Affine-parity and balanced missing-target certificates",
-      "status": "internal_candidate"
-    },
-    {
-      "version": "V53",
-      "path": "research/p-vs-np/v53",
-      "contribution": "Union-free lemma plus formal retraction record",
-      "status": "partially_preserved_corrected"
-    },
-    {
-      "version": "V54",
-      "path": "research/p-vs-np/v54",
-      "contribution": "Degree-at-most-k+1 pure-AND_k separator",
-      "status": "internally_verified_prior_art_overlap_check_required"
-    },
-    {
-      "version": "V55",
-      "path": "research/p-vs-np/v55",
-      "contribution": "Ternary NPN classification and affine-fiber methods",
-      "status": "valid_strengthened_by_v56"
-    },
-    {
-      "version": "V56",
-      "path": "research/p-vs-np/v56",
-      "contribution": "Affine consistency-or-redundancy at m>n",
-      "status": "internally_verified_novelty_unconfirmed"
-    },
-    {
-      "version": "V57",
-      "path": "research/p-vs-np/v57",
-      "contribution": "Bijunctive irredundancy barrier and direct sums",
-      "status": "internally_verified_specific_novelty_unconfirmed"
-    },
-    {
-      "version": "V58",
-      "path": "research/p-vs-np/v58",
-      "contribution": "Orientation depth and FPT avoidance",
-      "status": "internally_verified_novelty_unconfirmed"
-    },
-    {
-      "version": "V59",
-      "path": "research/p-vs-np/v59",
-      "contribution": "Isoperimetric abundance and flat-potential barrier",
-      "status": "internally_verified"
-    },
-    {
-      "version": "V60",
-      "path": "research/p-vs-np/v60",
-      "contribution": "Program consolidation and randomized easy-membership theorem",
-      "status": "internally_verified_scope_result"
-    },
-    {
-      "version": "V61",
-      "path": "research/p-vs-np/v61",
-      "contribution": "V22 reproducibility repair, prior-art audit and manuscript refocus",
-      "status": "internally_verified_audit"
-    }
+    {"version":"V16","path":"research/p-vs-np-lab-v16","contribution":"Signed-MAJ3 obstruction classification","status":"finite_computer_assisted"},
+    {"version":"V17","path":"v17","contribution":"Finite-locality barrier via high-girth hosts","status":"historical_proof_line"},
+    {"version":"V20","path":"v20","contribution":"Effective-dimension theorem candidate","status":"proof_candidate"},
+    {"version":"V21","path":"research/p-vs-np/v21","contribution":"Validation and publication preparation","status":"validation_stage"},
+    {"version":"V22","path":"research/p-vs-np/v22","contribution":"Zero-set polynomial dependency theorem candidate","status":"proof_candidate_missing_original_certificate_artifact"},
+    {"version":"V25","path":"research/p-vs-np/v25","contribution":"Four-input NPN and zero-set-degree classification","status":"finite_computer_assisted_supplementary"},
+    {"version":"V26","path":"research/p-vs-np/v26","contribution":"Literature mapping and mixed active-shadow theorem","status":"internal_candidate"},
+    {"version":"V27","path":"research/p-vs-np/v27","contribution":"Affine-parity and balanced missing-target certificates","status":"internal_candidate"},
+    {"version":"V53","path":"research/p-vs-np/v53","contribution":"Union-free lemma plus formal retraction record","status":"partially_preserved_corrected"},
+    {"version":"V54","path":"research/p-vs-np/v54","contribution":"Degree-at-most-k+1 pure-AND_k separator","status":"internally_verified_direct_overlap_monotone_k3"},
+    {"version":"V55","path":"research/p-vs-np/v55","contribution":"Ternary NPN classification and affine-fiber methods","status":"valid_strengthened_by_v56"},
+    {"version":"V56","path":"research/p-vs-np/v56","contribution":"Affine consistency-or-redundancy at m>n","status":"internally_verified_novelty_unconfirmed"},
+    {"version":"V57","path":"research/p-vs-np/v57","contribution":"Bijunctive irredundancy barrier and direct sums","status":"internally_verified_specific_novelty_unconfirmed"},
+    {"version":"V58","path":"research/p-vs-np/v58","contribution":"Orientation depth and FPT avoidance","status":"internally_verified_novelty_unconfirmed"},
+    {"version":"V59","path":"research/p-vs-np/v59","contribution":"Isoperimetric abundance and flat-potential barrier","status":"internally_verified"},
+    {"version":"V60","path":"research/p-vs-np/v60","contribution":"Program consolidation and randomized easy-membership theorem","status":"internally_verified_scope_result"},
+    {"version":"V61","path":"research/p-vs-np/v61","contribution":"V22 reproducibility repair, prior-art audit and manuscript refocus","status":"internally_verified_audit"},
+    {"version":"V62","path":"research/p-vs-np/v62","contribution":"Integrated manuscript, source-to-claim matrix, IES translation, comparison and external outreach","status":"internally_verified_editorial_external_review_requested"}
   ],
   "finite_search": {
     "one_flip_complete_through_n": 8,
@@ -254,9 +184,25 @@
     "interpretation": "incomplete_search_no_theorem"
   },
   "external_contact": {
-    "status": "not_sent",
-    "authorization_required": true,
-    "next_gate": "external_mathematical_and_prior_art_review"
+    "status": "sent_awaiting_reply",
+    "authorization_required": false,
+    "authorization_granted": true,
+    "sent_date": "2026-07-30",
+    "outreach": [
+      {
+        "audience": "range_avoidance_authors",
+        "recipients": ["Karthik Gajulapalli", "Jayalal Sarma", "Neha Kuntewar"],
+        "purpose": "prior art for V54-V58 and terminology",
+        "reply_status": "pending"
+      },
+      {
+        "audience": "2cnf_redundancy_specialist",
+        "recipients": ["Paolo Liberatore"],
+        "purpose": "block-level IES terminology for V57",
+        "reply_status": "pending"
+      }
+    ],
+    "next_gate": "record_and_evaluate_external_responses"
   },
   "verification": {
     "entrypoint": "research/p-vs-np/verify_all.sh",
@@ -264,6 +210,8 @@
     "full_command": "./verify_all.sh --full",
     "missing_script_policy": "SKIP",
     "missing_required_artifact_policy": "SKIP_with_reason",
-    "v22_status": "SKIP_missing_full_certificate_cases_json"
+    "v22_status": "SKIP_missing_full_certificate_cases_json",
+    "ci_workflow": ".github/workflows/p-vs-np-verify.yml",
+    "full_runner_status": "pending_clean_ci_run_at_package_creation"
   }
 }
