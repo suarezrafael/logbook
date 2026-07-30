@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this research log, cite the repository and version V58; no novelty claim is made."
+title: "P versus NP Laboratory V58: Adaptive orientation depth for bijunctive Range Avoidance"
+version: "58"
+authors:
+  - family-names: "Suarez"
+    given-names: "Rafael"
+date-released: 2026-07-29
+repository-code: "https://github.com/suarezrafael/logbook"
+license: "CC-BY-4.0"
