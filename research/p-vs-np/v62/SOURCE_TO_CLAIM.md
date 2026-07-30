@@ -20,15 +20,16 @@
 
 ## Primary references
 
-1. Ran Raz? No claim is based on an unnamed secondary source. The exact bibliography used by the draft is:
-2. L. Ren, R. Santhanam and R. Wang, *On the Range Avoidance Problem for Circuits*, ECCC TR22-048, 2022.
-3. V. Guruswami, X. Lyu and X. Wang, *Range Avoidance for Low-Depth Circuits and Connections to Pseudorandomness*, RANDOM 2022, DOI `10.4230/LIPIcs.APPROX/RANDOM.2022.20`.
-4. K. Gajulapalli, A. Golovnev, S. Nagargoje and S. Saraogi, *Range Avoidance for Constant-Depth Circuits: Hardness and Algorithms*, RANDOM 2023 / ECCC TR23-021.
-5. N. Kuntewar and J. Sarma, *Range Avoidance in Boolean Circuits via Turan-type Bounds*, arXiv:2503.17114 / ECCC TR25-034, 2025.
-6. P. Liberatore, *Redundancy in Logic I: CNF Propositional Formulae*, Artificial Intelligence 163 (2005), preprint arXiv:cs/0211031.
-7. P. Liberatore, *Redundancy in Logic II: 2CNF and Horn Propositional Formulae*, Artificial Intelligence 172 (2008), DOI `10.1016/j.artint.2007.06.003`.
-8. P. Savický, *On CNF formulas irredundant with respect to unit clause propagation*, arXiv:2309.01750, 2023.
-9. P. Gopalan, P. Kolaitis, E. Maneva and C. Papadimitriou, *The Connectivity of Boolean Satisfiability: Computational and Structural Dichotomies*, SIAM J. Comput. 38(6), 2009, DOI `10.1137/07070440X`.
-10. L. Harper, vertex-isoperimetric theorem for the Boolean cube; the manuscript will use a standard bibliographic edition after final reference checking.
+No claim is based on an unnamed secondary source. The primary bibliography used by the draft is:
+
+1. L. Ren, R. Santhanam and R. Wang, *On the Range Avoidance Problem for Circuits*, ECCC TR22-048, 2022.
+2. V. Guruswami, X. Lyu and X. Wang, *Range Avoidance for Low-Depth Circuits and Connections to Pseudorandomness*, RANDOM 2022, DOI `10.4230/LIPIcs.APPROX/RANDOM.2022.20`.
+3. K. Gajulapalli, A. Golovnev, S. Nagargoje and S. Saraogi, *Range Avoidance for Constant-Depth Circuits: Hardness and Algorithms*, RANDOM 2023 / ECCC TR23-021.
+4. N. Kuntewar and J. Sarma, *Range Avoidance in Boolean Circuits via Turan-type Bounds*, arXiv:2503.17114 / ECCC TR25-034, 2025.
+5. P. Liberatore, *Redundancy in Logic I: CNF Propositional Formulae*, Artificial Intelligence 163 (2005), preprint arXiv:cs/0211031.
+6. P. Liberatore, *Redundancy in Logic II: 2CNF and Horn Propositional Formulae*, Artificial Intelligence 172 (2008), DOI `10.1016/j.artint.2007.06.003`.
+7. P. Savický, *On CNF formulas irredundant with respect to unit clause propagation*, arXiv:2309.01750, 2023.
+8. P. Gopalan, P. Kolaitis, E. Maneva and C. Papadimitriou, *The Connectivity of Boolean Satisfiability: Computational and Structural Dichotomies*, SIAM J. Comput. 38(6), 2009, DOI `10.1137/07070440X`.
+9. L. Harper, vertex-isoperimetric theorem for the Boolean cube; the manuscript will use a standard bibliographic edition after final reference checking.
 
 The JSON file is authoritative for automated claim checks.
