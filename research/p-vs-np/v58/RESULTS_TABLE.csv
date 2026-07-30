@@ -1,0 +1,15 @@
+metric,value
+orbit_size,48
+fiber_cnf_checks,96
+v57_irredundant_families,12
+v57_isomorphism_classes,1
+single_flip_checks,60
+direct_sum_k_through,12
+random_orbit_circuits,1100
+boundary_equivalence_checks,900
+universal_bound_checks,600
+exact_n_min,3
+exact_n_max,8
+exact_dfs_nodes,126607
+independent_exact_n_max,7
+failures,0
