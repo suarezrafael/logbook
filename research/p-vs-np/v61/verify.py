@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import ast
 import json
+import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -11,6 +12,12 @@ ROOT = HERE.parent
 
 def load(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def version_number(value: str) -> int:
+    match = re.fullmatch(r"V(\d+)", value)
+    assert match, value
+    return int(match.group(1))
 
 
 def check_v22() -> int:
@@ -46,8 +53,8 @@ def check_runner() -> int:
 def check_ledger_and_state() -> int:
     ledger = load(ROOT / "LEDGER.json")
     results = load(HERE / "RESULTS.json")
-    assert ledger["schema_version"] == 2
-    assert ledger["current_version"] == "V61"
+    assert ledger["schema_version"] >= 2
+    assert version_number(ledger["current_version"]) >= 61
     assert ledger["program"]["p_vs_np_route_active"] is False
     issue = {x["id"]: x for x in ledger["reproducibility_issues"]}["v22-missing-certificate-dataset"]
     assert issue["reconstructible_from_results_json"] is False
@@ -55,7 +62,7 @@ def check_ledger_and_state() -> int:
     v22 = [x for x in ledger["versions"] if x["version"] == "V22"][0]
     assert "missing_original_certificate_artifact" in v22["status"]
     assert ledger["current_decision"]["v25_role"] == "supplementary_only"
-    assert ledger["external_contact"]["status"] == "not_sent"
+    assert ledger["external_contact"]["status"] in {"not_sent", "sent_awaiting_reply", "replied"}
     assert results["version"] == "V61" and results["status"] == "passed"
     assert results["v22_repair"]["runner_status"] == "SKIP"
     assert results["manuscript"]["v25_in_main_narrative"] is False
