@@ -58,10 +58,26 @@ Expected summaries are committed in:
 - `VALIDATION_INDEPENDENT.txt`;
 - `VALIDATION_EXACT.txt`.
 
+The exact verifier compiles `exact_single_flip_search.cpp` with C++17 and OpenMP.
+
+## Reproducibility manifest
+
+- `SHA256SUMS.txt` covers all 33 files inside the package directory;
+- `PACKAGE_ZIP_SHA256.txt` records the archive hash;
+- final archive SHA-256:
+
+```text
+5ef275e7a8186799d85c160a7b57eb73d7fc88fac310fe6b405c6a9b78e22085
+```
+
 ## Output-quality files
 
 - `SCIENTIFIC_STATUS.md`;
 - `THEOREM.md` and `PROOF.md`;
+- `v58_core.py`;
+- `verify.py`, `verify_independent.py`, `verify_exact.py`;
+- `exact_single_flip_search.cpp`;
+- `RESULTS.json`, exact tables and validation logs;
 - `ORIENTATION_DEPTH.md`;
 - `SINGLE_FLIP_AUDIT.md`;
 - `LAY_SUMMARY.md`;
