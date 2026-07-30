@@ -9,11 +9,17 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 
 
+def version_number(value: str) -> int:
+    match = re.fullmatch(r"V(\d+)", value)
+    assert match, value
+    return int(match.group(1))
+
+
 def check_json_shapes() -> int:
     ledger = json.loads((ROOT / "LEDGER.json").read_text(encoding="utf-8"))
     results = json.loads((HERE / "RESULTS.json").read_text(encoding="utf-8"))
     assert set(("schema_version", "current_version", "program", "stable_results", "reproducibility_issues", "prior_art", "versions")).issubset(ledger)
-    assert ledger["current_version"] == "V61"
+    assert version_number(ledger["current_version"]) >= 61
     assert len(ledger["prior_art"]) >= 7
     assert results["prior_art"]["primary_sources_recorded"] >= 7
     assert results["program_decision"]["p_vs_np_route_active"] is False
