@@ -16,8 +16,8 @@ Usage: ./verify_all.sh [--full|--list]
   --full   Also run exact/extended verifiers where available.
   --list   Print the planned checks without executing them.
 
-A missing historical verifier is reported as SKIP. Any executed verifier failure
-makes the script exit nonzero.
+A missing script or required historical artifact is reported as SKIP with a
+reason. Any executed verifier failure makes the script exit nonzero.
 HELP
     exit 0
     ;;
@@ -36,29 +36,32 @@ else
   exit 2
 fi
 
+# Format: version|kind|relative path|tier|optional skip reason
 CHECKS=(
-  "V22|primary|v22/verify.py|quick"
-  "V25|index|v25/verify_index.py|quick"
-  "V26|primary|v26/verify.py|quick"
-  "V27|index|v27/verify_index.py|quick"
-  "V53|primary|v53/verify.py|quick"
-  "V53|independent|v53/verify_independent.py|quick"
-  "V54|primary|v54/verify.py|quick"
-  "V54|independent|v54/verify_independent.py|quick"
-  "V55|primary|v55/verify.py|quick"
-  "V55|independent|v55/verify_independent.py|quick"
-  "V56|primary|v56/verify.py|quick"
-  "V56|independent|v56/verify_independent.py|quick"
-  "V56|index|v56/verify_index.py|full"
-  "V57|primary|v57/verify.py|quick"
-  "V57|independent|v57/verify_independent.py|quick"
-  "V58|primary|v58/verify.py|quick"
-  "V58|independent|v58/verify_independent.py|quick"
-  "V58|exact|v58/verify_exact.py|full"
-  "V59|primary|v59/verify.py|quick"
-  "V59|independent|v59/verify_independent.py|quick"
-  "V60|primary|v60/verify.py|quick"
-  "V60|independent|v60/verify_independent.py|quick"
+  "V22|primary|v22/verify.py|skip|missing v22/full_certificate_cases.json; aggregate RESULTS.json cannot reconstruct the original 125 certificates"
+  "V25|index|v25/verify_index.py|quick|"
+  "V26|primary|v26/verify.py|quick|"
+  "V27|index|v27/verify_index.py|quick|"
+  "V53|primary|v53/verify.py|quick|"
+  "V53|independent|v53/verify_independent.py|quick|"
+  "V54|primary|v54/verify.py|quick|"
+  "V54|independent|v54/verify_independent.py|quick|"
+  "V55|primary|v55/verify.py|quick|"
+  "V55|independent|v55/verify_independent.py|quick|"
+  "V56|primary|v56/verify.py|quick|"
+  "V56|independent|v56/verify_independent.py|quick|"
+  "V56|index|v56/verify_index.py|full|"
+  "V57|primary|v57/verify.py|quick|"
+  "V57|independent|v57/verify_independent.py|quick|"
+  "V58|primary|v58/verify.py|quick|"
+  "V58|independent|v58/verify_independent.py|quick|"
+  "V58|exact|v58/verify_exact.py|full|"
+  "V59|primary|v59/verify.py|quick|"
+  "V59|independent|v59/verify_independent.py|quick|"
+  "V60|primary|v60/verify.py|quick|"
+  "V60|independent|v60/verify_independent.py|quick|"
+  "V61|primary|v61/verify.py|quick|"
+  "V61|independent|v61/verify_independent.py|quick|"
 )
 
 printf '%-6s | %-12s | %-6s | %s\n' "LAB" "CHECK" "STATUS" "DETAIL"
@@ -69,8 +72,14 @@ executed=0
 skipped=0
 
 for item in "${CHECKS[@]}"; do
-  IFS='|' read -r version kind relative tier <<<"$item"
+  IFS='|' read -r version kind relative tier reason <<<"$item"
   path="$ROOT/$relative"
+
+  if [[ "$tier" == "skip" ]]; then
+    printf '%-6s | %-12s | %-6s | %s\n' "$version" "$kind" "SKIP" "$reason"
+    skipped=$((skipped + 1))
+    continue
+  fi
 
   if [[ "$tier" == "full" && "$MODE" != "full" ]]; then
     printf '%-6s | %-12s | %-6s | %s\n' "$version" "$kind" "SKIP" "requires --full"
