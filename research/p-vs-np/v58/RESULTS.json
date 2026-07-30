@@ -16,16 +16,11 @@
     "v57_irredundant_families": 12,
     "v57_isomorphism_classes": 1,
     "single_flip_checks": 60,
-    "single_flip_redundancy_histogram": {
-      "3": 24,
-      "4": 36
-    },
+    "single_flip_redundancy_histogram": {"3":24,"4":36},
     "direct_sum_k_through": 12,
     "direct_sum_bruteforce_k_through": 3,
     "random_orbit_circuits": 1100,
-    "random_search_radius_histogram": {
-      "0": 1100
-    },
+    "random_search_radius_histogram": {"0":1100},
     "boundary_equivalence_checks": 900,
     "universal_bound_checks": 600,
     "failures": 0,
@@ -84,5 +79,5 @@
     "p_vs_np_resolved": false,
     "n9_exact_search_complete": false
   },
-  "elapsed_seconds": 1.647996
+  "elapsed_seconds": 1.588718
 }
