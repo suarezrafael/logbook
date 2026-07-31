@@ -1,0 +1,25 @@
+{
+  "version": "V65",
+  "status": "passed",
+  "exact_validation": {
+    "dimensions": [1, 2, 3],
+    "families": 316543,
+    "inconsistent": 287182,
+    "redundant": 29361,
+    "by_dimension": {
+      "1": {"affine_subsets": 3, "families": 6, "inconsistent": 1, "redundant": 5},
+      "2": {"affine_subsets": 11, "families": 286, "inconsistent": 167, "redundant": 119},
+      "3": {"affine_subsets": 51, "families": 316251, "inconsistent": 287014, "redundant": 29237}
+    }
+  },
+  "generated_equation_cases": {"total": 432, "inconsistent": 216, "redundant": 216},
+  "document_and_metadata_checks": 24,
+  "scientific_status": {
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "p_vs_np_research_active": true,
+    "p_vs_np_route_active": false,
+    "p_vs_np_resolved": false
+  },
+  "failures": 0
+}
