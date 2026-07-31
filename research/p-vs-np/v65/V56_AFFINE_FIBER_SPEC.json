@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "laboratory": "V65",
+  "title": "Consistency-or-redundancy for affine output fibers",
+  "field": "GF(2)",
+  "input": {
+    "circuit": "C:{0,1}^n->{0,1}^m",
+    "stretch": "m>n",
+    "selected_fiber": "F_i={x:A_i x=b_i}",
+    "representation": "polynomial-size affine equation blocks"
+  },
+  "branches": {
+    "inconsistent": {
+      "condition": "the union of selected affine equations is inconsistent",
+      "certificate": "an inclusion-minimal inconsistent equation subsystem E",
+      "size_bound": "|E|<=n+1",
+      "target": "activate every gate represented in E",
+      "separator": "product of the corresponding normalized output indicators"
+    },
+    "consistent": {
+      "condition": "all selected affine blocks share a solution x*",
+      "translation": "x=x*+z",
+      "block_space": "W_i=rowspace(A_i)<=GF(2)^n",
+      "certificate": "some W_i is contained in the sum of the remaining W_j",
+      "source_bound": "at most n other gate blocks are sufficient",
+      "target": "activate the source blocks and request gate i inactive",
+      "separator": "(1-Z_i) times the product of source indicators"
+    }
+  },
+  "conclusions": {
+    "algorithm": "deterministic polynomial time",
+    "separator_degree": "at most n+1",
+    "essential_ternary_classes": ["0x01", "0x06", "0x18", "0x69"]
+  },
+  "finite_validation": {
+    "exhaustive_dimensions": [1, 2, 3],
+    "families": "all multisets of n+1 nonempty affine subsets",
+    "expected_family_counts": {"1": 6, "2": 286, "3": 316251},
+    "random_dimensions": [4, 5, 6, 7, 8, 9, 10, 11, 12]
+  },
+  "scientific_boundary": {
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false,
+    "general_nc0_3_avoid": false
+  }
+}
