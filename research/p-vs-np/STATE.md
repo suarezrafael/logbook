@@ -1,6 +1,6 @@
 # Cumulative scientific state
 
-**Current laboratory:** V67  
+**Current laboratory:** V68  
 **Updated:** 2026-07-31  
 **Program name:** `NC0_k-Avoid Laboratory`  
 **P-versus-NP research active:** exploratory  
@@ -11,42 +11,53 @@
 
 ## Current scientific position
 
-V66 introduced affine-cell branching for the six essential non-affine ternary classes. V67 now distinguishes independent composition from genuine overlap.
+V68 promotes an explicit stretch-one spine family. For `k>=1` it uses one shared spine variable and `k` fresh variable pairs, with `n=2k+1` and `m=2k+2=n+1`. Every gate lies in the NPN orbit of `0x07`, and every branch cell is affine.
 
-For disjoint systems, consistent branch counts multiply. Since every affine-cell partition of the V57 gadget has `c=1`, direct sums of those gadgets retain `c=1`; a grafted tree has an additive leaf upper bound. Thus V57 direct sums are not candidates for amplifying branch complexity.
-
-Overlapping supports behave differently. A deterministic seed-42 probe over 4,000 positive-fiber `0x07` systems with `m=n+1` preserves `c=16` at `n=10` and finds `c=36` at `n=11`. The latter witness satisfies:
+The exact branch count is
 
 ```text
-36 <= L_aff=61 <= L_greedy=62
-G_aff=108
+c=2^(k-1)=2^((n-3)/2).
 ```
 
-This is a finite lower-bound witness for tree leaves, not an asymptotic exponential family. It also does not establish a minimum DAG size.
+Since distinct complete consistent signatures require distinct complete leaves, complete inconsistency-pruned affine-cell branching trees are exponentially large on this family. This is an asymptotic theorem for the specified tree model, not an inference from sampled maxima.
 
-## V67 exact scope
+The same family has an explicit linear DAG under a stronger quotient. After each gate, equations on variables absent from all remaining supports are existentially projected away, and the canonical residual affine system is hashed. The fixed ordered construction has
 
-- direct-sum proposition: `c(A ⊕ B)=c(A)c(B)`;
-- tree composition: `L_aff(A ⊕ B) <= L_aff(A)+c(A)(L_aff(B)-1)`;
-- V57 direct-sum corollary: `c=1` and additive tree upper bound;
-- 18 explicit regular cyclic overlap controls for `4<=n<=12`, all with `c=1`;
-- 4,000 seeded random overlapping-support systems;
-- preserved `n=10,m=11,c=16` witness at iteration 344;
-- strongest sampled `n=11,m=12,c=36` witness at iteration 2360;
-- computable sandwich `c <= L_aff <= L_greedy`.
+```text
+G_proj=3k+4
+```
 
-## What remains open
+nonterminal states. `G_proj` is not the historical `G_aff`, and no minimum-DAG or standard proof-system equivalence is claimed.
 
-The binary question is whether a scalable family forces superpolynomial or exponential `c`, or whether all systems admit a polynomial branching/DAG bound. Finite sampled maxima do not decide this.
+## V68 exact scope
 
-The next laboratory must analyze the `c=36` witness structurally, attempt an explicit recursive amplification, and separately optimize merged residual-state DAGs. Exact `L_aff` should be reserved for selected witnesses; larger searches should use the `c`/greedy sandwich.
+- masks `0x07`, `0x0b`, and `0x0d`, all in one NPN orbit;
+- exact construction for every `k>=1`;
+- proof that motif zero is frozen by two anchors;
+- proof that each remaining motif contributes exactly two independent signatures;
+- tree lower bound `L_aff>=2^(k-1)`;
+- explicit projected ordered DAG with `3k+4` nonterminal states;
+- brute-force validation for `k=1..5`;
+- symbolic/bitset and projected-DAG checks for `k=1..64`;
+- independent semantic verifier using explicit relations rather than the primary GF(2) engine;
+- structural reconstruction of the V67 `c=36` witness: frozen gates `7,8`, factor `2 x 18`, and variables `3,4,9` absent from the pinned position.
+
+## Consequence for the branching program
+
+The inconsistency-pruned tree route is closed as a general polynomial strategy for this frontier: an explicit stretch-one orbit-`0x07` family forces exponentially many complete leaves.
+
+The projected-DAG question remains open. The spine family is easy after dead-variable projection and therefore does not supply a DAG lower bound. The next binary target is whether every affine-cell stretch-one system admits a polynomial constructible projected residual DAG or whether some explicit family forces superpolynomial `G_proj`.
 
 ## Lower-bound route gates
 
-1. Obtain a scalable certificate, upper bound, or explicit lower-bound family for all six non-affine classes.
+1. Resolve projected-DAG complexity across all six non-affine classes, not only the spine family.
 2. Reach unrestricted `NC0_3-Avoid` in a lower-bound-relevant stretch regime.
 3. Establish a complete reduction to a lower bound strong enough to bear on NP versus polynomial-size circuits.
 4. Only then evaluate a logical P-versus-NP consequence.
+
+## Proof-complexity boundary
+
+The repository has no simulation theorem between `G_proj` and OBDD, FBDD, resolution, Res-Lin, or tree-like parity systems. Tseitin/expander constructions are future experimental candidates only; existing lower bounds cannot be imported without a size-preserving translation.
 
 ## External requests
 
@@ -58,8 +69,9 @@ The earliest planned follow-up date remains **2026-08-24**. Silence is not evide
 
 ## Repository entry points
 
-- `v67/DIRECT_SUM_PROPOSITION.md` — exact composition theorem;
-- `v67/BRANCHING_SANDWICH.md` — scalable lower/upper bounds;
-- `v67/OVERLAP_GROWTH_REPORT.md` — experimental scope;
-- `v67/WITNESSES.json` — exact `c=16` and `c=36` systems;
-- `v67/V68_CORE_CONTEXT.md` — next laboratory constraints.
+- `v68/SPINE_FAMILY_THEOREM.md` — construction and proof;
+- `v68/V68_SPINE_TREE_DAG_THEOREM.tex` — formal module;
+- `v68/affine_bitset.py` — incremental RREF and projected hashing;
+- `v68/PROJECTED_DAG_MODEL.md` — exact `G_proj` definition;
+- `v68/RESULTS.json` — finite and symbolic verification output;
+- `v68/V69_CORE_CONTEXT.md` — next laboratory constraints.
