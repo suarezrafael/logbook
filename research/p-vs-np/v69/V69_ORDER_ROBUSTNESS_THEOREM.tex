@@ -1,0 +1,34 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{theorem}{Theorem}
+\begin{document}
+\title{Exact Gate-Order Optimization for Projected Affine Residual DAGs}
+\author{NC0\_k-Avoid Laboratory, V69}
+\date{2026-07-31}
+\maketitle
+
+For a processed gate set $S$, let $\mathcal R(S)$ be the set of distinct nonempty affine residual systems obtained after selecting one affine cell per gate in $S$, conjoining the equations, and existentially projecting onto the variables occurring in gates outside $S$. Put $w(S)=|\mathcal R(S)|$.
+
+\begin{theorem}[Set-layer invariance]
+The set $\mathcal R(S)$ depends only on $S$ and not on the order in which the gates of $S$ were processed.
+\end{theorem}
+\begin{proof}
+For a fixed cell choice, conjunction is order independent. Consistency and the resulting affine solution set are therefore order independent. The projection target is the variable set used by the complement of $S$, which also depends only on $S$. Canonical reduced row-echelon form identifies equal residuals.
+\end{proof}
+
+\begin{theorem}[Ordered-DAG cost]
+For an order $\pi=(\pi_0,\ldots,\pi_{m-1})$ and prefixes $S_i=\{\pi_0,\ldots,\pi_{i-1}\}$,
+\[
+G_{\mathrm{proj}}(\pi)=\sum_{i=0}^{m-1} w(S_i).
+\]
+Consequently $G^*_{\mathrm{proj}}=\min_\pi G_{\mathrm{proj}}(\pi)$ is computed by the subset recurrence
+\[
+D(\varnothing)=0,\qquad D(S\cup\{g\})=\min_{g\notin S}\bigl(D(S)+w(S)\bigr).
+\]
+\end{theorem}
+\begin{proof}
+The nonterminal states at layer $i$ are exactly the canonical residuals $\mathcal R(S_i)$. Summing layer widths gives the first formula. Every gate order is a path through the subset lattice, and every such path is an order, so the shortest-path recurrence is exact.
+\end{proof}
+
+This algorithm is exponential in the number of gates. It proves neither a polynomial good-order theorem nor an all-orders lower bound. It does not identify this model with OBDD, FBDD, resolution, or another proof system, and has no direct P-versus-NP consequence.
+\end{document}
