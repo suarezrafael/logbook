@@ -7,23 +7,33 @@
 - [STATE.md](STATE.md) — cumulative scientific state.
 - [LEDGER.json](LEDGER.json) — machine-readable claims, reproducibility, outreach and promotion ledger.
 - [`v62/INTEGRATED_MANUSCRIPT.md`](v62/INTEGRATED_MANUSCRIPT.md) — integrated manuscript.
-- [`v67/`](v67/) — direct-sum proposition and overlapping-support branch-growth experiment.
+- [`v67/`](v67/) — direct-sum proposition and overlap growth witnesses.
+- [`v68/`](v68/) — explicit spine family separating branching trees from projected residual DAGs.
 - [`verify_all.sh`](verify_all.sh) — cumulative quick/full verifier.
 
 ## Current position
 
-Laboratory V67 separates two mechanisms that V66 left open.
+Laboratory V68 answers the tree-side question left open by V66–V67.
 
-First, direct sums of V57 affine-cell components cannot create branch growth: consistent signatures multiply, every V57 component has `c=1`, and the corresponding tree upper bound is additive across components.
-
-Second, overlapping supports do create substantially larger finite branch sets. A deterministic seed-42 probe over 4,000 positive-fiber `0x07` systems preserves a `c=16` witness at `n=10` and finds `c=36` at `n=11`. For the stronger witness:
+For every `k>=1`, an explicit stretch-one family in the NPN orbit of `0x07` has
 
 ```text
-36 <= L_aff=61 <= L_greedy=62
-G_aff=108
+n=2k+1
+m=n+1
+c=2^(k-1)=2^((n-3)/2)
 ```
 
-This demonstrates finite overlap growth, not an exponential family or a polynomial upper bound. Tree and DAG complexity remain separate questions.
+Therefore every complete inconsistency-pruned affine-cell branching tree has exponentially many consistent leaves on this family.
+
+The same family is linear in a stronger projected residual-state model: after existentially removing variables absent from remaining supports, the fixed ordered DAG has exactly
+
+```text
+G_proj=3k+4
+```
+
+nonterminal states. `G_proj` is distinct from the historical `G_aff`; no equivalence to OBDD, FBDD, resolution, Res-Lin, or another standard proof system is claimed.
+
+V67 remains important: direct sums of V57 components have `c=1`, while overlapping supports produced the finite `c=36` witness whose frozen and factorized structure motivated the spine construction.
 
 ## Contribution chain
 
@@ -38,7 +48,8 @@ This demonstrates finite overlap growth, not an exponential family or a polynomi
 | V59–V60 | Geometry, barriers and randomized regime | Verified/context |
 | V61–V65 | Reproducibility, manuscript, outreach, CI and formal modules | Verified |
 | V66 | Exact affine-cell census and CI hardening | Merged and CI verified |
-| V67 | Direct-sum elimination and overlap branch-growth witnesses | Current laboratory |
+| V67 | Direct-sum proposition and overlap growth witnesses | Merged and CI verified |
+| V68 | Exponential spine-tree lower bound and linear projected DAG | Current laboratory |
 
 ## Reproducibility and promotion
 
@@ -47,4 +58,4 @@ bash ./verify_all.sh
 bash ./verify_all.sh --full
 ```
 
-Each laboratory follows `main -> branch -> non-draft PR -> quick/full CI -> squash merge to main`. V22 and V26 remain justified skips. The direct P-versus-NP route remains inactive.
+Each laboratory follows `main -> branch -> non-draft PR -> quick/full/LaTeX CI -> squash merge to main`. V22 and V26 remain justified skips. The direct P-versus-NP route remains inactive.
