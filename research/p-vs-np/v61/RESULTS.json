@@ -1,0 +1,38 @@
+{
+  "version": "V61",
+  "status": "passed",
+  "laboratory_type": "reproducibility_and_prior_art_audit",
+  "v22_repair": {
+    "required_artifact": "full_certificate_cases.json",
+    "artifact_present": false,
+    "aggregate_results_reconstruct_original_cases": false,
+    "runner_status": "SKIP",
+    "theorem_retracted": false,
+    "finite_evidence_repository_reproduced": false
+  },
+  "manuscript": {
+    "central_story": "affine_positive_vs_bijunctive_barrier",
+    "v25_in_main_narrative": false,
+    "randomized_sampling_claimed_novel": false,
+    "general_2cnf_irredundancy_claimed_novel": false
+  },
+  "prior_art": {
+    "primary_sources_recorded": 7,
+    "direct_overlap_monotone_nc0_3": true,
+    "general_2cnf_redundancy_known": true,
+    "ucp_irredundancy_known": true,
+    "v56_exact_prior_art_located": false,
+    "v57_specific_prior_art_located": false,
+    "orientation_depth_exact_prior_art_located": false
+  },
+  "program_decision": {
+    "p_vs_np_route_active": false,
+    "external_review_primary_goal": true,
+    "external_contact_sent": false
+  },
+  "validation": {
+    "primary_checks": 31,
+    "independent_checks": 23,
+    "failures": 0
+  }
+}

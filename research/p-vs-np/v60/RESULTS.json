@@ -1,0 +1,60 @@
+{
+  "version": "V60",
+  "status": "passed",
+  "laboratory_type": "consolidation_and_regime_separation",
+  "central_result": {
+    "name": "randomized_easy_membership_range_avoidance",
+    "assumptions": [
+      "C maps n bits to m bits",
+      "m > n",
+      "membership in Range(C) is decidable in polynomial time"
+    ],
+    "per_trial_success_lower_bound": "1 - 2^(n-m)",
+    "expected_trials_upper_bound": "1 / (1 - 2^(n-m))",
+    "uniform_upper_bound_for_positive_stretch": 2,
+    "tight_at_stretch_one_for_injective_maps": true,
+    "algorithm_type": "Las_Vegas",
+    "deterministic_algorithm_implied": false
+  },
+  "program_decision": {
+    "program_name": "NC0_k-Avoid Laboratory",
+    "p_vs_np_route_active": false,
+    "primary_goal": "manuscript_and_external_review",
+    "n9_search_role": "falsification_and_regression_only",
+    "separate_program_needed_for_general_lower_bounds": true
+  },
+  "repository_repairs": {
+    "root_readme_updated": true,
+    "state_md_added": true,
+    "ledger_json_added": true,
+    "verify_all_added": true,
+    "v61_context_added": true,
+    "main_merged": false
+  },
+  "preserved_status": {
+    "v53_retractions_active": true,
+    "v56_affine_result_preserved": true,
+    "v57_bijunctive_barrier_preserved": true,
+    "v58_orientation_depth_preserved": true,
+    "v59_isoperimetry_preserved": true,
+    "v59_flat_potential_barrier_preserved": true,
+    "n9_complete": false,
+    "external_contact_sent": false
+  },
+  "scientific_status": {
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "general_nc0_3_avoid_solved": false,
+    "unrestricted_lower_bound_proved": false,
+    "p_vs_np_resolved": false
+  },
+  "validation": {
+    "primary_probability_cases": 248,
+    "primary_repository_checks": 16,
+    "primary_ledger_checks": 23,
+    "independent_small_cube_counts": 32,
+    "independent_ledger_schema_checks": 28,
+    "independent_prose_boundary_checks": 9,
+    "failures": 0
+  }
+}

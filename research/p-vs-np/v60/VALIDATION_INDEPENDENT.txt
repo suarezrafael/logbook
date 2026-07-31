@@ -1,0 +1,1 @@
+V60 independent verification passed: 32 exhaustive small-cube counts; 28 ledger/schema checks; 9 prose-boundary checks; zero failures.

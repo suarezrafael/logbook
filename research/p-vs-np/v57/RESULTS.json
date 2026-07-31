@@ -1,0 +1,52 @@
+{
+  "version": "V57",
+  "status": "passed",
+  "central_results": {
+    "universal_boundary_forcing": true,
+    "direct_bijunctive_block_redundancy_false": true,
+    "minimal_distinct_support_counterexample": {"n": 4, "m": 5, "orbit": "0x07"},
+    "infinite_stretch_one_irredundant_family": "n=4+3k, m=5+3k=n+1",
+    "scc_count_rank_surrogate_refuted_by_gadget": true
+  },
+  "validation": {
+    "proper_cube_subsets_checked": 65804,
+    "n3_orbit_multisets": {
+      "multisets_checked": 249900,
+      "consistent_with_redundant_block": 43620,
+      "inconsistent": 206280,
+      "consistent_irredundant": 0
+    },
+    "n4_normalized_families": {
+      "normalized_blocks": 36,
+      "families_checked": 376992,
+      "redundant_block_count_histogram": {"0": 12, "1": 228, "2": 8088, "3": 87804, "4": 194712, "5": 86148},
+      "consistent_irredundant_families": 12
+    },
+    "asymptotic_family": {
+      "formula": "n=4+3k, m=5+3k=n+1",
+      "structural_k_through": 20,
+      "brute_force_k_through": 3
+    },
+    "explicit_gadget": {
+      "n": 4,
+      "m": 5,
+      "masks": ["0x51", "0x45", "0x51", "0x45", "0x15"],
+      "supports": [[0,1,2],[0,1,2],[0,1,3],[0,1,3],[0,2,3]],
+      "common_active_assignments": [[0,0,0,0]],
+      "irredundancy_witnesses": [[0,1,0,1],[0,0,1,0],[0,1,1,0],[0,0,0,1],[0,1,1,1]],
+      "implication_graph_scc_count": 4,
+      "all_variables_forced_by_full_formula": true,
+      "redundant_blocks": [],
+      "range_size": 9,
+      "full_context_forcing_patterns": 31
+    },
+    "failures": 0
+  },
+  "scientific_status": {
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "prior_art_for_2cnf_redundancy_exists": true,
+    "general_nc0_3_avoid_solved": false,
+    "p_vs_np_resolved": false
+  }
+}

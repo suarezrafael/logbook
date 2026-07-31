@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this computational classification, cite this research note."
+title: "Minimal Unsatisfiable Signed-Majority Motifs in Linear 3-Uniform Hypergraphs"
+type: software
+authors:
+  - family-names: "Suarez"
+    given-names: "Rafael Vieira"
+version: "16.0"
+date-released: "2026-07-23"
+license: MIT
+repository-code: "https://github.com/suarezrafael/logbook"
+abstract: >
+  Computer-assisted finite classification of signed MAJ3 constraints
+  on connected linear 3-uniform hypergraphs with at most five edges.

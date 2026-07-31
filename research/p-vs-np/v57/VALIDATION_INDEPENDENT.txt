@@ -1,0 +1,5 @@
+V57 independent verification passed:
+  249900 n=3 orbit multisets independently rebuilt;
+  376992 normalized n=4 families independently rebuilt; 12 irredundant;
+  explicit five-block gadget and witnesses reconstructed;
+  65804 proper cube subsets checked; zero failures.

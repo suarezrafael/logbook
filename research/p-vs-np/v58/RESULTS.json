@@ -1,0 +1,83 @@
+{
+  "version": "V58",
+  "status": "passed",
+  "central_results": {
+    "orientation_depth_equals_boundary_distance": true,
+    "one_flip_failure_iff_radius2_ball_contained": true,
+    "polynomial_2cnf_entailment_implemented": true,
+    "exact_no_counterexample_range": "n=3..8",
+    "v57_twelve_families_one_isomorphism_class": true,
+    "v57_direct_sum_orientation_depth": 1,
+    "universal_stretch_one_boundary_bound": "floor(n/2)"
+  },
+  "validation": {
+    "orbit_size": 48,
+    "fiber_cnf_checks": 96,
+    "v57_irredundant_families": 12,
+    "v57_isomorphism_classes": 1,
+    "single_flip_checks": 60,
+    "single_flip_redundancy_histogram": {"3":24,"4":36},
+    "direct_sum_k_through": 12,
+    "direct_sum_bruteforce_k_through": 3,
+    "random_orbit_circuits": 1100,
+    "random_search_radius_histogram": {"0":1100},
+    "boundary_equivalence_checks": 900,
+    "universal_bound_checks": 600,
+    "failures": 0,
+    "exact_search": {
+      "n_min": 3,
+      "n_max": 8,
+      "canonical_types": [1,3],
+      "cases": 12,
+      "counterexamples": 0,
+      "all_complete": true,
+      "total_nodes": 126607,
+      "threads": 5
+    },
+    "independent": {
+      "status": "passed",
+      "v57_families": 12,
+      "isomorphism_classes": 1,
+      "single_flips": 60,
+      "independent_exact_cases": [
+        {"n":3,"canonical_type":1,"nodes":1},
+        {"n":3,"canonical_type":3,"nodes":1},
+        {"n":4,"canonical_type":1,"nodes":1},
+        {"n":4,"canonical_type":3,"nodes":1},
+        {"n":5,"canonical_type":1,"nodes":1},
+        {"n":5,"canonical_type":3,"nodes":1},
+        {"n":6,"canonical_type":1,"nodes":29},
+        {"n":6,"canonical_type":3,"nodes":34},
+        {"n":7,"canonical_type":1,"nodes":2037},
+        {"n":7,"canonical_type":3,"nodes":2978}
+      ],
+      "direct_sum_cases": 6,
+      "boundary_checks": 500,
+      "failures": 0,
+      "elapsed_seconds": 9.494615
+    }
+  },
+  "direct_sum": [
+    {"k":0,"n":4,"m":5,"kind":"boundary_redundancy","flipped":[0],"range_size":9},
+    {"k":1,"n":7,"m":8,"kind":"boundary_redundancy","flipped":[0],"range_size":45},
+    {"k":2,"n":10,"m":11,"kind":"boundary_redundancy","flipped":[0],"range_size":225},
+    {"k":3,"n":13,"m":14,"kind":"boundary_redundancy","flipped":[0],"range_size":1125},
+    {"k":4,"n":16,"m":17,"kind":"boundary_redundancy","flipped":[0]},
+    {"k":5,"n":19,"m":20,"kind":"boundary_redundancy","flipped":[0]},
+    {"k":6,"n":22,"m":23,"kind":"boundary_redundancy","flipped":[0]},
+    {"k":7,"n":25,"m":26,"kind":"boundary_redundancy","flipped":[0]},
+    {"k":8,"n":28,"m":29,"kind":"boundary_redundancy","flipped":[0]},
+    {"k":9,"n":31,"m":32,"kind":"boundary_redundancy","flipped":[0]},
+    {"k":10,"n":34,"m":35,"kind":"boundary_redundancy","flipped":[0]},
+    {"k":11,"n":37,"m":38,"kind":"boundary_redundancy","flipped":[0]},
+    {"k":12,"n":40,"m":41,"kind":"boundary_redundancy","flipped":[0]}
+  ],
+  "scientific_status": {
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "general_nc0_3_avoid_solved": false,
+    "p_vs_np_resolved": false,
+    "n9_exact_search_complete": false
+  },
+  "elapsed_seconds": 1.588718
+}

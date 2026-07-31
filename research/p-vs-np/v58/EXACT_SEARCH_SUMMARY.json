@@ -1,0 +1,10 @@
+{
+  "n_min": 3,
+  "n_max": 8,
+  "canonical_types": [1,3],
+  "cases": 12,
+  "counterexamples": 0,
+  "all_complete": true,
+  "total_nodes": 126607,
+  "threads": 5
+}

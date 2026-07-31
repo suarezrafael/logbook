@@ -1,0 +1,5 @@
+V58 primary verification passed:
+  96 local 2-CNF fiber reconstructions;
+  12 V57 families, one isomorphism class, 60 successful single flips;
+  direct-sum family through k=12; 1100 random orbit circuits;
+  900 boundary/ball equivalences; 600 cardinality bounds; zero failures.

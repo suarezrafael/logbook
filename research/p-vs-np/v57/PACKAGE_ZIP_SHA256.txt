@@ -1,0 +1,3 @@
+5ab35a4ef7f50a3258413302153b6f1ec27a36141839399d7f6a5a7ed0396e0e  p_vs_np_lab_v57.zip
+
+This hash identifies the canonical downloadable V57 package. The ZIP contains MANIFEST.json and SHA256SUMS.txt for its internal files.

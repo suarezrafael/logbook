@@ -1,0 +1,12 @@
+{
+  "cases": 4000,
+  "by_n": [
+    {"n":5,"cases":690,"mean_alpha":0.5752717391304348,"min_alpha":0.25,"mean_input_boundary_probability":0.9996829710144928,"min_input_boundary_probability":0.875,"mean_uniform_image_boundary_fraction":0.9997503258952535,"min_uniform_image_boundary_fraction":0.9047619047619048,"min_ratio_to_harper_sampling_bound":1.8285714285714285},
+    {"n":6,"cases":642,"mean_alpha":0.4771709501557632,"min_alpha":0.203125,"mean_input_boundary_probability":0.999634929906542,"min_input_boundary_probability":0.859375,"mean_uniform_image_boundary_fraction":0.9998472664798933,"min_uniform_image_boundary_fraction":0.9722222222222222,"min_ratio_to_harper_sampling_bound":2.4380952380952383},
+    {"n":7,"cases":649,"mean_alpha":0.4044924884437596,"min_alpha":0.1875,"mean_input_boundary_probability":0.9999277734976888,"min_input_boundary_probability":0.9765625,"mean_uniform_image_boundary_fraction":0.9999532973982759,"min_uniform_image_boundary_fraction":0.9846153846153847,"min_ratio_to_harper_sampling_bound":2.6006349206349206},
+    {"n":8,"cases":686,"mean_alpha":0.33426339285714285,"min_alpha":0.1015625,"mean_input_boundary_probability":0.9999202806122449,"min_input_boundary_probability":0.953125,"mean_uniform_image_boundary_fraction":0.9999753594619666,"min_uniform_image_boundary_fraction":0.990909090909091,"min_ratio_to_harper_sampling_bound":3.4445495637548618},
+    {"n":9,"cases":669,"mean_alpha":0.2838979587070254,"min_alpha":0.0859375,"mean_input_boundary_probability":0.9999445300822123,"min_input_boundary_probability":0.962890625,"mean_uniform_image_boundary_fraction":0.9999899002141155,"min_uniform_image_boundary_fraction":0.9932432432432432,"min_ratio_to_harper_sampling_bound":3.8671151236207},
+    {"n":10,"cases":664,"mean_alpha":0.23273661050451808,"min_alpha":0.08203125,"mean_input_boundary_probability":0.9999941170933735,"min_input_boundary_probability":0.99609375,"mean_uniform_image_boundary_fraction":0.999997035385637,"min_uniform_image_boundary_fraction":0.9980314960629921,"min_ratio_to_harper_sampling_bound":4.45035279680949}
+  ],
+  "global":{"min_input_boundary_probability":0.859375,"min_uniform_image_boundary_fraction":0.9047619047619048,"min_ratio_to_harper_sampling_bound":1.8285714285714285,"all_harper_bounds_pass":true}
+}

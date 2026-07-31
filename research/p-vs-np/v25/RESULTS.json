@@ -1,0 +1,63 @@
+{
+  "version": "V25",
+  "status": {
+    "internal_level": 4.3,
+    "external_conservative_level": 3.5,
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false
+  },
+  "classification": {
+    "boolean_functions": 65536,
+    "npn_classes": 222,
+    "field": 5,
+    "class_degree_counts": {
+      "0": 1,
+      "1": 15,
+      "2": 199,
+      "3": 7
+    },
+    "function_degree_counts": {
+      "0": 2,
+      "1": 892,
+      "2": 63362,
+      "3": 1280
+    },
+    "quadratic_or_lower_classes": 215,
+    "quadratic_or_lower_functions": 64256,
+    "coverage_fraction": 0.98046875,
+    "quadratic_classes_without_symmetric_representative": 205,
+    "covered_functions_outside_symmetric_npn_orbits": 64028
+  },
+  "cubic_barriers": [
+    {"canonical_mask": "0x017f", "orbit_size": 64},
+    {"canonical_mask": "0x01bf", "orbit_size": 192},
+    {"canonical_mask": "0x01ef", "orbit_size": 192},
+    {"canonical_mask": "0x01fe", "orbit_size": 64},
+    {"canonical_mask": "0x07f1", "orbit_size": 192},
+    {"canonical_mask": "0x07f2", "orbit_size": 384},
+    {"canonical_mask": "0x07f8", "orbit_size": 192}
+  ],
+  "quadratic_theorem": {
+    "class": "Four-input gates admitting an optional-output-complement GF(5) zero-set polynomial of degree at most two",
+    "uniform_condition": "m > 1+n+binom(n,2)",
+    "adaptive_condition": "embedded coefficient rank < m",
+    "certificate": "one-violation output from a nonzero left polynomial dependency"
+  },
+  "hard_gate_sensitive_condition": {
+    "quadratic_outputs": "q",
+    "cubic_barrier_outputs": "h",
+    "sufficient": "q>D2(n) or h>D3(n)",
+    "D2": "1+n+binom(n,2)",
+    "D3": "D2+binom(n,3)"
+  },
+  "verification": {
+    "npn_orbits_recomputed": 222,
+    "functions_covered": 65536,
+    "minimum_degree_classification_failures": 0,
+    "quadratic_barrier_failures": 0,
+    "complete_circuit_cases": 100,
+    "complete_circuit_failures": 0,
+    "matches_claims": true
+  }
+}

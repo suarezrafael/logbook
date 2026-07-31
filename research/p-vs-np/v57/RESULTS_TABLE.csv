@@ -1,0 +1,8 @@
+metric,value
+boundary_subsets,65804
+n3_multisets,249900
+n3_irredundant,0
+n4_families,376992
+n4_irredundant,12
+explicit_gadget_sccs,4
+explicit_gadget_redundant_blocks,0

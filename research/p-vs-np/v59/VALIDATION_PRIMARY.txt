@@ -1,0 +1,5 @@
+V59 primary verification passed:
+  96 local 2-CNF fibers reconstructed;
+  31 Harper constants checked;
+  4 direct-sum flat-potential barriers;
+  500 random boundary-sampling inequalities; zero failures.

@@ -1,0 +1,7 @@
+V57 primary verification passed:
+  65804 nonempty proper cube subsets checked for boundary forcing;
+  explicit n=4,m=5 0x07 gadget: consistent, unique common assignment, 0 redundant blocks;
+  249900 n=3,m=4 orbit multisets exhausted; no consistent irredundant family;
+  376992 normalized n=4,m=5 block families exhausted; exactly 12 irredundant;
+  stretch-one direct-product family checked structurally through k=20 and exhaustively through k=3;
+  implication graph has 4 SCCs while all 5 blocks remain essential; zero failures.

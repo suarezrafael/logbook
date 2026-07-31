@@ -1,0 +1,51 @@
+{
+  "status": "passed",
+  "v53_correction": {
+    "incidence_girth_implication_false": true,
+    "acyclic_counterexample_edges": [[0,1,2],[0,3,4],[1,5,6],[2,7,8]],
+    "nested_equal_union": [[1,2,3],[0,1,2,3]],
+    "theorem3_omega_log_retracted": true
+  },
+  "theorems": {
+    "and_k_positive_stretch_sepdeg_upper_bound": "k+1",
+    "and3_positive_stretch_sepdeg_upper_bound": 4,
+    "signed_singleton_fiber_bound": 4,
+    "coherent_polarity_threshold": "m>n",
+    "arbitrary_polarity_threshold": "m>number_of_used_signed_literals <= 2n"
+  },
+  "exact_cases": [
+    {
+      "name": "UF2",
+      "n": 8,
+      "m": 9,
+      "range_size": 61,
+      "certificate": {"edge":0,"witnesses":[1,4],"degree":3},
+      "target": "010010000",
+      "exact_sepdeg": {"2":3,"3":3,"5":3}
+    },
+    {
+      "name": "UF3",
+      "n": 15,
+      "m": 16,
+      "range_size": 3326,
+      "certificate": {"edge":0,"witnesses":[2,4,3],"degree":4},
+      "target": "0011100000000000",
+      "exact_sepdeg": {"2":4,"3":4,"5":4}
+    }
+  ],
+  "validation": {
+    "exhaustive_simple_3uniform_n5_positive_stretch": 386,
+    "random_positive_stretch_hypergraphs": 600,
+    "coherent_signed_stretch_one_circuits": 250,
+    "arbitrary_signed_circuits": 250,
+    "ternary_npn_classes": 14,
+    "singleton_fiber_functions": 16,
+    "failures": 0
+  },
+  "scientific_status": {
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "general_nc0_3_avoid_solved": false,
+    "p_vs_np_resolved": false
+  }
+}

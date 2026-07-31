@@ -1,0 +1,33 @@
+{
+  "version": "V22",
+  "theorem_candidate": {
+    "class": "SYMMETRIC-NC0_k-Avoid for fixed k",
+    "degree": "floor((k+1)/2)",
+    "condition": "m > sum_{j=0}^d binom(n,j)",
+    "adaptive_condition": "rank(p_1,...,p_m) < m",
+    "fanin4_corollary": "m > 1+n+binom(n,2)"
+  },
+  "verification": {
+    "truth_tables": 1022,
+    "above_threshold_circuits": 65,
+    "effective_rank_circuits": 60,
+    "complete_certificates": 125,
+    "certificate_failures": 0,
+    "dependency_identities_confirmed": true,
+    "zero_set_semantics_confirmed": true,
+    "missing_outputs_confirmed": true
+  },
+  "limitations": {
+    "arbitrary_NC0_4_solved": false,
+    "near_linear_stretch_reached": false,
+    "novelty_confirmed": false,
+    "peer_reviewed": false,
+    "p_vs_np_resolved": false
+  },
+  "assessment": {
+    "internal_level": 4,
+    "external_conservative_level": 3.5,
+    "level_4_candidate": true,
+    "level_4_confirmed": false
+  }
+}

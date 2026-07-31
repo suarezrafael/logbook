@@ -1,0 +1,62 @@
+{
+  "scope": {
+    "gate": "MAJ3",
+    "hypergraphs": "connected, 3-uniform, linear",
+    "maximum_edges": 5,
+    "labels": [0, 1]
+  },
+  "counts": [
+    {"edges": 1, "hypergraphs": 1, "labelings": 2, "unsatisfiable": 0},
+    {"edges": 2, "hypergraphs": 3, "labelings": 12, "unsatisfiable": 0},
+    {"edges": 3, "hypergraphs": 27, "labelings": 216, "unsatisfiable": 0},
+    {"edges": 4, "hypergraphs": 471, "labelings": 7536, "unsatisfiable": 0},
+    {"edges": 5, "hypergraphs": 13059, "labelings": 417888, "unsatisfiable": 792}
+  ],
+  "claims": {
+    "minimum_unsatisfiable_edges": 5,
+    "five_edge_unsatisfiable_labelings": 792,
+    "five_edge_labeled_hypergraphs": 396,
+    "signed_isomorphism_classes": 6,
+    "classes_up_to_global_complement": 3,
+    "all_witnesses_minimally_unsatisfiable": true,
+    "cap_decompositions_per_witness": 3
+  },
+  "classes": [
+    {
+      "id": "U1",
+      "block_graph": "K5-minus-edge",
+      "vertices": 7,
+      "representative_edges": [[0,1,2],[0,3,5],[1,4,6],[2,3,4],[2,5,6]],
+      "representative_labels": [0,1,1,0,0],
+      "complement_labels": [1,0,0,1,1],
+      "labeled_hypergraphs": 36,
+      "signed_witnesses_including_complement": 72
+    },
+    {
+      "id": "U2",
+      "block_graph": "seven-edge block graph",
+      "vertices": 8,
+      "representative_edges": [[0,1,2],[0,4,5],[1,6,7],[2,3,4],[3,5,6]],
+      "representative_labels": [0,1,1,1,0],
+      "complement_labels": [1,0,0,0,1],
+      "labeled_hypergraphs": 216,
+      "signed_witnesses_including_complement": 432
+    },
+    {
+      "id": "U3",
+      "block_graph": "K2,3",
+      "vertices": 9,
+      "representative_edges": [[0,1,2],[0,5,8],[1,3,4],[2,6,7],[3,5,6]],
+      "representative_labels": [0,1,1,1,0],
+      "complement_labels": [1,0,0,0,1],
+      "labeled_hypergraphs": 144,
+      "signed_witnesses_including_complement": 288
+    }
+  ],
+  "scientific_status": {
+    "peer_reviewed": false,
+    "novelty_established": false,
+    "resolves_p_vs_np": false,
+    "description": "Computer-assisted finite classification"
+  }
+}

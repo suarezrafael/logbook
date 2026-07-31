@@ -1,0 +1,99 @@
+{
+  "version": "V59",
+  "status": "passed",
+  "central_results": {
+    "harper_internal_boundary_fraction": "binom(m,floor(m/2))/2^(m-1)=Theta(1/sqrt(m))",
+    "input_sampling_success_lower_bound": "kappa_m * alpha",
+    "direct_sum_flat_potential_barrier": true,
+    "n9_exact_search_complete": false,
+    "sms_blueprint_prepared": true
+  },
+  "validation": {
+    "orbit_size": 48,
+    "fiber_cnf_checks": 96,
+    "harper_constant_checks": 31,
+    "direct_sum_cases": 4,
+    "random_boundary_cases": 500,
+    "random_min_input_boundary_probability": 0.9375,
+    "random_min_uniform_image_boundary_fraction": 0.96,
+    "random_min_ratio_to_harper_bound": 1.92,
+    "failures": 0
+  },
+  "direct_sum": [
+    {
+      "k": 0,
+      "n": 4,
+      "m": 5,
+      "image_size": 9,
+      "boundary_size": 8,
+      "unique_interior": [1,1,1,1,1],
+      "interior_preimages": 1,
+      "neighbor_preimages": [1,1,1,1,1],
+      "interior_exact_forced": 4,
+      "neighbor_exact_forced": [4,4,4,4,4],
+      "interior_unit_forced": 0,
+      "neighbor_unit_forced": [0,0,0,0,0],
+      "strict_exact_forced_improvement_exists": false,
+      "strict_unit_improvement_exists": false,
+      "strict_smaller_fiber_exists": false
+    },
+    {
+      "k": 1,
+      "n": 7,
+      "m": 8,
+      "image_size": 45,
+      "boundary_size": 44,
+      "unique_interior": [1,1,1,1,1,1,1,1],
+      "interior_preimages": 1,
+      "neighbor_preimages": [1,1,1,1,1,1,1,1],
+      "interior_exact_forced": 7,
+      "neighbor_exact_forced": [7,7,7,7,7,7,7,7],
+      "interior_unit_forced": 0,
+      "neighbor_unit_forced": [0,0,0,0,0,0,0,0],
+      "strict_exact_forced_improvement_exists": false,
+      "strict_unit_improvement_exists": false,
+      "strict_smaller_fiber_exists": false
+    },
+    {
+      "k": 2,
+      "n": 10,
+      "m": 11,
+      "image_size": 225,
+      "boundary_size": 224,
+      "unique_interior": [1,1,1,1,1,1,1,1,1,1,1],
+      "interior_preimages": 1,
+      "neighbor_preimages": [1,1,1,1,1,1,1,1,1,1,1],
+      "interior_exact_forced": 10,
+      "neighbor_exact_forced": [10,10,10,10,10,10,10,10,10,10,10],
+      "interior_unit_forced": 0,
+      "neighbor_unit_forced": [0,0,0,0,0,0,0,0,0,0,0],
+      "strict_exact_forced_improvement_exists": false,
+      "strict_unit_improvement_exists": false,
+      "strict_smaller_fiber_exists": false
+    },
+    {
+      "k": 3,
+      "n": 13,
+      "m": 14,
+      "image_size": 1125,
+      "boundary_size": 1124,
+      "unique_interior": [1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      "interior_preimages": 1,
+      "neighbor_preimages": [1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      "interior_exact_forced": 13,
+      "neighbor_exact_forced": [13,13,13,13,13,13,13,13,13,13,13,13,13,13],
+      "interior_unit_forced": 0,
+      "neighbor_unit_forced": [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      "strict_exact_forced_improvement_exists": false,
+      "strict_unit_improvement_exists": false,
+      "strict_smaller_fiber_exists": false
+    }
+  ],
+  "scientific_status": {
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "deterministic_0x07_avoid_solved": false,
+    "p_vs_np_resolved": false
+  },
+  "elapsed_seconds": 0.917096
+}

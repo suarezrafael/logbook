@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "v57_families": 12,
+  "isomorphism_classes": 1,
+  "single_flips": 60,
+  "independent_exact_cases": [
+    {"n":3,"canonical_type":1,"nodes":1},
+    {"n":3,"canonical_type":3,"nodes":1},
+    {"n":4,"canonical_type":1,"nodes":1},
+    {"n":4,"canonical_type":3,"nodes":1},
+    {"n":5,"canonical_type":1,"nodes":1},
+    {"n":5,"canonical_type":3,"nodes":1},
+    {"n":6,"canonical_type":1,"nodes":29},
+    {"n":6,"canonical_type":3,"nodes":34},
+    {"n":7,"canonical_type":1,"nodes":2037},
+    {"n":7,"canonical_type":3,"nodes":2978}
+  ],
+  "direct_sum_cases": 6,
+  "boundary_checks": 500,
+  "failures": 0,
+  "elapsed_seconds": 9.494615
+}
