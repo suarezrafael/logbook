@@ -1,0 +1,44 @@
+{
+  "version": "V70",
+  "source_start_witnesses": "../v69/seed_data.json robust_search records",
+  "searches": {
+    "8": {
+      "seed": 7008,
+      "steps": 30,
+      "temperature": 0.02,
+      "expected_step": 26,
+      "expected_Gstar": 29,
+      "specs": [
+        {"partition":0,"support":[2,1,4]},
+        {"partition":0,"support":[3,5,0]},
+        {"partition":0,"support":[7,4,0]},
+        {"partition":0,"support":[3,4,5]},
+        {"partition":1,"support":[3,0,1]},
+        {"partition":0,"support":[7,1,5]},
+        {"partition":2,"support":[2,4,5]},
+        {"partition":0,"support":[6,1,5]},
+        {"partition":0,"support":[6,1,4]}
+      ]
+    },
+    "10": {
+      "seed": 7010,
+      "steps": 45,
+      "temperature": 0.02,
+      "expected_step": 43,
+      "expected_Gstar": 30,
+      "specs": [
+        {"partition":0,"support":[9,5,7]},
+        {"partition":2,"support":[9,5,8]},
+        {"partition":0,"support":[0,7,5]},
+        {"partition":2,"support":[1,5,3]},
+        {"partition":0,"support":[1,2,3]},
+        {"partition":0,"support":[9,7,6]},
+        {"partition":2,"support":[0,6,5]},
+        {"partition":2,"support":[2,8,7]},
+        {"partition":2,"support":[0,4,8]},
+        {"partition":1,"support":[9,6,5]},
+        {"partition":0,"support":[4,6,8]}
+      ]
+    }
+  }
+}
