@@ -119,7 +119,7 @@ def verify_surfaces():
     assert results["random_overlap_probe"]["samples"] == 4000
     assert results["regular_overlap_chains"]["maximum_c"] <= 2
     assert results["direct_sum_finite_validation"]["direct_sum_c"] == 6
-    assert ledger["schema_version"] >= 8 and ledger["current_version"] == "V67"
+    assert ledger["schema_version"] >= 8 and int(ledger["current_version"][1:]) >= 67
     assert ledger["program"]["p_vs_np_route_active"] is False
     assert ledger["program"]["p_vs_np_resolved"] is False
     assert any(item["version"] == "V67" for item in ledger["versions"])
@@ -127,7 +127,7 @@ def verify_surfaces():
     assert "V67|primary|v67/verify.py|quick|" in runner
     assert "V67|independent|v67/verify_independent.py|quick|" in runner
     state = (ROOT / "STATE.md").read_text()
-    assert "**Current laboratory:** V67" in state
+    assert int(__import__("re").search(r"\*\*Current laboratory:\*\* V(\d+)", state).group(1)) >= 67
     assert "Direct P-versus-NP route active:** no" in state
     theorem = (HERE / "DIRECT_SUM_PROPOSITION.md").read_text()
     assert "c(A \\oplus B)=c(A)c(B)" in theorem

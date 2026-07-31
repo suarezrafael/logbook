@@ -38,7 +38,7 @@ def verify_repository_surface() -> int:
     assert witnesses["c36"]["signatures"] == results["random_overlap_probe"]["global_best"]["signatures"]
 
     assert ledger["schema_version"] >= 8
-    assert ledger["current_version"] == "V67"
+    assert int(ledger["current_version"][1:]) >= 67
     assert ledger["program"]["p_vs_np_route_active"] is False
     assert ledger["program"]["p_vs_np_resolved"] is False
     assert any(item["version"] == "V67" for item in ledger["versions"])
@@ -51,7 +51,7 @@ def verify_repository_surface() -> int:
     assert "V67|independent|v67/verify_independent.py|quick|" in runner
 
     state = (ROOT / "STATE.md").read_text()
-    assert "**Current laboratory:** V67" in state
+    assert int(__import__("re").search(r"\*\*Current laboratory:\*\* V(\d+)", state).group(1)) >= 67
     assert "Direct P-versus-NP route active:** no" in state
     assert "c=36" in state
 
