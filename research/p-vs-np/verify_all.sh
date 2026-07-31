@@ -36,6 +36,8 @@ else
   exit 2
 fi
 
+"$PYTHON" "$ROOT/check_runner_coverage.py"
+
 CHECKS=(
   "V22|primary|v22/verify.py|skip|missing v22/full_certificate_cases.json; aggregate RESULTS.json cannot reconstruct the original 125 certificates"
   "V25|index|v25/verify_index.py|quick|"
@@ -69,6 +71,8 @@ CHECKS=(
   "V64|independent|v64/verify_independent.py|quick|"
   "V65|primary|v65/verify.py|quick|"
   "V65|independent|v65/verify_independent.py|quick|"
+  "V66|primary|v66/verify.py|quick|"
+  "V66|independent|v66/verify_independent.py|quick|"
 )
 
 printf '%-6s | %-12s | %-6s | %s\n' "LAB" "CHECK" "STATUS" "DETAIL"
