@@ -1,0 +1,70 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newcommand{\F}{\mathbb F_2}
+\newcommand{\Range}{\operatorname{Range}}
+\title{Consistency or Redundancy for Affine Output Fibers}
+\author{Rafael Vieira Suarez\\NC0\_k-Avoid Laboratory V65}
+\date{30 July 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We isolate and formally state the affine-fiber theorem developed in Laboratory V56. For a stretching Boolean circuit, assume one chosen fiber of each output coordinate is given by a polynomial-size affine system over $\F$. At positive stretch, either the selected systems are inconsistent or one complete affine equation block is implied by the others. Both cases yield a deterministic missing output and a separator involving at most $n+1$ output coordinates. This module is internally verified, not peer reviewed, and makes no claim that P differs from NP.
+\end{abstract}
+
+\section{Setup}
+Let $C=(C_1,\ldots,C_m):\{0,1\}^n\to\{0,1\}^m$ with $m>n$. For each coordinate choose a bit $\alpha_i$ and assume that
+\[
+F_i=\{x\in\F^n:C_i(x)=\alpha_i\}=\{x:A_i x=b_i\}
+\]
+is supplied by a polynomial-size affine equation block. An empty fiber is represented by an inconsistent block. Write $Z_i(y)=1$ when $y_i=\alpha_i$.
+
+\begin{theorem}[Affine-fiber range avoidance]\label{thm:main}
+Under the assumptions above, a word outside $\Range(C)$ can be constructed deterministically in polynomial time. The construction has a certificate and a polynomial separator involving at most $n+1$ output coordinates.
+\end{theorem}
+
+\begin{lemma}[Minimal affine inconsistency]\label{lem:mis}
+An inclusion-minimal inconsistent system of affine equations in $n$ variables contains at most $n+1$ equations.
+\end{lemma}
+\begin{proof}
+Represent $a\cdot x=b$ by the augmented vector $(a,b)\in\F^{n+1}$. Inconsistency is equivalent to $(0,1)$ belonging to the span of the augmented rows. In an inclusion-minimal inconsistent subsystem the augmented rows are linearly independent: otherwise a dependent row could be deleted without changing the span. Hence there are at most $n+1$ rows.
+\end{proof}
+
+\begin{lemma}[Complete-block redundancy]\label{lem:block}
+Let $W_1,\ldots,W_m$ be subspaces of a vector space of dimension at most $n$. If $m>n$, then some index $i$ satisfies
+\[
+W_i\subseteq\sum_{j\ne i}W_j.
+\]
+Moreover, at most $n$ rows drawn from other blocks suffice to span $W_i$.
+\end{lemma}
+\begin{proof}
+If no block were contained in the sum of the others, choose $w_i\in W_i\setminus\sum_{j\ne i}W_j$. The vectors $w_1,\ldots,w_m$ would be linearly independent, contradicting $m>n$. A basis of the sum of the other blocks has at most $n$ rows; retaining the gate owners of rows used to reconstruct a basis of $W_i$ gives the source bound.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+If the union of all selected equations is inconsistent, minimize it and let $G$ be the set of gate blocks owning its equations. No input activates all gates in $G$. Therefore the target that activates those selected fibers is absent, and
+\[
+Q(Y)=\prod_{i\in G}Z_i(Y)
+\]
+vanishes on $\Range(C)$. Lemma~\ref{lem:mis} gives $|G|\le n+1$.
+
+Otherwise choose a common solution $x^*$ and substitute $x=x^*+z$. Every selected block becomes homogeneous. Put $W_i=\operatorname{rowspan}(A_i)\le\F^n$. By Lemma~\ref{lem:block}, choose $i$ and a set $J$ of at most $n$ other gates whose rows span $W_i$. Because all right-hand sides agree at $x^*$, the same linear combinations reconstruct the full affine equations of block $i$. Thus activating every block in $J$ forces block $i$ active. Requesting $i$ inactive yields a missing output, certified by
+\[
+Q(Y)=(1-Z_i(Y))\prod_{j\in J}Z_j(Y),
+\]
+of degree at most $n+1$. Gaussian elimination, rank tests, subsystem minimization, and row reconstruction are polynomial-time operations.
+\end{proof}
+
+\begin{corollary}[Ternary affine classes]
+For ternary local functions, arbitrary mixtures of affine-oriented essential NPN classes $0x01$, $0x06$, $0x18$, and $0x69$ are deterministically avoidable for $m>n$, including repeated supports.
+\end{corollary}
+
+\begin{remark}[Boundary of the result]
+Projection preserves affinity. Consequently, a non-affine fiber cannot be represented exactly as the existential projection of one affine system. The theorem does not cover the six essential non-affine ternary classes, general $NC^0_3$-Avoid, unrestricted circuit lower bounds, or P versus NP. Novelty and priority remain unconfirmed pending specialist review.
+\end{remark}
+\end{document}
