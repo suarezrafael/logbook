@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import json
+import json,re
 from pathlib import Path
 from enumerate_v66 import verify_v57_branching,verify_complete_n3_state_space,verify_canonical_n3_trees,verify_n4_stress
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parent
@@ -14,7 +14,7 @@ def verify_repository_surface(v57,n3,n3c,n4):
     assert spec['n3_complete']['gate_variants']==n3['affine_cell_gate_variants']
     assert spec['n3_canonical']['multisets_of_four']==n3c['multisets_of_four_gates']
     assert spec['n4_stress']['branch_distribution']==n4['consistent_full_branch_distribution']
-    assert ledger['schema_version']>=7 and ledger['current_version']=='V66'
+    assert ledger['schema_version']>=7 and int(ledger['current_version'][1:])>=66
     assert ledger['program']['p_vs_np_route_active'] is False and ledger['program']['p_vs_np_resolved'] is False
     assert ledger['external_contact']['earliest_followup_date']=='2026-08-24'
     runner=(ROOT/'verify_all.sh').read_text();assert 'check_runner_coverage.py' in runner
@@ -23,7 +23,8 @@ def verify_repository_surface(v57,n3,n3c,n4):
     workflow=(ROOT.parent.parent/'.github'/'workflows'/'p-vs-np-verify.yml').read_text()
     assert workflow.count('actions/upload-artifact@v7')==3 and 'pdflatex -interaction=nonstopmode -halt-on-error' in workflow
     assert 'V57_BLOCK_IRREDUNDANCY_THEOREM.tex' in workflow and 'V56_AFFINE_FIBER_THEOREM.tex' in workflow
-    state=(ROOT/'STATE.md').read_text();assert '**Current laboratory:** V66' in state and 'Direct P-versus-NP route active:** no' in state
+    state=(ROOT/'STATE.md').read_text();current=re.search(r'\*\*Current laboratory:\*\* V(\d+)',state)
+    assert current and int(current.group(1))>=66 and 'Direct P-versus-NP route active:** no' in state
     corpus='\n'.join((HERE/x).read_text().lower() for x in required if x.endswith(('.md','.json')))
     assert all(x not in corpus for x in ('we prove p != np','p versus np is solved','finite data prove polynomial branching'))
     return 31

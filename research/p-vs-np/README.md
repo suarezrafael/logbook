@@ -7,16 +7,23 @@
 - [STATE.md](STATE.md) — cumulative scientific state.
 - [LEDGER.json](LEDGER.json) — machine-readable claims, reproducibility, outreach and promotion ledger.
 - [`v62/INTEGRATED_MANUSCRIPT.md`](v62/INTEGRATED_MANUSCRIPT.md) — integrated manuscript.
-- [`v66/`](v66/) — affine-cell branching experiment on the non-affine ternary frontier.
+- [`v67/`](v67/) — direct-sum proposition and overlapping-support branch-growth experiment.
 - [`verify_all.sh`](verify_all.sh) — cumulative quick/full verifier.
 
 ## Current position
 
-Laboratory V66 models each non-affine ternary fiber as a disjoint union of two affine cells and measures inconsistency-pruned adaptive branching. It reproduces all 243 affine-cell partition systems of the V57 gadget, performs an exact NPN-expanded three-variable signature-state census, exhausts 40,920 canonical four-gate systems, and records a deterministic 50,000-sample four-variable stress test.
+Laboratory V67 separates two mechanisms that V66 left open.
 
-The exact `n=3` experiments show strong finite pruning: at most four consistent complete branches in the full state census, maximum `L_aff=11`, and maximum selected-policy `G_aff=17` in the canonical tree census. These are finite results, not an asymptotic polynomial branching theorem.
+First, direct sums of V57 affine-cell components cannot create branch growth: consistent signatures multiply, every V57 component has `c=1`, and the corresponding tree upper bound is additive across components.
 
-V66 also closes three validation gaps: promoted-era verifiers cannot be omitted silently from the runner; quick/full transcripts are uploaded as workflow artifacts; and the standalone V64/V65 LaTeX modules are compiled in CI.
+Second, overlapping supports do create substantially larger finite branch sets. A deterministic seed-42 probe over 4,000 positive-fiber `0x07` systems preserves a `c=16` witness at `n=10` and finds `c=36` at `n=11`. For the stronger witness:
+
+```text
+36 <= L_aff=61 <= L_greedy=62
+G_aff=108
+```
+
+This demonstrates finite overlap growth, not an exponential family or a polynomial upper bound. Tree and DAG complexity remain separate questions.
 
 ## Contribution chain
 
@@ -30,7 +37,8 @@ V66 also closes three validation gaps: promoted-era verifiers cannot be omitted 
 | V58 | Orientation depth and parameterized avoidance | Verified; novelty unconfirmed |
 | V59–V60 | Geometry, barriers and randomized regime | Verified/context |
 | V61–V65 | Reproducibility, manuscript, outreach, CI and formal modules | Verified |
-| V66 | Affine-cell branching census and CI coverage hardening | Current laboratory |
+| V66 | Exact affine-cell census and CI hardening | Merged and CI verified |
+| V67 | Direct-sum elimination and overlap branch-growth witnesses | Current laboratory |
 
 ## Reproducibility and promotion
 

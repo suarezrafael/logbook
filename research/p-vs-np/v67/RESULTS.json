@@ -1,0 +1,96 @@
+{
+  "branching_sandwich": {
+    "c16": {"L_aff": 25, "L_greedy": 25, "c": 16},
+    "c36": {"L_aff": 61, "L_greedy": 62, "c": 36},
+    "statement": "c <= L_aff <= L_greedy"
+  },
+  "direct_sum_finite_validation": {
+    "composition_upper_bound": 22,
+    "direct_sum_L_aff": 22,
+    "direct_sum_c": 6,
+    "left_L_aff": 8,
+    "left_c": 2,
+    "right_L_aff": 8,
+    "right_c": 3
+  },
+  "failures": 0,
+  "random_overlap_probe": {
+    "distribution": {"1":315,"2":1150,"3":596,"4":669,"5":230,"6":359,"7":18,"8":285,"9":47,"10":103,"11":3,"12":101,"13":7,"14":11,"15":8,"16":48,"18":21,"20":8,"21":1,"24":16,"26":2,"30":1,"36":1},
+    "first_c16_n10": {
+      "D_aff": 11,
+      "D_greedy": 11,
+      "G_aff": 47,
+      "L_aff": 25,
+      "L_greedy": 25,
+      "c": 16,
+      "iteration": 344,
+      "m": 11,
+      "n": 10,
+      "signatures": [0,16,40,56,128,144,168,184,256,272,296,312,384,400,424,440],
+      "specs": [
+        {"partition":1,"support":[9,8,1]},
+        {"partition":0,"support":[2,8,7]},
+        {"partition":1,"support":[3,7,5]},
+        {"partition":0,"support":[9,8,2]},
+        {"partition":0,"support":[7,6,8]},
+        {"partition":2,"support":[9,1,2]},
+        {"partition":1,"support":[4,1,8]},
+        {"partition":0,"support":[3,0,5]},
+        {"partition":1,"support":[3,4,8]},
+        {"partition":1,"support":[5,1,2]},
+        {"partition":2,"support":[1,8,3]}
+      ]
+    },
+    "generator": "n uniform in [4,12]; m=n+1; ordered three-variable supports sampled without replacement; one of the three positive-fiber 0x07 affine partitions selected uniformly",
+    "global_best": {
+      "D_aff": 12,
+      "D_greedy": 12,
+      "G_aff": 108,
+      "L_aff": 61,
+      "L_greedy": 62,
+      "c": 36,
+      "iteration": 2360,
+      "m": 12,
+      "n": 11,
+      "signatures": [0,8,32,40,66,74,98,106,528,536,560,568,594,602,626,634,1541,1549,1573,1581,2052,2060,2084,2092,2118,2126,2150,2158,2580,2588,2612,2620,2646,2654,2678,2686],
+      "specs": [
+        {"partition":2,"support":[2,7,4]},
+        {"partition":2,"support":[8,4,7]},
+        {"partition":0,"support":[10,2,7]},
+        {"partition":1,"support":[5,9,4]},
+        {"partition":0,"support":[6,1,7]},
+        {"partition":0,"support":[5,3,6]},
+        {"partition":1,"support":[6,8,4]},
+        {"partition":2,"support":[7,0,6]},
+        {"partition":2,"support":[7,4,0]},
+        {"partition":0,"support":[1,2,6]},
+        {"partition":2,"support":[2,8,7]},
+        {"partition":0,"support":[0,10,7]}
+      ]
+    },
+    "maximum_by_n": {"4":{"c":4,"iteration":335},"5":{"c":6,"iteration":189},"6":{"c":8,"iteration":4},"7":{"c":10,"iteration":1607},"8":{"c":16,"iteration":510},"9":{"c":18,"iteration":2857},"10":{"c":26,"iteration":2237},"11":{"c":36,"iteration":2360},"12":{"c":30,"iteration":2773}},
+    "n_range": [4,12],
+    "samples": 4000,
+    "seed": 42
+  },
+  "regular_overlap_chains": {
+    "cases": [
+      {"c":1,"m":5,"n":4,"pattern":"constant"},{"c":1,"m":6,"n":5,"pattern":"constant"},{"c":1,"m":7,"n":6,"pattern":"constant"},{"c":1,"m":8,"n":7,"pattern":"constant"},{"c":1,"m":9,"n":8,"pattern":"constant"},{"c":1,"m":10,"n":9,"pattern":"constant"},{"c":1,"m":11,"n":10,"pattern":"constant"},{"c":1,"m":12,"n":11,"pattern":"constant"},{"c":1,"m":13,"n":12,"pattern":"constant"},
+      {"c":1,"m":5,"n":4,"pattern":"rotating"},{"c":1,"m":6,"n":5,"pattern":"rotating"},{"c":1,"m":7,"n":6,"pattern":"rotating"},{"c":1,"m":8,"n":7,"pattern":"rotating"},{"c":1,"m":9,"n":8,"pattern":"rotating"},{"c":1,"m":10,"n":9,"pattern":"rotating"},{"c":1,"m":11,"n":10,"pattern":"rotating"},{"c":1,"m":12,"n":11,"pattern":"rotating"},{"c":1,"m":13,"n":12,"pattern":"rotating"}
+    ],
+    "maximum_c": 1
+  },
+  "scientific_status": {
+    "circuit_lower_bound_proved": false,
+    "direct_sum_proposition_proved": true,
+    "explicit_exponential_family_found": false,
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false,
+    "p_vs_np_route_active": false,
+    "peer_reviewed": false,
+    "polynomial_branching_bound_proved": false,
+    "unrestricted_nc0_3_avoid_solved": false
+  },
+  "status": "passed",
+  "version": "V67"
+}
