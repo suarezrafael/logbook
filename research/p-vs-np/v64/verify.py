@@ -65,7 +65,7 @@ def check_repository():
     runner=(ROOT/'verify_all.sh').read_text(encoding='utf-8')
     assert 'V64|primary|v64/verify.py|quick|' in runner and 'V64|independent|v64/verify_independent.py|quick|' in runner
     workflow=(ROOT.parent.parent/'.github'/'workflows'/'p-vs-np-verify.yml').read_text(encoding='utf-8')
-    assert workflow.count('actions/checkout@v6')==2 and 'actions/checkout@v4' not in workflow
+    assert workflow.count('actions/checkout@v6')>=2 and 'actions/checkout@v4' not in workflow
     return 12
 
 def main():

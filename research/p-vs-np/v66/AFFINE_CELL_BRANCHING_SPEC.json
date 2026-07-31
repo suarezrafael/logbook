@@ -1,0 +1,68 @@
+{
+  "version": "V66",
+  "object": "affine-cell branching for non-affine ternary fibers",
+  "classes": ["0x07", "0x16", "0x17", "0x19", "0x1b", "0x1e"],
+  "cell_model": "F_i is a disjoint union of two nonempty affine cells A_i^0 and A_i^1",
+  "leaf_rules": {
+    "inconsistency": "the intersection of selected cells is empty",
+    "completion": "all gates are selected and the affine intersection is nonempty; apply V56"
+  },
+  "parameters": {
+    "L_aff": "leaf count of the lexicographically optimal inconsistency-pruned adaptive tree",
+    "D_aff": "maximum depth of that selected tree",
+    "G_aff": "number of distinct residual feasible-set/remaining-gates states reached by that policy"
+  },
+  "v57": {
+    "blocks": 5,
+    "partitions_per_block": 3,
+    "partition_systems": 243,
+    "syntactic_branches_per_system": 32,
+    "consistent_full_branches_per_system": 1,
+    "optimal_leaf_range": [8, 9],
+    "metric_distribution": {
+      "8/7/5/11": 3,
+      "8/7/5/12": 34,
+      "8/7/5/13": 75,
+      "8/7/5/14": 124,
+      "9/8/5/12": 1,
+      "9/8/5/15": 6
+    }
+  },
+  "n3_complete": {
+    "distinct_non_affine_fibers": 168,
+    "fiber_size_distribution": {"3": 56, "4": 56, "5": 56},
+    "gate_variants": 392,
+    "partition_count_distribution": {"1": 56, "3": 112},
+    "reachable_states_after_k_gates": [1, 392, 919, 919, 919],
+    "final_branch_distribution_over_states": {"0": 1, "1": 50, "2": 420, "3": 392, "4": 56},
+    "maximum_consistent_full_branches": 4
+  },
+  "n3_canonical": {
+    "gate_variants": 30,
+    "multisets_of_four": 40920,
+    "branch_distribution": {"0": 26658, "1": 9111, "2": 3122, "3": 1908, "4": 121},
+    "maximum_L_aff": 11,
+    "maximum_G_aff": 17,
+    "maximum_leaf_witness_indices": [0, 8, 9, 10],
+    "maximum_state_witness_indices": [0, 4, 8, 10]
+  },
+  "n4_stress": {
+    "seed": 660066,
+    "samples": 50000,
+    "gate_variants": 352,
+    "branch_distribution": {"0": 32433, "1": 14200, "2": 2841, "3": 433, "4": 84, "5": 9},
+    "maximum_consistent_full_branches_observed": 5,
+    "maximum_L_aff_observed": 14,
+    "maximum_G_aff_observed": 23,
+    "scope": "deterministic stress sample, not exhaustive"
+  },
+  "scientific_status": {
+    "theorem_claimed": false,
+    "polynomial_branching_established": false,
+    "counterexample_to_polynomial_branching_found": false,
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "p_vs_np_route_active": false,
+    "p_vs_np_resolved": false
+  }
+}
