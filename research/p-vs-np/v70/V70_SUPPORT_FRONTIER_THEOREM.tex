@@ -1,0 +1,63 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newcommand{\F}{\mathbb{F}}
+\title{Support-Frontier Bounds for Projected Affine Residual DAGs}
+\author{NC0\_k-Avoid Laboratory, Version V70}
+\date{July 31, 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We bound the number of projected affine residual states at a gate-order cut by the number of affine subspaces on the support frontier. We also prove exact factorisation over connected components of the processed support-incidence graph. The results give a fixed-parameter upper bound in support-frontier width, but neither a general polynomial ordering theorem nor an all-orders lower bound.
+\end{abstract}
+
+Let the gates be indexed by $[m]$. Every gate has a support of input variables and two affine cells. For a processed set $S\subseteq[m]$, define
+\[
+ F(S)=\Bigl(\bigcup_{g\in S}\operatorname{supp}(g)\Bigr)\cap
+      \Bigl(\bigcup_{g\notin S}\operatorname{supp}(g)\Bigr).
+\]
+Let $R(S)$ be the set of distinct nonempty affine residuals obtained after choosing one cell for every gate in $S$ and existentially projecting variables absent from all unprocessed supports, and put $w(S)=|R(S)|$.
+
+For $b\geq0$, let
+\[
+ A(b)=\sum_{d=0}^{b}2^{b-d}{b\brack d}_2,
+\]
+where ${b\brack d}_2$ is the Gaussian binomial coefficient. Thus $A(b)$ is the number of nonempty affine subspaces of $\F_2^b$.
+
+\begin{theorem}[Support-frontier bound]
+For every processed set $S$,
+\[
+ w(S)\leq \min\{2^{|S|},A(|F(S)|)\}.
+\]
+Consequently, for every gate order $\pi$ with prefix sets $S_i$ and frontier sizes $b_i=|F(S_i)|$,
+\[
+ G_{\mathrm{proj}}(\pi)
+ \leq \sum_{i=0}^{m-1}\min\{2^i,A(b_i)\}
+ \leq mA(q(\pi)),
+\]
+where $q(\pi)=\max_i b_i$.
+\end{theorem}
+
+\begin{proof}
+Processed gates contain only variables in processed supports. After variables absent from all remaining supports are projected away, every surviving equation can mention only variables appearing on both sides of the cut, namely $F(S)$. Future-only variables remain unconstrained. Hence every nonempty residual state is represented by a nonempty affine subset of $\F_2^{F(S)}$, giving the bound $A(|F(S)|)$. There are also only $2^{|S|}$ syntactic cell selections. Version V69 proves that $G_{\mathrm{proj}}(\pi)=\sum_i w(S_i)$, so summation and monotonicity of $A$ give the two displayed order bounds.
+\end{proof}
+
+\begin{lemma}[Component factorisation]
+Form the incidence graph containing all processed gates, all variables in their supports, and the natural incidence edges. If its connected components are $C_1,\ldots,C_t$, and $R_j$ is the projected residual-state set of component $C_j$ on its variables that remain live, then
+\[
+ R(S)=R_1\times\cdots\times R_t,
+ \qquad
+ w(S)=\prod_{j=1}^{t}|R_j|.
+\]
+\end{lemma}
+
+\begin{proof}
+Different connected components have disjoint gate sets and disjoint variable sets. Cell choices and affine consistency therefore separate componentwise. Existential projection also acts independently on the disjoint variable sets. Combining local residuals is bijective with the global residual on the union of the live component variables.
+\end{proof}
+
+The theorem yields a projected DAG of size at most $mA(q)$ whenever an order of frontier width $q$ is supplied. Since $A(q)=2^{O(q^2)}$, the displayed bound is polynomial in $m$ for $q=O(\sqrt{\log m})$. This does not prove that such an order always exists or is polynomial-time discoverable. It also does not identify this repository-local model with OBDD, FBDD, resolution, Res-Lin, communication complexity, or another standard proof system.
+
+\end{document}
