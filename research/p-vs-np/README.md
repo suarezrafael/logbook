@@ -7,33 +7,29 @@
 - [STATE.md](STATE.md) — cumulative scientific state.
 - [LEDGER.json](LEDGER.json) — machine-readable claims, reproducibility, outreach and promotion ledger.
 - [`v62/INTEGRATED_MANUSCRIPT.md`](v62/INTEGRATED_MANUSCRIPT.md) — integrated manuscript.
-- [`v67/`](v67/) — direct-sum proposition and overlap growth witnesses.
 - [`v68/`](v68/) — explicit spine family separating branching trees from projected residual DAGs.
+- [`v69/`](v69/) — exact gate-order optimization and order-robustness experiments.
 - [`verify_all.sh`](verify_all.sh) — cumulative quick/full verifier.
 
 ## Current position
 
-Laboratory V68 answers the tree-side question left open by V66–V67.
+V68 proves that complete affine-cell branching trees can be exponential while a projected residual DAG is linear for the explicit spine family.
 
-For every `k>=1`, an explicit stretch-one family in the NPN orbit of `0x07` has
-
-```text
-n=2k+1
-m=n+1
-c=2^(k-1)=2^((n-3)/2)
-```
-
-Therefore every complete inconsistency-pruned affine-cell branching tree has exponentially many consistent leaves on this family.
-
-The same family is linear in a stronger projected residual-state model: after existentially removing variables absent from remaining supports, the fixed ordered DAG has exactly
+V69 now minimizes projected-DAG size over gate orders:
 
 ```text
-G_proj=3k+4
+G*_proj = min_pi G_proj(pi).
 ```
 
-nonterminal states. `G_proj` is distinct from the historical `G_aff`; no equivalence to OBDD, FBDD, resolution, Res-Lin, or another standard proof system is claimed.
+For a processed gate set `S`, the projected residual layer depends only on `S`, not on the order used to reach it. Therefore a fixed order has cost
 
-V67 remains important: direct sums of V57 components have `c=1`, while overlapping supports produced the finite `c=36` witness whose frozen and factorized structure motivated the spine construction.
+```text
+G_proj(pi) = sum_i w(prefix_i),
+```
+
+and `G*_proj` is computed exactly as a shortest path in the subset lattice. The algorithm is exponential in the number of gates and is used as an audit oracle, not as an unrestricted avoidance algorithm.
+
+Deterministic hill climbing found natural-order values `48, 99, 263, 580` for `n=6,8,10,12`, but exact optimization reduces those witnesses to `15,15,17,29`. A separate exact-objective search preserves finite budget records `G*_proj=20` at `n=6` and `28` at `n=8`. No asymptotic polynomial upper bound or all-orders lower bound follows.
 
 ## Contribution chain
 
@@ -49,7 +45,8 @@ V67 remains important: direct sums of V57 components have `c=1`, while overlappi
 | V61–V65 | Reproducibility, manuscript, outreach, CI and formal modules | Verified |
 | V66 | Exact affine-cell census and CI hardening | Merged and CI verified |
 | V67 | Direct-sum proposition and overlap growth witnesses | Merged and CI verified |
-| V68 | Exponential spine-tree lower bound and linear projected DAG | Current laboratory |
+| V68 | Exponential spine-tree lower bound and linear projected DAG | Merged and CI verified |
+| V69 | Exact gate-order optimization and robustness audit | Current laboratory |
 
 ## Reproducibility and promotion
 

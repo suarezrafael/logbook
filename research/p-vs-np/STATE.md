@@ -1,6 +1,6 @@
 # Cumulative scientific state
 
-**Current laboratory:** V68  
+**Current laboratory:** V69  
 **Updated:** 2026-07-31  
 **Program name:** `NC0_k-Avoid Laboratory`  
 **P-versus-NP research active:** exploratory  
@@ -11,57 +11,69 @@
 
 ## Current scientific position
 
-V68 promotes an explicit stretch-one spine family. For `k>=1` it uses one shared spine variable and `k` fresh variable pairs, with `n=2k+1` and `m=2k+2=n+1`. Every gate lies in the NPN orbit of `0x07`, and every branch cell is affine.
-
-The exact branch count is
+V68 gives an explicit stretch-one orbit-`0x07` family with exponentially many complete tree leaves,
 
 ```text
-c=2^(k-1)=2^((n-3)/2).
+c=2^(k-1)=2^((n-3)/2),
 ```
 
-Since distinct complete consistent signatures require distinct complete leaves, complete inconsistency-pruned affine-cell branching trees are exponentially large on this family. This is an asymptotic theorem for the specified tree model, not an inference from sampled maxima.
+while dead-variable projection yields a linear fixed-order residual DAG `G_proj=3k+4` for that same family.
 
-The same family has an explicit linear DAG under a stronger quotient. After each gate, equations on variables absent from all remaining supports are existentially projected away, and the canonical residual affine system is hashed. The fixed ordered construction has
+V69 addresses order robustness. Define
 
 ```text
-G_proj=3k+4
+G*_proj = min over gate orders pi of G_proj(pi).
 ```
 
-nonterminal states. `G_proj` is not the historical `G_aff`, and no minimum-DAG or standard proof-system equivalence is claimed.
+For a set `S` of processed gates, let `w(S)` be the number of distinct nonempty affine residuals after projecting onto variables appearing in unprocessed gates. V69 proves that `w(S)` depends only on `S`, not on the order used to reach it. Hence
 
-## V68 exact scope
+```text
+G_proj(pi)=sum_i w(prefix_i),
+```
 
-- masks `0x07`, `0x0b`, and `0x0d`, all in one NPN orbit;
-- exact construction for every `k>=1`;
-- proof that motif zero is frozen by two anchors;
-- proof that each remaining motif contributes exactly two independent signatures;
-- tree lower bound `L_aff>=2^(k-1)`;
-- explicit projected ordered DAG with `3k+4` nonterminal states;
-- brute-force validation for `k=1..5`;
-- symbolic/bitset and projected-DAG checks for `k=1..64`;
-- independent semantic verifier using explicit relations rather than the primary GF(2) engine;
-- structural reconstruction of the V67 `c=36` witness: frozen gates `7,8`, factor `2 x 18`, and variables `3,4,9` absent from the pinned position.
+and `G*_proj` is the shortest-path cost in the subset lattice. This is an exact exponential-time audit algorithm, not a polynomial algorithm for unrestricted `NC0_3-Avoid`.
 
-## Consequence for the branching program
+## V69 exact finite scope
 
-The inconsistency-pruned tree route is closed as a general polynomial strategy for this frontier: an explicit stretch-one orbit-`0x07` family forces exponentially many complete leaves.
+Natural-order hill-climbing witnesses:
 
-The projected-DAG question remains open. The spine family is easy after dead-variable projection and therefore does not supply a DAG lower bound. The next binary target is whether every affine-cell stretch-one system admits a polynomial constructible projected residual DAG or whether some explicit family forces superpolynomial `G_proj`.
+```text
+n=6:  G_proj=48  -> exact G*_proj=15
+n=8:  G_proj=99  -> exact G*_proj=15
+n=10: G_proj=263 -> exact G*_proj=17
+n=12: G_proj=580 -> exact G*_proj=29
+n=14: G_proj=583 -> tested-order upper bound 147; exact optimum not computed
+```
+
+A separate search against the exact objective preserves search-budget records:
+
+```text
+n=6:  G*_proj=20
+n=8:  G*_proj=28
+n=10: G*_proj=24
+```
+
+These are finite records, not global maxima and not asymptotic evidence. The exactly checked large fixed-order records collapse under reordering, so fixed-order growth is insufficient for a general DAG lower bound.
+
+## Consequence for the projected-DAG program
+
+The next target is genuinely order robust:
+
+1. prove a constructible polynomial-quality ordering theorem, perhaps parameterized by support separators or treewidth; or
+2. construct a family with superpolynomial `G*_proj`, requiring an all-orders argument.
+
+No standard simulation to OBDD, FBDD, resolution, Res-Lin, or best-partition communication complexity has been proved. Existing lower bounds in those models cannot be imported.
 
 ## Lower-bound route gates
 
-1. Resolve projected-DAG complexity across all six non-affine classes, not only the spine family.
+1. Resolve projected-DAG order complexity across all six non-affine classes.
 2. Reach unrestricted `NC0_3-Avoid` in a lower-bound-relevant stretch regime.
 3. Establish a complete reduction to a lower bound strong enough to bear on NP versus polynomial-size circuits.
 4. Only then evaluate a logical P-versus-NP consequence.
 
-## Proof-complexity boundary
-
-The repository has no simulation theorem between `G_proj` and OBDD, FBDD, resolution, Res-Lin, or tree-like parity systems. Tseitin/expander constructions are future experimental candidates only; existing lower bounds cannot be imported without a size-preserving translation.
-
 ## External requests
 
-The earliest planned follow-up date remains **2026-08-24**. Silence is not evidence of novelty, correctness, or approval.
+The earliest planned follow-up date remains **2026-08-24**. The V68 PDF is suitable for a later conservative review request, but no early follow-up is sent in V69. Silence is not evidence of novelty, correctness, or approval.
 
 ## Historical corrections
 
@@ -69,9 +81,9 @@ The earliest planned follow-up date remains **2026-08-24**. Silence is not evide
 
 ## Repository entry points
 
-- `v68/SPINE_FAMILY_THEOREM.md` — construction and proof;
-- `v68/V68_SPINE_TREE_DAG_THEOREM.tex` — formal module;
-- `v68/affine_bitset.py` — incremental RREF and projected hashing;
-- `v68/PROJECTED_DAG_MODEL.md` — exact `G_proj` definition;
-- `v68/RESULTS.json` — finite and symbolic verification output;
-- `v68/V69_CORE_CONTEXT.md` — next laboratory constraints.
+- `v69/ORDER_ROBUSTNESS_THEOREM.md` — set-layer theorem and exact recurrence;
+- `v69/EXPERIMENT_REPORT.md` — natural-order collapse and finite exact records;
+- `v69/seed_data.json` — full deterministic systems and search provenance;
+- `v69/RESULTS.json` — metrics and optimal orders;
+- `v69/V69_ORDER_ROBUSTNESS_THEOREM.tex` — standalone formal module;
+- `v69/V70_CORE_CONTEXT.md` — next laboratory constraints.

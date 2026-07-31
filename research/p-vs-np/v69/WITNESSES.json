@@ -1,0 +1,17 @@
+{
+  "version": "V69",
+  "exact_payload_files": ["seed_data.json", "RESULTS.json"],
+  "natural_order_records": {
+    "n6": {"G_natural": 48, "Gstar": 15},
+    "n8": {"G_natural": 99, "Gstar": 15},
+    "n10": {"G_natural": 263, "Gstar": 17},
+    "n12": {"G_natural": 580, "Gstar": 29},
+    "n14": {"G_natural": 583, "best_tested_order": 147, "Gstar": null}
+  },
+  "exact_objective_budget_records": {
+    "n6": {"G_natural": 31, "Gstar": 20},
+    "n8": {"G_natural": 69, "Gstar": 28},
+    "n10": {"G_natural": 56, "Gstar": 24}
+  },
+  "scope": "The systems, gate orders, supports, partitions, seeds, restart counts and step budgets are stored verbatim in seed_data.json and RESULTS.json. These are finite search-budget records, not global maxima or asymptotic lower bounds."
+}

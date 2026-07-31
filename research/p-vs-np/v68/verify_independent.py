@@ -6,7 +6,7 @@ reconstructs the gates as local point sets, brute-forces k=1..5, and builds the
 projected ordered DAG from explicit feasible relations rather than GF(2) rows.
 """
 from __future__ import annotations
-import json
+import json,re
 from functools import lru_cache
 from pathlib import Path
 
@@ -55,10 +55,7 @@ def projected_relation_dag(k):
     states=set();DEAD=('dead',);ACCEPT=('accept',)
 
     def encode_projection(assignments,active):
-        return frozenset(
-            tuple((assignment>>variable)&1 for variable in active)
-            for assignment in assignments
-        )
+        return frozenset(tuple((assignment>>variable)&1 for variable in active) for assignment in assignments)
 
     @lru_cache(None)
     def visit(index,relation):
@@ -72,8 +69,7 @@ def projected_relation_dag(k):
             compatible=[]
             for local_bits in relation:
                 mapping=dict(zip(active,local_bits))
-                if tuple(mapping[v] for v in support) in cell:
-                    compatible.append(mapping)
+                if tuple(mapping[v] for v in support) in cell:compatible.append(mapping)
             next_active=suffix[index+1]
             projected=frozenset(tuple(mapping[v] for v in next_active) for mapping in compatible)
             children.append(visit(index+1,projected))
@@ -100,8 +96,7 @@ def check_local_factorization():
     for u in (0,1):
         for v in (0,1):
             local=(0,u,v)
-            if local in MOTIF[0]|MOTIF[1] and local in ANCHOR_B[0]|ANCHOR_B[1] and local in ANCHOR_U[0]|ANCHOR_U[1]:
-                anchor_survivors.append((u,v))
+            if local in MOTIF[0]|MOTIF[1] and local in ANCHOR_B[0]|ANCHOR_B[1] and local in ANCHOR_U[0]|ANCHOR_U[1]:anchor_survivors.append((u,v))
     assert anchor_survivors==[(0,0)]
     return 3
 
@@ -120,7 +115,8 @@ def verify_surfaces():
     assert 'V68|primary|v68/verify.py|quick|' in runner
     assert 'V68|independent|v68/verify_independent.py|quick|' in runner
     state=(ROOT/'STATE.md').read_text()
-    assert '**Current laboratory:** V68' in state and 'G_proj' in state
+    current=re.search(r'\*\*Current laboratory:\*\* V(\d+)',state)
+    assert current and int(current.group(1))>=68 and 'G_proj' in state
     theorem=(HERE/'SPINE_FAMILY_THEOREM.md').read_text()
     assert '2^((n-3)/2)' in theorem and '3k+4' in theorem
     boundary=(HERE/'PROOF_COMPLEXITY_BOUNDARY.md').read_text().lower()

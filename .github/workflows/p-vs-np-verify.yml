@@ -66,11 +66,12 @@ jobs:
       - name: Compile formal modules
         run: |
           set -euo pipefail
-          mkdir -p latex-build/v64 latex-build/v65 latex-build/v68
+          mkdir -p latex-build/v64 latex-build/v65 latex-build/v68 latex-build/v69
           for pass in 1 2; do
             pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v64" research/p-vs-np/v64/V57_BLOCK_IRREDUNDANCY_THEOREM.tex
             pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v65" research/p-vs-np/v65/V56_AFFINE_FIBER_THEOREM.tex
             pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v68" research/p-vs-np/v68/V68_SPINE_TREE_DAG_THEOREM.tex
+            pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v69" research/p-vs-np/v69/V69_ORDER_ROBUSTNESS_THEOREM.tex
           done
       - name: Upload LaTeX artifacts
         if: always()
