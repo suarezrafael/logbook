@@ -1,0 +1,6 @@
+python3 -m py_compile verify.py verify_independent.py verify_manifest.py: PASS
+python3 -m json.tool RESULTS.json: PASS
+python3 -m json.tool ../LEDGER.json: PASS
+bash -n ../verify_all.sh: PASS
+Gmail response check: zero incoming matches; no follow-up sent
+GitHub Actions baseline quick/full: PASS/PASS

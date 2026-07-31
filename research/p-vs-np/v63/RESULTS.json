@@ -1,0 +1,69 @@
+{
+  "version": "V63",
+  "status": "passed_internal",
+  "laboratory_type": "clean_ci_promotion_and_reviewer_appendices",
+  "ci": {
+    "baseline_run_id": 30595354956,
+    "corrective_commit": "233745d3f6a0613bc1d27fcfe9725ecb4a20d628",
+    "quick": {
+      "executed": 22,
+      "skipped": 4,
+      "failures": 0,
+      "status": "passed"
+    },
+    "full": {
+      "executed": 24,
+      "skipped": 2,
+      "failures": 0,
+      "status": "passed"
+    },
+    "v58_exact_dfs_nodes": 126607
+  },
+  "external_review": {
+    "messages_sent": 2,
+    "replies_found_at_check": 0,
+    "followup_sent": false,
+    "status": "sent_awaiting_reply"
+  },
+  "appendices": {
+    "affine_fibers": true,
+    "bijunctive_blocks": true,
+    "orientation_depth": true,
+    "reviewer_packet": true
+  },
+  "v57_recomputed": {
+    "variables": 4,
+    "blocks": 5,
+    "unique_clauses": 6,
+    "unique_model": "0000",
+    "block_witnesses": [
+      "0101",
+      "0010",
+      "0110",
+      "0001",
+      "0111"
+    ],
+    "clause_witnesses": [
+      "1000",
+      "0101",
+      "0010",
+      "0110",
+      "0001",
+      "0111"
+    ]
+  },
+  "promotion": {
+    "policy": "one_branch_one_pr_ci_then_squash_merge_main",
+    "legacy_pr_merged": 1,
+    "legacy_merge_commit": "968ac5d1b1b480484db1f4f22425e680f4204de9",
+    "v63_branch": "agent/p-vs-np-lab-v63",
+    "completed_prs_non_draft": true
+  },
+  "scientific_status": {
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "general_nc0_3_avoid_solved": false,
+    "unrestricted_lower_bound_proved": false,
+    "p_vs_np_resolved": false
+  }
+}
