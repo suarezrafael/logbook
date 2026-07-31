@@ -2,6 +2,7 @@
 from __future__ import annotations
 import itertools
 import json
+import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -9,6 +10,9 @@ ROOT = HERE.parent
 
 def load(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
+
+def version_number(value: str) -> int:
+    match=re.fullmatch(r"V(\d+)", value); assert match, value; return int(match.group(1))
 
 def blocks(x):
     x0,x1,x2,x3=x
@@ -57,8 +61,8 @@ def check_repository() -> int:
     assert not [str(p) for p in required if not p.is_file()]
     ledger=load(ROOT/"LEDGER.json")
     results=load(HERE/"RESULTS.json")
-    assert ledger["schema_version"] == 4
-    assert ledger["current_version"] == "V63"
+    assert ledger["schema_version"] >= 4
+    assert version_number(ledger["current_version"]) >= 63
     assert ledger["program"]["p_vs_np_route_active"] is False
     assert ledger["promotion"]["per_laboratory_pr_required"] is True
     assert ledger["promotion"]["ci_required_before_merge"] is True

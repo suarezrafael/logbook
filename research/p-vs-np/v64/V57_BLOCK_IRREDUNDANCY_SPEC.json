@@ -1,0 +1,52 @@
+{
+  "version": "V64",
+  "theorem_id": "v57-orbit-0x07-complete-block-irredundancy",
+  "variables": ["x0", "x1", "x2", "x3"],
+  "literal_encoding": "positive i means x_(i-1), negative -i means not x_(i-1)",
+  "clauses": [
+    {"id": "C0", "literals": [-1], "formula": "not x0"},
+    {"id": "C1", "literals": [-2, 3], "formula": "not x1 or x2"},
+    {"id": "C2", "literals": [2, -3], "formula": "x1 or not x2"},
+    {"id": "C3", "literals": [-2, 4], "formula": "not x1 or x3"},
+    {"id": "C4", "literals": [2, -4], "formula": "x1 or not x3"},
+    {"id": "C5", "literals": [-3, -4], "formula": "not x2 or not x3"}
+  ],
+  "blocks": [
+    {"id": "B1", "clauses": ["C0", "C1"], "scope": ["x0", "x1", "x2"], "gate_mask": "0x51"},
+    {"id": "B2", "clauses": ["C0", "C2"], "scope": ["x0", "x1", "x2"], "gate_mask": "0x45"},
+    {"id": "B3", "clauses": ["C0", "C3"], "scope": ["x0", "x1", "x3"], "gate_mask": "0x51"},
+    {"id": "B4", "clauses": ["C0", "C4"], "scope": ["x0", "x1", "x3"], "gate_mask": "0x45"},
+    {"id": "B5", "clauses": ["C0", "C5"], "scope": ["x0", "x2", "x3"], "gate_mask": "0x15"}
+  ],
+  "expected": {
+    "collapsed_unique_clauses": 6,
+    "unique_model": [0, 0, 0, 0],
+    "block_irredundant": true,
+    "clause_irredundant": true,
+    "npn_base_mask": "0x07",
+    "npn_orbit_size": 48,
+    "all_gate_masks_in_orbit": true
+  },
+  "block_witnesses": {
+    "B1": [0, 1, 0, 1], "B2": [0, 0, 1, 0], "B3": [0, 1, 1, 0],
+    "B4": [0, 0, 0, 1], "B5": [0, 1, 1, 1]
+  },
+  "clause_witnesses": {
+    "C0": [1, 0, 0, 0], "C1": [0, 1, 0, 1], "C2": [0, 0, 1, 0],
+    "C3": [0, 1, 1, 0], "C4": [0, 0, 0, 1], "C5": [0, 1, 1, 1]
+  },
+  "direct_sum_family": {
+    "parameter": "k >= 0",
+    "inputs": "n=4+3k",
+    "outputs": "m=5+3k=n+1",
+    "construction": "one V57 five-block component plus k independent three-input/three-output bijective identity components",
+    "preserved_property": "deleting any original V57 block strictly enlarges the global model set"
+  },
+  "scientific_status": {
+    "internally_verified": true,
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "general_2cnf_irredundancy_claimed_novel": false,
+    "p_vs_np_resolved": false
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": "V64",
+  "status": "passed_local_validation",
+  "formalization": {
+    "module": "V57 block irredundancy",
+    "variables": 4,
+    "blocks": 5,
+    "collapsed_clauses": 6,
+    "unique_model": "0000",
+    "block_witnesses": 5,
+    "clause_witnesses": 6,
+    "npn_orbit_size": 48,
+    "gate_masks": ["0x51", "0x45", "0x51", "0x45", "0x15"],
+    "direct_sum_m_equals_n_plus_1": true
+  },
+  "verification": {
+    "primary_checks": 116,
+    "independent_checks": 91,
+    "latex_draft_compile": true
+  },
+  "workflow_runtime": {
+    "from": "actions/checkout@v4",
+    "to": "actions/checkout@v6",
+    "observed_runner": "2.336.0",
+    "maintenance_separate_from_science": true
+  },
+  "external_review": {
+    "replies_found": 0,
+    "followup_sent": false,
+    "status": "sent_awaiting_reply"
+  },
+  "scientific_status": {
+    "peer_reviewed": false,
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false
+  }
+}

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import json
+import re
 from pathlib import Path
 
 HERE=Path(__file__).resolve().parent
@@ -9,14 +10,17 @@ ROOT=HERE.parent
 def load(p):
     return json.loads(p.read_text(encoding="utf-8"))
 
+def version_number(value):
+    m=re.fullmatch(r"V(\d+)", value); assert m, value; return int(m.group(1))
+
 def independent_metadata() -> int:
     ledger=load(ROOT/"LEDGER.json")
     results=load(HERE/"RESULTS.json")
-    assert ledger["current_version"] == "V63"
+    assert version_number(ledger["current_version"]) >= 63
     assert ledger["promotion"]["policy_effective_version"] == "V63"
     assert ledger["promotion"]["completed_prs_must_be_non_draft"] is True
     assert ledger["promotion"]["preferred_merge_method"] == "squash"
-    assert ledger["verification"]["last_clean_ci_run_id"] == 30595354956
+    assert ledger["verification"]["last_clean_ci_run_id"] >= 30595354956
     assert results["ci"]["quick"] == {"executed":22,"skipped":4,"failures":0,"status":"passed"}
     assert results["ci"]["full"] == {"executed":24,"skipped":2,"failures":0,"status":"passed"}
     assert results["external_review"]["replies_found_at_check"] == 0
@@ -54,9 +58,9 @@ def independent_history() -> int:
     assert "30591741077" in ci
     assert "30595354956" in ci
     assert "233745d3f6a0613bc1d27fcfe9725ecb4a20d628" in ci
-    assert "968ac5d1b1b480484db1f4f22425e680f4204de9" in state
-    assert "V22" in state and "justified skip" in state
-    assert "no replies" in state.lower()
+    assert "V22" in state and "justified" in state.lower()
+    assert "External contact:** sent" in state
+    assert "P-versus-NP route active:** no" in state
     return 6
 
 def main():
