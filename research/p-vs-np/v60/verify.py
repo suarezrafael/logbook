@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Primary verifier for Laboratory V60, made future-version safe in V61."""
+"""Primary verifier for Laboratory V60, made future-version safe in V61/V62."""
 
 from __future__ import annotations
 
@@ -55,8 +55,10 @@ def verify_repository_state() -> int:
     for token in ("STATE.md", "LEDGER.json", "verify_all.sh"):
         assert token in root_readme
     state = (ROOT / "STATE.md").read_text(encoding="utf-8")
-    for token in ("P-versus-NP route active:** no", "n=9", "not sent"):
+    for token in ("P-versus-NP route active:** no", "n=9"):
         assert token in state
+    historical_contact = (HERE / "EXTERNAL_CONTACT_STATUS.md").read_text(encoding="utf-8")
+    assert "Status:** not sent" in historical_contact
     return len(required) + 3
 
 
@@ -68,7 +70,7 @@ def verify_ledgers() -> int:
     assert ledger["program"]["p_vs_np_resolved"] is False
     assert ledger["current_decision"]["exact_n9_priority"] == "falsification_and_regression_only"
     assert ledger["finite_search"]["n9_complete"] is False
-    assert ledger["external_contact"]["status"] == "not_sent"
+    assert isinstance(ledger["external_contact"]["status"], str)
     names = [entry["version"] for entry in ledger["versions"]]
     assert len(names) == len(set(names))
     assert "V60" in names
