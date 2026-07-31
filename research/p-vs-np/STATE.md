@@ -4,9 +4,10 @@
 **Updated:** 2026-07-30  
 **Program name:** `NC0_k-Avoid Laboratory`  
 **P-versus-NP research active:** exploratory  
-**Direct P-versus-NP route active:** no  
+**P-versus-NP route active:** no  
 **P versus NP resolved:** no  
-**External review:** requested, replies pending
+**External review:** requested, replies pending  
+**External contact:** sent
 
 ## Current scientific position
 
@@ -37,7 +38,7 @@ The two original Gmail subjects were checked once during V65. No incoming replie
 
 ## Historical corrections
 
-V22 remains a proof candidate with a missing original certificate dataset. V26 remains a missing-script skip. The incomplete `n=9` search remains falsification/regression only.
+**V22 reproducibility correction:** the original `full_certificate_cases.json` is absent. V22 remains a proof candidate without repository-reproduced finite evidence, and its cumulative row remains a justified skip. V26 remains a justified missing-script skip. The incomplete `n=9` search remains falsification/regression only.
 
 ## Repository entry points
 
