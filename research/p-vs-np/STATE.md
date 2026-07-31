@@ -4,7 +4,7 @@
 **Updated:** 2026-07-30  
 **Program name:** `NC0_k-Avoid Laboratory`  
 **P-versus-NP research active:** exploratory  
-**P-versus-NP route active:** no  
+**Direct P-versus-NP route active:** no  
 **P versus NP resolved:** no  
 **External review:** requested, replies pending  
 **External contact:** sent
