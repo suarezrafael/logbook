@@ -73,6 +73,8 @@ CHECKS=(
   "V65|independent|v65/verify_independent.py|quick|"
   "V66|primary|v66/verify.py|quick|"
   "V66|independent|v66/verify_independent.py|quick|"
+  "V67|primary|v67/verify.py|quick|"
+  "V67|independent|v67/verify_independent.py|quick|"
 )
 
 printf '%-6s | %-12s | %-6s | %s\n' "LAB" "CHECK" "STATUS" "DETAIL"

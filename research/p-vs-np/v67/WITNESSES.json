@@ -1,0 +1,59 @@
+{
+  "c16": {
+    "D_aff": 11,
+    "D_greedy": 11,
+    "G_aff": 47,
+    "L_aff": 25,
+    "L_greedy": 25,
+    "c": 16,
+    "iteration": 344,
+    "m": 11,
+    "n": 10,
+    "signatures": [0,16,40,56,128,144,168,184,256,272,296,312,384,400,424,440],
+    "specs": [
+      {"partition":1,"support":[9,8,1]},
+      {"partition":0,"support":[2,8,7]},
+      {"partition":1,"support":[3,7,5]},
+      {"partition":0,"support":[9,8,2]},
+      {"partition":0,"support":[7,6,8]},
+      {"partition":2,"support":[9,1,2]},
+      {"partition":1,"support":[4,1,8]},
+      {"partition":0,"support":[3,0,5]},
+      {"partition":1,"support":[3,4,8]},
+      {"partition":1,"support":[5,1,2]},
+      {"partition":2,"support":[1,8,3]}
+    ]
+  },
+  "c36": {
+    "D_aff": 12,
+    "D_greedy": 12,
+    "G_aff": 108,
+    "L_aff": 61,
+    "L_greedy": 62,
+    "c": 36,
+    "iteration": 2360,
+    "m": 12,
+    "n": 11,
+    "signatures": [0,8,32,40,66,74,98,106,528,536,560,568,594,602,626,634,1541,1549,1573,1581,2052,2060,2084,2092,2118,2126,2150,2158,2580,2588,2612,2620,2646,2654,2678,2686],
+    "specs": [
+      {"partition":2,"support":[2,7,4]},
+      {"partition":2,"support":[8,4,7]},
+      {"partition":0,"support":[10,2,7]},
+      {"partition":1,"support":[5,9,4]},
+      {"partition":0,"support":[6,1,7]},
+      {"partition":0,"support":[5,3,6]},
+      {"partition":1,"support":[6,8,4]},
+      {"partition":2,"support":[7,0,6]},
+      {"partition":2,"support":[7,4,0]},
+      {"partition":0,"support":[1,2,6]},
+      {"partition":2,"support":[2,8,7]},
+      {"partition":0,"support":[0,10,7]}
+    ]
+  },
+  "local_partitions": [
+    {"left":[0],"right":[1,2]},
+    {"left":[0,1],"right":[2]},
+    {"left":[0,2],"right":[1]}
+  ],
+  "version": "V67"
+}
