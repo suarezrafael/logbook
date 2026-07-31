@@ -1,0 +1,86 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[a4paper,margin=28mm]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newcommand{\bits}{\{0,1\}}
+\title{A Completely Block-Irredundant Orbit-Constrained 2-CNF Gadget}
+\author{Laboratory V64 formalization module}
+\date{2026-07-30}
+\begin{document}
+\maketitle
+
+\paragraph{Status.}
+This module formalizes an internally verified construction from Laboratories V57--V64.
+It does not claim novelty for general 2-CNF irredundancy, is not peer reviewed, and does
+not imply a general algorithm or lower bound for $\mathrm{NC}^{0}_{3}$ range avoidance.
+
+Let $x=(x_0,x_1,x_2,x_3)\in\bits^4$ and define five blocks
+\begin{align*}
+B_1(x)&=\neg x_0\wedge(\neg x_1\vee x_2),&
+B_2(x)&=\neg x_0\wedge(x_1\vee\neg x_2),\\
+B_3(x)&=\neg x_0\wedge(\neg x_1\vee x_3),&
+B_4(x)&=\neg x_0\wedge(x_1\vee\neg x_3),\\
+B_5(x)&=\neg x_0\wedge(\neg x_2\vee\neg x_3).
+\end{align*}
+Write $F=\bigwedge_{i=1}^{5}B_i$.
+
+\begin{theorem}[Complete block irredundancy]
+The formula $F$ has the unique model $0000$. For every $i\in\{1,\ldots,5\}$,
+there is an assignment satisfying all blocks except $B_i$ and falsifying $B_i$.
+Consequently no complete block can be deleted without changing the model set.
+After duplicate copies of $\neg x_0$ are collapsed, the resulting six-clause 2-CNF
+is also clause-irredundant.
+\end{theorem}
+
+\begin{proof}
+The four binary clauses in $B_1,\ldots,B_4$ imply $x_1=x_2=x_3$ whenever all hold.
+The last clause forbids $x_2=x_3=1$, hence $x_1=x_2=x_3=0$; the common unit clause
+then gives $x_0=0$. Thus $0000$ is the unique model.
+
+Block irredundancy is certified, in block order, by
+\[
+0101,\quad 0010,\quad 0110,\quad 0001,\quad 0111.
+\]
+Direct substitution shows that the $i$th assignment satisfies every $B_j$ with
+$j\ne i$ and falsifies $B_i$.
+
+After collapsing duplicates, order the clauses as
+\[
+\neg x_0,\ (\neg x_1\vee x_2),\ (x_1\vee\neg x_2),\
+(\neg x_1\vee x_3),\ (x_1\vee\neg x_3),\ (\neg x_2\vee\neg x_3).
+\]
+Clause irredundancy is certified in this order by
+\[
+1000,\quad 0101,\quad 0010,\quad 0110,\quad 0001,\quad 0111.
+\]
+Each witness satisfies the other five clauses and falsifies the selected clause.
+\end{proof}
+
+\begin{lemma}[Orbit restriction]
+Using the local variable orders in the machine-readable specification, the five block
+truth-table masks are
+\[
+\mathtt{0x51},\mathtt{0x45},\mathtt{0x51},\mathtt{0x45},\mathtt{0x15}.
+\]
+All belong to the NPN orbit of $\mathtt{0x07}$, whose size is $48$.
+\end{lemma}
+
+\begin{proof}
+The accompanying verifier enumerates all $3!\,2^3\,2$ input permutations, input
+negations and output negations, computes the orbit exactly, and checks membership of
+the five masks.
+\end{proof}
+
+\paragraph{Direct sums.}
+For every $k\ge 0$, adjoining $k$ independent three-input/three-output bijective
+components gives $n=4+3k$ and $m=5+3k=n+1$. A witness for deletion of an original
+V57 block extends arbitrarily through the bijective components, so complete block
+irredundancy of the distinguished component persists.
+
+\paragraph{Reproducibility.}
+The normative data are in \texttt{V57\_BLOCK\_IRREDUNDANCY\_SPEC.json}.
+The primary and independent Python verifiers exhaust all $16$ assignments and do not
+rely on a SAT solver.
+\end{document}
