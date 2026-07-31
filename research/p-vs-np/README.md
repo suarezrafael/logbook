@@ -4,32 +4,35 @@
 
 ## Start here
 
+- [PUBLICATION_INDEX.md](PUBLICATION_INDEX.md) — academic entry point and theorem-status index.
 - [STATE.md](STATE.md) — cumulative scientific state.
 - [LEDGER.json](LEDGER.json) — machine-readable claims, reproducibility, outreach and promotion ledger.
-- [`v62/INTEGRATED_MANUSCRIPT.md`](v62/INTEGRATED_MANUSCRIPT.md) — integrated manuscript.
+- [`v62/INTEGRATED_MANUSCRIPT.md`](v62/INTEGRATED_MANUSCRIPT.md) — historical integrated manuscript, pending V71 update.
 - [`v68/`](v68/) — explicit spine family separating branching trees from projected residual DAGs.
 - [`v69/`](v69/) — exact gate-order optimization and order-robustness experiments.
+- [`v70/`](v70/) — support-frontier bounds, component factorisation, and ordering heuristics.
 - [`verify_all.sh`](verify_all.sh) — cumulative quick/full verifier.
 
 ## Current position
 
-V68 proves that complete affine-cell branching trees can be exponential while a projected residual DAG is linear for the explicit spine family.
-
-V69 now minimizes projected-DAG size over gate orders:
+V69 defines
 
 ```text
-G*_proj = min_pi G_proj(pi).
+G*_proj = min_pi G_proj(pi)
 ```
 
-For a processed gate set `S`, the projected residual layer depends only on `S`, not on the order used to reach it. Therefore a fixed order has cost
+and computes it exactly by a subset-lattice shortest path.
+
+V70 supplies a structural upper bound. For a processed gate set `S`, let `F(S)` be the variables that occur in both processed and unprocessed supports. If `A(b)` is the number of nonempty affine subspaces of `GF(2)^b`, then
 
 ```text
-G_proj(pi) = sum_i w(prefix_i),
+w(S) <= min(2^|S|, A(|F(S)|))
+G_proj(pi) <= sum_i min(2^i, A(b_i)) <= m A(q(pi)).
 ```
 
-and `G*_proj` is computed exactly as a shortest path in the subset lattice. The algorithm is exponential in the number of gates and is used as an audit oracle, not as an unrestricted avoidance algorithm.
+Thus bounded support-frontier width gives an FPT-size projected residual DAG. V70 also proves exact factorisation over connected components of the processed support-incidence graph.
 
-Deterministic hill climbing found natural-order values `48, 99, 263, 580` for `n=6,8,10,12`, but exact optimization reduces those witnesses to `15,15,17,29`. A separate exact-objective search preserves finite budget records `G*_proj=20` at `n=6` and `28` at `n=8`. No asymptotic polynomial upper bound or all-orders lower bound follows.
+A deterministic support lookahead reduces the preserved `n=14` fixed-order witness from `583` states to `41`. Exact-objective searches preserve new finite records `G*_proj=29` at `n=8` and `30` at `n=10`. These are search-budget records, not asymptotic lower bounds.
 
 ## Contribution chain
 
@@ -46,7 +49,8 @@ Deterministic hill climbing found natural-order values `48, 99, 263, 580` for `n
 | V66 | Exact affine-cell census and CI hardening | Merged and CI verified |
 | V67 | Direct-sum proposition and overlap growth witnesses | Merged and CI verified |
 | V68 | Exponential spine-tree lower bound and linear projected DAG | Merged and CI verified |
-| V69 | Exact gate-order optimization and robustness audit | Current laboratory |
+| V69 | Exact gate-order optimization and robustness audit | Merged and CI verified |
+| V70 | Support-frontier theorem, component product lemma, and order heuristics | Current laboratory |
 
 ## Reproducibility and promotion
 
