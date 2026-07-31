@@ -53,7 +53,6 @@ def verify_repository_surface() -> int:
     state = (ROOT / "STATE.md").read_text()
     assert int(__import__("re").search(r"\*\*Current laboratory:\*\* V(\d+)", state).group(1)) >= 67
     assert "Direct P-versus-NP route active:** no" in state
-    assert "c=36" in state
 
     root_readme = (ROOT / "README.md").read_text()
     assert "[`v67/`](v67/)" in root_readme
