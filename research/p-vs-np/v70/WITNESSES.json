@@ -1,0 +1,8 @@
+{
+  "version":"V70",
+  "improved_fixed_order_upper_bound":{"n":14,"m":15,"G_proj":41,"frontier_width":5,"previous_best_tested":147,"order":[5,10,12,0,3,11,14,6,9,7,4,8,2,1,13],"specs":[{"partition":0,"support":[4,10,9]},{"partition":1,"support":[13,3,1]},{"partition":0,"support":[1,13,2]},{"partition":2,"support":[4,9,0]},{"partition":2,"support":[7,2,8]},{"partition":0,"support":[12,1,5]},{"partition":0,"support":[2,9,11]},{"partition":2,"support":[7,1,6]},{"partition":2,"support":[1,7,3]},{"partition":1,"support":[11,6,3]},{"partition":0,"support":[1,10,5]},{"partition":0,"support":[4,5,6]},{"partition":0,"support":[9,5,10]},{"partition":1,"support":[8,13,3]},{"partition":0,"support":[8,5,0]}]},
+  "new_exact_objective_records":[
+    {"n":8,"m":9,"Gstar":29,"frontier_star":4,"optimal_order":[1,4,6,2,3,0,5,7,8],"search":{"seed":7008,"steps":30,"temperature":0.02,"expected_step":26},"specs":[{"partition":0,"support":[2,1,4]},{"partition":0,"support":[3,5,0]},{"partition":0,"support":[7,4,0]},{"partition":0,"support":[3,4,5]},{"partition":1,"support":[3,0,1]},{"partition":0,"support":[7,1,5]},{"partition":2,"support":[2,4,5]},{"partition":0,"support":[6,1,5]},{"partition":0,"support":[6,1,4]}]},
+    {"n":10,"m":11,"Gstar":30,"frontier_star":5,"optimal_order":[0,2,6,7,5,9,10,1,8,3,4],"search":{"seed":7010,"steps":45,"temperature":0.02,"expected_step":43},"specs":[{"partition":0,"support":[9,5,7]},{"partition":2,"support":[9,5,8]},{"partition":0,"support":[0,7,5]},{"partition":2,"support":[1,5,3]},{"partition":0,"support":[1,2,3]},{"partition":0,"support":[9,7,6]},{"partition":2,"support":[0,6,5]},{"partition":2,"support":[2,8,7]},{"partition":2,"support":[0,4,8]},{"partition":1,"support":[9,6,5]},{"partition":0,"support":[4,6,8]}]}
+  ]
+}

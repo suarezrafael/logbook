@@ -1,0 +1,10 @@
+{
+  "status": "draft_not_submitted",
+  "working_title": "Affine Algorithms, Non-Affine Branching Barriers, and Projected Residual DAGs for Ternary Range Avoidance",
+  "author": "Rafael Suarez",
+  "language": "English",
+  "suggested_subjects": ["computational complexity","range avoidance","low-depth circuits","affine systems over GF(2)","branching programs","parameterized algorithms"],
+  "abstract_status": "must_be_rewritten_after_v71_consolidation",
+  "target_channels": ["ECCC technical report","Zenodo software/reproducibility record","arXiv cs.CC cross-post if account requirements are met"],
+  "claims_not_made": ["P versus NP resolution","unrestricted NC0_3-Avoid algorithm","circuit lower bound","peer review","novelty or priority"]
+}
