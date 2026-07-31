@@ -1,0 +1,10 @@
+{
+  "version":"V70",
+  "status":"passed",
+  "failures":0,
+  "theorem":{"affine_state_bound":"w(S)<=min(2^|S|,A(|F(S)|))","ordered_upper_bound":"G_proj(pi)<=sum_i min(2^i,A(b_i))<=m*A(q(pi))","component_factorisation_exact":true,"parameterized_consequence":"bounded support-frontier width gives an FPT-size projected DAG"},
+  "component_factorisation_subset_checks":640,
+  "natural_record_summary":{"6":{"natural":48,"lookahead_2":26,"Gstar":15},"8":{"natural":99,"lookahead_2":25,"Gstar":15},"10":{"natural":263,"lookahead_2":33,"Gstar":17},"12":{"natural":580,"lookahead_2":52,"Gstar":29},"14":{"natural":583,"lookahead_2":41,"Gstar":null}},
+  "new_exact_objective_records":{"8":29,"10":30},
+  "scientific_status":{"parameterized_support_frontier_upper_bound_proved":true,"general_polynomial_good_order_proved":false,"all_orders_superpolynomial_lower_bound_proved":false,"standard_proof_system_simulation_proved":false,"unrestricted_nc0_3_avoid_solved":false,"p_vs_np_route_active":false,"p_vs_np_resolved":false,"novelty_confirmed":false,"peer_reviewed":false}
+}
