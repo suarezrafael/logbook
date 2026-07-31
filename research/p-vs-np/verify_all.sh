@@ -36,7 +36,6 @@ else
   exit 2
 fi
 
-# Format: version|kind|relative path|tier|optional skip reason
 CHECKS=(
   "V22|primary|v22/verify.py|skip|missing v22/full_certificate_cases.json; aggregate RESULTS.json cannot reconstruct the original 125 certificates"
   "V25|index|v25/verify_index.py|quick|"
@@ -64,6 +63,8 @@ CHECKS=(
   "V61|independent|v61/verify_independent.py|quick|"
   "V62|primary|v62/verify.py|quick|"
   "V62|independent|v62/verify_independent.py|quick|"
+  "V63|primary|v63/verify.py|quick|"
+  "V63|independent|v63/verify_independent.py|quick|"
 )
 
 printf '%-6s | %-12s | %-6s | %s\n' "LAB" "CHECK" "STATUS" "DETAIL"
@@ -82,19 +83,16 @@ for item in "${CHECKS[@]}"; do
     skipped=$((skipped + 1))
     continue
   fi
-
   if [[ "$tier" == "full" && "$MODE" != "full" ]]; then
     printf '%-6s | %-12s | %-6s | %s\n' "$version" "$kind" "SKIP" "requires --full"
     skipped=$((skipped + 1))
     continue
   fi
-
   if [[ ! -f "$path" ]]; then
     printf '%-6s | %-12s | %-6s | %s\n' "$version" "$kind" "SKIP" "script not present"
     skipped=$((skipped + 1))
     continue
   fi
-
   if [[ "$MODE" == "list" ]]; then
     printf '%-6s | %-12s | %-6s | %s\n' "$version" "$kind" "PLAN" "$relative"
     continue
@@ -124,7 +122,6 @@ fi
 
 echo
 printf 'Summary: mode=%s executed=%d skipped=%d failures=%d\n' "$MODE" "$executed" "$skipped" "$failures"
-
 if (( failures > 0 )); then
   exit 1
 fi

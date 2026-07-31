@@ -3,10 +3,17 @@ from __future__ import annotations
 
 import itertools
 import json
+import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
+
+
+def version_number(value: str) -> int:
+    match = re.fullmatch(r"V(\d+)", value)
+    assert match, value
+    return int(match.group(1))
 
 
 def sat_clause(bits: int, clause: tuple[int, ...]) -> bool:
@@ -24,7 +31,6 @@ def independent_formula_checks() -> int:
     clauses = [common, *binaries]
     models = [bits for bits in range(16) if all(sat_clause(bits, c) for c in clauses)]
     assert models == [0]
-
     for index, clause in enumerate(clauses):
         witness = None
         for bits in range(16):
@@ -32,7 +38,6 @@ def independent_formula_checks() -> int:
                 witness = bits
                 break
         assert witness is not None
-
     blocks = [[common, binary] for binary in binaries]
     for index, block in enumerate(blocks):
         witness = None
@@ -49,8 +54,8 @@ def independent_metadata_checks() -> int:
     ledger = json.loads((ROOT / "LEDGER.json").read_text(encoding="utf-8"))
     matrix = json.loads((HERE / "SOURCE_TO_CLAIM.json").read_text(encoding="utf-8"))
     results = json.loads((HERE / "RESULTS.json").read_text(encoding="utf-8"))
-
-    assert ledger["current_version"] == "V62"
+    assert version_number(ledger["current_version"]) >= 62
+    assert any(v["version"] == "V62" for v in ledger["versions"])
     assert ledger["external_contact"]["authorization_granted"] is True
     assert sum(len(item["recipients"]) for item in ledger["external_contact"]["outreach"]) == 4
     assert ledger["verification"]["ci_workflow"] == ".github/workflows/p-vs-np-verify.yml"
@@ -66,11 +71,7 @@ def independent_prose_checks() -> int:
     manuscript = (HERE / "INTEGRATED_MANUSCRIPT.md").read_text(encoding="utf-8").lower()
     search_log = (HERE / "PRIOR_ART_SEARCH_LOG.md").read_text(encoding="utf-8").lower()
     context = (HERE / "V63_CORE_CONTEXT.md").read_text(encoding="utf-8").lower()
-    forbidden_assertions = [
-        "we introduce irredundant 2-cnf",
-        "first monotone nc0_3-avoid algorithm",
-        "we prove p != np",
-    ]
+    forbidden_assertions = ["we introduce irredundant 2-cnf", "first monotone nc0_3-avoid algorithm", "we prove p != np"]
     assert all(phrase not in manuscript for phrase in forbidden_assertions)
     assert "not evidence of novelty" in search_log
     assert "await" in context or "aguardar" in context

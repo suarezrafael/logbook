@@ -14,6 +14,12 @@ def load_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def version_number(value: str) -> int:
+    match = re.fullmatch(r"V(\d+)", value)
+    assert match, value
+    return int(match.group(1))
+
+
 def block_values(x: tuple[int, int, int, int]) -> tuple[bool, ...]:
     x0, x1, x2, x3 = x
     return (
@@ -41,23 +47,13 @@ def verify_irredundancy() -> int:
     assignments = list(itertools.product((0, 1), repeat=4))
     full_models = [x for x in assignments if all(block_values(x))]
     assert full_models == [(0, 0, 0, 0)]
-
     for removed in range(5):
-        witnesses = [
-            x for x in assignments
-            if all(value for index, value in enumerate(block_values(x)) if index != removed)
-            and not block_values(x)[removed]
-        ]
+        witnesses = [x for x in assignments if all(value for index, value in enumerate(block_values(x)) if index != removed) and not block_values(x)[removed]]
         assert witnesses, removed
-
     clause_models = [x for x in assignments if all(clause_values(x))]
     assert clause_models == full_models
     for removed in range(6):
-        witnesses = [
-            x for x in assignments
-            if all(value for index, value in enumerate(clause_values(x)) if index != removed)
-            and not clause_values(x)[removed]
-        ]
+        witnesses = [x for x in assignments if all(value for index, value in enumerate(clause_values(x)) if index != removed) and not clause_values(x)[removed]]
         assert witnesses, removed
     return 16 + 5 + 6
 
@@ -74,12 +70,7 @@ def permute_mask(mask: int, permutation: tuple[int, int, int], negations: tuple[
 
 
 def npn_orbit(mask: int) -> set[int]:
-    return {
-        permute_mask(mask, p, n, o)
-        for p in itertools.permutations(range(3))
-        for n in itertools.product((0, 1), repeat=3)
-        for o in (0, 1)
-    }
+    return {permute_mask(mask, p, n, o) for p in itertools.permutations(range(3)) for n in itertools.product((0, 1), repeat=3) for o in (0, 1)}
 
 
 def local_mask(predicate) -> int:
@@ -107,31 +98,22 @@ def verify_orbit() -> int:
 
 def verify_repository_state() -> int:
     required = [
-        ROOT / "README.md",
-        ROOT / "STATE.md",
-        ROOT / "LEDGER.json",
-        ROOT / "verify_all.sh",
-        HERE / "README.md",
-        HERE / "INTEGRATED_MANUSCRIPT.md",
-        HERE / "SOURCE_TO_CLAIM.md",
-        HERE / "SOURCE_TO_CLAIM.json",
-        HERE / "V57_IES_TRANSLATION.md",
-        HERE / "V54_KUNTEWAR_SARMA_COMPARISON.md",
-        HERE / "PRIOR_ART_SEARCH_LOG.md",
-        HERE / "EXTERNAL_CONTACT_STATUS.md",
-        HERE / "RESULTS.json",
-        HERE / "V63_CORE_CONTEXT.md",
+        ROOT / "README.md", ROOT / "STATE.md", ROOT / "LEDGER.json", ROOT / "verify_all.sh",
+        HERE / "README.md", HERE / "INTEGRATED_MANUSCRIPT.md", HERE / "SOURCE_TO_CLAIM.md", HERE / "SOURCE_TO_CLAIM.json",
+        HERE / "V57_IES_TRANSLATION.md", HERE / "V54_KUNTEWAR_SARMA_COMPARISON.md", HERE / "PRIOR_ART_SEARCH_LOG.md",
+        HERE / "EXTERNAL_CONTACT_STATUS.md", HERE / "RESULTS.json", HERE / "V63_CORE_CONTEXT.md",
     ]
     assert not [str(p) for p in required if not p.is_file()]
-
     ledger = load_json(ROOT / "LEDGER.json")
     results = load_json(HERE / "RESULTS.json")
     source_matrix = load_json(HERE / "SOURCE_TO_CLAIM.json")
-    assert ledger["schema_version"] == 3
-    assert ledger["current_version"] == "V62"
+    assert ledger["schema_version"] >= 3
+    assert version_number(ledger["current_version"]) >= 62
     assert ledger["program"]["p_vs_np_route_active"] is False
-    assert ledger["current_decision"]["commit_policy"] == "one_commit_per_laboratory"
-    assert ledger["external_contact"]["status"] == "sent_awaiting_reply"
+    old_policy = ledger.get("current_decision", {}).get("commit_policy")
+    new_policy = ledger.get("promotion", {}).get("per_laboratory_pr_required")
+    assert old_policy == "one_commit_per_laboratory" or new_policy is True
+    assert ledger["external_contact"]["status"] in {"sent_awaiting_reply", "replied"}
     assert len(ledger["external_contact"]["outreach"]) == 2
     assert any(v["version"] == "V62" for v in ledger["versions"])
     assert results["external_contact"]["messages"] == 2
@@ -139,13 +121,12 @@ def verify_repository_state() -> int:
     assert source_matrix["version"] == "V62"
     assert len(source_matrix["entries"]) == 15
     assert all(entry["repository_novelty_claim"] is False for entry in source_matrix["entries"])
-
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
     assert "V62|primary|v62/verify.py|quick|" in runner
     assert "V62|independent|v62/verify_independent.py|quick|" in runner
-
     state = (ROOT / "STATE.md").read_text(encoding="utf-8")
-    assert "Current laboratory:** V62" in state
+    current = re.search(r"\*\*Current laboratory:\*\* V(\d+)", state)
+    assert current and int(current.group(1)) >= 62
     assert "External contact:** sent" in state
     assert "P-versus-NP route active:** no" in state
     return 14 + 15
@@ -156,7 +137,6 @@ def verify_claim_language() -> int:
     comparison = (HERE / "V54_KUNTEWAR_SARMA_COMPARISON.md").read_text(encoding="utf-8")
     translation = (HERE / "V57_IES_TRANSLATION.md").read_text(encoding="utf-8")
     contact = (HERE / "EXTERNAL_CONTACT_STATUS.md").read_text(encoding="utf-8")
-
     required = [
         "Affine Algorithms, Bijunctive Barriers, and Orientation Depth",
         "does not claim novelty for general CNF/2-CNF irredundancy",

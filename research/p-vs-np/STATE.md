@@ -1,73 +1,75 @@
 # Cumulative scientific state
 
-**Current laboratory:** V62  
+**Current laboratory:** V63  
 **Updated:** 2026-07-30  
 **Program name:** `NC0_k-Avoid Laboratory`  
 **P-versus-NP route active:** no  
 **External review:** requested, replies pending  
-**External contact:** sent
+**External contact:** sent  
+**Promotion model:** one laboratory per PR, CI, then merge to `main`
 
 ## One-paragraph state
 
-The repository now contains an integrated manuscript centered on a positive/negative dichotomy. V56 gives a deterministic consistency-or-redundancy algorithm for efficiently represented affine output fibers at `m>n`. V57 proves that the analogous complete-block redundancy principle fails for bijunctive fibers, using five orbit-`0x07` gates on four variables and an infinite direct-sum family. V58 introduces orientation depth and an `m^{O(d)} poly(n+m)` algorithm; V59 proves boundary abundance while exhibiting flat first-step potentials; V60 separates deterministic localization from an elementary Las Vegas algorithm. V61 repaired V22 reproducibility and narrowed novelty claims. V62 integrates the paper, translates V57 into standard IES terminology, compares V54 with Kuntewar–Sarma, creates a source-to-claim matrix, and sends two external prior-art requests.
+The repository contains an integrated manuscript centered on a positive/negative dichotomy. V56 gives deterministic consistency-or-redundancy avoidance for efficiently represented affine output fibers at `m>n`. V57 proves that the analogous complete-block redundancy principle fails for bijunctive fibers through five orbit-`0x07` gates on four variables and an infinite direct-sum family. V58 introduces orientation depth and an `m^{O(d)} poly(n+m)` localization algorithm; V59 supplies boundary geometry and flat-potential barriers; V60 separates deterministic localization from elementary randomized avoidance. V61 repaired historical reproducibility, V62 integrated the paper and requested external review, and V63 records clean quick/full CI, prepares reviewer-facing appendices and changes repository governance to one merged PR per laboratory.
 
 ## Main manuscript chain
 
 1. **Affine positive result — V56.** Efficient affine-fiber mixtures are deterministically avoidable in polynomial time for `m>n`.
 2. **Bijunctive negative result — V57.** Joint consistency does not force a redundant complete 2-CNF gate block.
-3. **Orbit-constrained obstruction.** Five `0x07`-orbit gates on four variables give the smallest example in the searched universe.
+3. **Orbit-constrained obstruction.** Five `0x07`-orbit gates on four variables form a completely block-irredundant stretch-one instance.
 4. **Infinite obstruction.** Direct sums give `n=4+3k`, `m=n+1` for every `k>=0`.
 5. **Localization parameter — V58.** Orientation depth `d` yields an `m^{O(d)} poly(n+m)` algorithm.
-6. **Geometry and barriers — V59.** Boundary points are abundant, but several natural strict-improvement potentials are flat.
-7. **Regime separation — V60.** Easy image membership gives a Las Vegas algorithm using at most two expected tests.
+6. **Geometry and barriers — V59.** Boundary points are abundant, but natural strict-improvement potentials may be flat.
+7. **Regime separation — V60.** Polynomial-time image membership gives a Las Vegas algorithm with at most two expected tests.
 
-## V62 clarifications
+## V63 promotion evidence
 
-### V57 and IES terminology
+Legacy PR `#1` was merged into `main` as `968ac5d1b1b480484db1f4f22425e680f4204de9`. The clean GitHub Actions run `30595354956` passed both jobs after commit `233745d3f6a0613bc1d27fcfe9725ecb4a20d628`:
 
-After duplicate copies of the common unit clause are removed, the V57 gadget is a six-clause clause-irredundant 2-CNF. General CNF and 2-CNF irredundancy are prior art. The repository-specific statement concerns a partition into five essential local gate-fiber blocks, all from one ternary NPN orbit, at minimum positive stretch.
+- quick: 22 executed, 4 justified skips, 0 failures;
+- full: 24 executed, 2 justified skips, 0 failures;
+- V56 index passed in full mode;
+- V58 exact passed after 126,607 DFS nodes;
+- V60 primary passed 285 checks after its historical-state repair;
+- V62 primary and independent verifiers passed.
 
-### V54 and monotone prior work
+The earlier failure was editorial coupling in `v60/verify.py`, not a theorem failure. V60 had required the current cumulative ledger to remain at `external_contact.status == not_sent`. The repair checks historical non-contact in `v60/EXTERNAL_CONTACT_STATUS.md` while allowing the live ledger to evolve.
 
-Kuntewar–Sarma 2025 proves deterministic `MONOTONE-NC0_3-Avoid` for `m>n`. This subsumes the algorithmic conclusion of V54 for pure `AND3`. V54 is retained only for its direct 2-core witness and degree-at-most-four separator, plus the pure `AND_k` degree-at-most-`k+1` statement. Certificate equivalence remains unresolved.
+## V63 reviewer appendices
 
-### Orientation-depth search
-
-The V62 search found nearby literature on Boolean CSP solution graphs, connectivity, reconfiguration and frozen variables, but no exact output-image boundary-distance parameter with the same FPT use. This is a negative search result, not confirmation of novelty.
+- `v63/APPENDIX_A_AFFINE_FIBERS.md` isolates the V56 assumptions, algorithm, certificate and barrier.
+- `v63/APPENDIX_B_BIJUNCTIVE_BLOCKS.md` gives the V57 clauses, unique model and explicit irredundancy witnesses.
+- `v63/APPENDIX_C_ORIENTATION_DEPTH.md` gives the V58 definitions, algorithm and finite evidence.
+- `v63/REVIEWER_PACKET.md` states the exact questions for external review.
+- `v63/CI_PROMOTION_RECORD.md` preserves the clean-CI evidence and justified skips.
 
 ## External requests
 
-On 2026-07-30, prior-art questions were sent to:
+On 2026-07-30, prior-art questions were sent to Karthik Gajulapalli, Jayalal Sarma, Neha Kuntewar and Paolo Liberatore. Gmail was checked twice during V63 using the two original subjects and recipient names. No replies were found. No follow-up was sent because the interval is too short. The status remains `sent_awaiting_reply`.
 
-- Karthik Gajulapalli, Jayalal Sarma and Neha Kuntewar;
-- Paolo Liberatore.
+No response, silence or negative search is evidence of novelty.
 
-The status is `sent_awaiting_reply`. No response is presumed. A response changes the scientific record only after it is read, preserved accurately and evaluated against the proofs.
+## Historical reproducibility corrections
 
-## Historical and supplementary results
-
-- V20–V22 remain proof candidates.
-- **V22 reproducibility correction:** the original `full_certificate_cases.json` was never committed; its row is `SKIP`, not `PASS`.
-- V25 is a valid finite four-input classification but supplementary to the main paper.
-- V53 preserves its union-free substitution lemma and finite computations; two derived claims remain retracted.
+**V22 reproducibility correction:** the original `full_certificate_cases.json` was never committed. The theorem remains a proof candidate, while its finite certificate evidence is not repository-reproduced and the cumulative row remains a justified `SKIP`.
 
 ## Known background and overlap
 
-1. Range Avoidance and its lower-bound connections are prior work.
+1. Range Avoidance and lower-bound connections are prior work.
 2. `NC0_2-Avoid` algorithms are prior work.
 3. Monotone `NC0_3-Avoid` at `m>n` is prior work.
 4. CNF/2-CNF redundancy and IES are prior work.
 5. UCP-irredundance is prior work.
 6. Cube isoperimetry is classical.
-7. Randomized output sampling is elementary background.
+7. Uniform randomized output sampling is elementary background.
 
 ## Contributions with unresolved novelty
 
-- the exact grouped affine-fiber theorem of V56;
-- the orbit-constrained V57 gadget, finite classification and direct sums;
-- orientation depth in the Range-Avoidance output-image setting;
-- the specific combination of boundary geometry and flat-potential examples;
-- the degree-bounded V54 separator as distinct from the monotone algorithmic theorem.
+- the exact grouped affine-fiber formulation of V56;
+- the orbit-constrained V57 gadget and direct-sum family;
+- orientation depth in the output-image setting;
+- the specific boundary/flat-potential combination;
+- the low-degree V54 separator as distinct from the known monotone algorithm.
 
 None is declared novel pending specialist review.
 
@@ -75,35 +77,28 @@ None is declared novel pending specialist review.
 
 The project does not establish:
 
-- a deterministic polynomial-time algorithm for general `NC0_3-Avoid`;
-- a universal bounded orientation depth;
-- a universal monotone potential for boundary localization;
+- deterministic polynomial-time general `NC0_3-Avoid`;
+- universally bounded orientation depth;
+- a universal monotone localization potential;
 - completion of the `n=9` classification;
 - novelty of general 2-CNF irredundancy;
-- novelty of randomized output sampling;
-- an unrestricted circuit lower bound;
-- `P != NP` or any equivalent consequence.
+- novelty of randomized sampling;
+- unrestricted circuit lower bounds;
+- `P != NP`.
 
-## Current open questions
+## Promotion policy at V63
 
-1. Is V56 already explicit in affine CSP, coding or grouped-linear-constraint language?
-2. Is the orbit-constrained V57 construction a known grouped IES pattern?
-3. Does orientation depth coincide with an existing solution-graph parameter after translation?
-4. Is V54's low-degree separator implicit in Kuntewar–Sarma?
-5. What corrections or references will the contacted specialists provide?
-6. Can the full repository runner pass in clean CI, with V22 as a justified skip?
-
-## Program decision at V62
-
-The active objective is external correction and manuscript revision. Every future laboratory is committed as one coherent commit. Exact `n=9` work remains optional falsification/regression. No progress score toward P versus NP may be introduced.
+Every laboratory starts from current `main`, uses a dedicated branch, opens a non-draft PR, runs quick and full CI, and is squash-merged into `main` after success. A later correction is a separate corrective commit or laboratory; published historical evidence is not rewritten silently.
 
 ## Repository entry points
 
 - `README.md` — orientation and version map.
-- `STATE.md` — this compact state.
-- `LEDGER.json` — machine-readable claims, corrections and outreach.
+- `STATE.md` — cumulative state.
+- `LEDGER.json` — machine-readable scientific and promotion record.
 - `verify_all.sh` — cumulative runner.
-- `v62/INTEGRATED_MANUSCRIPT.md` — integrated draft.
-- `v62/SOURCE_TO_CLAIM.json` — automated citation/claim matrix.
-- `v62/EXTERNAL_CONTACT_STATUS.md` — sent/awaiting-reply record.
-- `v62/V63_CORE_CONTEXT.md` — next-session context.
+- `v62/INTEGRATED_MANUSCRIPT.md` — integrated manuscript.
+- `v63/REVIEWER_PACKET.md` — reviewer-facing entry point.
+- `v63/CI_PROMOTION_RECORD.md` — clean-CI evidence.
+- `v63/V64_CORE_CONTEXT.md` — next-session context.
+
+V22 remains a justified skip because the original certificate dataset is absent.
