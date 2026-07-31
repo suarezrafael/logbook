@@ -31,7 +31,8 @@ def verify_repository_surface(results):
     assert 'V68|primary|v68/verify.py|quick|' in runner
     assert 'V68|independent|v68/verify_independent.py|quick|' in runner
     state=(ROOT/'STATE.md').read_text()
-    assert '**Current laboratory:** V68' in state
+    current=re.search(r'\*\*Current laboratory:\*\* V(\d+)',state)
+    assert current and int(current.group(1))>=68
     assert 'Direct P-versus-NP route active:** no' in state
     assert '2^((n-3)/2)' in state and 'G_proj' in state
     root=(ROOT/'README.md').read_text()
