@@ -1,0 +1,72 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newcommand{\F}{\mathbb F_2}
+\title{Spine tree--DAG separation for affine-cell branching}
+\author{NC0\_k-Avoid Laboratory, V68}
+\date{2026-07-31}
+\begin{document}
+\maketitle
+
+\paragraph{Convention.}
+For local coordinates $(a,b,c)$, truth-table index means $4a+2b+c$.
+The positive fiber of mask $\mathtt{0x07}$ is
+$\{000,001,010\}$ and therefore pins $a=0$.
+
+\paragraph{Construction.}
+For $k\geq 1$, use variables
+$s,(u_0,v_0),\ldots,(u_{k-1},v_{k-1})$.
+For every $t$, include two motif gates on $(s,u_t,v_t)$ and
+$(s,v_t,u_t)$ with affine cells
+\[
+ C^0_t=\{000\},\qquad C^1_t=\{001,010\}.
+\]
+On motif zero add two anchors with positive fibers
+$\{000,001,011\}$ and $\{000,010,011\}$, each partitioned into
+$\{000\}$ and the complementary two-point affine line.
+The anchor masks are $\mathtt{0x0b}$ and $\mathtt{0x0d}$, both in the NPN
+orbit of $\mathtt{0x07}$.
+Thus $n=2k+1$ and $m=2k+2=n+1$.
+
+\begin{theorem}[Spine tree--DAG separation]
+Let $S_k$ be the construction above.
+The number of consistent complete branch signatures is
+\[
+ c(S_k)=2^{k-1}=2^{(n-3)/2}.
+\]
+Hence every complete inconsistency-pruned affine-cell branching tree for
+$S_k$ has at least $2^{k-1}$ leaves.
+Under the fixed gate order described in the proof and existential projection
+onto variables occurring in remaining gates, there is a residual-state DAG
+with exactly $3k+4$ nonterminal states, plus accepting and inconsistent
+terminals.
+\end{theorem}
+
+\begin{proof}
+Every cell forces $s=0$.  For each $t\geq1$, the assignment
+$(u_t,v_t)=(0,0)$ gives motif branch pair $00$, while the two one-hot
+assignments give branch pair $11$; $(1,1)$ is outside the motif fiber.
+Thus every free motif contributes exactly two signatures.
+
+For $t=0$, the $\mathtt{0x0b}$ anchor excludes $(1,0)$, the
+$\mathtt{0x0d}$ anchor excludes $(0,1)$, and the motif excludes $(1,1)$.
+Only $(0,0)$ remains.  Conditioned on $s=0$, the other pairs are disjoint,
+so their choices multiply and give $2^{k-1}$ signatures.  Distinct complete
+signatures require distinct complete consistent leaves.
+
+Order the gates as the two motif-zero gates, the two anchors, and then the two
+gates of each free motif consecutively.  The prefix has seven nonterminal
+projected residual states.  In a free motif, the first gate creates the two
+affine residuals $u_t=v_t=0$ and $u_t+v_t=1$.  The duplicate second gate is
+forced in each residual.  After it is consumed, $u_t,v_t$ occur nowhere in
+the suffix; existential projection removes their equations and both paths
+merge back to the same constraint $s=0$.  Each free motif adds three states,
+so the count is $7+3(k-1)=3k+4$.
+\end{proof}
+
+\paragraph{Boundary.}
+The projected quantity used here is repository-local.  This theorem does not identify it with OBDD size, FBDD size, resolution, Res-Lin, or any other standard proof-complexity measure.  It does not prove a general polynomial DAG bound, unrestricted $\mathrm{NC}^0_3$-Avoid, a circuit lower bound, or a separation of P from NP.
+
+\end{document}
