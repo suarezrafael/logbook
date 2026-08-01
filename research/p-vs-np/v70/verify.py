@@ -30,7 +30,8 @@ def main():
     runner=(ROOT/'verify_all.sh').read_text()
     assert 'V70|primary|v70/verify.py|quick|' in runner and 'V70|independent|v70/verify_independent.py|quick|' in runner
     assert 'V70|search-replay|v70/verify_search_reproduction.py|full|' in runner
-    state=(ROOT/'STATE.md').read_text();assert '**Current laboratory:** V70' in state and 'support-frontier' in state.lower()
+    state=(ROOT/'STATE.md').read_text();current=re.search(r'\*\*Current laboratory:\*\* V(\d+)',state)
+    assert current and int(current.group(1))>=70 and 'support-frontier' in state.lower()
     root=(ROOT/'README.md').read_text();assert '[`v70/`](v70/)' in root and 'PUBLICATION_INDEX.md' in root
     assert (ROOT/'PUBLICATION_INDEX.md').is_file()
     workflow=(ROOT.parent.parent/'.github'/'workflows'/'p-vs-np-verify.yml').read_text();assert 'V70_SUPPORT_FRONTIER_THEOREM.tex' in workflow
