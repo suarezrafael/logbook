@@ -6,11 +6,12 @@
 
 - [PUBLICATION_INDEX.md](PUBLICATION_INDEX.md) — academic entry point and theorem-status index.
 - [STATE.md](STATE.md) — cumulative scientific state.
-- [LEDGER.json](LEDGER.json) — machine-readable claims, reproducibility, outreach and promotion ledger.
-- [`v62/INTEGRATED_MANUSCRIPT.md`](v62/INTEGRATED_MANUSCRIPT.md) — historical integrated manuscript, pending V71 update.
+- [LEDGER.json](LEDGER.json) — machine-readable claims, reproducibility, outreach and promotion ledger; it remains at the last promoted laboratory until V71 CI completes.
+- [`v71/MANUSCRIPT.tex`](v71/MANUSCRIPT.tex) — current English consolidation of V54–V71.
 - [`v68/`](v68/) — explicit spine family separating branching trees from projected residual DAGs.
 - [`v69/`](v69/) — exact gate-order optimization and order-robustness experiments.
 - [`v70/`](v70/) — support-frontier bounds, component factorisation, and ordering heuristics.
+- [`v71/`](v71/) — support-hypergraph linear branch-width, primal pathwidth, and release candidate.
 - [`verify_all.sh`](verify_all.sh) — cumulative quick/full verifier.
 
 ## Current position
@@ -30,9 +31,20 @@ w(S) <= min(2^|S|, A(|F(S)|))
 G_proj(pi) <= sum_i min(2^i, A(b_i)) <= m A(q(pi)).
 ```
 
-Thus bounded support-frontier width gives an FPT-size projected residual DAG. V70 also proves exact factorisation over connected components of the processed support-incidence graph.
+V71 identifies the optimum frontier width `q*` exactly as the linear branch-width of the support hypergraph under the standard vertex-boundary connectivity function. If supports have rank at most `r` and `P(H)` is the primal graph, then
 
-A deterministic support lookahead reduces the preserved `n=14` fixed-order witness from `583` states to `41`. Exact-objective searches preserve new finite records `G*_proj=29` at `n=8` and `30` at `n=10`. These are search-budget records, not asymptotic lower bounds.
+```text
+q* <= pw(P(H)) + 1
+pw(P(H)) <= q* + r - 1.
+```
+
+For ternary supports the second additive term is two. A supplied width-`p` primal path decomposition constructs a gate order satisfying
+
+```text
+G_proj <= m A(p+1).
+```
+
+A separate tree-decomposition DP decides affine-cell feasibility with at most `A(k+1)` residuals per width-`k` bag, but it is not a bound on the linear parameter `G*_proj`.
 
 ## Contribution chain
 
@@ -50,7 +62,8 @@ A deterministic support lookahead reduces the preserved `n=14` fixed-order witne
 | V67 | Direct-sum proposition and overlap growth witnesses | Merged and CI verified |
 | V68 | Exponential spine-tree lower bound and linear projected DAG | Merged and CI verified |
 | V69 | Exact gate-order optimization and robustness audit | Merged and CI verified |
-| V70 | Support-frontier theorem, component product lemma, and order heuristics | Current laboratory |
+| V70 | Support-frontier theorem, component product lemma, and order heuristics | Merged and CI verified |
+| V71 | Linear branch-width vocabulary, pathwidth sandwich, tree-decomposition DP, and integrated manuscript | Candidate; local verification passed, PR CI required |
 
 ## Reproducibility and promotion
 
@@ -59,4 +72,4 @@ bash ./verify_all.sh
 bash ./verify_all.sh --full
 ```
 
-Each laboratory follows `main -> branch -> non-draft PR -> quick/full/LaTeX CI -> squash merge to main`. V22 and V26 remain justified skips. The direct P-versus-NP route remains inactive.
+Each laboratory follows `main -> branch -> PR -> quick/full/LaTeX CI -> squash merge to main`. V22 and V26 remain justified skips. The direct P-versus-NP route remains inactive.
