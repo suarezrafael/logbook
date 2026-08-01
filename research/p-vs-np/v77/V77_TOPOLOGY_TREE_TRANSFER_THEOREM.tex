@@ -1,0 +1,109 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+
+\title{Laboratory V77: Restricted Topology-Tree Transfer}
+\author{NC0\_k-Avoid Laboratory}
+\date{August 2026}
+
+\begin{document}
+\maketitle
+
+\paragraph{Setting.}
+Let $M$ be a set of $m$ gates with supports $\operatorname{supp}(i)$ and define
+\[
+ \lambda(S)=\left|\bigcup_{i\in S}\operatorname{supp}(i)
+ \cap \bigcup_{i\notin S}\operatorname{supp}(i)\right|.
+\]
+A supplied branch decomposition is a subcubic tree $T$ whose leaves are the
+gates and whose displayed cuts all have $\lambda$-value at most $b$.
+
+\paragraph{Prior-art ingredient.}
+Frederickson's restricted multilevel partitions give a binary topology-tree
+hierarchy of logarithmic height. Every topology cluster is a connected vertex
+set with at most three leaving tree edges, and a cluster with three leaving
+edges consists of one vertex. This topology-tree framework and its relation
+to top trees are prior art.
+
+\begin{lemma}[Retained two-edge lemma]
+Attach gate labels only to the degree-one leaves of $T$. Delete topology-tree
+branches containing no gate label and suppress unary nodes. Every retained
+label-bearing cluster has at most two source-tree edges leaving it.
+\end{lemma}
+
+\begin{proof}
+A retained cluster with more than one vertex cannot have three leaving edges,
+because the topology-tree invariant allows external degree three only for a
+singleton. A singleton retained cluster contains a gate label and is therefore
+a source-tree leaf, so it has degree one. Hence every retained cluster has at
+most two leaving edges.
+\end{proof}
+
+\begin{lemma}[Two-edge support-boundary cover]
+Let $C$ be a retained cluster and let $S(C)$ be its gate labels. The support
+boundary of $S(C)$ is contained in the union of the middle sets of at most two
+original branch-tree edges.
+\end{lemma}
+
+\begin{proof}
+If a variable occurs in a gate of $S(C)$ and in a gate outside $S(C)$, the
+unique path between the corresponding source leaves exits the connected
+cluster $C$. It therefore crosses one of the at most two leaving edges. The
+variable belongs to that edge's middle set.
+\end{proof}
+
+\begin{theorem}[Restricted topology-tree transfer]
+From a supplied width-$b$ subcubic gate branch decomposition, one obtains a
+rooted binary gate tree $T'$ satisfying
+\[
+ \operatorname{width}(T')\le 2b,
+ \qquad \operatorname{height}(T')=O(\log m),
+ \qquad \operatorname{EPL}(T')=O(m\log m).
+\]
+\end{theorem}
+
+\begin{proof}
+The prior-art topology hierarchy has height $O(\log |V(T)|)=O(\log m)$.
+Pruning unlabeled branches and suppressing unary nodes preserves a rooted binary
+gate hierarchy and does not increase height. At every retained node, the
+preceding cover lemma and the supplied width bound give
+$\lambda(S(C))\le 2b$. A tree with $m$ leaves and logarithmic height has
+external path length $O(m\log m)$.
+\end{proof}
+
+\begin{proposition}[V75 consequence]
+Rebuilding the V75 symbolic residual circuit on $T'$ gives incremental
+prefix-avoidance time
+\[
+ O\!\left(m\log m\,A(2b)^2\operatorname{poly}(n,m)\right).
+\]
+\end{proposition}
+
+\begin{proposition}[Cluster-level tightness]
+There is a rank-three four-gate instance with supplied width $b=3$ and a valid
+label-bearing two-boundary-edge cluster whose support boundary has size six.
+Thus the two-edge inequality can attain $2b$ for one cluster.
+\end{proposition}
+
+\begin{remark}
+This proposition is not a global factor-two lower bound: a different
+logarithmic-height hierarchy may avoid that cluster. V77 does not prove that
+factor two is optimal, does not refute width preservation, does not solve
+unrestricted \(\mathrm{NC}^0_3\)-Avoid, and does not resolve P versus NP.
+Novelty and peer review are not claimed.
+\end{remark}
+
+\paragraph{References.}
+G.~N. Frederickson, \emph{Ambivalent Data Structures for Dynamic
+2-Edge-Connectivity and $k$ Smallest Spanning Trees}, SIAM J. Comput. 26(2),
+1997. S.~Alstrup, J.~Holm, K.~de Lichtenberg, and M.~Thorup,
+\emph{Maintaining Information in Fully-Dynamic Trees with Top Trees},
+arXiv:cs/0310065.
+
+\end{document}

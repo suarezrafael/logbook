@@ -1,0 +1,90 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+
+\title{Laboratory V77: FPT Avoidance from Support Connectivity Branchwidth}
+\author{NC0\_k-Avoid Laboratory}
+\date{August 2026}
+
+\begin{document}
+\maketitle
+
+Let $C:\{0,1\}^n\to\{0,1\}^m$ be an explicitly represented Boolean
+circuit whose output gates have fan-in at most three. For a set $S$ of output
+gates, define
+\[
+ \lambda_C(S)=\left|\bigcup_{i\in S}\operatorname{supp}(i)
+ \cap \bigcup_{i\notin S}\operatorname{supp}(i)\right|.
+\]
+
+\begin{lemma}[Support connectivity]
+The function $\lambda_C$ is normalized, symmetric, integer valued,
+nonnegative, and submodular. Hence it is a connectivity function.
+Furthermore, one oracle evaluation takes $\gamma=O(m)$ time for explicit
+fan-in-three supports.
+\end{lemma}
+
+\begin{proof}
+For each input variable $x$, let $I_x(S)$ be one when $x$ occurs in at least
+one gate of $S$ and at least one gate outside $S$, and zero otherwise. The
+function $I_x$ is the cut indicator of the set of output gates containing
+$x$; it is normalized, symmetric, and submodular. Since
+$\lambda_C=\sum_x I_x$, the stated properties follow. Scanning all supports
+uses at most three incidences per gate.
+\end{proof}
+
+\paragraph{Prior-art decomposition theorem.}
+For $m>1$, Korhonen and Oum prove that, for a connectivity function on a
+ground set of size $m$ given by an oracle of cost $\gamma$, a branch
+decomposition of width at most $k$ can be found, or nonexistence certified, in
+\[
+ 2^{O(k)}\gamma m^6\log m+2^{O(k^2)}\gamma m.
+\]
+The valid simplified upper bound
+$2^{O(k^2)}\gamma m^6\log m$ is sometimes used for display. The theorem is
+used as a black box and is not reimplemented here.
+
+\begin{theorem}[Support-branchwidth FPT avoidance]
+Assume $m>n$, and let $k=\operatorname{bw}(\lambda_C)$. There is an algorithm
+that constructs an output word outside $\operatorname{range}(C)$ in time
+\[
+ 2^{O(k)}\gamma m^6\log m
+ +2^{O(k^2)}\gamma m
+ +O\!\left(m\log m\,A(2k)^2\operatorname{poly}(n,m)\right).
+\]
+In the explicit support representation, $\gamma=O(m)$. Consequently
+$\mathrm{NC}^0_3$-Avoid is fixed-parameter tractable when parameterized by
+support connectivity branchwidth.
+\end{theorem}
+
+\begin{proof}
+If $m\leq1$, then $m>n$ forces a constant-size instance, and direct enumeration
+of the output words finds an avoided word. Assume $m>1$. Apply the
+Korhonen--Oum algorithm to $\lambda_C$ to obtain a width-$k$ gate branch
+decomposition. Apply the V77 restricted topology-tree transfer to obtain a
+rooted binary gate tree of width at most $2k$, height $O(\log m)$, and external
+path length $O(m\log m)$. Compile the V75 symbolic residual circuit on this
+tree. The V74 exact prefix identity chooses a zero-preimage child at each
+output coordinate. Since $m>n$, the final output word has no preimage. Summing
+the discovery and avoidance costs gives the bound.
+\end{proof}
+
+\begin{remark}
+This theorem removes the supplied-decomposition hypothesis from the
+parameterized chain. It does not bound $k$ for unrestricted circuits, does not
+implement the Korhonen--Oum algorithm, does not prove a standard-model lower
+bound, and does not resolve P versus NP. Novelty and peer review are not
+claimed.
+\end{remark}
+
+\paragraph{References.}
+T.~Korhonen and S.-i.~Oum, \emph{Branch-width of connectivity functions is
+fixed-parameter tractable}, arXiv:2601.04756, 2026. F.~V.~Fomin and
+T.~Korhonen, \emph{Fast FPT-Approximation of Branchwidth}, STOC 2022.
+
+\end{document}
