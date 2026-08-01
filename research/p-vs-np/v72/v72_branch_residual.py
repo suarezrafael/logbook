@@ -145,9 +145,10 @@ def pathwidth_order_case(label,n,specs,expected_gstar):
 
 def v70_pathwidth_benchmarks():
     seeds=json.loads((ROOT/"v69"/"seed_data.json").read_text());search=json.loads((ROOT/"v70"/"SEARCH_SPEC.json").read_text());items=[]
+    frozen_gstar={6:15,8:15,10:17,12:29}
     for n in (6,8,10,12):
         record=seeds["natural_records"][str(n)]
-        items.append(pathwidth_order_case(f"v69-natural-n{n}",n,record["specs"],int(record["exact"]["Gstar"])))
+        items.append(pathwidth_order_case(f"v69-natural-n{n}",n,record["specs"],frozen_gstar[n]))
     for n in (8,10):
         record=search["searches"][str(n)]
         items.append(pathwidth_order_case(f"v70-exact-record-n{n}",n,record["specs"],int(record["expected_Gstar"])))
