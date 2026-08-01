@@ -32,6 +32,7 @@ fi
 "$PYTHON" "$ROOT/check_runner_coverage.py"
 
 CHECKS=(
+  "V20|historical|v20/verify.py|quick|"
   "V22|primary|v22/verify.py|skip|missing v22/full_certificate_cases.json; aggregate RESULTS.json cannot reconstruct the original 125 certificates"
   "V25|index|v25/verify_index.py|quick|"
   "V26|primary|v26/verify.py|quick|"
