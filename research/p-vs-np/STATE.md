@@ -1,19 +1,20 @@
 # Cumulative scientific state
 
-**Current laboratory:** V70  
+**Current laboratory:** V71 candidate  
 **Updated:** 2026-07-31  
 **Program name:** `NC0_k-Avoid Laboratory`  
 **P-versus-NP research active:** exploratory  
 **Direct P-versus-NP route active:** no  
 **P versus NP resolved:** no  
 **External review:** requested, replies pending  
-**External contact:** sent
+**External contact:** sent  
+**Promotion status:** local verification passed; pull-request CI required
 
 ## Current scientific position
 
 V68 gives an explicit stretch-one family with exponentially many complete branching-tree leaves while the same family has a linear projected residual DAG.
 
-V69 defines the order-robust parameter
+V69 defines
 
 ```text
 G*_proj = min over gate orders pi of G_proj(pi)
@@ -24,59 +25,83 @@ and proves that it is the shortest-path cost in the subset lattice of processed 
 V70 introduces the support frontier
 
 ```text
-F(S) = union(processed supports) intersect union(unprocessed supports).
+F(S) = union(processed supports) intersect union(unprocessed supports)
 ```
 
-If `w(S)` is the projected residual layer width and `A(b)` is the number of nonempty affine subspaces of `GF(2)^b`, then
+and proves
 
 ```text
-w(S) <= min(2^|S|, A(|F(S)|)).
+w(S) <= min(2^|S|, A(|F(S)|))
+G_proj(pi) <= sum_i min(2^i, A(b_i)) <= m A(q(pi)).
 ```
 
-For an order with frontier profile `b_i` and maximum frontier `q`,
+It also proves exact component factorisation of projected residual-state sets.
+
+## V71 standard-width correspondence
+
+Let `H` be the support hypergraph, with one labelled hyperedge per gate, and define
 
 ```text
-G_proj(pi) <= sum_i min(2^i, A(b_i)) <= m A(q).
+lambda_H(S) = |V(S) intersect V(E(H) \ S)|.
 ```
 
-This proves an FPT-size upper bound parameterized by support-frontier width. It does not prove that a sufficiently small-frontier order always exists or is always findable in polynomial time.
-
-## Component structure
-
-The projected residual-state set factors exactly across connected components of the processed support-incidence graph. V70 verifies this identity on every subset cut of two representative systems, for 640 exact component checks.
-
-## V70 finite scope
-
-Support-only deterministic heuristics give:
+This is exactly the V70 frontier size. Therefore
 
 ```text
-n=6:  natural 48  -> lookahead 26; exact G*=15
-n=8:  natural 99  -> lookahead 25; exact G*=15
-n=10: natural 263 -> lookahead 33; exact G*=17
-n=12: natural 580 -> lookahead 52; exact G*=29
-n=14: natural 583 -> lookahead 41; exact optimum not computed
+q* = min_pi max_prefix lambda_H
 ```
 
-A separate exact-objective mutation search preserves new finite records:
+is the linear branch-width of the support hypergraph under the vertex-boundary connectivity function. For ordinary graphs this specializes to classical linear-width.
+
+If every support has size at most `r` and `P(H)` is the primal graph, V71 proves the constructive sandwich
 
 ```text
-n=8:  G*_proj=29
-n=10: G*_proj=30
+q* <= pw(P(H)) + 1
+pw(P(H)) <= q* + r - 1.
 ```
 
-These are budget records, not global maxima and not asymptotic evidence.
+For ternary supports:
 
-## Consequence for the projected-DAG program
+```text
+q* <= pw(P(H)) + 1
+pw(P(H)) <= q* + 2.
+```
 
-The next mathematical target is to relate support-frontier width to a standard hypergraph pathwidth or treewidth notion and derive constructible orders or sharper decomposition algorithms. The competing target remains an explicit family whose `G*_proj` is superpolynomial under every order.
+A supplied width-`p` primal path decomposition gives a polynomial-time gate order with frontier at most `p+1`, and hence
 
-No simulation to OBDD, FBDD, resolution, Res-Lin, or communication complexity has been proved. Existing lower bounds in those models cannot be imported.
+```text
+G_proj <= m A(p+1).
+```
+
+## Tree-decomposition result and boundary
+
+A nice tree decomposition of primal width `k` gives an exact affine-cell feasibility DP with at most `A(k+1)` distinct affine residuals per bag and direct join cost at most `A(k+1)^2 poly(k)`.
+
+This DP is tree-shaped and is not the linear projected residual DAG. Treewidth alone does not control the linear order parameter because trees have treewidth one and unbounded pathwidth.
+
+## V71 finite validation
+
+The constructive maps and inequalities were checked on:
+
+```text
+3,472 exhaustive rank-at-most-three hypergraphs on four variables,
+160 seeded rank-two/three hypergraphs on five variables,
+240 additional independent bit-mask instances.
+```
+
+Both V71 LaTeX documents compile in two passes locally. These checks are regressions, not the mathematical proof and not external review.
 
 ## Publication and discovery
 
-`PUBLICATION_INDEX.md` is now the academic entry point. The repository remains an audit artifact, not a substitute for an indexed manuscript. V71 is reserved for an English LaTeX consolidation and reviewed release metadata. No ECCC, arXiv, or Zenodo publication is claimed by V70.
+`v71/MANUSCRIPT.tex` is the current English consolidation and `v71/THEOREM_STATUS.md` is the single status table. `v71/ECCC_METADATA.yaml` is explicitly marked `draft_not_submitted`. No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confirmation is claimed.
 
-The earliest planned external follow-up remains **2026-08-24**. Silence is not evidence of novelty, correctness, or approval.
+The repository license, authorship metadata, external proof review, release tag, and archive checks remain gates before public archival.
+
+## Consequence for the projected-DAG program
+
+V71 turns the V70 frontier parameter into a standard width interface and gives constructible FPT upper bounds on bounded-pathwidth instances. It does not prove that unrestricted support hypergraphs have small pathwidth or that a good order can always be found with polynomial width.
+
+The competing lower-bound target remains an explicit family whose `G*_proj` is superpolynomial under every order. No simulation to OBDD, FBDD, resolution, Res-Lin, or communication complexity has been proved.
 
 ## Lower-bound route gates
 
@@ -92,9 +117,11 @@ The earliest planned external follow-up remains **2026-08-24**. Silence is not e
 ## Repository entry points
 
 - `PUBLICATION_INDEX.md` — theorem-status and discovery index;
-- `v70/SUPPORT_FRONTIER_THEOREM.md` — theorem and proof;
-- `v70/COMPONENT_FACTORISATION.md` — exact product lemma;
-- `v70/HEURISTIC_BENCHMARK.md` — reproducible benchmark;
-- `v70/RESULTS.json` and `v70/WITNESSES.json` — exact records;
-- `v70/V70_SUPPORT_FRONTIER_THEOREM.tex` — standalone formal module;
-- `v70/V71_CORE_CONTEXT.md` — next laboratory constraints.
+- `v71/MANUSCRIPT.tex` — current consolidated manuscript;
+- `v71/WIDTH_CORRESPONDENCE.md` — V71 definitions and proofs;
+- `v71/V71_WIDTH_CORRESPONDENCE_THEOREM.tex` — standalone formal module;
+- `v71/RESULTS.json` — finite validation output;
+- `v71/V72_CORE_CONTEXT.md` — next laboratory constraints;
+- `v70/RESULTS.json` and `v70/WITNESSES.json` — preserved V70 records.
+
+`LEDGER.json` remains at V70 until the V71 branch passes repository CI and is promoted.
