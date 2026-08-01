@@ -37,10 +37,15 @@ def bicriteria_frontier(n,specs):
         if item is not None:feasible.append(item)
     assert feasible
     gstar=min(item["G_proj"] for item in feasible);qstar=feasible[0]["budget"]
-    min_budget=min(item["budget"] for item in feasible if item["G_proj"]==gstar)
+    gstar_item=next(item for item in feasible if item["G_proj"]==gstar)
+    breakpoints=[];last=None
+    for item in feasible:
+        if item["G_proj"]!=last:
+            breakpoints.append({"budget":item["budget"],"G_proj":item["G_proj"],"order":item["order"]});last=item["G_proj"]
     return {"qstar":qstar,"Gstar":gstar,"minimum_width_cost":feasible[0]["G_proj"],
-      "minimum_budget_for_Gstar":min_budget,"budget_slack_to_Gstar":min_budget-qstar,
-      "price_of_minimum_width":feasible[0]["G_proj"]/gstar,"pareto":feasible}
+      "minimum_width_order":feasible[0]["order"],"minimum_budget_for_Gstar":gstar_item["budget"],
+      "Gstar_order":gstar_item["order"],"budget_slack_to_Gstar":gstar_item["budget"]-qstar,
+      "price_of_minimum_width":feasible[0]["G_proj"]/gstar,"pareto_breakpoints":breakpoints}
 
 def seeded_bicriteria_validation(seed=730073,samples=48):
     rng=random.Random(seed);budget_checks=0
