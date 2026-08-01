@@ -6,13 +6,15 @@ from v73_bicriteria_avoidance import generate_results
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parent
 
 def main():
-    committed=json.loads((HERE/"RESULTS.json").read_text())
-    results=generate_results()
-    assert committed==results,"committed V73 RESULTS.json differs from generate_results()"
     required=["README.md","BICRITERIA_AND_MULTIPLICITY.md","BICRITERIA_BENCHMARK.md",
       "V73_BICRITERIA_AVOIDANCE_THEOREM.tex","V74_CORE_CONTEXT.md","bicriteria.py","multiplicity.py",
       "tree_compression.py","v73_bicriteria_avoidance.py","verify.py","verify_independent.py","RESULTS.json"]
     assert all((HERE/name).is_file() for name in required)
+    snapshot=HERE/"RESULTS.json"
+    assert snapshot.is_file(),"committed V73 RESULTS.json is missing"
+    committed=json.loads(snapshot.read_text(encoding="utf-8"))
+    results=generate_results()
+    assert committed==results,"committed V73 RESULTS.json differs from generate_results()"
     assert results["version"]=="V73" and results["status"]=="passed" and results["failures"]==0
     assert results["bicriteria_validation"]=={"seed":730073,"systems":48,"budget_checks":211}
     assert results["multiplicity_validation"]=={"seed":730074,"systems":96,"branch_nodes":808}
