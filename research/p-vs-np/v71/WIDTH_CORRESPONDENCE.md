@@ -4,7 +4,7 @@
 
 Let `H=(X,E)` be the support hypergraph of an affine-cell gate system. The vertices `X` are input variables and each gate contributes one hyperedge equal to its support. Parallel supports may be retained as distinct labelled hyperedges.
 
-For `S subseteq E`, write
+For $S \subseteq E$, write
 
 ```text
 V(S) = union_{e in S} e,
