@@ -1,0 +1,159 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\bd}{\partial}
+
+\title{V72: Rank-Three Linear-Width Complexity and Branch Residual Composition}
+\author{NC0\_k-Avoid Laboratory}
+\date{31 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We formalize three results for the support-hypergraph interface developed in
+Laboratories V70--V71.  Vertex-boundary linear branch-width is NP-complete even
+on simple three-uniform hypergraphs; an exact subset dynamic program runs in
+$O(m2^m\operatorname{poly}(n))$ time; and a supplied binary gate decomposition
+of boundary width $b$ supports exact affine residual composition using at most
+$A(b)$ states per node and $A(b)^2$ child pairs per join.  We also record a
+bounded-primal-treewidth family with unbounded linear support width.  None of
+these statements resolves unrestricted Range Avoidance or P versus NP.
+\end{abstract}
+
+\section{Definitions}
+Let $H=(V,E)$ be a hypergraph with labelled hyperedges.  For $S\subseteq E$,
+define
+\[
+ \lambda_H(S)=\bigl|V(S)\cap V(E\setminus S)\bigr|.
+\]
+For an ordering $\pi=(e_1,\ldots,e_m)$, put
+\[
+ q(\pi)=\max_i\lambda_H(\{e_1,\ldots,e_i\}),\qquad
+ q^*(H)=\min_\pi q(\pi).
+\]
+This is the V70 support-frontier optimum, expressed in the standard linear
+branch-width vocabulary fixed in V71.
+
+\section{Complexity at rank three}
+\begin{theorem}[Three-uniform NP-completeness]
+Given a simple three-uniform hypergraph $H$ and an integer $k$, deciding whether
+$q^*(H)\le k$ is NP-complete.
+\end{theorem}
+
+\begin{proof}
+An edge order is a polynomial-size certificate, and its maximum boundary can be
+checked by maintaining processed and unprocessed incidence counts.
+
+For hardness, start with a simple graph $G=(V,E)$.  For every edge $e=uv$,
+introduce a fresh vertex $z_e$ and replace $e$ by the triple
+$\{u,v,z_e\}$.  Call the resulting simple three-uniform hypergraph $H_G$.
+For every $S\subseteq E$, no $z_e$ lies in the boundary because it occurs in
+only one hyperedge.  An original vertex $v$ lies in the hypergraph boundary
+exactly when it is incident to graph edges on both sides of the same cut.
+Therefore
+\[
+ \lambda_{H_G}(S)=\lambda_G(S)
+\]
+for every labelled edge subset, so every ordering has exactly the same width in
+$G$ and $H_G$.  Hence $q^*(H_G)$ equals graph linearwidth.  Computing graph
+linearwidth is NP-hard, and the reduction is polynomial.
+\end{proof}
+
+\section{Exact subset optimization}
+\begin{theorem}[Exact width dynamic program]
+The value $q^*(H)$ and an optimal labelled-edge order can be computed in
+$O(m2^m\operatorname{poly}(n))$ time using $O(2^m)$ numeric states.
+\end{theorem}
+
+\begin{proof}
+For $S\subseteq E$, let $D[S]$ be the minimum maximum boundary among orders of
+exactly the edges in $S$.  Then
+\[
+ D[\varnothing]=0,\qquad
+ D[S]=\min_{e\in S}\max\{D[S\setminus\{e\}],\lambda_H(S)\}.
+\]
+In an optimal order of $S$, condition on its last edge for the lower bound; for
+the upper bound, append that edge to an order realizing the predecessor state.
+There are $2^m$ states and at most $m$ transitions per state.  Predecessor
+pointers recover an optimal order.
+\end{proof}
+
+\section{Branch residual composition}
+Consider an affine-cell gate system and a rooted binary tree whose leaves are
+the gates.  For a node $t$, let $E_t$ be its leaf set and
+\[
+ \bd t=V(E_t)\cap V(E\setminus E_t).
+\]
+Let $R_t$ contain the distinct nonempty affine residuals obtained by selecting
+one cell from each gate in $E_t$ and existentially projecting to $\bd t$.
+Let $A(b)$ denote the number of nonempty affine subspaces of $\F_2^b$.
+
+\begin{theorem}[Exact branch residual DP]
+If $t$ has children $u,v$, then
+\[
+ R_t=\left\{
+ \operatorname{proj}_{\bd t}(A\cap B):
+ A\in R_u,\ B\in R_v,\ A\cap B\ne\varnothing
+ \right\}.
+\]
+Consequently, on a supplied decomposition with $|\bd t|\le b$ for every node,
+exact affine feasibility is computable in
+\[
+ O\!\left(mA(b)^2\operatorname{poly}(n)\right)
+\]
+time with at most $A(b)$ residual states per node.
+\end{theorem}
+
+\begin{proof}
+Induct on the binary tree.  At a leaf, project its two cells and deduplicate.
+At an internal node, every cell selection splits uniquely into selections in
+the two child subtrees.  A variable shared by the children is visible outside
+each child, so child projection cannot discard information required by their
+conjunction.  The conjunction of the two child residuals followed by projection
+to $\bd t$ is therefore exactly the direct residual of the combined selection.
+The reverse inclusion follows from the child selections witnessing each pair.
+
+A residual on at most $b$ Boolean coordinates is a nonempty affine subspace of
+$\F_2^b$, giving $|R_t|\le A(b)$.  Each join tests at most $A(b)^2$ pairs, and
+a binary tree with $m$ leaves has $O(m)$ nodes.
+\end{proof}
+
+\section{Treewidth does not control the linear parameter}
+\begin{corollary}
+There is a family of simple three-uniform hypergraphs whose primal graphs have
+treewidth at most two while $q^*$ is unbounded.
+\end{corollary}
+
+\begin{proof}
+Apply the private-vertex construction to perfect binary trees.  A tree edge and
+its private vertex form a triangle, and one three-vertex bag per original edge
+gives a width-two tree decomposition.  The construction preserves every
+edge-cut boundary, so its $q^*$ equals the graph linearwidth of the tree.
+Perfect binary trees have unbounded pathwidth, and graph linearwidth differs
+from pathwidth by at most one outside the known tiny exception.  Thus $q^*$ is
+unbounded.
+\end{proof}
+
+\section{Finite benchmark}
+On six frozen V69--V70 systems, pathwidth-derived orders have projected-DAG
+cost between $1.379$ and $2.059$ times the exact preserved $G^*_{\rm proj}$.
+This is finite experimental evidence, not an approximation theorem.  The exact
+width DP is independently checked against permutation enumeration, and branch
+residual composition is checked against direct cell enumeration.
+
+\section{Scope}
+The branch computation is tree-shaped affine feasibility, not the linear
+$G_{\rm proj}$ model and not an asserted OBDD, FBDD, resolution, Res-Lin, or
+communication-complexity simulation.  We do not prove a general polynomial
+good-order theorem, an all-orders superpolynomial lower bound, unrestricted
+$\mathrm{NC}^0_3$-Avoid, or any P-versus-NP consequence.  Novelty and peer
+review are unconfirmed.
+
+\end{document}
