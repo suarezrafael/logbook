@@ -1,0 +1,198 @@
+{
+  "affine_cost_table": [
+    {
+      "A_2b": 11,
+      "A_4b": 307,
+      "b": 1,
+      "squared_cost_ratio_A4b_over_A2b": [
+        94249,
+        121
+      ]
+    },
+    {
+      "A_2b": 307,
+      "A_4b": 7866259,
+      "b": 2,
+      "squared_cost_ratio_A4b_over_A2b": [
+        61878030655081,
+        94249
+      ]
+    },
+    {
+      "A_2b": 26387,
+      "A_4b": 37070813107603,
+      "b": 3,
+      "squared_cost_ratio_A4b_over_A2b": [
+        1374245184458830394056405609,
+        696273769
+      ]
+    },
+    {
+      "A_2b": 7866259,
+      "A_4b": 40994263184865380595091,
+      "b": 4,
+      "squared_cost_ratio_A4b_over_A2b": [
+        1680529614070009097595722868433848053293298281,
+        61878030655081
+      ]
+    }
+  ],
+  "failures": 0,
+  "five_variable_isomorphism_audit": {
+    "by_gate_count": {
+      "1": {
+        "isomorphism_orbits": 3,
+        "maximum_additive_inflation": 0,
+        "perfect_height_width_inflations": 0,
+        "raw_families": 25
+      },
+      "2": {
+        "isomorphism_orbits": 12,
+        "maximum_additive_inflation": 0,
+        "perfect_height_width_inflations": 0,
+        "raw_families": 300
+      },
+      "3": {
+        "isomorphism_orbits": 50,
+        "maximum_additive_inflation": 0,
+        "perfect_height_width_inflations": 0,
+        "raw_families": 2300
+      },
+      "4": {
+        "isomorphism_orbits": 193,
+        "maximum_additive_inflation": 0,
+        "perfect_height_width_inflations": 0,
+        "raw_families": 12650
+      },
+      "5": {
+        "isomorphism_orbits": 648,
+        "maximum_additive_inflation": 0,
+        "perfect_height_width_inflations": 0,
+        "raw_families": 53130
+      },
+      "6": {
+        "isomorphism_orbits": 1896,
+        "maximum_additive_inflation": 0,
+        "perfect_height_width_inflations": 0,
+        "raw_families": 177100
+      }
+    },
+    "isomorphism_orbits": 2802,
+    "maximum_gate_count": 6,
+    "perfect_height_width_inflations": 0,
+    "raw_families": 245505,
+    "support_universe_size": 25,
+    "variables": 5
+  },
+  "scientific_status": {
+    "factor_two_known_optimal_for_all_hierarchies": false,
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false,
+    "p_vs_np_route_active": false,
+    "peer_reviewed": false,
+    "retained_cluster_two_edge_lemma_proved": true,
+    "standard_model_lower_bound_proved": false,
+    "supplied_decomposition_width_2b_log_height_transfer_proved": true,
+    "topology_tree_log_height_is_prior_art": true,
+    "two_edge_cover_inequality_tight_for_one_cluster": true,
+    "unrestricted_nc0_3_avoid_solved": false,
+    "v76_width_4b_transfer_still_correct_but_dominated": true,
+    "width_preserving_O_log_m_refuted": false
+  },
+  "seeded_transfer_audit": {
+    "maximum_cover_edges": 2,
+    "maximum_observed_ratio": [
+      4,
+      3
+    ],
+    "maximum_source_width": 10,
+    "maximum_transferred_width": 10,
+    "retained_records_checked": 5132,
+    "seed": 770077,
+    "systems": 256
+  },
+  "static_certificate": {
+    "bytes": 10755,
+    "path": "STATIC_TOPOLOGY_CERTIFICATE.json",
+    "sha256": "da96a87d2cf30e527fd1c9ae9fb869cf0ecfaa15e1dac8aea2f40c1938b0ea60"
+  },
+  "status": "passed",
+  "topology_certificate_audit": {
+    "all_cluster_boundary_edge_histogram": {
+      "0": 2055,
+      "1": 36356,
+      "2": 18514,
+      "3": 16314
+    },
+    "maximum_leaf_count": 9,
+    "maximum_retained_gate_height": 4,
+    "maximum_topology_height": 6,
+    "ordered_source_shapes": 2055,
+    "retained_cluster_boundary_edge_histogram": {
+      "0": 2055,
+      "1": 27861,
+      "2": 3181
+    },
+    "retained_degree_three_clusters": 0,
+    "retained_label_clusters": 33097,
+    "source_vertices": 31042,
+    "topology_clusters": 73239
+  },
+  "transfer_theorem": {
+    "cluster_property": "each non-singleton topology cluster has at most two boundary edges; an external-degree-three cluster is a singleton",
+    "input": "a supplied width-b subcubic gate branch decomposition",
+    "label_property": "gate labels lie at degree-one source leaves, so every retained label-bearing cluster has at most two boundary edges",
+    "name": "restricted topology-tree support-boundary transfer",
+    "output_external_path_length": "O(m log m)",
+    "output_height": "O(log m)",
+    "output_width": "at most 2b",
+    "prior_art": "Frederickson restricted multilevel partitions/topology trees, as related to top trees by Alstrup-Holm-de Lichtenberg-Thorup",
+    "v75_consequence": "O(m log m A(2b)^2 poly(n,m)) incremental prefix avoidance"
+  },
+  "two_edge_tightness_witness": {
+    "boundary_edges": [
+      [
+        4,
+        0
+      ],
+      [
+        5,
+        3
+      ]
+    ],
+    "cluster_labels": [
+      1,
+      2
+    ],
+    "cluster_support_boundary": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "cluster_width": 6,
+    "interpretation": "The two-edge cover inequality can attain 2b on a valid label-bearing cluster; this is not a lower bound for every logarithmic-height hierarchy.",
+    "ratio": [
+      6,
+      3
+    ],
+    "source_width_b": 3
+  },
+  "v76_witness_regression": {
+    "all_minimum_width": 2,
+    "all_perfect_height_width": 3,
+    "families": 6,
+    "frontiers": [
+      [[2, 4, 21], [3, 3, 20]],
+      [[2, 4, 21], [3, 3, 20]],
+      [[2, 4, 21], [3, 3, 20]],
+      [[2, 4, 21], [3, 3, 20]],
+      [[2, 4, 21], [3, 3, 20]],
+      [[2, 4, 21], [3, 3, 20]]
+    ],
+    "interpretation": "The finite perfect-height tradeoff remains valid but does not contradict the 2b O(log m) topology-tree transfer."
+  },
+  "version": "V77"
+}
