@@ -5,7 +5,13 @@ import json
 import re
 from pathlib import Path
 
-from two_fiber_model import brute_preimage_counts, make_gate, weighted_target_dp
+from or_path_family import or_path_instance, residual_width_tables
+from two_fiber_model import (
+    brute_preimage_counts,
+    compiled_fiber_cells,
+    make_gate,
+    weighted_target_dp,
+)
 from v74_two_fiber_avoidance import generate_results
 
 HERE = Path(__file__).resolve().parent
@@ -28,10 +34,34 @@ def main() -> None:
     assert_value_error(lambda: weighted_target_dp(2, [out_of_range_gate], [0]))
     assert_value_error(lambda: brute_preimage_counts(2, [out_of_range_gate]))
 
-    results = generate_results()
-    (HERE / "RESULTS.json").write_text(
-        json.dumps(results, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    gate_x = make_gate((0,), 0b10)
+    gate_true = make_gate((0,), 0b11)
+    gate_not_x = make_gate((0,), 0b10, output_flip=1)
+    zero_fiber = compiled_fiber_cells(1, gate_x, 0)
+    one_fiber = compiled_fiber_cells(1, gate_x, 1)
+    tautology = compiled_fiber_cells(1, gate_x, None)
+    assert zero_fiber != one_fiber
+    assert tautology == (tuple(),)
+    assert compiled_fiber_cells(1, gate_true, 1) != one_fiber
+    assert compiled_fiber_cells(1, gate_not_x, 1) == zero_fiber
+
+    path_n, path_gates, path_target = or_path_instance(5)
+    cached_widths, cached_frontiers = residual_width_tables(
+        path_n, path_gates, path_target
     )
+    cached_widths[0] = -1
+    cached_frontiers[0] = -1
+    fresh_widths, fresh_frontiers = residual_width_tables(
+        path_n, path_gates, path_target
+    )
+    assert fresh_widths[0] == 1
+    assert fresh_frontiers[0] == 0
+
+    results = generate_results()
+    serialized = json.dumps(results, indent=2, sort_keys=True) + "\n"
+    result_path = HERE / "RESULTS.json"
+    assert result_path.read_text(encoding="utf-8") == serialized
+    result_path.write_text(serialized, encoding="utf-8")
 
     required = [
         "README.md",
@@ -160,10 +190,11 @@ def main() -> None:
         assert forbidden not in corpus
 
     print(
-        "V74 primary verification passed: malformed-support rejection; exact "
-        "two-fiber model; 256 ternary partitions; 4,096 exhaustive circuits "
-        "and 32,768 targets; constructive bounded-width avoidance; OR-path "
-        "G*=3m-3; repository and LaTeX gates; zero failures."
+        "V74 primary verification passed: malformed-support rejection; immutable "
+        "fiber-cache keys; exact two-fiber model; 256 ternary partitions; 4,096 "
+        "exhaustive circuits and 32,768 targets; constructive bounded-width "
+        "avoidance; OR-path G*=3m-3; byte-identical RESULTS.json; repository and "
+        "LaTeX gates; zero failures."
     )
 
 
