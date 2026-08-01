@@ -30,8 +30,8 @@ this oracle cost as `gamma`.
 
 ## 2. Prior-art decomposition discovery
 
-Korhonen and Oum prove that, given an integer `k` and oracle access to a
-connectivity function on a ground set of size `m`, one can find a branch
+For `m>1`, Korhonen and Oum prove that, given an integer `k` and oracle access
+to a connectivity function on a ground set of size `m`, one can find a branch
 decomposition of width at most `k`, or determine that none exists, in
 
 ```text
@@ -59,7 +59,9 @@ alternative, but it is not needed for the exact composition below.
 
 ## 3. Composition with V77, V75, and V74
 
-Starting from the decomposition produced by Korhonen--Oum:
+If `m<=1`, then `m>n` leaves only a constant-size instance and direct output
+enumeration finds an avoided word. Assume `m>1`. Starting from the decomposition
+produced by Korhonen--Oum:
 
 1. V77's restricted topology-tree transfer produces a rooted binary gate tree
    with width at most `2k`, height `O(log m)`, and external path length
@@ -106,7 +108,8 @@ explicit support representation, `gamma=O(m)`.
 
 The proof is a black-box composition of the Korhonen--Oum decomposition theorem
 with the internally proved V77 transfer and the internally verified V75/V74
-symbolic-prefix machinery.
+symbolic-prefix machinery, with direct enumeration for the trivial `m<=1`
+case.
 
 ## 5. Exact oracle audit
 
