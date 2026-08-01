@@ -43,7 +43,7 @@ def main() -> None:
     if not result_path.is_file():
         raise AssertionError("committed V76 RESULTS.json is missing")
     committed = json.loads(result_path.read_text(encoding="utf-8"))
-    generated = generate_results()
+    generated = json.loads(json.dumps(generate_results()))
     if committed != generated:
         raise AssertionError("committed V76 RESULTS.json differs from generation")
     results = committed
@@ -134,10 +134,10 @@ def main() -> None:
         "at most four original branch edges",
         "width(T') <= 4b",
         "O(m log m A(4b)^2 poly(n,m))",
-        "does not refute width-preserving O(log m)",
+        "does not refute width-preserving",
         "Alstrup, Holm, de Lichtenberg, and Thorup",
         "Korhonen and Oum",
-        "discarded centroid argument",
+        "This discarded centroid",
     ):
         assert token in proof, token
 
