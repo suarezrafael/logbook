@@ -1,8 +1,12 @@
 # Symbolic paired-variable prefix circuit
 
-## 1. Exact generating polynomial
+## Status
 
-For a Boolean circuit `C:{0,1}^n -> {0,1}^m`, introduce two formal variables for every output coordinate:
+The statements in Sections 1–5 are internally verified by the primary and independent V75 checkers. They remain unreviewed research results. The literature observations in Section 7 are context, not novelty claims.
+
+## 1. Paired generating polynomial theorem
+
+Let `C:{0,1}^n -> {0,1}^m` be represented by fan-in-at-most-three Boolean output gates. Introduce two formal variables for every output coordinate:
 
 ```text
 z_{i,0}=u_i,  z_{i,1}=v_i.
@@ -14,13 +18,15 @@ Define
 P_C(u,v) = sum_x product_i z_{i,C_i(x)}.
 ```
 
-Every input contributes exactly one multilinear monomial. Consequently, for every output word `y`, the coefficient of
+### Theorem — exact paired generating polynomial
+
+For every output word `y`, the coefficient of
 
 ```text
 product_i z_{i,y_i}
 ```
 
-is exactly the preimage count `|C^{-1}(y)|`.
+in `P_C` is exactly `|C^{-1}(y)|`.
 
 For a prefix `p` of length `k`, assign
 
@@ -29,33 +35,47 @@ z_{i,p_i}=1 and z_{i,1-p_i}=0       for i<k,
 z_{i,0}=z_{i,1}=1                   for i>=k.
 ```
 
-The resulting value is the exact prefix count `N(p)`.
+The evaluated value is the exact prefix count `N(p)`.
 
-## 2. Weighted residual translation
+The coefficient statement follows directly because each input contributes one monomial encoding its complete output. The prefix statement follows because the substitution retains exactly the monomials whose first `k` output bits equal `p`.
 
-Use the same exact disjoint affine-cell decompositions as V74.
+## 2. Monotone residual-circuit translation
 
-At output leaf `i`, for each bit `c`, each affine cell in the exact fiber `C_i^{-1}(c)`, and each projected boundary residual `A`, create the contribution
+Use the exact pairwise-disjoint affine-cell decompositions of both gate fibers from V74. For a branch-tree node `t`, let `B_t` be its support boundary. For every nonempty projected affine residual `A` on `B_t`, construct an arithmetic expression `Q_t(A)`.
 
-```text
-2^(dim(cell)-dim(A)) * z_{i,c}.
-```
+### Leaf recurrence
 
-Contributions with the same projected residual are added.
-
-At a join, combine every compatible child-residual pair. If the intersection residual projects to `A`, create
+For output leaf `i`, bit `c`, and affine cell `F` in the exact fiber `C_i^{-1}(c)`, let `A` be the projection of `F` to the leaf boundary. Add
 
 ```text
-left_expression * right_expression * 2^(dim(intersection)-dim(A)).
+2^(dim(F)-dim(A)) * z_{i,c}
 ```
 
-Again add expressions producing the same projected residual. At the root, multiply the empty-boundary expression by the explicit free-unused-input factor.
+to `Q_i(A)`.
 
-The recurrence uses only nonnegative integer constants, addition, and multiplication. It therefore constructs a monotone arithmetic circuit. Expanding this circuit gives `P_C`, but expansion is neither required nor permitted by the intended algorithm.
+### Join recurrence
 
-## 3. Size target
+For children `u,v`, combine each compatible residual pair `A in R_u`, `B in R_v`. Let `J=A intersect B` and let `P(J)` be its projection to the parent boundary. Add
 
-At a decomposition node with boundary width at most `b`, there are at most `A(b)` nonempty affine residual keys. A join examines at most `A(b)^2` compatible candidate pairs. Since the decomposition has `O(m)` nodes, the arithmetic circuit target size is
+```text
+Q_u(A) * Q_v(B) * 2^(dim(J)-dim(P(J)))
+```
+
+to `Q_t(P(J))`.
+
+At the root, multiply the empty-boundary expression by `2^r`, where `r` is the number of input variables unused by every output gate.
+
+### Proof invariant
+
+For every node `t`, residual `A`, subtree output word `y_t`, and boundary assignment satisfying `A`, the coefficient of the monomial selected by `y_t` in `Q_t(A)` is the number of compatible assignments to variables internal to `t` per such boundary assignment.
+
+At a leaf, affine projection has a uniform fiber of size `2^(dim(F)-dim(A))`. Exact fiber cells are disjoint, so additions do not double count. At a join, child internal choices are independent after conditioning on compatible shared-boundary assignments; intersection enforces consistency and the projection factor counts eliminated assignments uniformly. Induction proves the invariant. The root has an empty boundary, so its coefficients are exact global preimage counts.
+
+Only nonnegative integer constants, addition, and multiplication are used. The result is therefore a monotone arithmetic circuit. Its `2^m` coefficients are never expanded.
+
+## 3. Arithmetic size
+
+Let `A(b)` be the number of nonempty affine subspaces of `GF(2)^b`. If every branch node has boundary size at most `b`, then it has at most `A(b)` residual keys. Every join examines at most `A(b)^2` child pairs. A binary tree with `m` leaves has `O(m)` nodes, and each accepted pair creates only constantly many multiplication/addition operations. Therefore
 
 ```text
 S = O(m A(b)^2)
@@ -63,57 +83,83 @@ S = O(m A(b)^2)
 
 apart from the polynomial cost of canonical affine intersection and projection.
 
-This is intended as a size-preserving translation of the V74 weighted residual object to a monotone arithmetic circuit. No translation to arithmetic branching programs, tensor networks, or junction trees is claimed yet.
+This is a size bound for the repository-local monotone arithmetic DAG. V75 does not claim an equivalent arithmetic branching program, tensor network, OBDD, FBDD, resolution, or Res-Lin representation.
 
-## 4. Incremental evaluation
+## 4. Incremental prefix evaluation
 
-Store the current value of every arithmetic gate and reverse dependency edges from children to parents. Initially set all `u_i=v_i=1`, so the root value is `2^n`.
+Store each arithmetic gate value and reverse edges from children to parents. Initially set every paired variable to one; the root equals `2^n`.
 
-To test prefix child `p0`, change only `v_i` from one to zero and propagate recomputation through its reverse dependency cone. The other child count is
+At output coordinate `i`, temporarily change `v_i` from one to zero. The new root is `N(p0)`. Exact fiber partition gives
 
 ```text
-N(p1)=N(p)-N(p0),
+N(p1)=N(p)-N(p0).
 ```
 
-because the two exact fibers partition the parent prefix. If bit one is selected, restore `v_i=1`, set `u_i=0`, and propagate those changes. The selected assignment is then retained for the next step.
+Choose a child whose count is smaller than its remaining output-completion capacity. If bit one is selected, restore `v_i=1` and set `u_i=0` in one batch. Retain the selected assignment and continue.
 
-Let `D_T(i)` be the number of arithmetic gates reachable from the paired variables of leaf `i`. A complete target-search path uses
+Let `D_T(i)` be the number of arithmetic operation nodes reachable from either paired variable of output `i`. Each coordinate causes at most two dependency-cone reevaluations. Including the initial full evaluation, a complete search path costs
 
 ```text
 O(S + sum_i D_T(i))
 ```
 
-arithmetic reevaluations. The branch recurrence gives the coarse bound
+arithmetic reevaluations.
+
+Only arithmetic nodes created at the leaf and its ancestors can depend on that leaf's paired variables. Each ancestor contributes at most `O(A(b)^2)` operations. Hence
 
 ```text
 D_T(i)=O(A(b)^2 depth_T(i)).
 ```
 
-Hence the candidate total is
+and the total bound is
 
 ```text
 O(A(b)^2 (m + sum_i depth_T(i)) poly(n,m)).
 ```
 
-For height `h`, this is `O(m h A(b)^2 poly(n,m))`. A balanced supplied tree gives `h=O(log m)` and improves the V74 repeated-DP bound to `O(m log m A(b)^2 poly(n,m))`.
+## 5. Balanced supplied decomposition corollary
 
-## 5. Current obstruction
+If the supplied branch tree has height `h`, then
 
-The result is depth-sensitive. A caterpillar decomposition can have total leaf depth `Theta(m^2)`, so local incremental reevaluation alone does not improve the worst-case V74 asymptotic bound. V75 must either:
+```text
+sum_i depth_T(i) <= m h.
+```
 
-1. prove a balancing transformation with controlled boundary-width inflation;
-2. find a more global evaluation schedule whose cost is independent of external path length; or
-3. state the improvement only for balanced or low-external-path-length supplied decompositions.
+Thus the prefix-search runtime is
 
-## 6. Required verification
+```text
+O(m h A(b)^2 poly(n,m)).
+```
 
-- compare every symbolic coefficient against brute-force output counts on exhaustive small circuits;
-- compare every prefix evaluation against V74 `prefix_count`;
-- verify dynamic updates against full fresh arithmetic-circuit evaluation after every changed variable;
-- count arithmetic gates and affected dependency cones;
-- exercise balanced and caterpillar decompositions separately;
-- implement an independent semantic verifier that does not import the primary arithmetic-circuit builder.
+For `h=O(log m)`, this becomes
 
-## 7. Nonclaims
+```text
+O(m log(m) A(b)^2 poly(n,m)).
+```
 
-This document is an active proof design, not a promoted theorem. It does not establish unrestricted `NC0_3-Avoid`, automatic bounded-width decomposition construction, a general balancing theorem, a standard proof-system simulation, novelty, or a P-versus-NP consequence.
+which improves the V74 repeated-DP bound by a factor of approximately `m/log m` at the level of the parameterized asymptotic expression.
+
+The qualification is essential. A caterpillar tree can have height `m-1` and external path length `Theta(m^2)`. For 64 leaves, the verified balanced tree has height `6` and external path length `384`, while the verified caterpillar has height `63` and external path length `2,079`. Therefore V75 does not remove the depth obstruction for an arbitrary supplied width-`b` decomposition.
+
+## 6. Computational evidence
+
+The primary verifier constructs one arithmetic DAG per circuit and checks all coefficients and prefixes against direct Boolean enumeration. It also compares every incremental update against a fresh topological evaluation.
+
+The independent verifier does not import the arithmetic builder, affine residual code, or primary generator. It reconstructs gate semantics directly from support, truth mask, and output polarity; enumerates all inputs; repeats the prefix pigeonhole search; regenerates the seeded circuit family; and verifies the balanced/caterpillar depth identities.
+
+The frozen totals are documented in `EXHAUSTIVE_RESULTS.md` and `RESULTS.json`.
+
+## 7. Literature boundary and next structural question
+
+Korhonen and Oum's 2026 result gives an FPT algorithm for finding width-`k` branch decompositions of general oracle connectivity functions. Applied to the support-boundary connectivity function, it materially weakens the earlier decomposition-construction obstruction in the parameterized setting. It does not by itself guarantee a logarithmic-depth decomposition, so it does not remove the depth obstruction proved visible by V75.
+
+Bodlaender's logarithmic-depth transformation for graph tree decompositions permits width inflation to `3k+2`. V75 does not prove that this graph-tree-decomposition result transfers to the gate branch decomposition needed by the symbolic residual circuit with a controlled support-boundary width. Establishing such a transfer, or proving a direct balanced branch-decomposition theorem for the support connectivity function, is the primary V76 target.
+
+References used only for scope:
+
+- H. L. Bodlaender, *NC-Algorithms for Graphs with Small Treewidth*, WG 1988/1989.
+- T. Korhonen and S.-i. Oum, *Branch-width of connectivity functions is fixed-parameter tractable*, arXiv:2601.04756, 2026.
+
+## 8. Nonclaims
+
+V75 does not establish automatic width-preserving balancing, unrestricted `NC0_3-Avoid`, a polynomial algorithm for arbitrary instances, a superpolynomial lower bound, a standard-model simulation, novelty, priority, peer review, or any consequence for P versus NP.
