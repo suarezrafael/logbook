@@ -39,9 +39,9 @@ uses at most three incidences per gate.
 \end{proof}
 
 \paragraph{Prior-art decomposition theorem.}
-Korhonen and Oum prove that, for a connectivity function on a ground set of
-size $m$ given by an oracle of cost $\gamma$, a branch decomposition of width
-at most $k$ can be found, or nonexistence certified, in
+For $m>1$, Korhonen and Oum prove that, for a connectivity function on a
+ground set of size $m$ given by an oracle of cost $\gamma$, a branch
+decomposition of width at most $k$ can be found, or nonexistence certified, in
 \[
  2^{O(k)}\gamma m^6\log m+2^{O(k^2)}\gamma m.
 \]
@@ -63,13 +63,15 @@ support connectivity branchwidth.
 \end{theorem}
 
 \begin{proof}
-Apply the Korhonen--Oum algorithm to $\lambda_C$ to obtain a width-$k$ gate
-branch decomposition. Apply the V77 restricted topology-tree transfer to
-obtain a rooted binary gate tree of width at most $2k$, height $O(\log m)$,
-and external path length $O(m\log m)$. Compile the V75 symbolic residual
-circuit on this tree. The V74 exact prefix identity chooses a zero-preimage
-child at each output coordinate. Since $m>n$, the final output word has no
-preimage. Summing the discovery and avoidance costs gives the bound.
+If $m\leq1$, then $m>n$ forces a constant-size instance, and direct enumeration
+of the output words finds an avoided word. Assume $m>1$. Apply the
+Korhonen--Oum algorithm to $\lambda_C$ to obtain a width-$k$ gate branch
+decomposition. Apply the V77 restricted topology-tree transfer to obtain a
+rooted binary gate tree of width at most $2k$, height $O(\log m)$, and external
+path length $O(m\log m)$. Compile the V75 symbolic residual circuit on this
+tree. The V74 exact prefix identity chooses a zero-preimage child at each
+output coordinate. Since $m>n$, the final output word has no preimage. Summing
+the discovery and avoidance costs gives the bound.
 \end{proof}
 
 \begin{remark}
