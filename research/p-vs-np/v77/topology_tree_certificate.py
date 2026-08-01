@@ -325,6 +325,23 @@ def prune_to_gate_tree(
     if not labels:
         raise ValueError("at least one gate label is required")
 
+    raw_adjacency = certificate["source_adjacency"]
+    if not isinstance(raw_adjacency, Mapping):
+        raise ValueError("certificate source adjacency is malformed")
+    adjacency = {
+        int(vertex): set(map(int, neighbors))
+        for vertex, neighbors in raw_adjacency.items()
+    }
+    validate_subcubic_tree(adjacency)
+    unknown_vertices = sorted(set(labels) - set(adjacency))
+    if unknown_vertices:
+        raise ValueError("gate labels must reference source-tree vertices")
+    nonleaf_vertices = sorted(
+        vertex for vertex in labels if len(adjacency[vertex]) != 1
+    )
+    if nonleaf_vertices:
+        raise ValueError("gate labels must be attached to degree-one source vertices")
+
     records: list[dict[str, object]] = []
 
     def visit(cluster_id: int) -> tuple[GateTree, frozenset[int], int] | None:
