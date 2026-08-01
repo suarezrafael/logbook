@@ -140,6 +140,42 @@ O(m log m A(2b)^2 poly(n,m))
 
 incremental prefix avoidance in the supplied-decomposition parameterized regime. The logarithmic-height topology hierarchy is prior art; the retained two-edge support-boundary corollary is the internally proved V77 step. Novelty remains unconfirmed.
 
+## V77 support-branchwidth FPT composition
+
+For the output-gate ground set `M`, define
+
+```text
+lambda_C(S)
+  = |union_{i in S} supp(i) intersect union_{i notin S} supp(i)|.
+```
+
+Each input variable contributes the cut indicator of the gates containing it. Therefore `lambda_C` is normalized, symmetric, integer valued, nonnegative, and submodular: it is a connectivity function in the exact sense required by the Korhonen--Oum branchwidth theorem. With explicit fan-in-three supports, one oracle evaluation costs `gamma=O(m)`.
+
+Korhonen and Oum prove that a width-`k` branch decomposition of an oracle connectivity function on `m` elements can be found, or nonexistence certified, in
+
+```text
+2^{O(k^2)} gamma m^6 log m
+```
+
+time. Let `k=branchwidth(lambda_C)`. Their prior-art algorithm supplies the decomposition; V77 transfers it to width at most `2k` and logarithmic height; V75 compiles the symbolic residual DAG; and V74 follows zero-preimage prefixes. For `m>n`, the final word lies outside the range. The total runtime is
+
+```text
+2^{O(k^2)} gamma m^6 log m
+  + O(m log m A(2k)^2 poly(n,m)).
+```
+
+Thus `NC0_3-Avoid` is fixed-parameter tractable when parameterized by support connectivity branchwidth **without a supplied decomposition**. This is the qualitative completion missing from V76. V77 does not implement the Korhonen--Oum algorithm; it invokes that theorem as prior art.
+
+The connectivity-oracle audit exhaustively checks all `127` nonempty simple support families on three variables:
+
+```text
+2,186 subset values,
+78,124 ordered submodularity pairs,
+zero normalization, symmetry, or submodularity violations.
+```
+
+The finite audit validates the implementation. The proof is the per-variable cut-indicator decomposition.
+
 ## V77 finite validation and proof controls
 
 The deterministic static constructor and strict verifier audited:
@@ -160,26 +196,48 @@ All `245,505` simple rank-at-most-three support families on five variables throu
 
 A four-gate rank-three gadget has supplied width `b=3` and a valid two-boundary-edge cluster of width six. This shows that the two-edge inequality can attain `2b` for one cluster. It does not prove that every logarithmic-height hierarchy requires factor two, and it does not refute a width-preserving transfer.
 
-## Literature and next target
+## Reproducibility and API debt frozen for V78
 
-Frederickson supplies the restricted topology-tree hierarchy; Alstrup, Holm, de Lichtenberg, and Thorup relate topology trees to top trees. Korhonen and Oum's 2026 FPT algorithm concerns decomposition discovery, whereas V77 assumes a supplied decomposition and transfers it.
+A clean checkout is not currently guaranteed to remain clean after the cumulative verifier. Reported causes include noncanonical JSON rewrites, committed wall-clock fields, a V53 generator that can erase the committed `scientific_status` retraction block, and stale V70/V72 snapshots. The current CI does not end with a clean-tree assertion.
 
-V78 must decide whether factor two is structural or an artifact. The main routes are source-tree-aware height-capped dynamic programming, overlap/uncrossing of the two middle sets, and genuine logarithmic-height lower-bound families.
+V78 priority zero is therefore a reproducibility firewall:
+
+- make committed verification artifacts deterministic and read-only by default;
+- move timing measurements outside versioned snapshots;
+- preserve retractions in immutable status records;
+- reconcile stale snapshots;
+- update `LEDGER.json` and strengthen runner coverage independently of the ledger;
+- add blocking `git diff --exit-code` and clean-status gates;
+- replace hand-maintained LaTeX enumeration with a validated manifest or safe discovery rule.
+
+V78 priority one is removal of the silent `balanced_branch_tree(range(m))` fallback from theorem-facing V74/V75 APIs. Missing decompositions must fail explicitly; naive or heuristic trees may remain only in clearly named experimental helpers with measured width recorded.
+
+Only after these controls are green should the laboratory return to factor-two-versus-width-preservation.
+
+## Literature and scope
+
+Frederickson supplies the restricted topology-tree hierarchy; Alstrup, Holm, de Lichtenberg, and Thorup relate topology trees to top trees. Korhonen and Oum supply exact FPT decomposition discovery for oracle connectivity functions. Fomin and Korhonen give an earlier factor-two approximation framework.
+
+The FPT theorem remains parameterized by `k=branchwidth(lambda_C)`. V77 does not show that unrestricted circuits have bounded `k`, does not prove an unrestricted polynomial-time avoidance algorithm, and does not prove a standard-model lower bound. The direct P-versus-NP route remains inactive.
 
 ## Publication and historical controls
 
 `v71/MANUSCRIPT.tex` remains the consolidated article through V71. V72–V77 are standalone modules pending external proof review. No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confirmation is claimed.
 
-The V22 reproducibility correction remains active: V22 is a proof candidate with a missing original certificate dataset, and the aggregate snapshot cannot reconstruct the original certificates. V26 remains a justified missing-script skip. The V53 girth implications remain retracted. Incomplete `n=9` searches remain falsification/regression only. `LEDGER.json` remains a conservative historical ledger and may lag the current promoted package.
+The V22 reproducibility correction remains active: V22 is a proof candidate with a missing original certificate dataset, and the aggregate snapshot cannot reconstruct the original certificates. V26 remains a justified missing-script skip. The V53 girth implications remain retracted. Incomplete `n=9` searches remain falsification/regression only. `LEDGER.json` remains a conservative historical ledger and currently lags the candidate package.
 
 ## Repository entry points
 
 - `PUBLICATION_INDEX.md`
 - `v77/TOPOLOGY_TREE_TRANSFER.md`
+- `v77/FPT_SUPPORT_WIDTH_COMPOSITION.md`
 - `v77/V77_TOPOLOGY_TREE_TRANSFER_THEOREM.tex`
+- `v77/V77_FPT_SUPPORT_WIDTH_THEOREM.tex`
 - `v77/topology_tree_certificate.py`
+- `v77/support_connectivity_oracle.py`
 - `v77/STATIC_TOPOLOGY_CERTIFICATE.json`
 - `v77/RESULTS.json`
+- `v77/COMPOSITION_RESULTS.json`
 - `v77/V78_CORE_CONTEXT.md`
 - `v76/TOP_TREE_TRANSFER.md`
 - `v75/SYMBOLIC_PREFIX_CIRCUIT.md`
