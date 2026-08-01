@@ -13,7 +13,7 @@
 
 ## Structural chain through V73
 
-V68 proves an explicit stretch-one affine-cell family with exponentially many complete branching-tree leaves and a linear projected residual DAG. V69 defines and exactly optimizes `G*_proj` over gate orders. V70 bounds projected residual layers by the support frontier and proves component factorisation. V71 identifies the frontier optimum with vertex-boundary linear branch-width and relates it to primal pathwidth. V72 proves rank-three width NP-completeness, gives an exact `O(m 2^m poly(n))` subset algorithm, and establishes exact branch residual composition on a supplied decomposition. V73 adds exact budgeted ordering, counted residuals, and the private-vertex tree compression result `G*_proj=m`.
+V68 proves an explicit stretch-one affine-cell family with exponentially many complete branching-tree leaves and a linear projected residual DAG measured by `G_proj`. V69 defines and exactly optimizes `G*_proj` over gate orders. V70 bounds projected residual layers by the support frontier and proves component factorisation. V71 identifies the frontier optimum with vertex-boundary linear branch-width and relates it to primal pathwidth. V72 proves rank-three width NP-completeness, gives an exact `O(m 2^m poly(n))` subset algorithm, and establishes exact branch residual composition on a supplied decomposition. V73 adds exact budgeted ordering, counted residuals, and the private-vertex partition-zero/all-zero target tree compression result `G*_proj=m`.
 
 ## V74 exact two-fiber counting
 
@@ -96,7 +96,7 @@ V76 must prove a width/depth transfer, derive a weaker explicit tradeoff, or fin
 
 `v71/MANUSCRIPT.tex` remains the consolidated article through V71. V72–V75 are standalone modules pending external proof review. No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confirmation is claimed.
 
-V22 remains a proof candidate with a missing original certificate dataset. V26 remains a justified missing-script skip. The V53 girth implications remain retracted. Incomplete `n=9` searches remain falsification/regression only. `LEDGER.json` remains a conservative historical ledger and may lag the current promoted package.
+The V22 reproducibility correction remains active: V22 is a proof candidate with a missing original certificate dataset, and the aggregate snapshot cannot reconstruct the original certificates. V26 remains a justified missing-script skip. The V53 girth implications remain retracted. Incomplete `n=9` searches remain falsification/regression only. `LEDGER.json` remains a conservative historical ledger and may lag the current promoted package.
 
 ## Repository entry points
 
