@@ -66,7 +66,7 @@ jobs:
       - name: Compile formal modules
         run: |
           set -euo pipefail
-          mkdir -p latex-build/v64 latex-build/v65 latex-build/v68 latex-build/v69 latex-build/v70 latex-build/v71-theorem latex-build/v71-manuscript latex-build/v72
+          mkdir -p latex-build/v64 latex-build/v65 latex-build/v68 latex-build/v69 latex-build/v70 latex-build/v71-theorem latex-build/v71-manuscript latex-build/v72 latex-build/v73
           for pass in 1 2; do
             pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v64" research/p-vs-np/v64/V57_BLOCK_IRREDUNDANCY_THEOREM.tex
             pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v65" research/p-vs-np/v65/V56_AFFINE_FIBER_THEOREM.tex
@@ -76,6 +76,7 @@ jobs:
             pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v71-theorem" research/p-vs-np/v71/V71_WIDTH_CORRESPONDENCE_THEOREM.tex
             pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v71-manuscript" research/p-vs-np/v71/MANUSCRIPT.tex
             pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v72" research/p-vs-np/v72/V72_BRANCH_RESIDUAL_THEOREM.tex
+            pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v73" research/p-vs-np/v73/V73_BICRITERIA_AVOIDANCE_THEOREM.tex
           done
       - name: Upload LaTeX artifacts
         if: always()

@@ -1,0 +1,141 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newcommand{\Ftwo}{\mathbb F_2}
+\newcommand{\Gproj}{G_{\mathrm{proj}}}
+\title{Laboratory V73: Bicriteria Residual Ordering and Counted Branch Decompositions}
+\author{Internal research artifact; authorship metadata pending}
+\date{31 July 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We give an exact subset dynamic program minimizing projected affine-residual
+cost under a support-frontier budget, augment branch residual states with exact
+multiplicities, identify the precise supplied-target avoidance certificate
+provided by root multiplicity zero, and prove that the existing normalized
+positive-fiber schema cannot itself produce an avoided target.  We also prove
+that the private-vertex partition-zero binary-tree family has unbounded support
+linear width but optimum projected residual cost exactly equal to the number of
+gates.  No unrestricted Range Avoidance algorithm or P-versus-NP consequence
+is claimed.
+\end{abstract}
+
+\section{Budgeted residual ordering}
+
+For a processed gate set $S$, let $w(S)$ be the number of nonempty projected
+affine residuals and let $\lambda(S)$ be the support frontier.  Under the
+repository convention,
+\[
+  \Gproj(\pi)=\sum_{i=0}^{m-1} w(P_i),
+\]
+where $P_0=\varnothing$ and $P_i$ is the first $i$ gates of $\pi$.
+
+\begin{theorem}[Exact bicriteria dynamic program]
+Fix a frontier budget $B$.  The minimum projected residual cost among orders
+whose every prefix has frontier at most $B$ is given by
+\[
+ C_B(\varnothing)=0,\qquad
+ C_B(S)=\min_{e\in S}\left(C_B(S\setminus\{e\})+w(S\setminus\{e\})\right),
+\]
+with transitions restricted to feasible predecessors and $\lambda(S)\le B$.
+Given the subset tables, the optimization uses $O(m2^m)$ transitions and
+$O(2^m)$ stored costs.
+\end{theorem}
+
+\begin{proof}
+In any optimum order of $S$, remove the last gate $e$.  The preceding order is
+feasible for $S\setminus\{e\}$ and the final transition contributes
+$w(S\setminus\{e\})$, proving the lower bound.  Conversely, append $e$ to an
+optimum feasible predecessor.  The frontier test on $S$ proves feasibility and
+the matching upper bound.
+\end{proof}
+
+\section{Multiplicity-enhanced branch residuals}
+
+For a node $t$ of a binary gate decomposition, let $\partial t$ be the
+variables shared by its leaf set and the complementary gates.  For every
+canonical residual $A$ on $\partial t$, let $\mu_t(A)$ count complete cell
+selections in the subtree that are consistent and project to $A$.
+
+\begin{theorem}[Exact branch multiplicities]
+At a join with children $u,v$, if the consistent intersection of residuals
+$A,B$ projects to $R$ on the parent boundary, then adding
+\[
+  \mu_u(A)\mu_v(B)
+\]
+to $\mu_t(R)$ computes all multiplicities exactly.
+\end{theorem}
+
+\begin{proof}
+Every complete cell selection splits uniquely into one selection in each
+child.  Canonical projection assigns each child selection to exactly one
+residual.  Products count Cartesian pairs and sums combine disjoint selections
+that project to the same parent residual.  Induction on the tree completes the
+proof.
+\end{proof}
+
+\begin{proposition}[Supplied-target certificate]
+Suppose an output word $y$ is supplied and every fiber $f_i^{-1}(y_i)$ is
+represented as an exact disjoint union of affine cells.  Then the root
+multiplicity is zero if and only if $y$ is outside the circuit image.
+\end{proposition}
+
+\begin{proof}
+A complete cell selection is consistent exactly when some input belongs to
+every selected gate fiber, equivalently when some input maps to $y$.
+\end{proof}
+
+\begin{proposition}[Normalized-schema barrier]
+In the current partition-$0,1,2$ compiler, cell zero of every gate contains the
+all-zero assignment.  Consequently every normalized instance has a consistent
+all-zero complete branch, so its root multiplicity is at least one.
+\end{proposition}
+
+Thus the current schema certifies a supplied target only after both output
+polarities and exact fiber representations are provided; it cannot search for
+an avoided target by itself.
+
+\section{Binary-tree compression}
+
+Orient each tree edge from parent $p$ to child $c$, add a private vertex $z$,
+and use cells
+\[
+  p=c=z=0,\qquad p=0,\ c+z=1.
+\]
+
+\begin{theorem}[Unbounded width with minimum residual cost]
+For the private-vertex partition-zero tree family, rooted postorder has one
+projected residual at every nonterminal layer.  Therefore
+\[
+  \Gproj^*=m.
+\]
+For a tree-aligned branch decomposition, every gate leaf has at most two
+residual states and every internal node has exactly one.
+\end{theorem}
+
+\begin{proof}
+A completed child subtree projects to the single condition that its top
+vertex is zero.  Joining its incoming edge eliminates the child and private
+vertex and leaves only the parent-zero condition.  Induction along postorder
+gives one residual per layer, hence an upper bound $m$.  Every one of the $m$
+nonterminal layers is nonempty, giving the matching lower bound.  The same
+induction gives the branch-state statement; a bare edge to an unfinished
+internal child is the only place where two residuals can occur.
+\end{proof}
+
+V72 proved that the same support family has primal treewidth at most two and
+unbounded support linear width.  Hence support-width growth does not imply
+growth of $\Gproj^*$ on this family.
+
+\section{Nonclaims}
+The results are internally verified but not peer reviewed or novelty
+confirmed.  They do not prove unrestricted $\mathrm{NC}^0_3$ Range Avoidance,
+an all-orders superpolynomial lower bound, a simulation to a standard proof or
+branching-program model, or any consequence for P versus NP.
+
+\end{document}
