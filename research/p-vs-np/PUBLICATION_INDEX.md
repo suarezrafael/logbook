@@ -14,25 +14,25 @@ This page is the discovery-oriented entry point for the `NC0_k-Avoid Laboratory`
 | `v71/V71_WIDTH_CORRESPONDENCE_THEOREM.tex` | linear branch-width vocabulary and pathwidth sandwich | merged after quick/full/LaTeX CI; novelty unconfirmed |
 | `v72/V72_BRANCH_RESIDUAL_THEOREM.tex` | rank-three width NP-completeness and branch residual composition | merged after quick/full/LaTeX CI; novelty unconfirmed |
 | `v73/V73_BICRITERIA_AVOIDANCE_THEOREM.tex` | budgeted ordering, branch multiplicities, and binary-tree compression | merged after quick/full/LaTeX CI; novelty unconfirmed |
-| `v74/V74_TWO_FIBER_AVOIDANCE_THEOREM.tex` | exact two gate fibers, weighted preimage counting, bounded-width prefix avoidance, and OR-path `3m-3` | candidate; PR CI required, novelty unconfirmed |
+| `v74/V74_TWO_FIBER_AVOIDANCE_THEOREM.tex` | exact two gate fibers, weighted preimage counting, bounded-width prefix avoidance, and OR-path `3m-3` | merged after quick/full/LaTeX CI; novelty unconfirmed |
+| `v75/V75_SYMBOLIC_PREFIX_THEOREM.tex` | paired generating polynomial, monotone residual circuit, and depth-sensitive incremental avoidance | candidate; PR gates required, novelty unconfirmed |
 
 ## Consolidated article
 
 The current integrated manuscript is `v71/MANUSCRIPT.tex`. It consolidates V54–V71 in English and uses `v71/THEOREM_STATUS.md` to separate proved theorems, finite experiments, retractions, open conjectures, and prior-art anchors.
 
-V72–V74 are standalone extensions pending external proof review before a future consolidated release. The older `v62/INTEGRATED_MANUSCRIPT.md` remains historical.
+V72–V75 are standalone extensions pending external proof review before a future consolidated release. The older `v62/INTEGRATED_MANUSCRIPT.md` remains historical.
 
-## V74 package
+## V75 package
 
-- `v74/TWO_FIBER_AVOIDANCE.md` — definitions and proofs;
-- `v74/EXHAUSTIVE_RESULTS.md` — finite validation ledger;
-- `v74/V74_TWO_FIBER_AVOIDANCE_THEOREM.tex` — formal theorem module;
-- `v74/two_fiber_model.py` — exact fibers, weighted counts, and target search;
-- `v74/or_path_family.py` — exact treewidth-one residual family;
-- `v74/v74_two_fiber_avoidance.py` — deterministic result generator;
-- `v74/verify.py` and `v74/verify_independent.py` — primary and independent audits;
-- `v74/RESULTS.json` — deterministic snapshot;
-- `v74/V75_CORE_CONTEXT.md` — frozen next-step constraints.
+- `v75/SYMBOLIC_PREFIX_CIRCUIT.md` — theorem, proof invariant, complexity, and literature boundary;
+- `v75/EXHAUSTIVE_RESULTS.md` — finite validation ledger;
+- `v75/V75_SYMBOLIC_PREFIX_THEOREM.tex` — formal theorem module;
+- `v75/symbolic_prefix_circuit.py` — monotone arithmetic DAG and incremental evaluator;
+- `v75/v75_symbolic_prefix.py` — deterministic exhaustive and seeded generator;
+- `v75/verify.py` and `v75/verify_independent.py` — primary and independent audits;
+- `v75/RESULTS.json` — deterministic snapshot;
+- `v75/V76_CORE_CONTEXT.md` — frozen next-step constraints.
 
 ## Reproducibility
 
@@ -45,14 +45,7 @@ GitHub Actions publishes quick/full transcripts and compiled formal-module PDFs.
 
 ## Release metadata
 
-The V71 release-candidate files remain:
-
-- `v71/MANUSCRIPT.tex`;
-- `v71/REFERENCES.bib`;
-- `v71/ECCC_METADATA.yaml`, explicitly `draft_not_submitted`;
-- `v71/RELEASE_PLAN.md`.
-
-V72–V74 do not change publication status.
+The V71 release-candidate files remain `v71/MANUSCRIPT.tex`, `v71/REFERENCES.bib`, `v71/ECCC_METADATA.yaml`, and `v71/RELEASE_PLAN.md`. V72–V75 do not change publication status.
 
 ## Publication status
 
@@ -60,6 +53,6 @@ V72–V74 do not change publication status.
 - No Zenodo DOI has been minted for the consolidated project.
 - No theorem is marked peer reviewed or novelty confirmed.
 - The direct P-versus-NP route is inactive.
-- V74 must pass quick, full, and LaTeX pull-request CI before promotion.
+- V75 must pass quick, full, and LaTeX pull-request CI and final-diff Copilot review before promotion.
 
 The intended sequence remains external proof review, authorship and license confirmation, stable tagged release, optional Zenodo archival, ECCC technical-report submission, and optional arXiv cross-post.
