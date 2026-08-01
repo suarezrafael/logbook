@@ -1,18 +1,18 @@
 # Cumulative scientific state
 
-**Current laboratory:** V71 candidate  
+**Current laboratory:** V72  
 **Updated:** 2026-07-31  
 **Program name:** `NC0_k-Avoid Laboratory`  
 **P-versus-NP research active:** exploratory  
 **Direct P-versus-NP route active:** no  
 **P versus NP resolved:** no  
 **External review:** requested, replies pending  
-**External contact:** sent  
-**Promotion status:** local verification passed; pull-request CI required
+**Publication status:** no DOI, submission, acceptance, peer review, or novelty confirmation  
+**Promotion policy:** quick, full, and LaTeX GitHub Actions must pass before merge
 
-## Current scientific position
+## Structural chain
 
-V68 gives an explicit stretch-one family with exponentially many complete branching-tree leaves while the same family has a linear projected residual DAG.
+V68 gives an explicit stretch-one affine-cell family with exponentially many complete branching-tree leaves and a linear projected residual DAG.
 
 V69 defines
 
@@ -20,108 +20,133 @@ V69 defines
 G*_proj = min over gate orders pi of G_proj(pi)
 ```
 
-and proves that it is the shortest-path cost in the subset lattice of processed gate sets. This is an exact exponential-time audit algorithm.
+and computes it exactly by a subset-lattice shortest path.
 
-V70 introduces the support frontier
+V70 proves, for support frontier `F(S)`,
 
 ```text
-F(S) = union(processed supports) intersect union(unprocessed supports)
+w(S) <= min(2^|S|, A(|F(S)|)),
+G_proj(pi) <= m A(q(pi)),
 ```
 
-and proves
+and proves exact component factorisation of projected residual sets.
+
+V71 identifies `q*` with vertex-boundary linear branch-width of the support hypergraph and proves, for rank `r`,
 
 ```text
-w(S) <= min(2^|S|, A(|F(S)|))
-G_proj(pi) <= sum_i min(2^i, A(b_i)) <= m A(q(pi)).
-```
-
-It also proves exact component factorisation of projected residual-state sets.
-
-## V71 standard-width correspondence
-
-Let `H` be the support hypergraph, with one labelled hyperedge per gate, and define
-
-```text
-lambda_H(S) = |V(S) intersect V(E(H) \ S)|.
-```
-
-This is exactly the V70 frontier size. Therefore
-
-```text
-q* = min_pi max_prefix lambda_H
-```
-
-is the linear branch-width of the support hypergraph under the vertex-boundary connectivity function. For ordinary graphs this specializes to classical linear-width.
-
-If every support has size at most `r` and `P(H)` is the primal graph, V71 proves the constructive sandwich
-
-```text
-q* <= pw(P(H)) + 1
+q* <= pw(P(H)) + 1,
 pw(P(H)) <= q* + r - 1.
 ```
 
-For ternary supports:
+A supplied primal path decomposition therefore constructs an order with a parameterized projected-DAG upper bound. A separate tree-decomposition DP decides affine feasibility but does not control the linear objective.
+
+## V72 complexity result
+
+For a graph edge `uv`, introduce a fresh private vertex `z_uv` and the three-uniform support
 
 ```text
-q* <= pw(P(H)) + 1
-pw(P(H)) <= q* + 2.
+{u,v,z_uv}.
 ```
 
-A supplied width-`p` primal path decomposition gives a polynomial-time gate order with frontier at most `p+1`, and hence
+Private vertices never cross an edge-set cut, so every support-hypergraph boundary equals the original graph linearwidth boundary. Consequently, deciding `q*<=k` is NP-complete even for simple three-uniform hypergraphs.
+
+The claim concerns ordering-width computation. It is not NP-hardness of Range Avoidance and does not imply a circuit lower bound.
+
+## V72 exact width algorithm
+
+For every processed edge set `S`, V72 implements
 
 ```text
-G_proj <= m A(p+1).
+D[empty] = 0,
+D[S] = min_{e in S} max(D[S-{e}], lambda(S)).
 ```
 
-## Tree-decomposition result and boundary
-
-A nice tree decomposition of primal width `k` gives an exact affine-cell feasibility DP with at most `A(k+1)` distinct affine residuals per bag and direct join cost at most `A(k+1)^2 poly(k)`.
-
-This DP is tree-shaped and is not the linear projected residual DAG. Treewidth alone does not control the linear order parameter because trees have treewidth one and unbounded pathwidth.
-
-## V71 finite validation
-
-The constructive maps and inequalities were checked on:
+The algorithm computes `q*` and an optimal labelled-edge order in
 
 ```text
-3,472 exhaustive rank-at-most-three hypergraphs on four variables,
-160 seeded rank-two/three hypergraphs on five variables,
-240 additional independent bit-mask instances.
+O(m 2^m poly(n)) time
 ```
 
-Both V71 LaTeX documents compile in two passes locally. These checks are regressions, not the mathematical proof and not external review.
+with `O(2^m)` stored values. It is an exact exponential audit, not a polynomial unrestricted algorithm.
+
+## V72 branch residual algorithm
+
+Given a binary tree over the gates, a node stores the distinct affine residuals on variables shared with the complementary gates. Child residuals are conjoined, inconsistent pairs are removed, and surviving systems are projected to the parent boundary.
+
+For maximum boundary size `b`:
+
+```text
+states per node <= A(b),
+pairs per join <= A(b)^2,
+total time <= O(m A(b)^2 poly(n)).
+```
+
+This is an exact tree-shaped affine feasibility DP. No OBDD, FBDD, resolution, Res-Lin, communication, or proof-system equivalence is asserted.
+
+## Bounded treewidth versus linear width
+
+Private-vertex padding of a tree replaces every edge with a triangle. The primal graph has treewidth at most two, while every support cut preserves the graph edge boundary. Perfect binary trees therefore yield a simple three-uniform family with bounded primal treewidth and unbounded linear support width.
+
+This proves that bounded treewidth does not imply bounded `q*`. It does not prove that `G*_proj` is unbounded or superpolynomial on this family.
+
+## Preserved-record benchmark
+
+Exact pathwidth-derived orders were evaluated on six frozen V69–V70 instances:
+
+```text
+record                   path G_proj   exact G*_proj   ratio
+V69 natural n=6               21            15        1.400
+V69 natural n=8               28            15        1.867
+V69 natural n=10              35            17        2.059
+V69 natural n=12              57            29        1.966
+V70 robust n=8                40            29        1.379
+V70 robust n=10               50            30        1.667
+```
+
+These six values are finite evidence only. Width minimization and residual-state minimization are distinct objectives.
+
+## V72 validation surface
+
+The primary implementation checks:
+
+```text
+1,470 exhaustive rank-at-most-three width instances,
+96 seeded affine systems and 852 branch-tree nodes,
+six preserved-record pathwidth benchmarks,
+three finite padded-binary-tree instances.
+```
+
+The independent verifier uses separate bit-mask boundaries and Boolean assignment semantics. LaTeX compilation is a separate CI job.
 
 ## Publication and discovery
 
-`v71/MANUSCRIPT.tex` is the current English consolidation and `v71/THEOREM_STATUS.md` is the single status table. `v71/ECCC_METADATA.yaml` is explicitly marked `draft_not_submitted`. No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confirmation is claimed.
+`v71/MANUSCRIPT.tex` remains the current consolidated article through V71. V72 is packaged as a standalone theorem module and a scoped prior-art appendix pending external review and a future manuscript revision.
 
-The repository license, authorship metadata, external proof review, release tag, and archive checks remain gates before public archival.
-
-## Consequence for the projected-DAG program
-
-V71 turns the V70 frontier parameter into a standard width interface and gives constructible FPT upper bounds on bounded-pathwidth instances. It does not prove that unrestricted support hypergraphs have small pathwidth or that a good order can always be found with polynomial width.
-
-The competing lower-bound target remains an explicit family whose `G*_proj` is superpolynomial under every order. No simulation to OBDD, FBDD, resolution, Res-Lin, or communication complexity has been proved.
+No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confirmation is claimed.
 
 ## Lower-bound route gates
 
-1. Resolve projected-DAG order complexity across all six non-affine classes.
-2. Reach unrestricted `NC0_3-Avoid` in a lower-bound-relevant stretch regime.
-3. Establish a complete reduction to a lower bound strong enough to bear on NP versus polynomial-size circuits.
-4. Only then evaluate a logical P-versus-NP consequence.
+1. Optimize residual cost under a width budget rather than width alone.
+2. Determine whether branch residual composition can construct an avoidance witness efficiently.
+3. Establish a provable `G*_proj` recurrence or lower bound on an explicit bounded-treewidth family.
+4. Prove a size-preserving translation before importing lower bounds from a standard model.
+5. Reach unrestricted `NC0_3-Avoid` in a lower-bound-relevant stretch regime.
+6. Establish a complete reduction to NP circuit lower bounds before evaluating any P-versus-NP consequence.
 
 ## Historical corrections
 
-**V22 reproducibility correction:** the original `full_certificate_cases.json` is absent. V22 remains a proof candidate without repository-reproduced finite evidence. V26 remains a justified missing-script skip. The incomplete `n=9` search remains falsification/regression only.
+The V53 girth-based claims remain retracted. The original V22 certificate dataset is absent, so V22 remains a proof candidate without repository-reproduced finite evidence. V26 remains a justified missing-script skip. Incomplete `n=9` searches remain falsification/regression only.
 
 ## Repository entry points
 
 - `PUBLICATION_INDEX.md` — theorem-status and discovery index;
+- `v72/COMPLEXITY_AND_BRANCH_DP.md` — V72 proofs;
+- `v72/PATHWIDTH_BENCHMARK.md` — six preserved-record comparisons;
+- `v72/V72_BRANCH_RESIDUAL_THEOREM.tex` — standalone formal module;
+- `v72/v72_branch_residual.py` — exact and branch algorithms;
+- `v72/RESULTS.json` — deterministic snapshot;
+- `v72/V73_CORE_CONTEXT.md` — next-laboratory constraints;
 - `v71/MANUSCRIPT.tex` — current consolidated manuscript;
-- `v71/WIDTH_CORRESPONDENCE.md` — V71 definitions and proofs;
-- `v71/V71_WIDTH_CORRESPONDENCE_THEOREM.tex` — standalone formal module;
-- `v71/RESULTS.json` — finite validation output;
-- `v71/V72_CORE_CONTEXT.md` — next laboratory constraints;
-- `v70/RESULTS.json` and `v70/WITNESSES.json` — preserved V70 records.
+- `v70/RESULTS.json` and `v70/WITNESSES.json` — preserved prior records.
 
-`LEDGER.json` remains at V70 until the V71 branch passes repository CI and is promoted.
+`LEDGER.json` remains a conservative historical ledger at V70 and must be advanced in a dedicated machine-readable consolidation without rewriting prior claims.
