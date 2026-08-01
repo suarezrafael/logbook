@@ -7,6 +7,8 @@
 - [PUBLICATION_INDEX.md](PUBLICATION_INDEX.md) — academic entry point and theorem-status index.
 - [STATE.md](STATE.md) — cumulative scientific state.
 - [LEDGER.json](LEDGER.json) — conservative machine-readable historical ledger.
+- [`v17/`](v17/) — historical finite-locality barrier for fixed-size signed-MAJ3 motifs.
+- [`v20/`](v20/) — historical effective-dimension theorem candidate for symmetric gates.
 - [`v71/MANUSCRIPT.tex`](v71/MANUSCRIPT.tex) — current English consolidation of V54–V71.
 - [`v68/`](v68/) — spine family separating branching trees from projected residual DAGs.
 - [`v69/`](v69/) — exact gate-order optimization.
@@ -54,7 +56,7 @@ This is a bounded-width algorithm and an exact linear lower-bound family. It is 
 | V71 | Width correspondence and consolidated manuscript | Merged after quick/full/LaTeX CI |
 | V72 | Rank-three width NP-completeness and branch residual DP | Merged after quick/full/LaTeX CI |
 | V73 | Bicriteria optimum, exact branch multiplicities, and tree compression | Merged after quick/full/LaTeX CI |
-| V74 | Exact two fibers, weighted preimage counts, prefix avoidance, and OR-path `3m-3` | Candidate; promotion gated by quick/full/LaTeX CI |
+| V74 | Exact two fibers, weighted preimage counts, prefix avoidance, and OR-path `3m-3` | Merged after quick/full/LaTeX CI; Copilot follow-up remediated |
 
 ## Reproducibility and promotion
 
@@ -63,4 +65,4 @@ bash ./verify_all.sh
 bash ./verify_all.sh --full
 ```
 
-Each laboratory follows `main -> branch -> PR -> quick/full/LaTeX CI -> squash merge to main`. V22 and V26 remain justified skips. The direct P-versus-NP route remains inactive.
+Each laboratory follows `main -> branch -> draft PR -> quick/full/LaTeX CI -> final-diff Copilot review -> squash merge to main`. Any new commit restarts both gates. V22 and V26 remain justified skips. The direct P-versus-NP route remains inactive.

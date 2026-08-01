@@ -24,8 +24,10 @@ m > 3n
 
 ## Verify
 
+From the repository root:
+
 ```bash
-python v20/verify.py
+python research/p-vs-np/v20/verify.py
 ```
 
 ## Scientific status
