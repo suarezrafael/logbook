@@ -35,6 +35,13 @@ def main() -> None:
 
     tiny = rooted_binary_source_tree(((0, 1), (2, 3)))
     certificate = build_topology_certificate(tiny)
+    internal_vertex = next(
+        vertex for vertex, neighbors in tiny.items() if len(neighbors) > 1
+    )
+    assert_value_error(
+        lambda: prune_to_gate_tree(certificate, {internal_vertex: 0})
+    )
+    assert_value_error(lambda: prune_to_gate_tree(certificate, {999999: 0}))
     pruned = prune_to_gate_tree(certificate, {index: index for index in range(4)})
     assert max(record["external_degree"] for record in pruned["records"]) <= 2
 
@@ -57,14 +64,20 @@ def main() -> None:
     required = [
         "README.md",
         "TOPOLOGY_TREE_TRANSFER.md",
+        "FPT_SUPPORT_WIDTH_COMPOSITION.md",
         "EXHAUSTIVE_RESULTS.md",
         "V77_TOPOLOGY_TREE_TRANSFER_THEOREM.tex",
+        "V77_FPT_SUPPORT_WIDTH_THEOREM.tex",
         "V78_CORE_CONTEXT.md",
         "topology_tree_certificate.py",
+        "support_connectivity_oracle.py",
         "v77_topology_tree_transfer.py",
         "verify.py",
         "verify_independent.py",
+        "verify_composition.py",
+        "verify_composition_independent.py",
         "RESULTS.json",
+        "COMPOSITION_RESULTS.json",
         "STATIC_TOPOLOGY_CERTIFICATE.json",
     ]
     assert all((HERE / name).is_file() for name in required)
@@ -158,6 +171,7 @@ def main() -> None:
     assert "V77|independent|v77/verify_independent.py|quick|" in runner
     workflow = (ROOT.parent.parent / ".github" / "workflows" / "p-vs-np-verify.yml").read_text(encoding="utf-8")
     assert "V77_TOPOLOGY_TREE_TRANSFER_THEOREM.tex" in workflow
+    assert "V77_FPT_SUPPORT_WIDTH_THEOREM.tex" in workflow
 
     state = (ROOT / "STATE.md").read_text(encoding="utf-8")
     current = re.search(r"\*\*Current laboratory:\*\* V(\d+)(?: candidate)?", state)
@@ -168,6 +182,7 @@ def main() -> None:
     assert "[`v77/`](v77/)" in root_readme
     publication = (ROOT / "PUBLICATION_INDEX.md").read_text(encoding="utf-8")
     assert "V77_TOPOLOGY_TREE_TRANSFER_THEOREM.tex" in publication
+    assert "V77_FPT_SUPPORT_WIDTH_THEOREM.tex" in publication
 
     ledger = json.loads((ROOT / "LEDGER.json").read_text(encoding="utf-8"))
     assert ledger["program"]["p_vs_np_route_active"] is False
@@ -190,7 +205,7 @@ def main() -> None:
 
     print(
         "V77 primary verification passed: prior-art topology hierarchy; proved retained two-edge cover and 2b transfer; "
-        "2,055 source shapes; 2,802 five-variable support orbits; static certificate and regressions; zero failures."
+        "validated leaf-only labels; 2,055 source shapes; 2,802 five-variable support orbits; zero failures."
     )
 
 
