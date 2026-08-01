@@ -1,0 +1,97 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+\newcommand{\pw}{\operatorname{pw}}
+\newcommand{\lbw}{\operatorname{lbw}}
+\title{Laboratory V71: Support-Hypergraph Linear Branch-Width and Primal Pathwidth}
+\author{NC0\_k-Avoid Laboratory}
+\date{31 July 2026}
+\begin{document}
+\maketitle
+
+\paragraph{Status.}
+This is an internally verified theorem module. It is not peer reviewed, novelty confirmed, or a claim about resolving P versus NP.
+
+Let $H=(X,E)$ be a finite hypergraph of rank at most $r$.  For $S\subseteq E$, define
+\[
+  V(S)=\bigcup_{e\in S}e,
+  \qquad
+  \lambda_H(S)=|V(S)\cap V(E\setminus S)|.
+\]
+For an ordering $\pi=(e_1,\ldots,e_m)$, put $S_i=\{e_1,\ldots,e_i\}$ and
+\[
+  q(\pi)=\max_i\lambda_H(S_i),
+  \qquad
+  q^*(H)=\min_\pi q(\pi).
+\]
+Let $P(H)$ be the primal graph on $X$, with two variables adjacent when they occur together in a hyperedge.
+
+\begin{theorem}[Exact width vocabulary]
+The V70 support frontier at $S$ has cardinality $\lambda_H(S)$.  Consequently $q^*(H)$ is exactly the linear branch-width of the hyperedge ground set under the vertex-boundary connectivity function $\lambda_H$.  For rank-two hypergraphs this specializes to the classical graph linear-width edge layout.
+\end{theorem}
+
+\begin{proof}
+The V70 frontier is
+\[
+F(S)=\left(\bigcup_{e\in S}e\right)\cap
+     \left(\bigcup_{e\notin S}e\right),
+\]
+which is precisely the boundary whose size is $\lambda_H(S)$.  A linear branch decomposition is equivalently a linear ordering of the ground-set elements, and each cut of the caterpillar induces one prefix--suffix partition.  Thus the layout width is $q(\pi)$ and its optimum is $q^*(H)$.
+\end{proof}
+
+\begin{theorem}[Pathwidth sandwich]
+For every rank-at-most-$r$ hypergraph,
+\[
+  q^*(H)\le \pw(P(H))+1
+  \qquad\text{and}\qquad
+  \pw(P(H))\le q^*(H)+r-1.
+\]
+In particular, for ternary supports,
+\[
+  q^*(H)\le \pw(P(H))+1,
+  \qquad
+  \pw(P(H))\le q^*(H)+2.
+\]
+Both transformations are constructive.
+\end{theorem}
+
+\begin{proof}
+First fix an edge order $\pi=(e_1,\ldots,e_m)$ and write $S_i=\{e_1,\ldots,e_i\}$.  Define
+\[
+  B_i=F(S_{i-1})\cup e_i.
+\]
+Every primal edge lies in some hyperedge and hence in the corresponding bag.  If a variable $x$ first occurs at position $a$ and last occurs at position $b$, then $x\in e_a\subseteq B_a$, $x\in e_b\subseteq B_b$, and for every $a<i<b$ it occurs on both sides of the cut, so $x\in F(S_{i-1})\subseteq B_i$.  Therefore the bags containing $x$ form an interval.  The sequence is a path decomposition and $|B_i|\le q(\pi)+r$.  Hence $\pw(P(H))\le q(\pi)+r-1$ and minimization proves the second inequality.
+
+Conversely let $(B_1,\ldots,B_t)$ be a path decomposition of width $p$.  Every hyperedge is a clique of $P(H)$.  The bag-index intervals of its vertices pairwise intersect, and intervals satisfy the Helly property, so some bag contains the whole hyperedge.  Let $\rho(e)$ be the rightmost such bag and sort hyperedges by nondecreasing $\rho$, breaking ties arbitrarily.  Consider any cut of this order and any boundary variable $x$.  A processed support containing $x$ has a complete-support bag no later than the current $\rho$ value, while an unprocessed support containing $x$ has one no earlier.  The bags containing $x$ form an interval, so $x$ belongs to the current bag.  For a cut inside a tie block, both relevant supports are contained in the tied bag.  Thus every boundary has size at most $p+1$, proving $q^*(H)\le p+1$.
+\end{proof}
+
+Let $A(b)$ denote the number of nonempty affine subspaces of $\mathbb F_2^b$.
+
+\begin{corollary}[Constructive projected-DAG bound]
+If a path decomposition of $P(H)$ of width $p$ is supplied, then a gate order can be constructed in polynomial time such that
+\[
+  G_{\mathrm{proj}}\le m A(p+1).
+\]
+\end{corollary}
+
+\begin{proof}
+The rightmost-bag construction gives an order $\pi$ with $q(\pi)\le p+1$.  V70 proves $G_{\mathrm{proj}}(\pi)\le mA(q(\pi))$, and $A$ is monotone.
+\end{proof}
+
+\begin{proposition}[Tree-decomposition affine feasibility DP]
+Given a nice tree decomposition of $P(H)$ of width $k$, affine-cell consistency can be decided by a bottom-up dynamic program storing at most $A(k+1)$ distinct nonempty affine residuals per bag.  A direct join examines at most $A(k+1)^2$ state pairs, with polynomial-time linear algebra in $k$.
+\end{proposition}
+
+\begin{proof}
+Assign every gate to a bag containing its complete support.  Such a bag exists because the support is a clique in the primal graph and vertex subtrees in a tree decomposition obey the Helly property.  At an assigned gate, intersect each incoming residual with either affine cell.  At a forget node, existentially project the forgotten coordinate; at an introduce node, add an unconstrained coordinate; at a join, intersect one residual from each child and discard inconsistent results.  Deduplicate canonical affine subspaces after every operation.  Since a bag contains at most $k+1$ variables, no table contains more than all nonempty affine subspaces of $\mathbb F_2^{k+1}$, namely $A(k+1)$.  The direct join bound follows.
+\end{proof}
+
+\paragraph{Boundary of the result.}
+The tree-decomposition DP is tree-shaped and is not the linear projected residual DAG of V68--V70.  Treewidth alone cannot bound the linear layout parameter: trees have treewidth one but unbounded pathwidth.  No unrestricted polynomial good-order theorem, all-orders lower bound, standard proof-system simulation, unrestricted range-avoidance algorithm, or P-versus-NP consequence follows.
+
+\end{document}
