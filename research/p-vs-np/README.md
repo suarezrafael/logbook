@@ -93,7 +93,7 @@ This is not an unrestricted polynomial-time result: the dependence on `k` remain
 | V74 | Exact two fibers, weighted preimage counts, prefix avoidance, and OR-path `3m-3` | Merged; memoization maintenance also promoted |
 | V75 | Symbolic generating circuit and depth-sensitive incremental avoidance | Merged after quick/full/LaTeX CI and final Copilot review |
 | V76 | Top-tree `4b` width/depth transfer and exact Pareto tradeoff audit | Merged after quick/full/LaTeX CI and final Copilot review |
-| V77 | Topology-tree `2b` transfer plus support-branchwidth FPT avoidance without supplied decomposition | Candidate; PR gates required |
+| V77 | Topology-tree `2b` transfer plus support-branchwidth FPT avoidance without supplied decomposition | Merged after quick/full/LaTeX CI and final Copilot review |
 
 ## Reproducibility and promotion
 
@@ -104,4 +104,4 @@ bash ./verify_all.sh --full
 
 Each laboratory follows `main -> branch -> draft PR -> quick/full/LaTeX CI -> final-diff Copilot review -> squash merge to main`. Any new commit restarts all gates. V22 and V26 remain justified skips.
 
-A clean-checkout reproducibility defect has been frozen as V78 priority zero: the cumulative verifier must become read-only/deterministic and CI must end with a clean-tree gate before further theorem expansion.
+V77 completed that promotion path and was merged to `main`. A clean-checkout reproducibility defect remains frozen as V78 priority zero: the cumulative verifier must become read-only/deterministic and CI must end with a clean-tree gate before further theorem expansion.
