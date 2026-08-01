@@ -7,11 +7,25 @@ from multiplicity import normalized_zero_branch_certificate,seeded_multiplicity_
 from tree_compression import binary_tree_compression
 HERE=Path(__file__).resolve().parent
 
+def compact_benchmark(item):
+    keys=("label","qstar","minimum_width_cost","Gstar","minimum_budget_for_Gstar","budget_slack_to_Gstar","price_of_minimum_width")
+    return {key:item[key] for key in keys}
+
+def compact_spine(item):
+    return {"k":item["k"],"consistent_complete_branches":item["consistent_complete_branches"]}
+
+def compact_binary(item):
+    keys=("height","n","m","postorder_G_proj","proved_Gstar","maximum_postorder_layer_width","maximum_leaf_residual_states","maximum_internal_residual_states")
+    return {key:item[key] for key in keys}
+
 def generate_results():
     bicriteria=seeded_bicriteria_validation();multiplicity=seeded_multiplicity_validation()
-    benchmarks=frozen_bicriteria_benchmarks();spine=spine_multiplicity_checks();binary=binary_tree_compression()
+    raw_benchmarks=frozen_bicriteria_benchmarks();benchmarks=[compact_benchmark(item) for item in raw_benchmarks]
+    spine=[compact_spine(item) for item in spine_multiplicity_checks()]
+    binary=[compact_binary(item) for item in binary_tree_compression()]
     normalized=normalized_zero_branch_certificate(3,[{"support":[0,1,2],"partition":0},{"support":[1,2,0],"partition":1},
       {"support":[2,0,1],"partition":2},{"support":[0,2,1],"partition":0}])
+    synthetic=synthetic_avoided_target_certificate()
     return {"version":"V73","status":"passed","failures":0,
       "theorems":{"budgeted_exact_dp":"C_B(S)=min_{e in S}(C_B(S-e)+w(S-e)) over subsets whose frontier is at most B",
       "multiplicity_dp":"a supplied branch decomposition exactly counts complete cell selections per projected affine residual",
@@ -22,7 +36,10 @@ def generate_results():
       "benchmark_summary":{"cases":len(benchmarks),"maximum_price_of_minimum_width":max(x["price_of_minimum_width"] for x in benchmarks),
       "maximum_budget_slack_to_Gstar":max(x["budget_slack_to_Gstar"] for x in benchmarks)},
       "spine_multiplicity":spine,"binary_tree_compression":binary,
-      "avoidance_interface":{"normalized_example":normalized,"synthetic_supplied_target":synthetic_avoided_target_certificate(),
+      "avoidance_interface":{"normalized_example":{"all_zero_input_satisfies_cell_zero_of_every_gate":normalized["all_zero_input_satisfies_cell_zero_of_every_gate"],
+      "can_certify_current_selected_target_as_avoided":normalized["can_certify_current_selected_target_as_avoided"]},
+      "synthetic_supplied_target":{"supplied_target":synthetic["supplied_target"],"consistent_complete_branches":synthetic["consistent_complete_branches"],
+      "target_is_certified_outside_image":synthetic["target_is_certified_outside_image"],"fiber_cells_are_disjoint":synthetic["fiber_cells_are_disjoint"]},
       "searches_target_words_without_dual_fiber_data":False,"next_required_extension":"encode output polarity and affine decompositions for both fibers"},
       "scientific_status":{"bicriteria_optimum_computed_exactly":True,"complete_branch_multiplicities_counted_exactly":True,
       "supplied_target_can_be_certified_when_root_count_zero":True,"current_normalized_schema_constructs_avoidance_witness":False,

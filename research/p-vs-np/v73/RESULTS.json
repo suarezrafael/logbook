@@ -1,67 +1,221 @@
 {
-  "version": "V73",
-  "status": "passed",
-  "failures": 0,
-  "bicriteria_validation": {
-    "seed": 730073,
-    "systems": 48,
-    "budget_checks": 211
+  "avoidance_interface": {
+    "next_required_extension": "encode output polarity and affine decompositions for both fibers",
+    "normalized_example": {
+      "all_zero_input_satisfies_cell_zero_of_every_gate": true,
+      "can_certify_current_selected_target_as_avoided": false
+    },
+    "searches_target_words_without_dual_fiber_data": false,
+    "synthetic_supplied_target": {
+      "consistent_complete_branches": 0,
+      "fiber_cells_are_disjoint": true,
+      "supplied_target": [
+        1,
+        1
+      ],
+      "target_is_certified_outside_image": true
+    }
   },
-  "multiplicity_validation": {
-    "seed": 730074,
-    "systems": 96,
-    "branch_nodes": 808
-  },
-  "frozen_bicriteria_benchmarks": [
-    {"label":"v69-natural-n6","qstar":4,"minimum_width_cost":18,"Gstar":15,"minimum_budget_for_Gstar":6,"budget_slack_to_Gstar":2,"price_of_minimum_width":1.2},
-    {"label":"v69-natural-n8","qstar":4,"minimum_width_cost":16,"Gstar":15,"minimum_budget_for_Gstar":5,"budget_slack_to_Gstar":1,"price_of_minimum_width":1.0666666666666667},
-    {"label":"v69-natural-n10","qstar":4,"minimum_width_cost":24,"Gstar":17,"minimum_budget_for_Gstar":7,"budget_slack_to_Gstar":3,"price_of_minimum_width":1.411764705882353},
-    {"label":"v69-natural-n12","qstar":4,"minimum_width_cost":52,"Gstar":29,"minimum_budget_for_Gstar":7,"budget_slack_to_Gstar":3,"price_of_minimum_width":1.793103448275862},
-    {"label":"v70-exact-record-n8","qstar":4,"minimum_width_cost":31,"Gstar":29,"minimum_budget_for_Gstar":6,"budget_slack_to_Gstar":2,"price_of_minimum_width":1.0689655172413792},
-    {"label":"v70-exact-record-n10","qstar":5,"minimum_width_cost":32,"Gstar":30,"minimum_budget_for_Gstar":7,"budget_slack_to_Gstar":2,"price_of_minimum_width":1.0666666666666667}
-  ],
   "benchmark_summary": {
     "cases": 6,
-    "maximum_price_of_minimum_width": 1.793103448275862,
-    "maximum_budget_slack_to_Gstar": 3
+    "maximum_budget_slack_to_Gstar": 3,
+    "maximum_price_of_minimum_width": 1.793103448275862
   },
-  "spine_multiplicity": [
-    {"k":1,"consistent_complete_branches":1},
-    {"k":2,"consistent_complete_branches":2},
-    {"k":3,"consistent_complete_branches":4},
-    {"k":4,"consistent_complete_branches":8},
-    {"k":5,"consistent_complete_branches":16},
-    {"k":6,"consistent_complete_branches":32},
-    {"k":7,"consistent_complete_branches":64},
-    {"k":8,"consistent_complete_branches":128}
-  ],
+  "bicriteria_validation": {
+    "budget_checks": 211,
+    "seed": 730073,
+    "systems": 48
+  },
   "binary_tree_compression": [
-    {"height":1,"n":5,"m":2,"proved_Gstar":2,"maximum_postorder_layer_width":1,"maximum_leaf_residual_states":1,"maximum_internal_residual_states":1},
-    {"height":2,"n":13,"m":6,"proved_Gstar":6,"maximum_postorder_layer_width":1,"maximum_leaf_residual_states":2,"maximum_internal_residual_states":1},
-    {"height":3,"n":29,"m":14,"proved_Gstar":14,"maximum_postorder_layer_width":1,"maximum_leaf_residual_states":2,"maximum_internal_residual_states":1},
-    {"height":4,"n":61,"m":30,"proved_Gstar":30,"maximum_postorder_layer_width":1,"maximum_leaf_residual_states":2,"maximum_internal_residual_states":1},
-    {"height":5,"n":125,"m":62,"proved_Gstar":62,"maximum_postorder_layer_width":1,"maximum_leaf_residual_states":2,"maximum_internal_residual_states":1},
-    {"height":6,"n":253,"m":126,"proved_Gstar":126,"maximum_postorder_layer_width":1,"maximum_leaf_residual_states":2,"maximum_internal_residual_states":1},
-    {"height":7,"n":509,"m":254,"proved_Gstar":254,"maximum_postorder_layer_width":1,"maximum_leaf_residual_states":2,"maximum_internal_residual_states":1}
+    {
+      "height": 1,
+      "m": 2,
+      "maximum_internal_residual_states": 1,
+      "maximum_leaf_residual_states": 1,
+      "maximum_postorder_layer_width": 1,
+      "n": 5,
+      "postorder_G_proj": 2,
+      "proved_Gstar": 2
+    },
+    {
+      "height": 2,
+      "m": 6,
+      "maximum_internal_residual_states": 1,
+      "maximum_leaf_residual_states": 2,
+      "maximum_postorder_layer_width": 1,
+      "n": 13,
+      "postorder_G_proj": 6,
+      "proved_Gstar": 6
+    },
+    {
+      "height": 3,
+      "m": 14,
+      "maximum_internal_residual_states": 1,
+      "maximum_leaf_residual_states": 2,
+      "maximum_postorder_layer_width": 1,
+      "n": 29,
+      "postorder_G_proj": 14,
+      "proved_Gstar": 14
+    },
+    {
+      "height": 4,
+      "m": 30,
+      "maximum_internal_residual_states": 1,
+      "maximum_leaf_residual_states": 2,
+      "maximum_postorder_layer_width": 1,
+      "n": 61,
+      "postorder_G_proj": 30,
+      "proved_Gstar": 30
+    },
+    {
+      "height": 5,
+      "m": 62,
+      "maximum_internal_residual_states": 1,
+      "maximum_leaf_residual_states": 2,
+      "maximum_postorder_layer_width": 1,
+      "n": 125,
+      "postorder_G_proj": 62,
+      "proved_Gstar": 62
+    },
+    {
+      "height": 6,
+      "m": 126,
+      "maximum_internal_residual_states": 1,
+      "maximum_leaf_residual_states": 2,
+      "maximum_postorder_layer_width": 1,
+      "n": 253,
+      "postorder_G_proj": 126,
+      "proved_Gstar": 126
+    },
+    {
+      "height": 7,
+      "m": 254,
+      "maximum_internal_residual_states": 1,
+      "maximum_leaf_residual_states": 2,
+      "maximum_postorder_layer_width": 1,
+      "n": 509,
+      "postorder_G_proj": 254,
+      "proved_Gstar": 254
+    }
   ],
-  "avoidance_interface": {
-    "normalized_schema_has_all_zero_complete_branch": true,
-    "current_normalized_schema_constructs_avoidance_witness": false,
-    "supplied_target_is_certified_when_root_multiplicity_is_zero": true,
-    "searches_target_words_without_dual_fiber_data": false,
-    "next_required_extension": "encode output polarity and exact representations of both fibers"
+  "failures": 0,
+  "frozen_bicriteria_benchmarks": [
+    {
+      "Gstar": 15,
+      "budget_slack_to_Gstar": 2,
+      "label": "v69-natural-n6",
+      "minimum_budget_for_Gstar": 6,
+      "minimum_width_cost": 18,
+      "price_of_minimum_width": 1.2,
+      "qstar": 4
+    },
+    {
+      "Gstar": 15,
+      "budget_slack_to_Gstar": 1,
+      "label": "v69-natural-n8",
+      "minimum_budget_for_Gstar": 5,
+      "minimum_width_cost": 16,
+      "price_of_minimum_width": 1.0666666666666667,
+      "qstar": 4
+    },
+    {
+      "Gstar": 17,
+      "budget_slack_to_Gstar": 3,
+      "label": "v69-natural-n10",
+      "minimum_budget_for_Gstar": 7,
+      "minimum_width_cost": 24,
+      "price_of_minimum_width": 1.411764705882353,
+      "qstar": 4
+    },
+    {
+      "Gstar": 29,
+      "budget_slack_to_Gstar": 3,
+      "label": "v69-natural-n12",
+      "minimum_budget_for_Gstar": 7,
+      "minimum_width_cost": 52,
+      "price_of_minimum_width": 1.793103448275862,
+      "qstar": 4
+    },
+    {
+      "Gstar": 29,
+      "budget_slack_to_Gstar": 2,
+      "label": "v70-exact-record-n8",
+      "minimum_budget_for_Gstar": 6,
+      "minimum_width_cost": 31,
+      "price_of_minimum_width": 1.0689655172413792,
+      "qstar": 4
+    },
+    {
+      "Gstar": 30,
+      "budget_slack_to_Gstar": 2,
+      "label": "v70-exact-record-n10",
+      "minimum_budget_for_Gstar": 7,
+      "minimum_width_cost": 32,
+      "price_of_minimum_width": 1.0666666666666667,
+      "qstar": 5
+    }
+  ],
+  "multiplicity_validation": {
+    "branch_nodes": 808,
+    "seed": 730074,
+    "systems": 96
   },
   "scientific_status": {
-    "bicriteria_optimum_computed_exactly": true,
-    "complete_branch_multiplicities_counted_exactly": true,
-    "binary_tree_family_Gstar_linear_proved": true,
-    "support_width_lower_bounds_Gstar": false,
     "all_orders_superpolynomial_lower_bound_proved": false,
-    "standard_model_simulation_proved": false,
-    "unrestricted_avoidance_algorithm_proved": false,
-    "p_vs_np_route_active": false,
-    "p_vs_np_resolved": false,
+    "bicriteria_optimum_computed_exactly": true,
+    "binary_tree_family_Gstar_linear_proved": true,
+    "complete_branch_multiplicities_counted_exactly": true,
+    "current_normalized_schema_constructs_avoidance_witness": false,
     "novelty_confirmed": false,
-    "peer_reviewed": false
-  }
+    "p_vs_np_resolved": false,
+    "p_vs_np_route_active": false,
+    "peer_reviewed": false,
+    "standard_model_simulation_proved": false,
+    "supplied_target_can_be_certified_when_root_count_zero": true,
+    "support_width_lower_bounds_Gstar": false,
+    "unrestricted_avoidance_algorithm_proved": false
+  },
+  "spine_multiplicity": [
+    {
+      "consistent_complete_branches": 1,
+      "k": 1
+    },
+    {
+      "consistent_complete_branches": 2,
+      "k": 2
+    },
+    {
+      "consistent_complete_branches": 4,
+      "k": 3
+    },
+    {
+      "consistent_complete_branches": 8,
+      "k": 4
+    },
+    {
+      "consistent_complete_branches": 16,
+      "k": 5
+    },
+    {
+      "consistent_complete_branches": 32,
+      "k": 6
+    },
+    {
+      "consistent_complete_branches": 64,
+      "k": 7
+    },
+    {
+      "consistent_complete_branches": 128,
+      "k": 8
+    }
+  ],
+  "status": "passed",
+  "theorems": {
+    "binary_tree_compression": "for the oriented partition-zero private-vertex tree family, postorder has one residual per layer and Gstar=m",
+    "budgeted_exact_dp": "C_B(S)=min_{e in S}(C_B(S-e)+w(S-e)) over subsets whose frontier is at most B",
+    "multiplicity_dp": "a supplied branch decomposition exactly counts complete cell selections per projected affine residual",
+    "normalized_model_barrier": "the current normalized schema contains the all-zero input in cell zero of every gate and cannot itself produce an avoided output",
+    "supplied_target_certificate": "with exact affine decompositions of a supplied target's gate fibers, root multiplicity zero iff the target is outside the image"
+  },
+  "version": "V73"
 }

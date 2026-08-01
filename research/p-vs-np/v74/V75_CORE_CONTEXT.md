@@ -20,4 +20,4 @@
 4. Search for bounded-treewidth families with superlinear `G*_proj`, now using exact arbitrary-fiber gates rather than the compressed partition-zero schema.
 5. Compare the weighted residual object with arithmetic branching programs, tensor networks, or junction-tree inference only after proving a size-preserving translation.
 6. Consolidate V72–V75 into the manuscript only after external proof review and metadata checks.
-7. Preserve all nonclaims and merge only after quick, full, and LaTeX GitHub Actions pass.
+7. Preserve all nonclaims. Before promotion, quick, full, and LaTeX GitHub Actions must pass on the final SHA, GitHub Copilot must complete a review of the final diff, and every actionable Copilot finding must be resolved or fixed with the gates rerun.

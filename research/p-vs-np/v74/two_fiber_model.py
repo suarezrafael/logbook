@@ -37,6 +37,8 @@ def make_gate(
     support_tuple = tuple(int(variable) for variable in support)
     if not 1 <= len(support_tuple) <= 3:
         raise ValueError("gate arity must lie in 1..3")
+    if any(variable < 0 for variable in support_tuple):
+        raise ValueError("gate support variables must be nonnegative")
     if len(set(support_tuple)) != len(support_tuple):
         raise ValueError("gate support variables must be distinct")
     table_bits = 1 << len(support_tuple)
@@ -47,6 +49,19 @@ def make_gate(
         "truth_mask": int(truth_mask),
         "output_flip": int(output_flip) & 1,
     }
+
+
+def validate_gate_support_range(n: int, gates: Sequence[Gate]) -> None:
+    """Reject malformed supports before shifts or assignment enumeration."""
+    n_int = int(n)
+    if n_int < 0:
+        raise ValueError("the number of input variables must be nonnegative")
+    for gate_index, gate in enumerate(gates):
+        support = tuple(int(variable) for variable in gate["support"])
+        if any(variable < 0 or variable >= n_int for variable in support):
+            raise ValueError(
+                f"gate {gate_index} support variables must satisfy 0 <= variable < n"
+            )
 
 
 def effective_truth_mask(gate: Gate) -> int:
@@ -209,6 +224,7 @@ def weighted_target_dp(
     which makes the recurrence exact.
     """
     gate_tuple = tuple(gates)
+    validate_gate_support_range(n, gate_tuple)
     target_tuple = tuple(target)
     if len(target_tuple) != len(gate_tuple):
         raise ValueError("target length must equal the number of gates")
@@ -336,4 +352,6 @@ def find_avoided_output(
 
 
 def brute_preimage_counts(n: int, gates: Sequence[Gate]) -> Counter[int]:
-    return Counter(evaluate_circuit(gates, assignment) for assignment in range(1 << n))
+    gate_tuple = tuple(gates)
+    validate_gate_support_range(n, gate_tuple)
+    return Counter(evaluate_circuit(gate_tuple, assignment) for assignment in range(1 << n))

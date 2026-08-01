@@ -5,13 +5,29 @@ import json
 import re
 from pathlib import Path
 
+from two_fiber_model import brute_preimage_counts, make_gate, weighted_target_dp
 from v74_two_fiber_avoidance import generate_results
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 
 
+def assert_value_error(callback) -> None:
+    try:
+        callback()
+    except ValueError:
+        return
+    raise AssertionError("expected ValueError")
+
+
 def main() -> None:
+    assert_value_error(lambda: make_gate([-1, 0], 0))
+    negative_gate = {"support": [-1], "truth_mask": 0, "output_flip": 0}
+    out_of_range_gate = {"support": [0, 2], "truth_mask": 0, "output_flip": 0}
+    assert_value_error(lambda: weighted_target_dp(2, [negative_gate], [0]))
+    assert_value_error(lambda: weighted_target_dp(2, [out_of_range_gate], [0]))
+    assert_value_error(lambda: brute_preimage_counts(2, [out_of_range_gate]))
+
     results = generate_results()
     (HERE / "RESULTS.json").write_text(
         json.dumps(results, indent=2, sort_keys=True) + "\n", encoding="utf-8"
@@ -144,10 +160,10 @@ def main() -> None:
         assert forbidden not in corpus
 
     print(
-        "V74 primary verification passed: exact two-fiber model; 256 ternary "
-        "partitions; 4,096 exhaustive circuits and 32,768 targets; constructive "
-        "bounded-width avoidance; OR-path G*=3m-3; repository and LaTeX gates; "
-        "zero failures."
+        "V74 primary verification passed: malformed-support rejection; exact "
+        "two-fiber model; 256 ternary partitions; 4,096 exhaustive circuits "
+        "and 32,768 targets; constructive bounded-width avoidance; OR-path "
+        "G*=3m-3; repository and LaTeX gates; zero failures."
     )
 
 

@@ -20,13 +20,18 @@ def normalize(edges):
     return answer
 
 
-def frontier(edges, processed):
-    edges = normalize(edges)
+def _frontier_normalized(edges, processed):
+    """Compute a cut frontier when ``edges`` is already normalized."""
     processed = set(processed)
     left, right = set(), set()
     for index, edge in enumerate(edges):
         (left if index in processed else right).update(edge)
     return left & right
+
+
+def frontier(edges, processed):
+    """Public compatibility wrapper accepting arbitrary iterable supports."""
+    return _frontier_normalized(normalize(edges), processed)
 
 
 def linear_width(edges, order):
@@ -36,7 +41,7 @@ def linear_width(edges, order):
     profile = []
     for index in order:
         processed.add(index)
-        value = len(frontier(edges, processed))
+        value = len(_frontier_normalized(edges, processed))
         profile.append(value)
         width = max(width, value)
     return width, profile
@@ -59,7 +64,7 @@ def bags_from_edge_order(edges, order):
     processed = set()
     bags = []
     for index in order:
-        bags.append(tuple(sorted(frontier(edges, processed) | set(edges[index]))))
+        bags.append(tuple(sorted(_frontier_normalized(edges, processed) | set(edges[index]))))
         processed.add(index)
     return bags
 
