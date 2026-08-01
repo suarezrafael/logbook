@@ -1,6 +1,6 @@
 # Cumulative scientific state
 
-**Current laboratory:** V76 candidate  
+**Current laboratory:** V77 candidate  
 **Updated:** 2026-08-01  
 **Program name:** `NC0_k-Avoid Laboratory`  
 **P-versus-NP research active:** exploratory  
@@ -88,7 +88,7 @@ The independent verifier imports neither the arithmetic builder nor the affine e
 
 V76 treats the supplied gate branch decomposition as a labelled subcubic tree. Standard labelled top trees, due to Alstrup, Holm, de Lichtenberg, and Thorup, give a binary hierarchy of connected clusters with at most two boundary vertices and height `O(log m)`.
 
-The new four-cut support-boundary lemma proves that every retained label-bearing cluster is covered by the middle sets of at most four original branch-tree edges. Therefore a supplied width-`b` gate decomposition can be transferred to a rooted binary gate tree satisfying
+The V76 four-cut support-boundary lemma proves that every retained label-bearing cluster is covered by the middle sets of at most four original branch-tree edges. Therefore a supplied width-`b` gate decomposition can be transferred to a rooted binary gate tree satisfying
 
 ```text
 width <= 4b,
@@ -99,12 +99,10 @@ external path length = O(m log m).
 Rebuilding the V75 symbolic residual circuit on the transferred tree gives
 
 ```text
-O(m log m A(4b)^2 poly(n,m))
+O(m log m A(4b)^2 poly(n,m)).
 ```
 
-incremental prefix-avoidance time in the supplied-decomposition parameterized regime. This removes the arbitrary-tree depth obstruction at the cost of replacing `b` by `4b`.
-
-The top-tree height construction is prior art. The V76-specific contribution is the four-cut support-boundary transfer, its exact certificate auditor, and the finite width/height/EPL analysis. Novelty remains unconfirmed.
+The top-tree height construction is prior art. V76's four-edge transfer remains correct, but V77 gives a stronger parameter bound.
 
 ## V76 finite validation and proof controls
 
@@ -118,27 +116,72 @@ This shows that width two cannot coexist with the minimum possible height three 
 
 The labelled-cluster auditor checked `101,213` valid states and attained the full four-edge cover. An independently written verifier reconstructs raw incidence boundaries, all `10,395` witness trees, cluster cuts, the six tradeoff families, and the V72 private-vertex regression.
 
-An earlier recursive centroid argument claiming width `2b` was rejected before publication because recursive components need not remain one side of a single original edge. V76 makes no factor-two claim and does not claim factor four is optimal.
+An earlier recursive centroid argument claiming width `2b` was rejected before publication because recursive components need not remain one side of a single original edge. V77 does not revive that invalid invariant; it uses a different topology-cluster theorem.
+
+## V77 restricted topology-tree transfer
+
+Frederickson's restricted multilevel partitions/topology trees give a binary hierarchy of logarithmic height on a ternary tree. Every topology cluster has at most three leaving source-tree edges, and an external-degree-three cluster is necessarily a singleton vertex.
+
+Attach each gate label to its degree-one source leaf. Delete topology branches without gate labels and suppress unary nodes. Every retained node remains an original topology cluster. If it is non-singleton, it has at most two leaving edges. If it is a singleton containing a gate label, it is a source leaf and has one leaving edge. Thus every retained label-bearing cluster has at most two boundary edges.
+
+For any input variable occurring in a retained gate set and its complement, the path between the corresponding gate leaves exits the connected cluster through one of those boundary edges. Hence its support boundary is contained in the union of at most two original middle sets. From a supplied width-`b` decomposition, V77 obtains
+
+```text
+width <= 2b,
+height = O(log m),
+external path length = O(m log m).
+```
+
+Rebuilding the V75 symbolic residual circuit gives
+
+```text
+O(m log m A(2b)^2 poly(n,m))
+```
+
+incremental prefix avoidance in the supplied-decomposition parameterized regime. The logarithmic-height topology hierarchy is prior art; the retained two-edge support-boundary corollary is the internally proved V77 step. Novelty remains unconfirmed.
+
+## V77 finite validation and proof controls
+
+The deterministic static constructor and strict verifier audited:
+
+```text
+2,055 ordered source-tree shapes through nine gates,
+31,042 source vertices,
+73,239 topology clusters,
+33,097 retained label clusters,
+zero retained clusters of external degree three,
+256 seeded support systems,
+5,132 direct two-edge cover checks.
+```
+
+A representative static topology certificate is committed and independently reconstructed from raw adjacency, cluster vertex sets, children, levels, and boundary edges.
+
+All `245,505` simple rank-at-most-three support families on five variables through six gates were reduced under variable permutations to `2,802` isomorphism orbits. No perfect-height width inflation occurred in that finite range. The six V76 seven-gate witnesses remain valid regressions.
+
+A four-gate rank-three gadget has supplied width `b=3` and a valid two-boundary-edge cluster of width six. This shows that the two-edge inequality can attain `2b` for one cluster. It does not prove that every logarithmic-height hierarchy requires factor two, and it does not refute a width-preserving transfer.
 
 ## Literature and next target
 
-Korhonen and Oum's 2026 FPT algorithm constructs width-`k` branch decompositions for oracle connectivity functions. This reduces the parameterized decomposition-discovery obstacle but is distinct from the V76 transfer on a supplied decomposition. Fomin and Korhonen study general branchwidth approximation. V77 must tighten `4b`, construct a genuine obstruction, or produce independently checkable static top-tree certificates.
+Frederickson supplies the restricted topology-tree hierarchy; Alstrup, Holm, de Lichtenberg, and Thorup relate topology trees to top trees. Korhonen and Oum's 2026 FPT algorithm concerns decomposition discovery, whereas V77 assumes a supplied decomposition and transfers it.
+
+V78 must decide whether factor two is structural or an artifact. The main routes are source-tree-aware height-capped dynamic programming, overlap/uncrossing of the two middle sets, and genuine logarithmic-height lower-bound families.
 
 ## Publication and historical controls
 
-`v71/MANUSCRIPT.tex` remains the consolidated article through V71. V72–V76 are standalone modules pending external proof review. No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confirmation is claimed.
+`v71/MANUSCRIPT.tex` remains the consolidated article through V71. V72–V77 are standalone modules pending external proof review. No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confirmation is claimed.
 
 The V22 reproducibility correction remains active: V22 is a proof candidate with a missing original certificate dataset, and the aggregate snapshot cannot reconstruct the original certificates. V26 remains a justified missing-script skip. The V53 girth implications remain retracted. Incomplete `n=9` searches remain falsification/regression only. `LEDGER.json` remains a conservative historical ledger and may lag the current promoted package.
 
 ## Repository entry points
 
 - `PUBLICATION_INDEX.md`
+- `v77/TOPOLOGY_TREE_TRANSFER.md`
+- `v77/V77_TOPOLOGY_TREE_TRANSFER_THEOREM.tex`
+- `v77/topology_tree_certificate.py`
+- `v77/STATIC_TOPOLOGY_CERTIFICATE.json`
+- `v77/RESULTS.json`
+- `v77/V78_CORE_CONTEXT.md`
 - `v76/TOP_TREE_TRANSFER.md`
-- `v76/V76_TOP_TREE_TRANSFER_THEOREM.tex`
-- `v76/decomposition_pareto.py`
-- `v76/cluster_cut_cover.py`
-- `v76/RESULTS.json`
-- `v76/V77_CORE_CONTEXT.md`
 - `v75/SYMBOLIC_PREFIX_CIRCUIT.md`
 - `v74/TWO_FIBER_AVOIDANCE.md`
 - `v71/MANUSCRIPT.tex`
