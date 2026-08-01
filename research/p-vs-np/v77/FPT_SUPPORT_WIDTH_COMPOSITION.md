@@ -35,10 +35,14 @@ connectivity function on a ground set of size `m`, one can find a branch
 decomposition of width at most `k`, or determine that none exists, in
 
 ```text
-2^{O(k^2)} gamma m^6 log m
+2^{O(k)} gamma m^6 log m + 2^{O(k^2)} gamma m
 ```
 
-time.
+time. The abstract also states the valid simplified upper bound
+
+```text
+2^{O(k^2)} gamma m^6 log m.
+```
 
 Apply their theorem to `lambda_C`. If
 
@@ -69,6 +73,14 @@ Therefore `NC0_3-Avoid`, parameterized by support connectivity branchwidth
 `k`, has running time
 
 ```text
+2^{O(k)} gamma m^6 log m
+  + 2^{O(k^2)} gamma m
+  + O(m log m A(2k)^2 poly(n,m)).
+```
+
+A simpler but weaker display is
+
+```text
 2^{O(k^2)} gamma m^6 log m
   + O(m log m A(2k)^2 poly(n,m)).
 ```
@@ -84,7 +96,8 @@ and let `k` be the branchwidth of `lambda_C`. There is an algorithm that
 constructs `y notin range(C)` in
 
 ```text
-2^{O(k^2)} gamma m^6 log m
+2^{O(k)} gamma m^6 log m
+  + 2^{O(k^2)} gamma m
   + O(m log m A(2k)^2 poly(n,m))
 ```
 
