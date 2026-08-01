@@ -1,0 +1,203 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,longtable,array}
+\usepackage{geometry}
+\usepackage[hidelinks]{hyperref}
+\geometry{margin=1in}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\Ftwo}{\mathbb F_2}
+\newcommand{\pw}{\operatorname{pw}}
+\title{Affine-Cell Range Avoidance: Structural Barriers, Projected Residual DAGs, and Support-Hypergraph Width}
+\author{Author metadata to be confirmed before submission}
+\date{Laboratory V71 --- 31 July 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We consolidate an internally verified research program on restricted range avoidance, affine-cell branching, and the interface with circuit lower bounds.  Earlier modules isolate an affine consistency-or-redundancy algorithm, a five-block bijunctive obstruction, an orientation-depth algorithm, and an explicit family with exponentially many complete branching-tree leaves but a linear projected residual DAG.  We then optimize projected residual DAG size exactly over gate orders and bound every residual layer by the number of affine subspaces supported on a gate-order frontier.  The new contribution identifies the optimum support-frontier parameter with linear branch-width of the support hypergraph and proves that, for rank-$r$ supports, it differs from pathwidth of the primal graph by only additive rank terms.  A supplied width-$p$ path decomposition constructs a projected residual DAG of size at most $mA(p+1)$, where $A(b)$ counts nonempty affine subspaces of $\Ftwo^b$.  A separate tree-decomposition dynamic program decides affine-cell feasibility with fixed-parameter state space.  The article explicitly separates proved statements, finite experiments, retractions, prior art, and open conjectures.  It does not establish unrestricted range avoidance, a circuit lower bound, or a consequence for P versus NP.
+\end{abstract}
+
+\section{Scientific status and scope}
+Range Avoidance asks for a string outside the image of a circuit whose output length exceeds its input length.  The problem is connected to explicit constructions and lower bounds, but restricted algorithms do not automatically imply a separation of complexity classes.  This manuscript is an audit-oriented consolidation of Laboratories V54--V71.  ``Internally verified'' means that a proof or construction is accompanied by deterministic repository checks.  It does not mean peer reviewed or novelty confirmed.
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.17\textwidth}>{\raggedright\arraybackslash}p{0.24\textwidth}>{\raggedright\arraybackslash}p{0.20\textwidth}>{\raggedright\arraybackslash}p{0.29\textwidth}}
+\toprule
+Module & Statement & Category/status & Limitation \\
+\midrule
+\endfirsthead
+\toprule
+Module & Statement & Category/status & Limitation \\
+\midrule
+\endhead
+V54 & Pure $\mathrm{AND}_k$ positive-stretch separator of degree at most $k+1$ & proved; internally verified & monotone restricted class \\
+V56/V65 & affine consistency-or-redundancy & proved; formally packaged & efficiently represented affine mixtures \\
+V57/V64 & five-block orbit-$0x07$ irredundancy & proved construction & circuit-specific block statement \\
+V58 & orientation-depth avoidance algorithm & proved parameterized algorithm & $m^{O(d)}\operatorname{poly}(n+m)$ \\
+V59 & cube internal-boundary inequality & classical application & not claimed as new isoperimetry \\
+V60 & easy-membership Las Vegas sampler & elementary theorem & assumes efficient image membership \\
+V68 & exponential complete-tree leaves for spine family & proved theorem & does not lower-bound DAGs \\
+V68 & linear projected residual DAG for the same family & proved construction & separates tree and projected DAG \\
+V69 & set-layer invariance and subset-lattice optimum & proved theorem/algorithm & exact optimization is exponential \\
+V70 & support-frontier affine-state bound & proved theorem & parameterized upper bound only \\
+V70 & component factorisation & proved theorem & full processed incidence components \\
+V71 & exact linear branch-width vocabulary & proved correspondence & terminology plus exact identity \\
+V71 & pathwidth sandwich and constructive order & proved theorem & additive rank terms \\
+V71 & tree-decomposition affine feasibility DP & proved parameterized DP & not a linear-DAG bound \\
+V66--V70 & numerical records & finite experiments & no asymptotic inference \\
+V53 & girth-to-union-free implication & retracted & false; regression retained \\
+General good order & every instance has polynomially bounded order & open conjecture & unproved \\
+All-orders hardness & explicit superpolynomial $G^*_{\rm proj}$ family & open conjecture & unproved \\
+P versus NP & separation & unresolved & direct route inactive \\
+\bottomrule
+\end{longtable}
+
+\section{Affine-cell model}
+A gate support contains at most three input variables.  For each selected non-affine ternary gate class, fixing an output bit yields a union of affine cells.  A branch chooses one cell per processed gate and maintains the resulting affine system over $\Ftwo$.  Canonical Gaussian elimination detects inconsistency, removes redundancy, and supports existential projection.
+
+V56 proves a dichotomy for efficiently represented affine output-fiber mixtures at positive stretch: either a selected fiber system is inconsistent and immediately yields an avoided output, or a redundant affine condition can be removed while preserving the represented union.  V57 shows that the analogous block-redundancy statement fails for a specific five-block bijunctive gadget.  V58 recovers tractability when a suitable orientation-depth parameter is bounded.
+
+\section{Branching trees versus projected residual DAGs}
+The V68 spine family has $n=2k+1$ inputs and $m=2k+2=n+1$ gates.  It preserves $2^{k-1}$ consistent complete cell selections.  Any complete branching tree that realizes every surviving selection therefore has exponentially many leaves.  Nevertheless, after each gate one may existentially eliminate variables absent from all future supports and merge equal affine residuals.  For the same family the resulting ordered projected DAG has only $3k+4$ nonterminal states.
+
+This is a model separation.  It invalidates a tree-size lower-bound route but does not prove a small OBDD, FBDD, resolution proof, or general projected DAG.
+
+\section{Order-robust projected residual complexity}
+For an ordered gate sequence $\pi$, let $G_{\rm proj}(\pi)$ be the number of nonterminal projected residual states.  V69 proves that the residual layer after processing a set $S$ depends only on $S$, not on the order within $S$.  If $w(S)$ denotes the number of distinct nonempty projected affine residuals at that layer, then
+\[
+G_{\rm proj}(\pi)=\sum_i w(S_i).
+\]
+Thus
+\[
+G^*_{\rm proj}=\min_\pi G_{\rm proj}(\pi)
+\]
+is a shortest-path problem on the subset lattice.  This gives an exact exponential-time audit algorithm and reveals that several large fixed-order records collapse under reordering.
+
+\section{Support-frontier theorem}
+For a processed gate set $S$, define
+\[
+F(S)=\left(\bigcup_{e\in S}e\right)\cap
+     \left(\bigcup_{e\notin S}e\right).
+\]
+Let $A(b)$ be the number of nonempty affine subspaces of $\Ftwo^b$:
+\[
+A(b)=\sum_{d=0}^b 2^{b-d}{b\brack d}_2.
+\]
+V70 proves
+\[
+w(S)\le \min\{2^{|S|},A(|F(S)|)\}.
+\]
+For an order with frontier profile $b_i$ and maximum $q(\pi)$,
+\[
+G_{\rm proj}(\pi)
+\le \sum_i\min\{2^i,A(b_i)\}
+\le mA(q(\pi)).
+\]
+The global residual set also factors exactly over connected components of the full processed support-incidence graph.
+
+\section{Support-hypergraph width}
+Let $H=(X,E)$ be the support hypergraph and define
+\[
+\lambda_H(S)=|V(S)\cap V(E\setminus S)|.
+\]
+The support frontier is exactly this boundary.  A linear branch decomposition of the hyperedge ground set is equivalent to an edge order, so
+\[
+q^*(H)=\min_\pi\max_i\lambda_H(S_i)
+\]
+is precisely the linear branch-width of this connectivity system.  In the graph case it is the classical linear-width edge layout studied by Kobayashi and Nagano~\cite{kobayashi-nagano-linearwidth}.
+
+\begin{theorem}[Pathwidth sandwich]
+If $H$ has rank at most $r$ and $P(H)$ is its primal graph, then
+\[
+q^*(H)\le \pw(P(H))+1,
+\qquad
+\pw(P(H))\le q^*(H)+r-1.
+\]
+\end{theorem}
+
+\begin{proof}
+Given an edge order $e_1,\ldots,e_m$, let $S_i=\{e_1,\ldots,e_i\}$ and form bags
+\[
+B_i=F(S_{i-1})\cup e_i.
+\]
+Every primal edge is covered.  A variable appears from its first incident support through its last: at the endpoints it belongs to the current support and between them it belongs to the frontier.  Hence the bags form a path decomposition and have size at most $q(\pi)+r$.
+
+Conversely, let $(B_1,\ldots,B_t)$ be a width-$p$ path decomposition.  Every support is a clique of the primal graph and is contained in a bag by the interval Helly property.  Order supports by the rightmost bag containing the whole support.  At any prefix--suffix cut, every shared variable occurs in the bag at the cut value, so the frontier size is at most $p+1$.
+\end{proof}
+
+Kinnersley proved that vertex separation equals pathwidth~\cite{kinnersley-pathwidth}; constructive fixed-parameter pathwidth algorithms are available~\cite{bodlaender-kloks}.  Therefore the theorem is algorithmic when a decomposition is supplied or obtained by a suitable parameterized routine.
+
+\begin{corollary}
+A supplied primal path decomposition of width $p$ yields, in polynomial time,
+\[
+G_{\rm proj}\le mA(p+1).
+\]
+\end{corollary}
+
+\section{Tree decompositions}
+A tree decomposition of primal width $k$ supports a different dynamic program.  Assign every gate to a bag containing its support.  At each nice-decomposition bag, store the distinct nonempty affine residuals on the bag variables.  Gate assignment intersects with either cell, forgetting projects a coordinate, introducing adds an unconstrained coordinate, and joining intersects child residuals.  There are at most $A(k+1)$ states per bag and a direct join examines at most $A(k+1)^2$ pairs.
+
+This DP decides affine-cell consistency in FPT time, but it is tree-shaped.  It does not prove that the linear parameter $G^*_{\rm proj}$ is bounded by treewidth.  Indeed trees have treewidth one and unbounded pathwidth.
+
+\section{Finite experiments}
+The V71 construction was checked on all 3,472 simple rank-at-most-three hypergraphs on four variables with at most five supports and on 160 seeded five-variable instances.  For every instance the program exactly optimized both edge-layout width and primal vertex separation, validated both constructive transformations, and checked
+\[
+q^*\le \pw+1,
+\qquad
+\pw\le q^*+r-1.
+\]
+These computations are regression tests, not the proof.
+
+Earlier finite records include support-only heuristic reductions of a preserved $n=14$ fixed order from 583 to 41 projected states and exact-objective search records $G^*_{\rm proj}=29$ at $n=8$ and 30 at $n=10$.  They are budget records and have no asymptotic interpretation.
+
+\section{Retractions and nonclaims}
+The V53 implication from incidence girth to union-freeness is false because nested equal-union collisions need not generate an incidence cycle.  It remains recorded as a retraction.
+
+No result here proves that every unrestricted instance has a polynomially bounded good order, that any explicit family forces superpolynomial $G^*_{\rm proj}$ for all orders, or that the projected residual model simulates an established proof or branching-program model with controlled size.  The route to unrestricted $\mathrm{NC}^0_3$ Range Avoidance and then to a lower bound remains incomplete.  P versus NP is unresolved.
+
+\section{Open problems}
+The immediate questions are:
+\begin{enumerate}
+\item determine the complexity and approximability of rank-three support-hypergraph linear branch-width;
+\item compare pathwidth-derived orders with exact $G^*_{\rm proj}$ rather than frontier width alone;
+\item find bounded-treewidth families with growing linear projected residual complexity, or refute their existence;
+\item define and analyze a non-linear residual DAG over branch decompositions;
+\item establish or rule out a size-preserving simulation to a standard lower-bound model.
+\end{enumerate}
+
+\begin{thebibliography}{9}
+\bibitem{kobayashi-nagano-linearwidth}
+Y. Kobayashi and K. Nagano,
+``Algorithms and obstructions for linear-width and related search parameters,''
+\emph{Discrete Applied Mathematics} 105 (2000), 239--271.
+DOI: 10.1016/S0166-218X(00)00175-X.
+
+\bibitem{kinnersley-pathwidth}
+N. G. Kinnersley,
+``The vertex separation number of a graph equals its path-width,''
+\emph{Information Processing Letters} 42(6) (1992), 345--350.
+DOI: 10.1016/0020-0190(92)90234-M.
+
+\bibitem{bodlaender-kloks}
+H. L. Bodlaender and T. Kloks,
+``Efficient and constructive algorithms for the pathwidth and treewidth of graphs,''
+\emph{Journal of Algorithms} 21(2) (1996), 358--402.
+DOI: 10.1006/jagm.1996.0049.
+
+\bibitem{hypergraph-branchwidth}
+Q.-P. Gu and H. Tamaki,
+``Improved bounds on the planar branchwidth with respect to the largest grid minor size,''
+\emph{Algorithmica} 64 (2012).
+The preliminaries state the hypergraph vertex-boundary separation and branch-decomposition definitions.
+DOI: 10.1007/s00453-012-9627-5.
+
+\bibitem{range-avoidance}
+K. Gajulapalli, A. Golovnev, S. G. Akshay, and J. Sarma,
+work on algorithms and hardness for low-depth Range Avoidance,
+ECCC TR23-021 and APPROX/RANDOM 2023.
+
+\end{thebibliography}
+
+\end{document}
