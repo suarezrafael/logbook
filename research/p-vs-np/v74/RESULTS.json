@@ -1,0 +1,62 @@
+{
+  "affine_catalogue": {
+    "affine_cells_by_arity": {"1": 3, "2": 11, "3": 51},
+    "exact_ternary_subset_checks": 256,
+    "maximum_cells_per_ternary_fiber": 3,
+    "ternary_subset_partition_histogram": {"0": 1, "1": 51, "2": 196, "3": 8},
+    "worst_case_fiber_masks": [127, 191, 223, 239, 247, 251, 253, 254]
+  },
+  "exhaustive_binary_circuits": {
+    "avoidance_constructions": 4096,
+    "circuits": 4096,
+    "maximum_residual_states_observed": 2,
+    "prefix_partition_checks": 12288,
+    "target_checks": 32768
+  },
+  "failures": 0,
+  "or_path_family": {
+    "checked_edge_counts": [1, 9],
+    "exact_formula": "G*_proj=1 for m=1 and G*_proj=3m-3 for m>=2",
+    "gate_mask": "0b1110",
+    "instances": [
+      {"G_proj": 1, "Gstar": 1, "edge_count": 1, "formula": 1, "larger_proper_subset_minimum": 0, "primal_treewidth": 1, "profile": [1], "singleton_minimum": 1, "vertex_count": 2},
+      {"G_proj": 3, "Gstar": 3, "edge_count": 2, "formula": 3, "larger_proper_subset_minimum": 0, "primal_treewidth": 1, "profile": [1, 2], "singleton_minimum": 2, "vertex_count": 3},
+      {"G_proj": 6, "Gstar": 6, "edge_count": 3, "formula": 6, "larger_proper_subset_minimum": 3, "primal_treewidth": 1, "profile": [1, 2, 3], "singleton_minimum": 2, "vertex_count": 4},
+      {"G_proj": 9, "Gstar": 9, "edge_count": 4, "formula": 9, "larger_proper_subset_minimum": 3, "primal_treewidth": 1, "profile": [1, 2, 3, 3], "singleton_minimum": 2, "vertex_count": 5},
+      {"G_proj": 12, "Gstar": 12, "edge_count": 5, "formula": 12, "larger_proper_subset_minimum": 3, "primal_treewidth": 1, "profile": [1, 2, 3, 3, 3], "singleton_minimum": 2, "vertex_count": 6},
+      {"G_proj": 15, "Gstar": 15, "edge_count": 6, "formula": 15, "larger_proper_subset_minimum": 3, "primal_treewidth": 1, "profile": [1, 2, 3, 3, 3, 3], "singleton_minimum": 2, "vertex_count": 7},
+      {"G_proj": 18, "Gstar": 18, "edge_count": 7, "formula": 18, "larger_proper_subset_minimum": 3, "primal_treewidth": 1, "profile": [1, 2, 3, 3, 3, 3, 3], "singleton_minimum": 2, "vertex_count": 8},
+      {"G_proj": 21, "Gstar": 21, "edge_count": 8, "formula": 21, "larger_proper_subset_minimum": 3, "primal_treewidth": 1, "profile": [1, 2, 3, 3, 3, 3, 3, 3], "singleton_minimum": 2, "vertex_count": 9},
+      {"G_proj": 24, "Gstar": 24, "edge_count": 9, "formula": 24, "larger_proper_subset_minimum": 3, "primal_treewidth": 1, "profile": [1, 2, 3, 3, 3, 3, 3, 3, 3], "singleton_minimum": 2, "vertex_count": 10}
+    ],
+    "primal_graph": "path",
+    "primal_treewidth": 1,
+    "selected_output": 1
+  },
+  "polarity": {"flipped_truth_table_point_checks": 2048},
+  "scientific_status": {
+    "all_orders_superpolynomial_lower_bound_proved": false,
+    "bounded_branchwidth_target_search_proved": true,
+    "branch_decomposition_found_in_polynomial_time": false,
+    "exact_both_fibers_encoded": true,
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false,
+    "p_vs_np_route_active": false,
+    "peer_reviewed": false,
+    "standard_model_simulation_proved": false,
+    "target_preimage_count_exact": true,
+    "unrestricted_nc0_3_avoid_solved": false
+  },
+  "seeded_ternary_circuits": {"avoidance_constructions": 96, "circuits": 96, "maximum_residual_states_observed": 5, "seed": 740074, "target_checks": 1536},
+  "status": "passed",
+  "theorems": {
+    "bicriteria_price_bound": "for prefix-feasible systems, C_B/G*_proj <= A(B); the bound is width-dependent, not rank-only",
+    "bounded_treewidth_growth": "the OR=1 path family has primal treewidth one and exact G*_proj=3m-3 for m>=2",
+    "constructive_avoidance": "for m>n, m rounds of exact prefix counting construct an output with zero preimages",
+    "parameterized_running_time": "O(m^2 A(b)^2 poly(n,m)) for a supplied width-b branch decomposition",
+    "ternary_affine_partition": "every subset of F2^3 is a disjoint union of at most three affine cells; seven-point fibers require three",
+    "two_fiber_model": "truth_mask plus output_flip represents both exact gate fibers",
+    "weighted_branch_counting": "a supplied branch decomposition computes exact target preimage counts with at most A(b) residual keys per node"
+  },
+  "version": "V74"
+}

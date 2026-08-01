@@ -6,52 +6,38 @@
 
 - [PUBLICATION_INDEX.md](PUBLICATION_INDEX.md) — academic entry point and theorem-status index.
 - [STATE.md](STATE.md) — cumulative scientific state.
-- [LEDGER.json](LEDGER.json) — machine-readable historical ledger; a later consolidation will advance its promotion metadata beyond V70.
+- [LEDGER.json](LEDGER.json) — conservative machine-readable historical ledger.
 - [`v71/MANUSCRIPT.tex`](v71/MANUSCRIPT.tex) — current English consolidation of V54–V71.
-- [`v68/`](v68/) — explicit spine family separating branching trees from projected residual DAGs.
-- [`v69/`](v69/) — exact gate-order optimization and order-robustness experiments.
-- [`v70/`](v70/) — support-frontier bounds, component factorisation, and ordering heuristics.
-- [`v71/`](v71/) — support-hypergraph linear branch-width and primal pathwidth correspondence.
+- [`v68/`](v68/) — spine family separating branching trees from projected residual DAGs.
+- [`v69/`](v69/) — exact gate-order optimization.
+- [`v70/`](v70/) — support-frontier bounds and component factorisation.
+- [`v71/`](v71/) — linear branch-width and pathwidth correspondence.
 - [`v72/`](v72/) — rank-three width complexity and branch residual composition.
-- [`v73/`](v73/) — bicriteria residual ordering, exact branch multiplicities, avoidance-interface barrier, and binary-tree compression.
+- [`v73/`](v73/) — bicriteria ordering, branch multiplicities, and tree compression.
+- [`v74/`](v74/) — exact two-fiber counting and constructive bounded-width avoidance.
 - [`verify_all.sh`](verify_all.sh) — cumulative quick/full verifier.
 
 ## Current position
 
-V69 exactly audits
+V69 defines `G*_proj`, V70 bounds residual layers by the support frontier, V71 connects that frontier to standard width parameters, and V72 proves rank-three width NP-completeness while giving exact subset and branch-decomposition algorithms.
+
+V73 minimizes residual cost under a frontier budget and augments branch residuals with multiplicities of complete cell choices. It also proves `G*_proj=m` for the private-vertex partition-zero binary-tree family, ruling out that family as a lower-bound candidate.
+
+V74 replaces the normalized schema by an explicit Boolean gate model with truth masks, output polarity, and exact disjoint decompositions of both output fibers. Every ternary fiber uses at most three affine cells. A weighted branch DP computes the exact number of inputs mapping to a target output. Exact prefix counts then construct an avoided output for `m>n` in
 
 ```text
-G*_proj = min_pi G_proj(pi).
+O(m^2 A(b)^2 poly(n,m))
 ```
 
-V70 proves
+when a width-`b` branch decomposition is supplied.
+
+V74 also proves a treewidth-one family of OR gates with
 
 ```text
-w(S) <= min(2^|S|, A(|F(S)|)),
-G_proj(pi) <= m A(q(pi)).
+G*_proj = 3m-3  for m>=2.
 ```
 
-V71 identifies the optimum support frontier `q*` with vertex-boundary linear branch-width and proves the bounded-rank pathwidth sandwich.
-
-V72 proves NP-completeness of deciding `q*<=k` on simple three-uniform hypergraphs and gives exact subset and branch-decomposition algorithms.
-
-V73 introduces the budgeted recurrence
-
-```text
-C_B(S) = min_{e in S} [C_B(S-{e}) + w(S-{e})]
-```
-
-for minimizing projected residual cost under a frontier budget. It also counts complete cell selections per branch residual exactly.
-
-For exact affine decompositions of a **supplied** target's gate fibers, root multiplicity zero certifies an avoided target. The current normalized schema cannot search for one because cell zero of every gate contains the all-zero input.
-
-For the V72 private-vertex partition-zero binary-tree family, a rooted postorder has one residual per layer, proving
-
-```text
-G*_proj = m
-```
-
-although support linear width is unbounded. This rules out that family as a projected-residual lower-bound candidate.
+This is a bounded-width algorithm and an exact linear lower-bound family. It is not an unrestricted `NC0_3-Avoid` algorithm and not a superpolynomial lower bound.
 
 ## Contribution chain
 
@@ -59,16 +45,16 @@ although support linear width is unbounded. This rules out that family as a proj
 |---|---|---|
 | V16–V27 | Finite classifications and proof candidates | Historical/supplementary |
 | V53 | Corrected union-free line and retractions | Partially preserved |
-| V54–V58 | Restricted algorithms and affine/bijunctive structure | Internally verified; novelty unconfirmed |
-| V59–V65 | Geometry, barriers, reproducibility, manuscript, outreach, and formal modules | Verified/context |
+| V54–V65 | Restricted algorithms, barriers, reproducibility, and formal modules | Internally verified/context |
 | V66 | Exact affine-cell census and CI hardening | Merged and CI verified |
-| V67 | Direct-sum proposition and overlap growth witnesses | Merged and CI verified |
-| V68 | Exponential spine-tree lower bound and linear projected DAG | Merged and CI verified |
-| V69 | Exact gate-order optimization and robustness audit | Merged and CI verified |
-| V70 | Support-frontier theorem, component product lemma, and order heuristics | Merged and CI verified |
-| V71 | Linear branch-width vocabulary, pathwidth sandwich, decomposition algorithms, and manuscript | Merged after quick/full/LaTeX CI |
-| V72 | Three-uniform NP-completeness, exact width DP, branch residual DP, and width-vs-residual benchmarks | Merged after quick/full/LaTeX CI |
-| V73 | Bicriteria optimum, branch multiplicities, normalized-model barrier, and `G*_proj=m` tree compression | Candidate; promotion gated by quick/full/LaTeX CI |
+| V67 | Direct-sum proposition and overlap witnesses | Merged and CI verified |
+| V68 | Exponential tree leaves and linear projected DAG | Merged and CI verified |
+| V69 | Exact gate-order optimization | Merged and CI verified |
+| V70 | Support-frontier theorem and component factorisation | Merged and CI verified |
+| V71 | Width correspondence and consolidated manuscript | Merged after quick/full/LaTeX CI |
+| V72 | Rank-three width NP-completeness and branch residual DP | Merged after quick/full/LaTeX CI |
+| V73 | Bicriteria optimum, exact branch multiplicities, and tree compression | Merged after quick/full/LaTeX CI |
+| V74 | Exact two fibers, weighted preimage counts, prefix avoidance, and OR-path `3m-3` | Candidate; promotion gated by quick/full/LaTeX CI |
 
 ## Reproducibility and promotion
 

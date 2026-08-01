@@ -1,7 +1,7 @@
 # Cumulative scientific state
 
-**Current laboratory:** V73 candidate  
-**Updated:** 2026-07-31  
+**Current laboratory:** V74 candidate  
+**Updated:** 2026-08-01  
 **Program name:** `NC0_k-Avoid Laboratory`  
 **P-versus-NP research active:** exploratory  
 **Direct P-versus-NP route active:** no  
@@ -13,15 +13,13 @@
 
 ## Structural chain
 
-V68 gives an explicit stretch-one affine-cell family with exponentially many complete branching-tree leaves and a linear projected residual DAG.
+V68 gives a stretch-one affine-cell family with exponentially many complete branching-tree leaves and a linear projected residual DAG.
 
-V69 defines
+V69 defines and exactly audits
 
 ```text
-G*_proj = min over gate orders pi of G_proj(pi)
+G*_proj = min over gate orders pi of G_proj(pi).
 ```
-
-and computes it exactly by a subset-lattice shortest path.
 
 V70 proves, for support frontier `F(S)`,
 
@@ -32,129 +30,152 @@ G_proj(pi) <= m A(q(pi)),
 
 and proves exact component factorisation of projected residual sets.
 
-V71 identifies `q*` with vertex-boundary linear branch-width of the support hypergraph and proves, for rank `r`,
+V71 identifies `q*` with vertex-boundary linear branch-width and proves for rank `r`:
 
 ```text
 q* <= pw(P(H)) + 1,
 pw(P(H)) <= q* + r - 1.
 ```
 
-A supplied primal path decomposition constructs an order with a parameterized projected-DAG upper bound. A separate tree-decomposition DP decides affine feasibility but does not control the linear objective.
+## V72 width complexity and branch DP
 
-## V72 complexity and branch-decomposition results
+Private-vertex padding preserves every graph edge-cut boundary, so deciding `q*<=k` is NP-complete even for simple three-uniform support hypergraphs.
 
-For a graph edge `uv`, introduce a fresh private vertex `z_uv` and the three-uniform support `{u,v,z_uv}`. Private vertices never cross an edge-set cut, so every support-hypergraph boundary equals the original graph linearwidth boundary. Consequently, deciding `q*<=k` is NP-complete even for simple three-uniform hypergraphs.
-
-V72 also implements
+The exact subset recurrence is
 
 ```text
 D[empty] = 0,
-D[S] = min_{e in S} max(D[S-{e}], lambda(S))
+D[S] = min_{e in S} max(D[S-{e}], lambda(S)),
 ```
 
-in `O(m 2^m poly(n))` time. A supplied binary gate decomposition of maximum boundary size `b` supports exact affine residual composition with at most `A(b)` states per node and `A(b)^2` child pairs per join.
+with `O(m 2^m poly(n))` time.
 
-Private-vertex padding of perfect binary trees gives primal treewidth at most two but unbounded support linear width. V72 did not establish a lower bound on `G*_proj` for that family.
+A supplied binary gate decomposition of boundary width `b` supports exact affine residual composition with at most `A(b)` states per node and `A(b)^2` child pairs per join.
 
-## V73 exact bicriteria objective
+## V73 bicriteria and counted residuals
 
-V73 minimizes residual cost subject to a frontier-width budget. Under the repository convention
-
-```text
-G_proj(pi) = sum_{i=0}^{m-1} w(P_i),
-```
-
-where `P_0=empty`, the exact recurrence is
+For frontier budget `B`, V73 exactly minimizes projected residual cost using
 
 ```text
 C_B(empty) = 0,
-C_B(S) = min_{e in S} [C_B(S-{e}) + w(S-{e})],
+C_B(S) = min_{e in S} [C_B(S-{e}) + w(S-{e})].
 ```
 
-with transitions allowed only when every visited subset has frontier at most `B`. Given the exact subset tables, this uses `O(m 2^m)` transitions and reconstructs an optimum order.
+On six frozen records, the finite price of minimum width is at most `52/29`, and one to three units of width slack attain `G*_proj`. This is not an approximation theorem.
 
-On the six frozen V69–V70 records:
+At each branch node and residual `A`, V73 stores a multiplicity `mu_t(A)` counting consistent complete cell selections. For an exact affine decomposition of a supplied target's fibers,
 
 ```text
-record                 q*   cost at q*   G*_proj   first budget for G*_proj
-V69 natural n=6         4        18          15                6
-V69 natural n=8         4        16          15                5
-V69 natural n=10        4        24          17                7
-V69 natural n=12        4        52          29                7
-V70 exact n=8           4        31          29                6
-V70 exact n=10          5        32          30                7
+root multiplicity = 0 iff the supplied target is outside the image.
 ```
 
-The maximum exact finite price of minimum width is `52/29 = 1.793103...`. One to three units of width slack attain `G*_proj` on these records. This is not an approximation theorem.
+The normalized V66–V73 schema does not encode both output fibers. Cell zero of every normalized gate contains the all-zero local assignment, so the all-zero input always gives a consistent branch.
 
-## V73 counted branch residuals
-
-At each branch-decomposition node and projected affine residual `A`, V73 stores a multiplicity `mu_t(A)` equal to the number of consistent complete cell selections represented by that residual. At a join, compatible child residuals multiply their counts and equal parent residuals add them. This counts exponentially many complete branches without enumerating every leaf.
-
-For a supplied target output word `y`, if each selected gate fiber `f_i^{-1}(y_i)` is represented as an exact disjoint union of affine cells, then
-
-```text
-root multiplicity = 0  iff  y is outside the image.
-```
-
-Thus the DP can certify an already supplied target as an avoidance witness.
-
-## Current avoidance-interface barrier
-
-The normalized V66–V73 `partition=0,1,2` compiler represents a selected three-point positive fiber. Cell zero of every normalized gate contains the all-zero local assignment. Therefore the global all-zero input belongs to cell zero of every gate, and every normalized instance has
-
-```text
-root multiplicity >= 1.
-```
-
-The current normalized schema cannot itself construct an avoidance witness and does not encode enough information to search over output words. The next required extension is explicit output polarity plus exact representations of both gate fibers. Internal cell-branch bits must not be confused with circuit output bits.
-
-## V73 binary-tree compression theorem
-
-Orient each tree edge from parent `p` to child `c`, add a private vertex `z`, and use the partition-zero cells
-
-```text
-p=0, c=0, z=0
-p=0, c xor z=1.
-```
-
-A rooted postorder leaves exactly one projected residual at every nonterminal layer. Since there are `m` nonempty layers,
+For the private-vertex partition-zero binary-tree family, rooted postorder leaves one residual per nonterminal layer, proving
 
 ```text
 G*_proj=m.
 ```
 
-A tree-aligned branch decomposition has at most two residual states at gate leaves and exactly one residual state at every internal node. This holds while support linear width is unbounded. Hence support-width growth does not lower-bound `G*_proj` on this family.
+Thus support-width growth alone does not lower-bound `G*_proj` on that family.
 
-## V73 validation surface
+## V74 exact two-fiber model
 
-The primary implementation checks:
+Each fan-in-at-most-three Boolean gate is represented by
 
 ```text
-48 seeded affine systems and 211 exact bicriteria budget comparisons,
-96 seeded systems and 808 branch-decomposition nodes,
-eight spine-family multiplicity identities through k=8,
-seven binary-tree heights through m=254,
-six frozen exact bicriteria records.
+support,
+truth_mask,
+output_flip.
 ```
 
-The independent verifier uses brute-force gate orders and direct Boolean-assignment signatures. LaTeX compilation remains a separate CI job.
+The output flip records polarity. Each output bit selects its exact fiber, represented as a pairwise-disjoint union of affine cells. Internal cell branches are not circuit output bits.
 
-## Publication and discovery
+Every subset of `GF(2)^3` is a disjoint union of at most three affine subspaces; seven-point fibers require three. The exhaustive minimum partition histogram over all 256 ternary subsets is:
 
-`v71/MANUSCRIPT.tex` remains the current consolidated article through V71. V72 and V73 are standalone theorem modules pending external review and a future manuscript revision.
+```text
+0 cells:   1
+1 cell:   51
+2 cells: 196
+3 cells:   8
+```
 
-No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confirmation is claimed.
+## V74 weighted target counting
 
-## Lower-bound and constructive route gates
+For a branch node `t`, V74 stores a weight `mu_t(A)` for each projected residual `A` on the boundary. It counts internal assignments per boundary assignment.
 
-1. Encode output polarity and exact representations of both gate fibers.
-2. Verify target-conditioned counting against exhaustive circuit images.
-3. Develop target search without confusing internal cell branches with output bits.
-4. Seek bounded-treewidth families with genuinely growing `G*_proj`, excluding the compressed partition-zero tree family.
-5. Prove a size-preserving translation before importing lower bounds from a standard model.
-6. Reach unrestricted `NC0_3-Avoid` in a lower-bound-relevant stretch regime.
-7. Establish a complete reduction to NP circuit lower bounds before evaluating any P-versus-NP consequence.
+At a leaf, projection from cell `C` to residual `A` contributes
+
+```text
+2^(dim(C)-dim(A)).
+```
+
+At a join, compatible child residuals intersect to `C`; projection to parent residual `P(C)` contributes
+
+```text
+mu_u(A) * mu_v(B) * 2^(dim(C)-dim(P(C))).
+```
+
+Disjoint fiber cells prevent double counting. The root weight equals the exact number of inputs mapping to the selected output word, including unused-input factors.
+
+For boundary width `b`, there are at most `A(b)` residual keys per node and `A(b)^2` pairs per join.
+
+## V74 constructive bounded-width avoidance
+
+For output prefix `p`, let `N(p)` be its exact preimage count. Unfixed gates use the tautological full cube, and exact fibers give
+
+```text
+N(p0)+N(p1)=N(p).
+```
+
+Since `m>n`, start with `N(empty)=2^n<2^m`. At each position choose a child prefix whose count is below its remaining completion capacity. After `m` choices, the selected output has zero preimages.
+
+Given a supplied width-`b` branch decomposition, runtime is
+
+```text
+O(m^2 A(b)^2 poly(n,m)).
+```
+
+This is constructive for bounded support branch width. It does not find the decomposition and does not solve unrestricted `NC0_3-Avoid`.
+
+## V74 bicriteria bound and exact family
+
+For a prefix-feasible system,
+
+```text
+m <= G*_proj <= C_B <= m A(B),
+C_B/G*_proj <= A(B).
+```
+
+The bound is width-dependent, not rank-only.
+
+For path variables and binary OR gates with selected output one, the primal graph has treewidth one. Endpoint order has residual profile `1,2,3,...,3`; every order satisfies the matching lower bound:
+
+```text
+G*_proj = 3m-3 for m>=2.
+```
+
+This is an exact linear all-orders lower bound, not a superpolynomial lower bound or a standard-model lower bound.
+
+## V74 validation
+
+```text
+256 exact ternary fiber partitions,
+4,096 exhaustive binary circuits,
+32,768 exact target counts,
+4,096 constructed avoided outputs,
+2,048 polarity checks,
+96 seeded ternary circuits and 1,536 targets,
+OR-path exact optimization through m=9.
+```
+
+The independent verifier uses varied ternary supports, direct Boolean images, and all gate permutations for OR paths through `m=7`.
+
+## Publication and next gates
+
+`v71/MANUSCRIPT.tex` remains the consolidated article through V71. V72–V74 are standalone modules pending external proof review. No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confirmation is claimed.
+
+Next targets are incremental prefix-count reuse, decomposition construction or approximation, tighter bicriteria bounds, bounded-treewidth superlinear families, and only size-preserving comparisons with standard models.
 
 ## Historical corrections
 
@@ -162,15 +183,15 @@ No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confir
 
 ## Repository entry points
 
-- `PUBLICATION_INDEX.md` — theorem-status and discovery index;
-- `v73/BICRITERIA_AND_MULTIPLICITY.md` — V73 proofs and avoidance-interface boundary;
-- `v73/BICRITERIA_BENCHMARK.md` — six exact Pareto comparisons;
-- `v73/V73_BICRITERIA_AVOIDANCE_THEOREM.tex` — standalone formal module;
-- `v73/v73_bicriteria_avoidance.py` — deterministic result generator;
-- `v73/RESULTS.json` — deterministic snapshot;
-- `v73/V74_CORE_CONTEXT.md` — next-laboratory constraints;
-- `v72/COMPLEXITY_AND_BRANCH_DP.md` — V72 proofs;
-- `v71/MANUSCRIPT.tex` — current consolidated manuscript;
-- `v70/RESULTS.json` and `v70/WITNESSES.json` — preserved prior records.
+- `PUBLICATION_INDEX.md`
+- `v74/TWO_FIBER_AVOIDANCE.md`
+- `v74/V74_TWO_FIBER_AVOIDANCE_THEOREM.tex`
+- `v74/two_fiber_model.py`
+- `v74/or_path_family.py`
+- `v74/RESULTS.json`
+- `v74/V75_CORE_CONTEXT.md`
+- `v73/BICRITERIA_AND_MULTIPLICITY.md`
+- `v72/COMPLEXITY_AND_BRANCH_DP.md`
+- `v71/MANUSCRIPT.tex`
 
-`LEDGER.json` remains a conservative historical ledger at V70 and must be advanced in a dedicated machine-readable consolidation without rewriting prior claims.
+`LEDGER.json` remains a conservative historical ledger at V70 and must be advanced without rewriting prior claims.
