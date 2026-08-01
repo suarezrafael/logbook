@@ -54,14 +54,18 @@ def main() -> None:
     assert audit["ordered_submodularity_pairs"] == ordered_pairs
 
     theorem = results["composition_theorem"]
-    fragments = (
+    exact_fragments = (
+        "2^{O(k)}",
         "2^{O(k^2)}",
         "gamma",
         "m^6",
         "A(2k)^2",
         "poly(n,m)",
     )
-    assert all(fragment in theorem["total_runtime"] for fragment in fragments)
+    assert all(fragment in theorem["total_runtime_exact"] for fragment in exact_fragments)
+    assert theorem["decomposition_runtime_simplified"] == (
+        "2^{O(k^2)} gamma m^6 log m"
+    )
     assert theorem["requires_supplied_decomposition"] is False
 
     text = (HERE / "FPT_SUPPORT_WIDTH_COMPOSITION.md").read_text(encoding="utf-8").lower()
@@ -75,7 +79,7 @@ def main() -> None:
 
     print(
         "V77 independent composition verification passed: direct per-family oracle reconstruction; "
-        "127 families, 2,186 subset values, 78,124 ordered pairs; runtime and nonclaims audited; zero failures."
+        "127 families, 2,186 subset values, 78,124 ordered pairs; exact and simplified runtimes audited; zero failures."
     )
 
 
