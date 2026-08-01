@@ -1,0 +1,117 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage[hidelinks]{hyperref}
+\geometry{margin=1in}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\Ftwo}{\mathbb F_2}
+\newcommand{\Gproj}{G_{\mathrm{proj}}}
+\title{Exact Two-Fiber Affine Counting and Bounded-Width Range Avoidance}
+\author{Author metadata to be confirmed before submission}
+\date{Laboratory V74 --- 1 August 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We replace a normalized one-fiber branching schema by an explicit Boolean gate model carrying a truth table, output polarity, and exact disjoint affine decompositions of both output fibers. Every subset of $\Ftwo^3$ is a disjoint union of at most three affine subspaces, and seven-point fibers require three. A weighted residual dynamic program over a supplied branch decomposition computes the exact number of preimages of a target output. Repeated exact prefix counting therefore constructs an output outside the image of every positive-stretch fan-in-three circuit whose supplied support decomposition has bounded boundary width. We also prove a coarse width-dependent bicriteria price bound and exhibit a path-supported OR family of primal treewidth one with exact projected residual optimum $\Gproj^*=3m-3$. The results do not give an unrestricted range-avoidance algorithm or a consequence for P versus NP.
+\end{abstract}
+
+\section{Two exact output fibers}
+A gate $g$ has support $S_g$ of size at most three, a Boolean truth-table mask, and an output-flip bit. The flip explicitly records output polarity. For $a\in\{0,1\}$, the selected fiber $g^{-1}(a)$ is partitioned into pairwise-disjoint affine cells. The target bit selects the fiber; an internal branch selects one cell inside that fiber.
+
+\begin{theorem}[Three-cell ternary fiber theorem]
+Every subset of $\Ftwo^3$ is a disjoint union of at most three affine subspaces. The bound is tight.
+\end{theorem}
+
+\begin{proof}
+Affine subspaces of $\Ftwo^3$ have sizes $1,2,4,$ or $8$. Sets of size at most six split into at most three affine pairs, with a singleton when necessary. A seven-point set is the complement of one point. Choose an affine plane avoiding that point; the remaining three points split into an affine pair and a singleton. The whole cube is affine. Conversely, seven cannot be written as the sum of at most two numbers from $\{1,2,4,8\}$, so a seven-point set needs at least three cells.
+\end{proof}
+
+The repository enumerates the $51$ nonempty affine subspaces of $\Ftwo^3$. Among all $256$ local subsets, the minimum-cell counts are $1,51,196,8$ for zero, one, two, and three cells respectively.
+
+\section{Weighted residual dynamic program}
+Let $T$ be a binary tree over the gates. For a node $t$, write $X_t$ for the variables appearing below $t$ and
+\[
+\partial t=X_t\cap X_{\overline t}.
+\]
+For each nonempty projected affine residual $A\subseteq\Ftwo^{\partial t}$, store an integer $\mu_t(A)$. The invariant is that every boundary point in $A$ has exactly $\mu_t(A)$ represented extensions to $X_t\setminus\partial t$, summed over the disjoint cell branches producing $A$.
+
+At a leaf, if a cell $C$ projects to $A$, add
+\[
+2^{\dim C-\dim A}
+\]
+to $\mu_t(A)$. At a join with child residuals $A$ and $B$, let $C=A\cap B$. Inconsistent pairs are discarded. Otherwise, if $P(C)$ is the projection to the parent boundary, add
+\[
+\mu_u(A)\mu_v(B)2^{\dim C-\dim P(C)}
+\]
+to $\mu_t(P(C))$.
+
+\begin{theorem}[Exact target preimage count]
+For an output word $y$, the root weight on the empty residual equals $|C^{-1}(y)|$ after multiplying by $2$ for every unused input variable.
+\end{theorem}
+
+\begin{proof}
+At a leaf, affine projections have equal-sized fibers. At a join, compatible child assignments multiply, and projection from $C$ to $P(C)$ has constant fiber size $2^{\dim C-\dim P(C)}$. Disjoint local fiber partitions prevent double counting. Induction over $T$ proves the invariant. The root boundary is empty, so its weight is the total number of satisfying inputs on used variables; unused variables are free.
+\end{proof}
+
+If every boundary has size at most $b$, the map at each node has at most $A(b)$ keys and a join examines at most $A(b)^2$ pairs, where $A(b)$ counts nonempty affine subspaces of $\Ftwo^b$.
+
+\section{Constructive bounded-width avoidance}
+For a prefix $p$ of the output word, let $N(p)$ be the number of inputs whose circuit output starts with $p$. Unfixed output gates are represented by the tautological full cube, so the same weighted dynamic program computes $N(p)$ exactly.
+
+\begin{theorem}[Prefix-count avoidance]
+Let $C:\{0,1\}^n\to\{0,1\}^m$ have fan-in at most three and $m>n$. Given a branch decomposition of support boundary width at most $b$, an output outside $\operatorname{im}(C)$ can be constructed in
+\[
+O\!\left(m^2 A(b)^2\operatorname{poly}(n,m)\right)
+\]
+time.
+\end{theorem}
+
+\begin{proof}
+Initially $N(\epsilon)=2^n<2^m$. Suppose a length-$k$ prefix satisfies $N(p)<2^{m-k}$. Exact fibers partition the parent condition, so
+\[
+N(p0)+N(p1)=N(p).
+\]
+At least one child has count below $2^{m-k-1}$; select it. After $m$ choices, the maintained count is a nonnegative integer below one and is therefore zero. Each prefix count uses one weighted tree computation, and there are $m$ rounds.
+\end{proof}
+
+The decomposition is supplied. No polynomial-time algorithm for finding an optimum decomposition is claimed.
+
+\section{Width-dependent bicriteria price}
+Let $C_B$ be the minimum residual cost among orders of frontier width at most $B$. If every proper prefix is feasible, then each nonterminal layer contains at least one residual, while every width-$B$ layer contains at most $A(B)$ residuals. Hence
+\[
+m\le \Gproj^*\le C_B\le mA(B),
+\qquad
+\frac{C_B}{\Gproj^*}\le A(B).
+\]
+This is a coarse width-dependent bound, not a rank-only approximation theorem.
+
+\section{A treewidth-one exact family}
+Let variables be $x_0,\ldots,x_m$. Gate $i$ is $x_i\lor x_{i+1}$ and the selected output is one. The positive fiber is
+\[
+\{01,10,11\}=\{01,10\}\mathbin{\dot\cup}\{11\},
+\]
+an affine XOR line plus a singleton. The primal graph is a path and has treewidth one.
+
+\begin{theorem}[Exact OR-path residual cost]
+For $m\ge2$, the OR-path family satisfies
+\[
+\Gproj^*=3m-3.
+\]
+For $m=1$, $\Gproj^*=1$.
+\end{theorem}
+
+\begin{proof}
+Processing from one endpoint has residual profile $1,2,3,\ldots,3$, proving the upper bound. Every one-edge proper subset has two residuals. For a larger proper subset, if a processed component contains at least two consecutive edges, explicit XOR-line and singleton choices yield three distinct residuals on an exposed endpoint: unconstrained, fixed zero, and fixed one. Otherwise the processed set contains at least two isolated edge components; each has two residual alternatives, and component factorisation gives at least four global residuals. Thus every order pays at least $1+2+3(m-2)=3m-3$.
+\end{proof}
+
+\section{Validation and nonclaims}
+The implementation reconstructs all $256$ ternary local subsets, checks all $4{,}096$ circuits with two inputs and three arbitrary binary gates on all $32{,}768$ targets, validates $96$ seeded ternary circuits on every target, and independently optimizes every gate order of the OR-path family through seven edges.
+
+The result is parameterized by a supplied branch decomposition. It does not solve unrestricted $\mathrm{NC}^0_3$ Range Avoidance, prove a superpolynomial all-orders lower bound, simulate a standard lower-bound model with controlled size, establish novelty or peer review, or resolve P versus NP.
+
+\end{document}
