@@ -43,15 +43,18 @@ Korhonen and Oum prove that, for a connectivity function on a ground set of
 size $m$ given by an oracle of cost $\gamma$, a branch decomposition of width
 at most $k$ can be found, or nonexistence certified, in
 \[
- 2^{O(k^2)}\gamma m^6\log m
+ 2^{O(k)}\gamma m^6\log m+2^{O(k^2)}\gamma m.
 \]
-time. This theorem is used as a black box and is not reimplemented here.
+The valid simplified upper bound
+$2^{O(k^2)}\gamma m^6\log m$ is sometimes used for display. The theorem is
+used as a black box and is not reimplemented here.
 
 \begin{theorem}[Support-branchwidth FPT avoidance]
 Assume $m>n$, and let $k=\operatorname{bw}(\lambda_C)$. There is an algorithm
 that constructs an output word outside $\operatorname{range}(C)$ in time
 \[
- 2^{O(k^2)}\gamma m^6\log m
+ 2^{O(k)}\gamma m^6\log m
+ +2^{O(k^2)}\gamma m
  +O\!\left(m\log m\,A(2k)^2\operatorname{poly}(n,m)\right).
 \]
 In the explicit support representation, $\gamma=O(m)$. Consequently
