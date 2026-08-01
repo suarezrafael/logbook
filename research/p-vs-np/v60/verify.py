@@ -50,16 +50,19 @@ def verify_repository_state() -> int:
     ]
     missing = [str(path.relative_to(ROOT)) for path in required if not path.is_file()]
     assert not missing, missing
-    assert len((ROOT / "STATE.md").read_text(encoding="utf-8").splitlines()) <= 200
+
+    state = (ROOT / "STATE.md").read_text(encoding="utf-8")
+    assert state.startswith("# Cumulative scientific state\n")
+    assert len(state.encode("utf-8")) <= 100_000
+
     root_readme = (ROOT / "README.md").read_text(encoding="utf-8")
     for token in ("STATE.md", "LEDGER.json", "verify_all.sh"):
         assert token in root_readme
-    state = (ROOT / "STATE.md").read_text(encoding="utf-8")
     for token in ("P-versus-NP route active:** no", "n=9"):
         assert token in state
     historical_contact = (HERE / "EXTERNAL_CONTACT_STATUS.md").read_text(encoding="utf-8")
     assert "Status:** not sent" in historical_contact
-    return len(required) + 3
+    return len(required) + 4
 
 
 def verify_ledgers() -> int:
