@@ -17,8 +17,8 @@ This page is the discovery-oriented entry point for the `NC0_k-Avoid Laboratory`
 | `v74/V74_TWO_FIBER_AVOIDANCE_THEOREM.tex` | exact two gate fibers, weighted preimage counting, bounded-width prefix avoidance, and OR-path `3m-3` | merged after quick/full/LaTeX CI; novelty unconfirmed |
 | `v75/V75_SYMBOLIC_PREFIX_THEOREM.tex` | paired generating polynomial, monotone residual circuit, and depth-sensitive incremental avoidance | merged after quick/full/LaTeX CI and final Copilot review; novelty unconfirmed |
 | `v76/V76_TOP_TREE_TRANSFER_THEOREM.tex` | labelled top-tree transfer from supplied width `b` to width at most `4b` and logarithmic height | merged after quick/full/LaTeX CI and final Copilot review; correct but dominated by V77 |
-| `v77/V77_TOPOLOGY_TREE_TRANSFER_THEOREM.tex` | restricted topology-tree transfer from supplied width `b` to width at most `2b` and logarithmic height | candidate; internal proof and finite audit, PR gates required, novelty unconfirmed |
-| `v77/V77_FPT_SUPPORT_WIDTH_THEOREM.tex` | FPT `NC0_3-Avoid` parameterized by support connectivity branchwidth, without supplied decomposition | candidate; prior-art decomposition discovery composed with V77/V75/V74, novelty unconfirmed |
+| `v77/V77_TOPOLOGY_TREE_TRANSFER_THEOREM.tex` | restricted topology-tree transfer from supplied width `b` to width at most `2b` and logarithmic height | merged after quick/full/LaTeX CI and final Copilot review; novelty unconfirmed |
+| `v77/V77_FPT_SUPPORT_WIDTH_THEOREM.tex` | FPT `NC0_3-Avoid` parameterized by support connectivity branchwidth, without supplied decomposition | merged after quick/full/LaTeX CI and final Copilot review; prior-art decomposition discovery composed with V77/V75/V74; novelty unconfirmed |
 
 ## Consolidated article
 
@@ -85,6 +85,6 @@ The V71 release-candidate files remain `v71/MANUSCRIPT.tex`, `v71/REFERENCES.bib
 - No Zenodo DOI has been minted for the consolidated project.
 - No theorem is marked peer reviewed or novelty confirmed.
 - The direct P-versus-NP route is inactive.
-- V77 must pass quick, full, and LaTeX pull-request CI and final-diff Copilot review before promotion.
+- V77 passed quick, full, and LaTeX pull-request CI, completed final-diff Copilot review, and was promoted by merge to `main`.
 
 The intended sequence remains external proof review, authorship and license confirmation, stable tagged release, optional Zenodo archival, ECCC technical-report submission, and optional arXiv cross-post.
