@@ -17,6 +17,7 @@
 - [`v73/`](v73/) — bicriteria ordering, branch multiplicities, and tree compression.
 - [`v74/`](v74/) — exact two-fiber counting and constructive bounded-width avoidance.
 - [`v75/`](v75/) — symbolic paired-variable counting and incremental prefix evaluation.
+- [`v76/`](v76/) — logarithmic-depth top-tree transfer with width at most `4b`.
 - [`verify_all.sh`](verify_all.sh) — cumulative quick/full verifier.
 
 ## Current position
@@ -33,21 +34,27 @@ V75 compiles the weighted recurrence once into a monotone arithmetic DAG for the
 P_C(u,v) = sum_x product_i z_{i,C_i(x)}.
 ```
 
-The DAG has
-
-```text
-S = O(m A(b)^2)
-```
-
-arithmetic operations. Incremental prefix search takes
+The DAG has `S = O(m A(b)^2)` arithmetic operations, and incremental prefix search takes
 
 ```text
 O(A(b)^2 (m + sum_i depth_T(i)) poly(n,m)).
 ```
 
-A supplied logarithmic-height tree therefore yields `O(m log m A(b)^2 poly(n,m))`. A caterpillar has quadratic external path length, so V75 does not prove an unconditional improvement for arbitrary supplied decompositions.
+V76 removes the arbitrary-depth obstruction in the **supplied-decomposition parameterized regime**. Standard labelled top trees provide a logarithmic-height hierarchy. The V76 four-cut lemma transfers every retained cluster to the union of at most four original middle sets. Therefore a supplied width-`b` subcubic gate decomposition yields a rooted gate tree with
 
-The next structural target is a rigorous width/depth balancing theorem or tradeoff for the support-boundary connectivity function. The 2026 FPT algorithm of Korhonen and Oum addresses parameterized branch-decomposition discovery, but not the depth guarantee needed by V75.
+```text
+width <= 4b,
+height = O(log m),
+external path length = O(m log m).
+```
+
+Rebuilding the V75 circuit on the transferred tree gives
+
+```text
+O(m log m A(4b)^2 poly(n,m)).
+```
+
+The top-tree height construction is prior art; the four-cut support-boundary corollary is internally proved and novelty remains unconfirmed. V76 does not show that factor four is optimal or that width-preserving logarithmic balancing is impossible.
 
 ## Contribution chain
 
@@ -64,8 +71,9 @@ The next structural target is a rigorous width/depth balancing theorem or tradeo
 | V71 | Width correspondence and consolidated manuscript | Merged after quick/full/LaTeX CI |
 | V72 | Rank-three width NP-completeness and branch residual DP | Merged after quick/full/LaTeX CI |
 | V73 | Bicriteria optimum, exact branch multiplicities, and tree compression | Merged after quick/full/LaTeX CI |
-| V74 | Exact two fibers, weighted preimage counts, prefix avoidance, and OR-path `3m-3` | Merged; final Copilot remediation completed |
-| V75 | Symbolic generating circuit and depth-sensitive incremental avoidance | Candidate; final CI and Copilot gates required |
+| V74 | Exact two fibers, weighted preimage counts, prefix avoidance, and OR-path `3m-3` | Merged; memoization maintenance also promoted |
+| V75 | Symbolic generating circuit and depth-sensitive incremental avoidance | Merged after quick/full/LaTeX CI and final Copilot review |
+| V76 | Top-tree `4b` width/depth transfer and exact Pareto tradeoff audit | Candidate; PR gates required |
 
 ## Reproducibility and promotion
 
