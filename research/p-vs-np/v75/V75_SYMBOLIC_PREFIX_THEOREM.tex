@@ -1,0 +1,174 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\EPL}{\operatorname{EPL}}
+
+\title{V75: Symbolic Prefix Counting on Bounded-Width Gate Decompositions}
+\author{NC0\_k-Avoid Laboratory}
+\date{1 August 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We compile the exact weighted affine-residual dynamic program of Laboratory V74
+into a monotone arithmetic circuit for a paired-variable output generating
+polynomial.  On a supplied gate branch decomposition of boundary width $b$,
+the circuit has $O(mA(b)^2)$ arithmetic operations.  Maintaining gate values
+under paired-variable updates gives a depth-sensitive avoided-output search in
+$O(A(b)^2(m+\sum_i\operatorname{depth}_T(i))\operatorname{poly}(n,m))$ time.
+A supplied logarithmic-height decomposition therefore yields an
+$O(m\log m\,A(b)^2\operatorname{poly}(n,m))$ algorithm.  Caterpillar trees show
+that this does not improve the arbitrary supplied-tree worst case.  No
+unrestricted Range Avoidance or P-versus-NP consequence is claimed.
+\end{abstract}
+
+\section{Model}
+Let $C:\{0,1\}^n\to\{0,1\}^m$ be represented by Boolean output gates of
+fan-in at most three.  For every output coordinate $i$, introduce formal
+variables $z_{i,0}=u_i$ and $z_{i,1}=v_i$, and define
+\[
+ P_C(u,v)=\sum_{x\in\{0,1\}^n}\prod_{i=1}^m z_{i,C_i(x)}.
+\]
+Every selected gate fiber is represented by an exact pairwise-disjoint union
+of affine cells, as in V74.  Let $T$ be a rooted binary tree whose leaves are
+the output gates.  At node $t$, let $B_t$ be the variables used by gates both
+inside and outside the leaf set of $t$.  Assume $|B_t|\le b$ at every node.
+Let $A(b)$ denote the number of nonempty affine subspaces of $\F_2^b$.
+
+\section{Exact polynomial}
+\begin{theorem}[Exact paired generating polynomial]
+For every $y\in\{0,1\}^m$, the coefficient of
+$\prod_i z_{i,y_i}$ in $P_C$ is exactly $|C^{-1}(y)|$.  If $p$ is an output
+prefix, setting the selected variable of each fixed coordinate to one, its
+opposite to zero, and both variables of every unfixed coordinate to one gives
+the exact prefix count $N(p)$.
+\end{theorem}
+
+\begin{proof}
+Each input $x$ contributes exactly one monomial, namely the monomial encoding
+$C(x)$.  Therefore the multiplicity of the monomial encoding $y$ equals the
+number of inputs mapping to $y$.  Under the prefix substitution, a monomial
+survives with value one exactly when its encoded output extends $p$.
+\end{proof}
+
+\section{Residual compilation}
+For each node $t$ and each projected affine residual $R$ on $B_t$, construct an
+arithmetic expression $Q_t(R)$.  At a gate leaf $i$, a cell $F$ in output fiber
+$c$ contributes
+\[
+ 2^{\dim(F)-\dim(\operatorname{proj}_{B_i}F)}z_{i,c}
+\]
+to the expression indexed by its projection.  At an internal node with
+children $u,v$, compatible residuals $R_u,R_v$ intersect to $J$ and contribute
+\[
+ Q_u(R_u)Q_v(R_v)
+ 2^{\dim(J)-\dim(\operatorname{proj}_{B_t}J)}
+\]
+to the expression indexed by $\operatorname{proj}_{B_t}J$.
+
+\begin{theorem}[Monotone residual circuit]
+The root empty-boundary expression, multiplied by the free-unused-input factor,
+is exactly $P_C$.  The construction uses only nonnegative integer constants,
+addition, and multiplication.  It creates
+\[
+ S=O(mA(b)^2)
+\]
+arithmetic operations, apart from polynomial-time affine intersection and
+projection.
+\end{theorem}
+
+\begin{proof}
+Induct on $T$.  For a node $t$, residual $R$, subtree output word $y_t$, and
+boundary assignment satisfying $R$, the coefficient of the monomial selected
+by $y_t$ in $Q_t(R)$ equals the number of compatible internal assignments per
+such boundary assignment.  At a leaf, affine projection has uniform fiber size
+$2^{\dim(F)-\dim(\operatorname{proj}F)}$, and disjoint cells prevent double
+counting.  At a join, residual intersection enforces consistency of the two
+children, multiplication combines independent internal choices, and the
+projection factor counts eliminated assignments uniformly.  At the root the
+boundary is empty, so the coefficients are global preimage counts.
+
+There are at most $A(b)$ residuals per node and at most $A(b)^2$ child pairs per
+join.  A binary tree with $m$ leaves has $O(m)$ nodes, and every pair creates
+only constantly many arithmetic operations.
+\end{proof}
+
+\section{Incremental evaluation}
+Store every arithmetic gate value and reverse dependency edges.  Let $D_T(i)$
+be the number of arithmetic operation nodes reachable from either paired
+variable of output coordinate $i$.
+
+\begin{theorem}[Depth-sensitive incremental evaluation]
+An avoided output for $m>n$ can be constructed using
+\[
+ O\!\left(S+\sum_{i=1}^m D_T(i)\right)
+\]
+arithmetic reevaluations.  Moreover,
+\[
+ D_T(i)=O\!\left(A(b)^2\operatorname{depth}_T(i)\right),
+\]
+so the total running time, including affine operations, is
+\[
+ O\!\left(A(b)^2\left(m+\sum_i\operatorname{depth}_T(i)\right)
+ \operatorname{poly}(n,m)\right).
+\]
+\end{theorem}
+
+\begin{proof}
+Initially all paired variables equal one and the root value is $2^n$.  At
+coordinate $i$, set $v_i$ to zero and propagate only through its reverse
+dependency cone; the resulting root is $N(p0)$.  Since the two exact gate
+fibers partition the parent prefix, $N(p1)=N(p)-N(p0)$.  Choose a child whose
+count is below its remaining completion capacity.  If bit one is selected,
+restore $v_i$ and set $u_i$ to zero in one batch.  Each coordinate therefore
+causes at most two dependency-cone reevaluations.  The standard prefix
+pigeonhole invariant gives a zero-preimage output after $m$ coordinates.
+
+Only operations created at leaf $i$ and at ancestors of that leaf can depend
+on $u_i$ or $v_i$.  Each ancestor contributes at most $O(A(b)^2)$ operations,
+which proves the cone bound.
+\end{proof}
+
+\begin{corollary}[Balanced supplied decomposition corollary]
+If $T$ has height $h$, then the running time is
+\[
+ O(mhA(b)^2\operatorname{poly}(n,m)).
+\]
+In particular, a supplied height-$O(\log m)$ decomposition gives
+\[
+ O(m\log m\,A(b)^2\operatorname{poly}(n,m)).
+\]
+\end{corollary}
+
+\section{Depth obstruction}
+For a left-deep caterpillar on $m\ge2$ leaves,
+\[
+ \EPL(T)=\sum_i\operatorname{depth}_T(i)=\frac{m^2+m-2}{2}.
+\]
+Thus local dependency-cone reuse alone retains quadratic worst-case work on an
+arbitrary supplied decomposition.  The laboratory proves no balancing theorem
+with controlled width inflation.
+
+\section{Finite verification}
+The primary verifier checks 4,096 exhaustive two-input, three-output circuits,
+32,768 coefficients, 61,440 prefixes, and 4,096 incrementally constructed
+avoided outputs.  A seeded varied-support ternary suite checks 48 circuits on
+balanced and caterpillar trees, totaling 6,144 coefficient and 12,192 prefix
+comparisons.  An independent verifier reconstructs direct truth-table
+semantics without importing the arithmetic-circuit or affine-residual code.
+
+\section{Scope}
+This result assumes a supplied bounded-width gate decomposition.  It does not
+prove automatic width-preserving balancing, unrestricted
+$\mathrm{NC}^0_3$-Avoid, a superpolynomial lower bound, a size-preserving
+simulation to a standard proof or branching model, novelty, peer review, or any
+consequence for P versus NP.
+
+\end{document}
