@@ -63,11 +63,12 @@ def normalized_zero_branch_certificate(n,specs):
       "can_certify_current_selected_target_as_avoided":False}
 
 def synthetic_avoided_target_certificate():
-    n=1;gates=({"support":(0,),"cells":((row(n,(0,),0),),(row(n,(0,),0),))},
-      {"support":(0,),"cells":((row(n,(0,),1),),(row(n,(0,),1),))})
-    result=branch_multiplicity_dp(n,gates,balanced_branch_tree(range(2)));assert result["consistent_complete_branches"]==0
+    n=2
+    gate_zero={"support":(0,1),"cells":((row(n,(0,),0),row(n,(1,),0)),(row(n,(0,),0),row(n,(1,),1)))}
+    gate_one={"support":(0,1),"cells":((row(n,(0,),1),row(n,(1,),0)),(row(n,(0,),1),row(n,(1,),1)))}
+    result=branch_multiplicity_dp(n,(gate_zero,gate_one),balanced_branch_tree(range(2)));assert result["consistent_complete_branches"]==0
     return {"supplied_target":[1,1],"consistent_complete_branches":0,"target_is_certified_outside_image":True,
-      "scope":"generic affine decompositions for a supplied target, not target search"}
+      "fiber_cells_are_disjoint":True,"scope":"generic affine decompositions for a supplied target, not target search"}
 
 def seeded_multiplicity_validation(seed=730074,samples=96):
     rng=random.Random(seed);nodes=0
