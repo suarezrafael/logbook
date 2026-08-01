@@ -53,11 +53,12 @@ def make_gate(
 
 def validate_gate_support_range(n: int, gates: Sequence[Gate]) -> None:
     """Reject malformed supports before shifts or assignment enumeration."""
-    if int(n) < 0:
+    n_int = int(n)
+    if n_int < 0:
         raise ValueError("the number of input variables must be nonnegative")
     for gate_index, gate in enumerate(gates):
         support = tuple(int(variable) for variable in gate["support"])
-        if any(variable < 0 or variable >= int(n) for variable in support):
+        if any(variable < 0 or variable >= n_int for variable in support):
             raise ValueError(
                 f"gate {gate_index} support variables must satisfy 0 <= variable < n"
             )
