@@ -1,0 +1,39 @@
+{
+  "composition_theorem": {
+    "avoidance_runtime_after_discovery": "O(m log m A(2k)^2 poly(n,m))",
+    "decomposition_prior_art": "Korhonen-Oum 2026 exact FPT branch-decomposition algorithm for oracle connectivity functions",
+    "decomposition_runtime": "2^{O(k^2)} gamma m^6 log m",
+    "lambda_definition": "number of input variables occurring in gates on both sides of a gate partition",
+    "oracle_cost_explicit_rank_three": "gamma = O(m)",
+    "parameter": "k = branchwidth(lambda_C)",
+    "requires_stretch": "m > n",
+    "requires_supplied_decomposition": false,
+    "result": "NC0_3-Avoid is FPT parameterized by support connectivity branchwidth",
+    "total_runtime": "2^{O(k^2)} gamma m^6 log m + O(m log m A(2k)^2 poly(n,m))",
+    "v77_transfer": "width at most 2k, height O(log m), external path length O(m log m)"
+  },
+  "connectivity_oracle_audit": {
+    "families": 127,
+    "normalization_failures": 0,
+    "ordered_submodularity_pairs": 78124,
+    "submodularity_failures": 0,
+    "subset_values": 2186,
+    "support_universe_size": 7,
+    "symmetry_failures": 0
+  },
+  "failures": 0,
+  "scientific_status": {
+    "decomposition_discovery_is_prior_art": true,
+    "korhonen_oum_algorithm_implemented_here": false,
+    "lambda_is_connectivity_function": true,
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false,
+    "p_vs_np_route_active": false,
+    "parameterized_chain_without_supplied_decomposition_closed": true,
+    "peer_reviewed": false,
+    "standard_model_lower_bound_proved": false,
+    "unrestricted_nc0_3_avoid_solved": false
+  },
+  "status": "passed",
+  "version": "V77-FPT-composition"
+}
