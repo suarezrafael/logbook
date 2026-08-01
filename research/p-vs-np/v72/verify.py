@@ -81,7 +81,7 @@ def main():
     proof = (HERE / "COMPLEXITY_AND_BRANCH_DP.md").read_text()
     for token in (
         "NP-complete",
-        "{u,v,z_uv}",
+        "{u,v,z_e}",
         "D[S] = min",
         "A(b)^2",
         "treewidth at most two",
