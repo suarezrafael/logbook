@@ -1,0 +1,97 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\title{V76: Top-Tree Transfer for Support-Boundary Decompositions}
+\author{NC0\_k-Avoid Laboratory}
+\date{August 2026}
+\begin{document}
+\maketitle
+
+\paragraph{Setting.}
+For a set $M$ of gate supports, define
+\[
+ \lambda(S)=\left|\left(\bigcup_{i\in S}\operatorname{supp}(i)\right)
+ \cap\left(\bigcup_{i\notin S}\operatorname{supp}(i)\right)\right|.
+\]
+A supplied branch decomposition is an unrooted subcubic tree with gate-labelled
+leaves and width at most $b$ under $\lambda$.
+
+\paragraph{Prior-art ingredient.}
+A labelled top tree is a binary hierarchy of connected clusters with at most
+two boundary vertices. Standard top-tree constructions have logarithmic
+height on an underlying labelled tree of linear size.
+
+\begin{lemma}[Four-cut cover lemma]
+Let $C$ be a labelled top-tree cluster of a subcubic supplied branch tree, and
+let $S(C)$ be the gate labels included in $C$. There are at most four original
+branch-tree edges whose middle sets cover the support boundary of $S(C)$.
+Consequently,
+\[
+ \lambda(S(C))\le 4b.
+\]
+\end{lemma}
+
+\begin{proof}
+The cluster has at most two boundary vertices. At each such vertex, at most
+two incident tree edges or label crossings separate cluster atoms from their
+complement. A gate-label crossing at an original leaf is represented by that
+leaf's unique incident branch edge. Hence at most four original edges suffice.
+For any input variable occurring both in $S(C)$ and outside $S(C)$, the unique
+path between corresponding gate leaves crosses the labelled-cluster boundary,
+and therefore one selected original edge. The variable lies in that edge's
+middle set.
+\end{proof}
+
+\begin{theorem}[Top-tree support-boundary transfer]
+From a supplied width-$b$ subcubic gate branch decomposition, one can construct
+a rooted binary gate decomposition $T'$ satisfying
+\[
+ \operatorname{width}(T')\le 4b,
+ \qquad
+ \operatorname{height}(T')=O(\log m),
+ \qquad
+ \operatorname{EPL}(T')=O(m\log m).
+\]
+\end{theorem}
+
+\begin{proof}
+Attach each gate as a unique label to its branch-tree leaf and take a standard
+binary labelled top tree. Delete base leaves carrying no gate label and
+suppress unary nodes. Height does not increase, every retained node remains a
+labelled cluster, and the retained leaves are exactly the gates. Apply the
+four-cut cover lemma at every retained node. The external-path-length bound
+follows from logarithmic height and $m$ leaves.
+\end{proof}
+
+\begin{corollary}[V75 consequence]
+Rebuilding the V75 monotone residual circuit on $T'$ gives incremental prefix
+avoidance time
+\[
+ O\!\left(m\log m\,A(4b)^2\operatorname{poly}(n,m)\right).
+\]
+\end{corollary}
+
+\begin{proposition}[Perfect-height tradeoff witness]
+For the seven rank-two supports
+\[
+ \{0\},\{1\},\{0,2\},\{0,3\},\{1,2\},\{1,3\},\{2,3\},
+\]
+the exact nondominated $(\mathrm{width},\mathrm{height},\mathrm{EPL})$ frontier
+is
+\[
+ (2,4,21),\qquad (3,3,20).
+\]
+\end{proposition}
+
+\paragraph{Scope.}
+The top-tree height theorem is prior art. No optimality of the factor four,
+width-preserving logarithmic impossibility, unrestricted range-avoidance
+algorithm, standard-model lower bound, novelty, peer review, or P-versus-NP
+resolution is claimed. A previous centroid-based factor-two proof attempt was
+rejected and is not a theorem of this module.
+
+\end{document}
