@@ -58,10 +58,12 @@ def main() -> None:
     assert fresh_frontiers[0] == 0
 
     results = generate_results()
-    serialized = json.dumps(results, indent=2, sort_keys=True) + "\n"
     result_path = HERE / "RESULTS.json"
-    assert json.loads(result_path.read_text(encoding="utf-8")) == results
-    result_path.write_text(serialized, encoding="utf-8")
+    if not result_path.is_file():
+        raise AssertionError("committed V74 RESULTS.json is missing")
+    committed_results = json.loads(result_path.read_text(encoding="utf-8"))
+    if committed_results != results:
+        raise AssertionError("committed V74 RESULTS.json differs from generated results")
 
     required = [
         "README.md",
@@ -193,8 +195,8 @@ def main() -> None:
         "V74 primary verification passed: malformed-support rejection; immutable "
         "fiber-cache keys; exact two-fiber model; 256 ternary partitions; 4,096 "
         "exhaustive circuits and 32,768 targets; constructive bounded-width "
-        "avoidance; OR-path G*=3m-3; semantic RESULTS.json lock; repository and "
-        "LaTeX gates; zero failures."
+        "avoidance; OR-path G*=3m-3; committed-result semantic lock; repository "
+        "and LaTeX gates; zero failures."
     )
 
 
