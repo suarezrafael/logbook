@@ -18,6 +18,7 @@ This page is the discovery-oriented entry point for the `NC0_k-Avoid Laboratory`
 | `v75/V75_SYMBOLIC_PREFIX_THEOREM.tex` | paired generating polynomial, monotone residual circuit, and depth-sensitive incremental avoidance | merged after quick/full/LaTeX CI and final Copilot review; novelty unconfirmed |
 | `v76/V76_TOP_TREE_TRANSFER_THEOREM.tex` | labelled top-tree transfer from supplied width `b` to width at most `4b` and logarithmic height | merged after quick/full/LaTeX CI and final Copilot review; correct but dominated by V77 |
 | `v77/V77_TOPOLOGY_TREE_TRANSFER_THEOREM.tex` | restricted topology-tree transfer from supplied width `b` to width at most `2b` and logarithmic height | candidate; internal proof and finite audit, PR gates required, novelty unconfirmed |
+| `v77/V77_FPT_SUPPORT_WIDTH_THEOREM.tex` | FPT `NC0_3-Avoid` parameterized by support connectivity branchwidth, without supplied decomposition | candidate; prior-art decomposition discovery composed with V77/V75/V74, novelty unconfirmed |
 
 ## Consolidated article
 
@@ -50,15 +51,18 @@ V72–V77 are standalone extensions pending external proof review before a futur
 ## V77 package
 
 - `v77/TOPOLOGY_TREE_TRANSFER.md` — retained two-edge lemma, transfer proof, prior-art boundary, and tightness scope;
-- `v77/V77_TOPOLOGY_TREE_TRANSFER_THEOREM.tex` — formal theorem module;
+- `v77/FPT_SUPPORT_WIDTH_COMPOSITION.md` — Korhonen--Oum decomposition discovery composed with V77, V75, and V74;
+- `v77/V77_TOPOLOGY_TREE_TRANSFER_THEOREM.tex` — formal `2b` transfer module;
+- `v77/V77_FPT_SUPPORT_WIDTH_THEOREM.tex` — formal support-branchwidth FPT composition module;
 - `v77/topology_tree_certificate.py` — deterministic static hierarchy, certificate verifier, label pruning, and transfer auditor;
+- `v77/support_connectivity_oracle.py` — explicit oracle and exhaustive connectivity-function audit;
 - `v77/v77_topology_tree_transfer.py` — deterministic source-shape, support-orbit, and regression generator;
 - `v77/STATIC_TOPOLOGY_CERTIFICATE.json` — independently checkable representative topology hierarchy;
-- `v77/verify.py` and `v77/verify_independent.py` — primary and independently written audits;
-- `v77/EXHAUSTIVE_RESULTS.md` and `v77/RESULTS.json` — finite ledger and deterministic snapshot;
-- `v77/V78_CORE_CONTEXT.md` — frozen factor-two-versus-width-preservation target.
+- `v77/verify.py`, `v77/verify_independent.py`, `v77/verify_composition.py`, and `v77/verify_composition_independent.py` — primary and independent audits;
+- `v77/EXHAUSTIVE_RESULTS.md`, `v77/RESULTS.json`, and `v77/COMPOSITION_RESULTS.json` — deterministic ledgers;
+- `v77/V78_CORE_CONTEXT.md` — reproducibility firewall, explicit decomposition APIs, and next theorem target.
 
-The logarithmic-height restricted topology hierarchy is attributed to Frederickson's prior work and its relation to top trees. The V77-specific claim is that pruning to gate labels on degree-one leaves eliminates every external-degree-three cluster, leaving a two-edge support-boundary cover and the V75 consequence `A(2b)^2`. Novelty is not confirmed.
+The logarithmic-height restricted topology hierarchy is attributed to Frederickson's prior work. Exact branch-decomposition discovery is attributed to Korhonen and Oum. V77's internally proved steps are the retained two-edge support-boundary transfer, the explicit connectivity-function proof for `lambda_C`, and the formal composition with V75/V74. Novelty is not confirmed.
 
 ## Reproducibility
 
@@ -68,6 +72,8 @@ bash ./verify_all.sh --full
 ```
 
 GitHub Actions publishes quick/full transcripts and compiled formal-module PDFs. Historical missing artifacts and retractions remain visible in `STATE.md` and `LEDGER.json`.
+
+A clean-checkout dirtiness defect is recorded as V78 priority zero. Promotion of later theorem work should be blocked until versioned generators are deterministic/read-only and CI ends with a clean-tree assertion.
 
 ## Release metadata
 
