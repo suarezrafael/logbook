@@ -81,6 +81,7 @@ jobs:
             pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v75" research/p-vs-np/v75/V75_SYMBOLIC_PREFIX_THEOREM.tex
             pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v76" research/p-vs-np/v76/V76_TOP_TREE_TRANSFER_THEOREM.tex
             pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v77" research/p-vs-np/v77/V77_TOPOLOGY_TREE_TRANSFER_THEOREM.tex
+            pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$GITHUB_WORKSPACE/latex-build/v77" research/p-vs-np/v77/V77_FPT_SUPPORT_WIDTH_THEOREM.tex
           done
       - name: Upload LaTeX artifacts
         if: always()
