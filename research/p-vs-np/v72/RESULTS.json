@@ -1,0 +1,38 @@
+{
+  "version": "V72",
+  "status": "passed",
+  "failures": 0,
+  "exact_dp_exhaustive_rank3_n4_m_le_4": 1470,
+  "branch_validation": {
+    "systems": 96,
+    "nodes": 852
+  },
+  "pathwidth_benchmarks": [
+    {"label":"v69-natural-n6","primal_pathwidth":4,"path_frontier_width":4,"path_G_proj":21,"exact_Gstar":15},
+    {"label":"v69-natural-n8","primal_pathwidth":4,"path_frontier_width":5,"path_G_proj":28,"exact_Gstar":15},
+    {"label":"v69-natural-n10","primal_pathwidth":4,"path_frontier_width":5,"path_G_proj":35,"exact_Gstar":17},
+    {"label":"v69-natural-n12","primal_pathwidth":4,"path_frontier_width":5,"path_G_proj":57,"exact_Gstar":29},
+    {"label":"v70-exact-record-n8","primal_pathwidth":4,"path_frontier_width":5,"path_G_proj":40,"exact_Gstar":29},
+    {"label":"v70-exact-record-n10","primal_pathwidth":4,"path_frontier_width":5,"path_G_proj":50,"exact_Gstar":30}
+  ],
+  "padded_binary_tree_family": [
+    {"height":1,"primal_treewidth_upper_bound":2,"linear_branch_width":1},
+    {"height":2,"primal_treewidth_upper_bound":2,"linear_branch_width":1},
+    {"height":3,"primal_treewidth_upper_bound":2,"linear_branch_width":2}
+  ],
+  "scientific_status": {
+    "rank3_width_decision_np_complete": true,
+    "exact_width_dp_verified": true,
+    "branch_residual_dp_proved": true,
+    "bounded_treewidth_forces_bounded_linear_width": false,
+    "bounded_treewidth_forces_small_Gstar": false,
+    "general_polynomial_good_order_proved": false,
+    "all_orders_superpolynomial_lower_bound_proved": false,
+    "standard_model_simulation_proved": false,
+    "unrestricted_avoidance_algorithm_proved": false,
+    "p_vs_np_route_active": false,
+    "p_vs_np_resolved": false,
+    "novelty_confirmed": false,
+    "peer_reviewed": false
+  }
+}
