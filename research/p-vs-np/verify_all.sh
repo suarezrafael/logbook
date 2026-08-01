@@ -75,6 +75,8 @@ CHECKS=(
   "V70|primary|v70/verify.py|quick|"
   "V70|independent|v70/verify_independent.py|quick|"
   "V70|search-replay|v70/verify_search_reproduction.py|full|"
+  "V71|primary|v71/verify.py|quick|"
+  "V71|independent|v71/verify_independent.py|quick|"
 )
 
 printf '%-6s | %-12s | %-6s | %s\n' "LAB" "CHECK" "STATUS" "DETAIL"
