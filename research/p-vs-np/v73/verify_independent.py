@@ -55,7 +55,7 @@ def check_multiplicity(seed=731074,samples=64):
 
 def check_tree_family():
     checks=0
-    for height in range(1,7):
+    for height in range(1,8):
         n,specs=padded_binary_tree_specs(height);m=len(specs)
         metrics=projected_order_layers(n,specs,edge_postorder(height))
         assert metrics["layer_widths"]==[1]*m and metrics["G_proj"]==m
