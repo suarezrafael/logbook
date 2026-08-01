@@ -18,6 +18,7 @@
 - [`v74/`](v74/) — exact two-fiber counting and constructive bounded-width avoidance.
 - [`v75/`](v75/) — symbolic paired-variable counting and incremental prefix evaluation.
 - [`v76/`](v76/) — logarithmic-depth top-tree transfer with width at most `4b`.
+- [`v77/`](v77/) — restricted topology-tree transfer with width at most `2b`.
 - [`verify_all.sh`](verify_all.sh) — cumulative quick/full verifier.
 
 ## Current position
@@ -28,33 +29,35 @@ V74 represents both Boolean output fibers by exact disjoint affine-cell decompos
 O(m^2 A(b)^2 poly(n,m)).
 ```
 
-V75 compiles the weighted recurrence once into a monotone arithmetic DAG for the paired generating polynomial
+V75 compiles the weighted recurrence once into a monotone arithmetic DAG for
 
 ```text
 P_C(u,v) = sum_x product_i z_{i,C_i(x)}.
 ```
 
-The DAG has `S = O(m A(b)^2)` arithmetic operations, and incremental prefix search takes
+The DAG has `S = O(m A(b)^2)` arithmetic operations. Incremental prefix search is depth-sensitive:
 
 ```text
 O(A(b)^2 (m + sum_i depth_T(i)) poly(n,m)).
 ```
 
-V76 removes the arbitrary-depth obstruction in the **supplied-decomposition parameterized regime**. Standard labelled top trees provide a logarithmic-height hierarchy. The V76 four-cut lemma transfers every retained cluster to the union of at most four original middle sets. Therefore a supplied width-`b` subcubic gate decomposition yields a rooted gate tree with
+V76 first removed the arbitrary-depth obstruction in the supplied-decomposition regime using labelled top trees and a safe four-edge cover, obtaining width at most `4b` and logarithmic height.
+
+V77 strengthens that transfer using Frederickson's restricted topology-tree hierarchy. A non-singleton topology cluster has at most two external source edges; an external-degree-three cluster is a singleton. After pruning to gate labels at degree-one leaves, every retained cluster has at most two external edges. Therefore a supplied width-`b` subcubic gate decomposition yields a rooted binary gate tree with
 
 ```text
-width <= 4b,
+width <= 2b,
 height = O(log m),
 external path length = O(m log m).
 ```
 
-Rebuilding the V75 circuit on the transferred tree gives
+Rebuilding the V75 symbolic circuit gives
 
 ```text
-O(m log m A(4b)^2 poly(n,m)).
+O(m log m A(2b)^2 poly(n,m)).
 ```
 
-The top-tree height construction is prior art; the four-cut support-boundary corollary is internally proved and novelty remains unconfirmed. V76 does not show that factor four is optimal or that width-preserving logarithmic balancing is impossible.
+The logarithmic-height topology hierarchy is prior art. The retained two-edge support-boundary corollary is internally proved and novelty remains unconfirmed. A particular cluster can attain `2b`, but V77 does not prove that factor two is globally necessary or that width-preserving logarithmic balancing is impossible.
 
 ## Contribution chain
 
@@ -73,7 +76,8 @@ The top-tree height construction is prior art; the four-cut support-boundary cor
 | V73 | Bicriteria optimum, exact branch multiplicities, and tree compression | Merged after quick/full/LaTeX CI |
 | V74 | Exact two fibers, weighted preimage counts, prefix avoidance, and OR-path `3m-3` | Merged; memoization maintenance also promoted |
 | V75 | Symbolic generating circuit and depth-sensitive incremental avoidance | Merged after quick/full/LaTeX CI and final Copilot review |
-| V76 | Top-tree `4b` width/depth transfer and exact Pareto tradeoff audit | Candidate; PR gates required |
+| V76 | Top-tree `4b` width/depth transfer and exact Pareto tradeoff audit | Merged after quick/full/LaTeX CI and final Copilot review |
+| V77 | Topology-tree `2b` transfer, static certificate, and five-variable orbit audit | Candidate; PR gates required |
 
 ## Reproducibility and promotion
 
@@ -82,4 +86,4 @@ bash ./verify_all.sh
 bash ./verify_all.sh --full
 ```
 
-Each laboratory follows `main -> branch -> draft PR -> quick/full/LaTeX CI -> final-diff Copilot review -> squash merge to main`. Any new commit restarts both gates. V22 and V26 remain justified skips. The direct P-versus-NP route remains inactive.
+Each laboratory follows `main -> branch -> draft PR -> quick/full/LaTeX CI -> final-diff Copilot review -> squash merge to main`. Any new commit restarts all gates. V22 and V26 remain justified skips. The direct P-versus-NP route remains inactive.
