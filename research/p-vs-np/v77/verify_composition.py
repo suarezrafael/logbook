@@ -39,8 +39,13 @@ def main() -> None:
     theorem = committed["composition_theorem"]
     assert theorem["requires_supplied_decomposition"] is False
     assert theorem["requires_stretch"] == "m > n"
-    assert theorem["decomposition_runtime"] == "2^{O(k^2)} gamma m^6 log m"
-    assert "A(2k)^2" in theorem["total_runtime"]
+    assert theorem["decomposition_runtime_exact"] == (
+        "2^{O(k)} gamma m^6 log m + 2^{O(k^2)} gamma m"
+    )
+    assert theorem["decomposition_runtime_simplified"] == (
+        "2^{O(k^2)} gamma m^6 log m"
+    )
+    assert "A(2k)^2" in theorem["total_runtime_exact"]
     assert theorem["result"] == "NC0_3-Avoid is FPT parameterized by support connectivity branchwidth"
 
     status = committed["scientific_status"]
@@ -54,12 +59,21 @@ def main() -> None:
     for token in (
         "connectivity function",
         "Korhonen and Oum",
-        "2^{O(k^2)} gamma m^6 log m",
+        "2^{O(k)} gamma m^6 log m + 2^{O(k^2)} gamma m",
         "width at most `2k`",
         "fixed-parameter tractable in `k`",
         "does not implement the Korhonen--Oum algorithm",
     ):
         assert token in proof, token
+
+    formal = (HERE / "V77_FPT_SUPPORT_WIDTH_THEOREM.tex").read_text(encoding="utf-8")
+    for token in (
+        "Support connectivity",
+        "Support-branchwidth FPT avoidance",
+        "2^{O(k^2)}\\gamma m",
+        "A(2k)^2",
+    ):
+        assert token in formal, token
 
     state = (ROOT / "STATE.md").read_text(encoding="utf-8")
     assert "support-branchwidth FPT composition" in state
@@ -69,6 +83,11 @@ def main() -> None:
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
     assert "V77|composition|v77/verify_composition.py|quick|" in runner
     assert "V77|composition-independent|v77/verify_composition_independent.py|quick|" in runner
+
+    workflow = (
+        ROOT.parent.parent / ".github" / "workflows" / "p-vs-np-verify.yml"
+    ).read_text(encoding="utf-8")
+    assert "V77_FPT_SUPPORT_WIDTH_THEOREM.tex" in workflow
 
     print(
         "V77 composition verification passed: lambda_C connectivity function; "
