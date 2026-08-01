@@ -2,6 +2,7 @@
 """Exact projected-residual optimum for the OR=1 path family."""
 from __future__ import annotations
 
+import functools
 from pathlib import Path
 import sys
 from typing import Sequence
@@ -14,6 +15,7 @@ from affine_bitset import extend_basis, project_basis
 from two_fiber_model import Gate, boundary_variables, compiled_fiber_cells, make_gate
 
 OR_MASK = 0b1110
+GateSignature = tuple[tuple[int, ...], int, int]
 
 
 def or_path_instance(edge_count: int) -> tuple[int, list[Gate], list[int]]:
@@ -23,9 +25,24 @@ def or_path_instance(edge_count: int) -> tuple[int, list[Gate], list[int]]:
     return edge_count + 1, gates, [1] * edge_count
 
 
-def residual_width_tables(
-    n: int, gates: Sequence[Gate], target: Sequence[int]
-) -> tuple[list[int], list[int]]:
+def _gate_signature(gate: Gate) -> GateSignature:
+    return (
+        tuple(int(variable) for variable in gate["support"]),
+        int(gate["truth_mask"]),
+        int(gate.get("output_flip", 0)) & 1,
+    )
+
+
+@functools.lru_cache(None)
+def _cached_residual_width_tables(
+    n: int,
+    gate_signatures: tuple[GateSignature, ...],
+    target: tuple[int, ...],
+) -> tuple[tuple[int, ...], tuple[int, ...]]:
+    gates = tuple(
+        make_gate(support, truth_mask, output_flip)
+        for support, truth_mask, output_flip in gate_signatures
+    )
     m = len(gates)
     compiled = [compiled_fiber_cells(n, gates[index], target[index]) for index in range(m)]
     basis_sets: list[set[tuple[int, ...]] | None] = [None] * (1 << m)
@@ -62,7 +79,18 @@ def residual_width_tables(
         residuals.discard(None)
         widths.append(len(residuals))
         frontiers.append(len(boundary_variables(gates, processed)))
-    return widths, frontiers
+    return tuple(widths), tuple(frontiers)
+
+
+def residual_width_tables(
+    n: int, gates: Sequence[Gate], target: Sequence[int]
+) -> tuple[list[int], list[int]]:
+    widths, frontiers = _cached_residual_width_tables(
+        int(n),
+        tuple(_gate_signature(gate) for gate in gates),
+        tuple(int(bit) & 1 for bit in target),
+    )
+    return list(widths), list(frontiers)
 
 
 def exact_gproj(n: int, gates: Sequence[Gate], target: Sequence[int]) -> dict[str, object]:
