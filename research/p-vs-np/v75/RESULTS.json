@@ -1,0 +1,86 @@
+{
+  "exhaustive_binary_circuits": {
+    "arithmetic_operations_max": 11,
+    "arithmetic_operations_sum": 41176,
+    "avoidance_constructions": 4096,
+    "circuits": 4096,
+    "coefficient_checks": 32768,
+    "dependency_cone_sum_total": 109896,
+    "dynamic_reevaluations_max": 40,
+    "dynamic_reevaluations_sum": 85586,
+    "prefix_checks": 61440
+  },
+  "failures": 0,
+  "seeded_ternary_circuits": {
+    "avoidance_constructions": 96,
+    "balanced_arithmetic_operations_sum": 2708,
+    "balanced_dependency_cone_sum": 11330,
+    "balanced_dynamic_reevaluations_sum": 8164,
+    "caterpillar_arithmetic_operations_sum": 2477,
+    "caterpillar_dependency_cone_sum": 10803,
+    "caterpillar_dynamic_reevaluations_sum": 8047,
+    "circuits": 48,
+    "coefficient_checks": 6144,
+    "prefix_checks": 12192,
+    "representative": {
+      "balanced": {
+        "arithmetic_operations": 67,
+        "avoided_output": 0,
+        "boundary_width": 4,
+        "dependency_cone_sum": 278,
+        "dynamic_reevaluations": 187,
+        "external_path_length": 16,
+        "target_bits": [0, 0, 0, 0, 0, 0],
+        "total_nodes": 81
+      },
+      "caterpillar": {
+        "arithmetic_operations": 68,
+        "avoided_output": 0,
+        "boundary_width": 4,
+        "dependency_cone_sum": 296,
+        "dynamic_reevaluations": 221,
+        "external_path_length": 20,
+        "target_bits": [0, 0, 0, 0, 0, 0],
+        "total_nodes": 82
+      },
+      "gates": [
+        {"output_flip": 0, "support": [0, 3], "truth_mask": 11},
+        {"output_flip": 0, "support": [0, 1, 4], "truth_mask": 223},
+        {"output_flip": 1, "support": [2], "truth_mask": 2},
+        {"output_flip": 1, "support": [0, 3, 4], "truth_mask": 93},
+        {"output_flip": 0, "support": [0, 1], "truth_mask": 8},
+        {"output_flip": 1, "support": [0, 3, 4], "truth_mask": 179}
+      ],
+      "output_counts": [
+        0, 0, 0, 4, 0, 0, 0, 4, 0, 2, 0, 1, 0, 2, 0, 1,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 3,
+        0, 0, 4, 1, 0, 0, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0
+      ]
+    },
+    "seed": 750075
+  },
+  "status": "passed",
+  "theorem_status": {
+    "arbitrary_supplied_tree_improvement": false,
+    "arithmetic_size_O_m_A_b_squared": true,
+    "automatic_balancing_without_width_loss": false,
+    "balanced_supplied_tree_bound_O_m_log_m_A_b_squared": true,
+    "incremental_bound_depth_sensitive": true,
+    "monotone_arithmetic_translation_exact": true,
+    "p_vs_np_resolved": false,
+    "paired_generating_polynomial_exact": true,
+    "unrestricted_nc0_3_avoid_solved": false
+  },
+  "tree_shapes": {
+    "instances": [
+      {"balanced_external_path_length": 2, "balanced_height": 1, "caterpillar_external_path_length": 2, "caterpillar_height": 1, "m": 2},
+      {"balanced_external_path_length": 8, "balanced_height": 2, "caterpillar_external_path_length": 9, "caterpillar_height": 3, "m": 4},
+      {"balanced_external_path_length": 24, "balanced_height": 3, "caterpillar_external_path_length": 35, "caterpillar_height": 7, "m": 8},
+      {"balanced_external_path_length": 64, "balanced_height": 4, "caterpillar_external_path_length": 135, "caterpillar_height": 15, "m": 16},
+      {"balanced_external_path_length": 160, "balanced_height": 5, "caterpillar_external_path_length": 527, "caterpillar_height": 31, "m": 32},
+      {"balanced_external_path_length": 384, "balanced_height": 6, "caterpillar_external_path_length": 2079, "caterpillar_height": 63, "m": 64}
+    ]
+  },
+  "version": "V75"
+}
