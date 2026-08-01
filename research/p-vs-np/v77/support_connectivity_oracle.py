@@ -85,6 +85,9 @@ def generate_composition_results() -> dict[str, object]:
         "submodularity_failures",
     )):
         raise AssertionError("support connectivity audit failed")
+    exact_discovery = "2^{O(k)} gamma m^6 log m + 2^{O(k^2)} gamma m"
+    simplified_discovery = "2^{O(k^2)} gamma m^6 log m"
+    avoidance = "O(m log m A(2k)^2 poly(n,m))"
     return {
         "version": "V77-FPT-composition",
         "status": "passed",
@@ -95,10 +98,12 @@ def generate_composition_results() -> dict[str, object]:
             "lambda_definition": "number of input variables occurring in gates on both sides of a gate partition",
             "oracle_cost_explicit_rank_three": "gamma = O(m)",
             "decomposition_prior_art": "Korhonen-Oum 2026 exact FPT branch-decomposition algorithm for oracle connectivity functions",
-            "decomposition_runtime": "2^{O(k^2)} gamma m^6 log m",
+            "decomposition_runtime_exact": exact_discovery,
+            "decomposition_runtime_simplified": simplified_discovery,
             "v77_transfer": "width at most 2k, height O(log m), external path length O(m log m)",
-            "avoidance_runtime_after_discovery": "O(m log m A(2k)^2 poly(n,m))",
-            "total_runtime": "2^{O(k^2)} gamma m^6 log m + O(m log m A(2k)^2 poly(n,m))",
+            "avoidance_runtime_after_discovery": avoidance,
+            "total_runtime_exact": exact_discovery + " + " + avoidance,
+            "total_runtime_simplified": simplified_discovery + " + " + avoidance,
             "requires_supplied_decomposition": False,
             "requires_stretch": "m > n",
             "result": "NC0_3-Avoid is FPT parameterized by support connectivity branchwidth",
