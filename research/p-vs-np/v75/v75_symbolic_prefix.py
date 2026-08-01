@@ -27,7 +27,7 @@ def bits_of(value: int, width: int) -> list[int]:
     return [(int(value) >> index) & 1 for index in range(int(width))]
 
 
-def brute_prefix_count(counts: Counter[int], prefix: Sequence[int], m: int) -> int:
+def brute_prefix_count(counts: Counter[int], prefix: Sequence[int]) -> int:
     mask = (1 << len(prefix)) - 1
     target = sum((int(bit) & 1) << index for index, bit in enumerate(prefix))
     return sum(count for output, count in counts.items() if (output & mask) == target)
@@ -52,7 +52,7 @@ def exhaustive_binary_results() -> dict[str, object]:
             assert coefficient(model, bits_of(output, 3)) == counts.get(output, 0)
             coefficient_checks += 1
         for prefix in all_prefixes(3):
-            expected = brute_prefix_count(counts, prefix, 3)
+            expected = brute_prefix_count(counts, prefix)
             assert prefix_count(model, prefix) == expected
             assert v74_prefix_count(2, gates, prefix, model["tree"]) == expected
             prefix_checks += 1
@@ -108,7 +108,7 @@ def seeded_ternary_results(seed: int = 750075, circuit_count: int = 48) -> dict[
             assert coefficient(caterpillar, bits) == expected
             coefficient_checks += 2
         for prefix in all_prefixes(m):
-            expected = brute_prefix_count(counts, prefix, m)
+            expected = brute_prefix_count(counts, prefix)
             assert prefix_count(balanced, prefix) == expected
             assert prefix_count(caterpillar, prefix) == expected
             assert v74_prefix_count(n, gates, prefix, balanced["tree"]) == expected
