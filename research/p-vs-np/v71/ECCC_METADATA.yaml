@@ -1,0 +1,28 @@
+status: draft_not_submitted
+version: V71
+title: "Affine-Cell Range Avoidance: Structural Barriers, Projected Residual DAGs, and Support-Hypergraph Width"
+authors:
+  - name: "TO_BE_CONFIRMED"
+abstract: >-
+  We consolidate a sequence of internally verified results on restricted range
+  avoidance and affine-cell branching. The new width-theoretic contribution
+  identifies the support-frontier order parameter with linear branch-width of
+  the support hypergraph and proves additive equivalence with pathwidth of the
+  primal graph for bounded-rank supports. A supplied path decomposition yields
+  a constructible projected residual DAG of fixed-parameter size. We also give
+  a tree-decomposition feasibility dynamic program while separating it from the
+  linear projected-DAG model. No unrestricted range-avoidance algorithm,
+  circuit lower bound, or P-versus-NP consequence is claimed.
+keywords:
+  - range avoidance
+  - affine subspaces
+  - branchwidth
+  - pathwidth
+  - branching programs
+classification: "computational complexity / graph algorithms"
+license: "TO_BE_REVIEWED"
+repository_commit: "TO_BE_FILLED_AFTER_CI"
+external_review: requested_not_completed
+peer_reviewed: false
+novelty_confirmed: false
+p_vs_np_resolved: false
