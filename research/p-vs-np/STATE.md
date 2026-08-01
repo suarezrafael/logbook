@@ -7,6 +7,7 @@
 **Direct P-versus-NP route active:** no  
 **P versus NP resolved:** no  
 **External review:** requested, replies pending  
+**External contact:** sent  
 **Publication status:** no DOI, submission, acceptance, peer review, or novelty confirmation  
 **Promotion policy:** quick, full, and LaTeX GitHub Actions must pass before merge
 
@@ -135,7 +136,7 @@ No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confir
 
 ## Historical corrections
 
-The V53 girth-based claims remain retracted. The original V22 certificate dataset is absent, so V22 remains a proof candidate without repository-reproduced finite evidence. V26 remains a justified missing-script skip. Incomplete `n=9` searches remain falsification/regression only.
+**V22 reproducibility correction:** the original V22 certificate dataset is absent, so V22 remains a proof candidate without repository-reproduced finite evidence. V26 remains a justified missing-script skip. The V53 girth-based claims remain retracted. Incomplete `n=9` searches remain falsification/regression only.
 
 ## Repository entry points
 
