@@ -1,22 +1,12 @@
-# Laboratory V75 — symbolic prefix counting
+# Laboratory V75 — symbolic prefix-count circuit
 
 ## Status
 
-Active draft laboratory. The statements below are proof targets and implementation specifications until the primary and independent verifiers are complete.
+Internally verified laboratory candidate. Promotion still requires quick, full, and LaTeX GitHub Actions on one final commit, followed by a final-diff Copilot review with no unresolved actionable finding.
 
-## Starting point
+## Main result
 
-V74 counts the preimages of one full output or one output prefix by running a weighted affine-residual dynamic program on a supplied branch decomposition. Repeating the full dynamic program at every prefix step gives the current
-
-```text
-O(m^2 A(b)^2 poly(n,m))
-```
-
-target-search bound.
-
-## Primary V75 direction
-
-Build one monotone arithmetic circuit for the paired output generating polynomial
+V75 compiles the V74 weighted affine-residual dynamic program into one monotone arithmetic DAG representing
 
 ```text
 P_C(u_1,v_1,...,u_m,v_m)
@@ -25,39 +15,57 @@ P_C(u_1,v_1,...,u_m,v_m)
 
 where `z_{i,0}=u_i` and `z_{i,1}=v_i`.
 
-The intended properties are:
+The coefficient selected by one bit from each pair is exactly the preimage count of that output. Prefix counts are obtained by fixing the selected paired variables to `1/0` and leaving both variables of each unfixed output at one.
 
-1. the coefficient of `product_i z_{i,y_i}` is exactly `|C^{-1}(y)|`;
-2. a prefix count is obtained by assigning the selected variable to one, its opposite to zero, and both variables of every unfixed coordinate to one;
-3. the weighted branch-residual recurrence constructs the arithmetic circuit without expanding its `2^m` coefficients;
-4. the circuit has `O(m A(b)^2)` arithmetic size for a supplied width-`b` decomposition, apart from polynomial-time affine-basis operations;
-5. dynamic reevaluation touches only the dependency cone above the changed output leaf.
-
-## Candidate incremental bound
-
-For a rooted supplied decomposition `T`, let `depth_T(i)` be the depth of output leaf `i`. The current proof target is
+For a supplied gate branch decomposition of boundary width `b`, the arithmetic DAG has
 
 ```text
-O(A(b)^2 * (m + sum_i depth_T(i)) * poly(n,m)).
+S = O(m A(b)^2)
 ```
 
-Therefore a balanced height-`O(log m)` decomposition would give
+operations, apart from polynomial-time affine operations. Incremental evaluation along one prefix-search path uses
+
+```text
+O(S + sum_i D_T(i))
+```
+
+arithmetic reevaluations, where `D_T(i)` is the dependency-cone size of output coordinate `i`. The branch construction gives
+
+```text
+D_T(i) = O(A(b)^2 depth_T(i)).
+```
+
+Thus a supplied height-`O(log m)` decomposition gives
 
 ```text
 O(m log(m) A(b)^2 poly(n,m)).
 ```
 
-This is not yet an unconditional improvement: a supplied width-`b` decomposition may have linear height, and V75 has not yet proved that it can always be balanced without an unacceptable width increase.
+This improves V74's repeated-DP `O(m^2 A(b)^2 poly(n,m))` bound only in the balanced or low-external-path-length regime. A caterpillar decomposition has external path length `Theta(m^2)`, so V75 does not establish an unconditional improvement for arbitrary supplied decompositions.
 
-## Parallel questions
+## Verification
 
-- Can bounded-width branch decompositions be constructed or balanced with guarantees sufficient for the symbolic algorithm?
-- Is the `A(B)` bicriteria price bound tight, or can the reachable residual catalogue replace the full affine-subspace catalogue?
-- Can an exact arbitrary-fiber, bounded-treewidth family force superlinear `G*_proj` beyond the V74 OR-path value `3m-3`?
-- Can the symbolic residual circuit be translated size-preservingly to an arithmetic branching program, tensor network, or junction-tree representation?
+- 4,096 exhaustive two-input, three-output circuits;
+- 32,768 exact output coefficients;
+- 61,440 exact prefix evaluations;
+- 4,096 incrementally constructed avoided outputs;
+- 48 seeded ternary circuits checked on balanced and caterpillar trees;
+- 6,144 seeded coefficient checks and 12,192 seeded prefix checks across both shapes;
+- fresh reevaluation after every dynamic change;
+- independent truth-table verifier that imports neither the symbolic builder nor the affine engine;
+- tree-shape identities through 64 leaves.
+
+## Files
+
+- `SYMBOLIC_PREFIX_CIRCUIT.md` — theorem, proof invariant, complexity, and literature boundary;
+- `V75_SYMBOLIC_PREFIX_THEOREM.tex` — formal standalone module;
+- `symbolic_prefix_circuit.py` — arithmetic DAG and incremental evaluator;
+- `v75_symbolic_prefix.py` — deterministic exhaustive/seeded experiment generator;
+- `verify.py` and `verify_independent.py` — primary and independent verification;
+- `RESULTS.json` — frozen quantitative snapshot;
+- `EXHAUSTIVE_RESULTS.md` — finite evidence summary;
+- `V76_CORE_CONTEXT.md` — next laboratory handoff.
 
 ## Scientific boundary
 
-V75 has not proved an unrestricted avoidance algorithm, a decomposition-construction theorem, a superpolynomial lower bound, a standard-model simulation, novelty, peer review, or any consequence for P versus NP.
-
-Promotion requires quick, full, and LaTeX CI on the same final SHA, followed by a final-diff Copilot review with no unresolved actionable finding.
+V75 does not prove automatic width-preserving balancing, unrestricted `NC0_3-Avoid`, a general polynomial-time algorithm, a superpolynomial lower bound, a size-preserving simulation to a standard proof or branching model, novelty, peer review, or any consequence for P versus NP.
