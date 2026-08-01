@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import functools
 from collections import Counter
+from dataclasses import dataclass, field
 from pathlib import Path
 import sys
 from typing import Iterable, Sequence
@@ -140,9 +141,11 @@ def minimum_affine_partition(mask: int, arity: int) -> tuple[int, ...]:
     return best[1]
 
 
-def cell_equations(n: int, support: Sequence[int], cell_mask: int) -> Basis:
-    support_tuple = tuple(int(variable) for variable in support)
-    arity = len(support_tuple)
+@functools.lru_cache(None)
+def _cached_cell_equations(
+    n: int, support: tuple[int, ...], cell_mask: int
+) -> Basis:
+    arity = len(support)
     points = [point for point in range(1 << arity) if (cell_mask >> point) & 1]
     if not points:
         raise ValueError("an affine cell must be nonempty")
@@ -152,7 +155,7 @@ def cell_equations(n: int, support: Sequence[int], cell_mask: int) -> Basis:
         if len(values) != 1:
             continue
         variables = tuple(
-            support_tuple[index]
+            support[index]
             for index in range(arity)
             if (coefficients >> index) & 1
         )
@@ -163,17 +166,43 @@ def cell_equations(n: int, support: Sequence[int], cell_mask: int) -> Basis:
     return basis
 
 
+def cell_equations(n: int, support: Sequence[int], cell_mask: int) -> Basis:
+    return _cached_cell_equations(
+        int(n), tuple(int(variable) for variable in support), int(cell_mask)
+    )
+
+
+@functools.lru_cache(None)
+def _cached_compiled_fiber_cells(
+    n: int,
+    support: tuple[int, ...],
+    truth_mask: int,
+    output_flip: int,
+    output_bit: int | None,
+) -> tuple[Basis, ...]:
+    if output_bit is None:
+        return (tuple(),)
+    arity = len(support)
+    full = (1 << (1 << arity)) - 1
+    positive = (int(truth_mask) & full) ^ (full if int(output_flip) & 1 else 0)
+    mask = positive if int(output_bit) & 1 else full ^ positive
+    return tuple(
+        _cached_cell_equations(n, support, cell_mask)
+        for cell_mask in minimum_affine_partition(mask, arity)
+    )
+
+
 def compiled_fiber_cells(
     n: int, gate: Gate, output_bit: int | None
 ) -> tuple[Basis, ...]:
     """Compile a selected fiber, or the tautology when output_bit is None."""
-    if output_bit is None:
-        return (tuple(),)
-    support = tuple(int(variable) for variable in gate["support"])
-    mask = fiber_mask(gate, int(output_bit))
-    return tuple(
-        cell_equations(n, support, cell_mask)
-        for cell_mask in minimum_affine_partition(mask, len(support))
+    normalized_output = None if output_bit is None else int(output_bit) & 1
+    return _cached_compiled_fiber_cells(
+        int(n),
+        tuple(int(variable) for variable in gate["support"]),
+        int(gate["truth_mask"]),
+        int(gate.get("output_flip", 0)) & 1,
+        normalized_output,
     )
 
 
@@ -210,6 +239,181 @@ def boundary_variables(gates: Sequence[Gate], subset: Iterable[int]) -> tuple[in
     return tuple(sorted(left & right))
 
 
+@dataclass(frozen=True)
+class _CompiledTreeNode:
+    node: Tree
+    address: str
+    subset: tuple[int, ...]
+    boundary: tuple[int, ...]
+    union_boundary: tuple[int, ...]
+    left: "_CompiledTreeNode | None" = None
+    right: "_CompiledTreeNode | None" = None
+
+
+NodeCacheKey = tuple[str, tuple[int | None, ...]]
+NodeRecords = tuple[dict[str, object], ...]
+NodeCacheValue = tuple[Counter[Basis], NodeRecords]
+
+
+@dataclass
+class _TargetDPContext:
+    n: int
+    gates: tuple[Gate, ...]
+    tree: Tree
+    root: _CompiledTreeNode
+    all_variable_count: int
+    node_cache: dict[NodeCacheKey, NodeCacheValue] = field(default_factory=dict)
+
+
+def _compile_tree_metadata(gates: tuple[Gate, ...], tree: Tree) -> _CompiledTreeNode:
+    mutable_incidence: dict[int, set[int]] = {}
+    for gate_index, gate in enumerate(gates):
+        for variable in gate["support"]:
+            mutable_incidence.setdefault(int(variable), set()).add(gate_index)
+    incidence = {
+        variable: frozenset(indices)
+        for variable, indices in mutable_incidence.items()
+    }
+
+    def boundary(subset: tuple[int, ...]) -> tuple[int, ...]:
+        chosen = frozenset(subset)
+        return tuple(
+            sorted(
+                variable
+                for variable, incident in incidence.items()
+                if chosen & incident and incident - chosen
+            )
+        )
+
+    def compile_node(node: Tree, address: str) -> _CompiledTreeNode:
+        if isinstance(node, int):
+            subset = (node,)
+            return _CompiledTreeNode(
+                node=node,
+                address=address,
+                subset=subset,
+                boundary=boundary(subset),
+                union_boundary=tuple(),
+            )
+        left = compile_node(node[0], address + "0")
+        right = compile_node(node[1], address + "1")
+        subset = tuple(sorted(set(left.subset) | set(right.subset)))
+        return _CompiledTreeNode(
+            node=node,
+            address=address,
+            subset=subset,
+            boundary=boundary(subset),
+            union_boundary=tuple(sorted(set(left.boundary) | set(right.boundary))),
+            left=left,
+            right=right,
+        )
+
+    return compile_node(tree, "R")
+
+
+def _make_target_context(
+    n: int, gates: Sequence[Gate], tree: Tree | None
+) -> _TargetDPContext:
+    gate_tuple = tuple(gates)
+    validate_gate_support_range(n, gate_tuple)
+    if tree is None:
+        tree = balanced_branch_tree(range(len(gate_tuple)))
+    if tree_subset(tree) != set(range(len(gate_tuple))):
+        raise ValueError("branch tree leaves must be exactly the gate indices")
+    root = _compile_tree_metadata(gate_tuple, tree)
+    all_variables = {
+        int(variable) for gate in gate_tuple for variable in gate["support"]
+    }
+    return _TargetDPContext(
+        n=int(n),
+        gates=gate_tuple,
+        tree=tree,
+        root=root,
+        all_variable_count=len(all_variables),
+    )
+
+
+def _visit_target_node(
+    context: _TargetDPContext,
+    metadata: _CompiledTreeNode,
+    target: tuple[int | None, ...],
+) -> NodeCacheValue:
+    subtarget = tuple(target[index] for index in metadata.subset)
+    cache_key = (metadata.address, subtarget)
+    cached = context.node_cache.get(cache_key)
+    if cached is not None:
+        return cached
+
+    n = context.n
+    gates = context.gates
+    if isinstance(metadata.node, int):
+        gate_index = metadata.node
+        counts: Counter[Basis] = Counter()
+        support = tuple(int(variable) for variable in gates[gate_index]["support"])
+        for cell in compiled_fiber_cells(n, gates[gate_index], target[gate_index]):
+            projected = project_basis(cell, n, metadata.boundary)
+            if projected is None:
+                continue
+            source_dimension = len(support) - len(cell)
+            projected_dimension = len(metadata.boundary) - len(projected)
+            delta = source_dimension - projected_dimension
+            if delta < 0:
+                raise AssertionError("projection cannot increase affine codimension")
+            counts[projected] += 1 << delta
+        pair_transitions = 0
+        child_records: NodeRecords = tuple()
+    else:
+        assert metadata.left is not None and metadata.right is not None
+        left_counts, left_records = _visit_target_node(context, metadata.left, target)
+        right_counts, right_records = _visit_target_node(context, metadata.right, target)
+        counts = Counter()
+        pair_transitions = 0
+        for left_basis, left_weight in left_counts.items():
+            for right_basis, right_weight in right_counts.items():
+                pair_transitions += 1
+                combined = extend_basis(left_basis, right_basis, n)
+                if combined is None:
+                    continue
+                projected = project_basis(combined, n, metadata.boundary)
+                if projected is None:
+                    continue
+                combined_dimension = len(metadata.union_boundary) - len(combined)
+                projected_dimension = len(metadata.boundary) - len(projected)
+                delta = combined_dimension - projected_dimension
+                if delta < 0:
+                    raise AssertionError("projection fiber dimension must be nonnegative")
+                counts[projected] += left_weight * right_weight * (1 << delta)
+        child_records = left_records + right_records
+
+    record = {
+        "address": metadata.address,
+        "subset_size": len(metadata.subset),
+        "boundary_size": len(metadata.boundary),
+        "state_count": len(counts),
+        "weight_sum": sum(counts.values()),
+        "pair_transitions": pair_transitions,
+    }
+    result = counts, child_records + (record,)
+    context.node_cache[cache_key] = result
+    return result
+
+
+def _weighted_target_dp_with_context(
+    context: _TargetDPContext, target: Sequence[int | None]
+) -> dict[str, object]:
+    target_tuple = tuple(target)
+    if len(target_tuple) != len(context.gates):
+        raise ValueError("target length must equal the number of gates")
+    root_counts, records = _visit_target_node(context, context.root, target_tuple)
+    used_variable_count = root_counts.get(tuple(), 0)
+    preimage_count = used_variable_count * (1 << (context.n - context.all_variable_count))
+    return {
+        "preimage_count": preimage_count,
+        "root_residuals": len(root_counts),
+        "records": [dict(record) for record in records],
+    }
+
+
 def weighted_target_dp(
     n: int,
     gates: Sequence[Gate],
@@ -223,91 +427,23 @@ def weighted_target_dp(
     residuals add their weights. Affine projection fibers have uniform size,
     which makes the recurrence exact.
     """
-    gate_tuple = tuple(gates)
-    validate_gate_support_range(n, gate_tuple)
-    target_tuple = tuple(target)
-    if len(target_tuple) != len(gate_tuple):
-        raise ValueError("target length must equal the number of gates")
-    if tree is None:
-        tree = balanced_branch_tree(range(len(gate_tuple)))
-    if tree_subset(tree) != set(range(len(gate_tuple))):
-        raise ValueError("branch tree leaves must be exactly the gate indices")
+    context = _make_target_context(n, gates, tree)
+    return _weighted_target_dp_with_context(context, target)
 
-    all_variables = {
-        int(variable) for gate in gate_tuple for variable in gate["support"]
-    }
-    records: list[dict[str, object]] = []
 
-    def visit(node: Tree, address: str = "R") -> Counter[Basis]:
-        subset = tree_subset(node)
-        boundary = boundary_variables(gate_tuple, subset)
-        if isinstance(node, int):
-            counts: Counter[Basis] = Counter()
-            support = tuple(int(variable) for variable in gate_tuple[node]["support"])
-            for cell in compiled_fiber_cells(n, gate_tuple[node], target_tuple[node]):
-                projected = project_basis(cell, n, boundary)
-                if projected is None:
-                    continue
-                source_dimension = len(support) - len(cell)
-                projected_dimension = len(boundary) - len(projected)
-                delta = source_dimension - projected_dimension
-                if delta < 0:
-                    raise AssertionError("projection cannot increase affine codimension")
-                counts[projected] += 1 << delta
-            pair_transitions = 0
-        else:
-            left_counts = visit(node[0], address + "0")
-            right_counts = visit(node[1], address + "1")
-            counts = Counter()
-            pair_transitions = 0
-            left_boundary = boundary_variables(gate_tuple, tree_subset(node[0]))
-            right_boundary = boundary_variables(gate_tuple, tree_subset(node[1]))
-            union_boundary = tuple(sorted(set(left_boundary) | set(right_boundary)))
-            for left_basis, left_weight in left_counts.items():
-                for right_basis, right_weight in right_counts.items():
-                    pair_transitions += 1
-                    combined = extend_basis(left_basis, right_basis, n)
-                    if combined is None:
-                        continue
-                    projected = project_basis(combined, n, boundary)
-                    if projected is None:
-                        continue
-                    combined_dimension = len(union_boundary) - len(combined)
-                    projected_dimension = len(boundary) - len(projected)
-                    delta = combined_dimension - projected_dimension
-                    if delta < 0:
-                        raise AssertionError("projection fiber dimension must be nonnegative")
-                    counts[projected] += (
-                        left_weight * right_weight * (1 << delta)
-                    )
-        records.append(
-            {
-                "address": address,
-                "subset_size": len(subset),
-                "boundary_size": len(boundary),
-                "state_count": len(counts),
-                "weight_sum": sum(counts.values()),
-                "pair_transitions": pair_transitions,
-            }
-        )
-        return counts
-
-    root_counts = visit(tree)
-    used_variable_count = root_counts.get(tuple(), 0)
-    preimage_count = used_variable_count * (1 << (n - len(all_variables)))
-    return {
-        "preimage_count": preimage_count,
-        "root_residuals": len(root_counts),
-        "records": records,
-    }
+def _prefix_count_with_context(
+    context: _TargetDPContext, prefix: Sequence[int]
+) -> int:
+    target: list[int | None] = list(int(bit) & 1 for bit in prefix)
+    target.extend([None] * (len(context.gates) - len(target)))
+    return int(_weighted_target_dp_with_context(context, target)["preimage_count"])
 
 
 def prefix_count(
     n: int, gates: Sequence[Gate], prefix: Sequence[int], tree: Tree | None = None
 ) -> int:
-    target: list[int | None] = list(int(bit) & 1 for bit in prefix)
-    target.extend([None] * (len(gates) - len(target)))
-    return int(weighted_target_dp(n, gates, target, tree)["preimage_count"])
+    context = _make_target_context(n, gates, tree)
+    return _prefix_count_with_context(context, prefix)
 
 
 def find_avoided_output(
@@ -317,12 +453,13 @@ def find_avoided_output(
     m = len(gates)
     if m <= n:
         raise ValueError("positive stretch m>n is required")
+    context = _make_target_context(n, gates, tree)
     prefix: list[int] = []
     parent_count = 1 << n
     trace: list[dict[str, int]] = []
     for index in range(m):
-        count_zero = prefix_count(n, gates, prefix + [0], tree)
-        count_one = prefix_count(n, gates, prefix + [1], tree)
+        count_zero = _prefix_count_with_context(context, prefix + [0])
+        count_one = _prefix_count_with_context(context, prefix + [1])
         if count_zero + count_one != parent_count:
             raise AssertionError("the two exact gate fibers must partition the parent prefix")
         completion_capacity = 1 << (m - index - 1)
