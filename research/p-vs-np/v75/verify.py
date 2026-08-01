@@ -129,8 +129,8 @@ def main() -> None:
     state = (ROOT / "STATE.md").read_text(encoding="utf-8")
     current = re.search(r"\*\*Current laboratory:\*\* V(\d+)(?: candidate)?", state)
     assert current and int(current.group(1)) >= 75
-    assert "Direct P-versus-NP route active:** no" in state
-    assert "P versus NP resolved:** no" in state
+    assert "**Direct P-versus-NP route active:** no" in state
+    assert "**P versus NP resolved:** no" in state
     root_readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "[`v75/`](v75/)" in root_readme
     publication = (ROOT / "PUBLICATION_INDEX.md").read_text(encoding="utf-8")
