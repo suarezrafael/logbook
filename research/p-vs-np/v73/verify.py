@@ -6,7 +6,9 @@ from v73_bicriteria_avoidance import generate_results
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parent
 
 def main():
-    results=generate_results();(HERE/"RESULTS.json").write_text(json.dumps(results,indent=2,sort_keys=True)+"\n")
+    committed=json.loads((HERE/"RESULTS.json").read_text())
+    results=generate_results()
+    assert committed==results,"committed V73 RESULTS.json differs from generate_results()"
     required=["README.md","BICRITERIA_AND_MULTIPLICITY.md","BICRITERIA_BENCHMARK.md",
       "V73_BICRITERIA_AVOIDANCE_THEOREM.tex","V74_CORE_CONTEXT.md","bicriteria.py","multiplicity.py",
       "tree_compression.py","v73_bicriteria_avoidance.py","verify.py","verify_independent.py","RESULTS.json"]
@@ -54,5 +56,5 @@ def main():
     corpus="\n".join(path.read_text().lower() for path in HERE.iterdir() if path.suffix in {".md",".json",".tex"})
     for forbidden in ("p versus np is solved","we prove p != np","unrestricted nc0_3-avoid is solved",
       "peer reviewed theorem","novelty confirmed: true","all orders force superpolynomial"):assert forbidden not in corpus
-    print("V73 primary verification passed: 211 bicriteria budget checks; 808 branch nodes; six exact Pareto records; supplied-target barrier; binary-tree G*=m; repository and LaTeX gates; zero failures.")
+    print("V73 primary verification passed: deterministic snapshot; 211 bicriteria budget checks; 808 branch nodes; six exact Pareto records; supplied-target barrier; binary-tree G*=m; repository and LaTeX gates; zero failures.")
 if __name__=="__main__":main()
