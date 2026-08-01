@@ -2,7 +2,7 @@
 
 ## 1. Setting
 
-Let `M` be the set of `m` output gates. For `S subseteq M`, define
+Let `M` be the set of `m` output gates. For `S ⊆ M`, define
 
 ```text
 lambda(S) = | union_{i in S} supp(i) intersect union_{i notin S} supp(i) |.
@@ -58,7 +58,7 @@ set. Therefore
 
 ```text
 boundary_variables(S(C))
-    subseteq union of at most four original middle sets.
+    ⊆ union of at most four original middle sets.
 ```
 
 Every selected edge has middle-set size at most `b`, so
