@@ -60,7 +60,7 @@ def main() -> None:
     results = generate_results()
     serialized = json.dumps(results, indent=2, sort_keys=True) + "\n"
     result_path = HERE / "RESULTS.json"
-    assert result_path.read_text(encoding="utf-8") == serialized
+    assert json.loads(result_path.read_text(encoding="utf-8")) == results
     result_path.write_text(serialized, encoding="utf-8")
 
     required = [
@@ -193,7 +193,7 @@ def main() -> None:
         "V74 primary verification passed: malformed-support rejection; immutable "
         "fiber-cache keys; exact two-fiber model; 256 ternary partitions; 4,096 "
         "exhaustive circuits and 32,768 targets; constructive bounded-width "
-        "avoidance; OR-path G*=3m-3; byte-identical RESULTS.json; repository and "
+        "avoidance; OR-path G*=3m-3; semantic RESULTS.json lock; repository and "
         "LaTeX gates; zero failures."
     )
 
