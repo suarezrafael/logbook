@@ -1,6 +1,6 @@
 # Cumulative scientific state
 
-**Current laboratory:** V75 candidate  
+**Current laboratory:** V76 candidate  
 **Updated:** 2026-08-01  
 **Program name:** `NC0_k-Avoid Laboratory`  
 **P-versus-NP research active:** exploratory  
@@ -31,7 +31,7 @@ For `m>n`, repeated exact prefix counts construct an absent output. On a supplie
 O(m^2 A(b)^2 poly(n,m)).
 ```
 
-V74 also proves the exact OR-path residual cost `G*_proj=3m-3` for `m>=2`. This is linear and does not imply a standard-model or superpolynomial lower bound.
+V74 also proves the exact OR-path residual cost `G*_proj=3m-3` for `m>=2`. This is linear and does not imply a standard-model or superpolynomial lower bound. A later maintenance patch memoized affine fibers, branch metadata, prefix subtrees, and OR-path tables without changing the mathematical output.
 
 ## V75 paired generating polynomial
 
@@ -67,7 +67,7 @@ Therefore the parameterized runtime is
 O(A(b)^2 (m + sum_i depth_T(i)) poly(n,m)).
 ```
 
-A supplied logarithmic-height tree gives `O(m log m A(b)^2 poly(n,m))`. A caterpillar has external path length `Theta(m^2)`, so V75 does not prove a general improvement for arbitrary supplied decompositions.
+A supplied logarithmic-height tree gives `O(m log m A(b)^2 poly(n,m))`. A caterpillar has external path length `Theta(m^2)`, so V75 alone does not prove a general improvement for arbitrary supplied decompositions.
 
 ## V75 validation
 
@@ -82,29 +82,63 @@ A supplied logarithmic-height tree gives `O(m log m A(b)^2 poly(n,m))`. A caterp
 balanced/caterpillar identities through 64 leaves.
 ```
 
-The independent verifier imports neither the arithmetic builder nor the affine engine. It reconstructs direct Boolean semantics, prefix avoidance, seeded gates, and tree-depth identities.
+The independent verifier imports neither the arithmetic builder nor the affine engine. It reconstructs direct Boolean semantics, prefix avoidance, seeded gates, and tree-depth identities. V75 was promoted after quick, full, and LaTeX CI plus final-diff Copilot review.
 
-## Literature boundary and V76 target
+## V76 labelled top-tree transfer
 
-Korhonen and Oum's 2026 FPT algorithm constructs width-`k` branch decompositions for oracle connectivity functions. This reduces the parameterized decomposition-discovery obstacle for the support-boundary function but does not give the logarithmic-depth guarantee needed for V75's improved incremental bound.
+V76 treats the supplied gate branch decomposition as a labelled subcubic tree. Standard labelled top trees, due to Alstrup, Holm, de Lichtenberg, and Thorup, give a binary hierarchy of connected clusters with at most two boundary vertices and height `O(log m)`.
 
-Bodlaender's graph tree-decomposition transformation achieves logarithmic depth with width at most `3k+2`. No transfer to the gate branch decomposition with controlled support-boundary width is claimed here.
+The new four-cut support-boundary lemma proves that every retained label-bearing cluster is covered by the middle sets of at most four original branch-tree edges. Therefore a supplied width-`b` gate decomposition can be transferred to a rooted binary gate tree satisfying
 
-V76 must prove a width/depth transfer, derive a weaker explicit tradeoff, or find a counterexample family. It must keep branchwidth, linear width, primal treewidth, height, external path length, arithmetic size, and dynamic work distinct.
+```text
+width <= 4b,
+height = O(log m),
+external path length = O(m log m).
+```
+
+Rebuilding the V75 symbolic residual circuit on the transferred tree gives
+
+```text
+O(m log m A(4b)^2 poly(n,m))
+```
+
+incremental prefix-avoidance time in the supplied-decomposition parameterized regime. This removes the arbitrary-tree depth obstruction at the cost of replacing `b` by `4b`.
+
+The top-tree height construction is prior art. The V76-specific contribution is the four-cut support-boundary transfer, its exact certificate auditor, and the finite width/height/EPL analysis. Novelty remains unconfirmed.
+
+## V76 finite validation and proof controls
+
+The exact subset recurrence was checked against direct tree enumeration on `1,470` small support families and `16,212` rooted trees. All `9,907` simple rank-at-most-three families on four variables through seven gates were classified. Exactly six seven-gate families exhibit a perfect-height width tradeoff. The canonical frontier is
+
+```text
+(2,4,21), (3,3,20).
+```
+
+This shows that width two cannot coexist with the minimum possible height three on that finite instance. It does not refute width-preserving `O(log m)` balancing because height four remains logarithmic.
+
+The labelled-cluster auditor checked `101,213` valid states and attained the full four-edge cover. An independently written verifier reconstructs raw incidence boundaries, all `10,395` witness trees, cluster cuts, the six tradeoff families, and the V72 private-vertex regression.
+
+An earlier recursive centroid argument claiming width `2b` was rejected before publication because recursive components need not remain one side of a single original edge. V76 makes no factor-two claim and does not claim factor four is optimal.
+
+## Literature and next target
+
+Korhonen and Oum's 2026 FPT algorithm constructs width-`k` branch decompositions for oracle connectivity functions. This reduces the parameterized decomposition-discovery obstacle but is distinct from the V76 transfer on a supplied decomposition. Fomin and Korhonen study general branchwidth approximation. V77 must tighten `4b`, construct a genuine obstruction, or produce independently checkable static top-tree certificates.
 
 ## Publication and historical controls
 
-`v71/MANUSCRIPT.tex` remains the consolidated article through V71. V72–V75 are standalone modules pending external proof review. No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confirmation is claimed.
+`v71/MANUSCRIPT.tex` remains the consolidated article through V71. V72–V76 are standalone modules pending external proof review. No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confirmation is claimed.
 
 The V22 reproducibility correction remains active: V22 is a proof candidate with a missing original certificate dataset, and the aggregate snapshot cannot reconstruct the original certificates. V26 remains a justified missing-script skip. The V53 girth implications remain retracted. Incomplete `n=9` searches remain falsification/regression only. `LEDGER.json` remains a conservative historical ledger and may lag the current promoted package.
 
 ## Repository entry points
 
 - `PUBLICATION_INDEX.md`
+- `v76/TOP_TREE_TRANSFER.md`
+- `v76/V76_TOP_TREE_TRANSFER_THEOREM.tex`
+- `v76/decomposition_pareto.py`
+- `v76/cluster_cut_cover.py`
+- `v76/RESULTS.json`
+- `v76/V77_CORE_CONTEXT.md`
 - `v75/SYMBOLIC_PREFIX_CIRCUIT.md`
-- `v75/V75_SYMBOLIC_PREFIX_THEOREM.tex`
-- `v75/symbolic_prefix_circuit.py`
-- `v75/RESULTS.json`
-- `v75/V76_CORE_CONTEXT.md`
 - `v74/TWO_FIBER_AVOIDANCE.md`
 - `v71/MANUSCRIPT.tex`
