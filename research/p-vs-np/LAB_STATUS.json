@@ -1,16 +1,17 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "updated": "2026-08-02",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V80",
-  "candidate_version": null,
-  "highest_directory": "V80",
-  "promotion_state": "promoted",
+  "candidate_version": "V81",
+  "highest_directory": "V81",
+  "promotion_state": "candidate",
   "completed_scope": "high-width Hall/branchwidth dichotomy at lower-bound-relevant stretch",
+  "candidate_scope": "deficiency conservation and Minimum p-Union complexity",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V81",
-  "next_laboratory_focus": "deterministic candidate lists or explicit all-orders obstructions",
+  "next_laboratory_focus": "deficiency conservation and Minimum p-Union complexity",
   "ci_policy": {
     "draft_pull_request": ["quick", "latex"],
     "ready_pull_request": ["quick", "full", "latex"],
@@ -18,7 +19,7 @@
     "manual_dispatch": ["quick", "full", "latex"]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V80",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V81",
     "full": "cumulative historical verification and exact replays",
     "quick_expected_mutations": 0,
     "full_expected_mutations": 9
@@ -29,11 +30,14 @@
     "LEDGER.json": "conservative historical ledger; not CI authority"
   },
   "scientific_status": {
+    "minimum_neighborhood_hall_polynomial_time": null,
+    "minimum_neighborhood_hall_np_hard": null,
     "p_vs_np_resolved": false,
     "p_vs_np_route_active": false,
     "direct_route_active": false,
     "unrestricted_NC0_3_avoid_solved": false,
     "deterministic_FP_NP_target_solved": false,
+    "all_orders_obstruction_proved": false,
     "peer_reviewed": false,
     "novelty_confirmed": false
   }
