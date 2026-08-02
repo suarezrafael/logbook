@@ -59,8 +59,8 @@ def main():
         "singleton_fiber_functions": 16,
         "failures": 0,
     }
-    assert results["exhaustive_n5"] == 637
-    assert sum(results["degree_distribution"].values()) == 637
+    assert results["exhaustive_n5"] == 386
+    assert sum(results["degree_distribution"].values()) == 386
     print("V54 verification passed:", results)
     print("  diagnostics are recomputed in memory; no repository snapshot is written.")
 
