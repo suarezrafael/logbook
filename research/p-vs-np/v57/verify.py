@@ -115,7 +115,12 @@ def exhaustive_n3() -> dict:
             "consistent_irredundant": 0,
         }
     )
-    return {"multisets_checked": checked, **dict(counts)}
+    return {
+        "multisets_checked": checked,
+        "inconsistent": counts["inconsistent"],
+        "consistent_with_redundant_block": counts["consistent_with_redundant_block"],
+        "consistent_irredundant": counts["consistent_irredundant"],
+    }
 
 
 def exhaustive_normalized_n4() -> dict:
