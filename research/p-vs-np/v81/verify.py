@@ -35,13 +35,20 @@ def main() -> None:
     assert "Width--deficiency tradeoff" in tex
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V80"
-    assert status["candidate_version"] == "V81"
-    assert status["highest_directory"] == "V81"
-    assert status["promotion_state"] == "candidate"
+    assert status["promoted_version"] == "V81"
+    candidate = status.get("candidate_version")
+    if candidate is None:
+        assert status["highest_directory"] == "V81"
+        assert status["promotion_state"] == "promoted"
+    else:
+        assert candidate == "V82"
+        assert status["highest_directory"] == "V82"
+        assert status["promotion_state"] == "candidate"
     assert status["infrastructure_frozen"] is True
-    assert status["next_laboratory_version"] == "V81"
-    assert status["next_laboratory_focus"] == "deficiency conservation and Minimum p-Union complexity"
+    assert status["next_laboratory_version"] == "V82"
+    assert status["next_laboratory_focus"] == (
+        "exact Minimum p-Union/Hall complexity or explicit degree-three obstruction"
+    )
     assert status["scientific_status"]["p_vs_np_route_active"] is False
 
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
@@ -61,7 +68,8 @@ def main() -> None:
 
     print(
         "V81 primary verification passed: conservation, balanced width-deficiency, "
-        "Minimum p-Union curves, and unsupported Lagrangian Hall points match evidence."
+        "Minimum p-Union curves, and unsupported Lagrangian Hall points match evidence; "
+        "V81 is promoted."
     )
 
 
