@@ -144,14 +144,22 @@ def main() -> None:
     assert status["scientific_status"][
         "degree_three_transversal_girth_polynomial_time"
     ] is None
-    assert status["scientific_status"][
-        "degree_three_transversal_girth_np_hard"
-    ] is None
+    degree_three_closed = version_number(promoted) >= 83 or (
+        candidate is not None and version_number(candidate) >= 83
+    )
+    if degree_three_closed:
+        assert status["scientific_status"][
+            "degree_three_transversal_girth_np_hard"
+        ] is True
+    else:
+        assert status["scientific_status"][
+            "degree_three_transversal_girth_np_hard"
+        ] is None
 
     print(
         f"V82 independent verification passed: {total} rank-three subset "
         "states plus degree-two bicircular controls independently checked; "
-        "the degree-three complexity boundary remains open."
+        "the degree-three complexity boundary remains historically recorded."
     )
 
 

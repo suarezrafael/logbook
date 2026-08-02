@@ -1,0 +1,88 @@
+{
+  "colbourn_k4_graph_census": [
+    {
+      "expanded_threshold": 18,
+      "graphs_checked": 64,
+      "graphs_with_4_clique": 1,
+      "source_threshold": 6,
+      "vertex_count": 4
+    },
+    {
+      "expanded_threshold": 18,
+      "graphs_checked": 1024,
+      "graphs_with_4_clique": 66,
+      "source_threshold": 6,
+      "vertex_count": 5
+    }
+  ],
+  "colbourn_k5_witnesses": [
+    {
+      "edge_count": 10,
+      "expanded_girth_by_correspondence": 60,
+      "has_5_clique": true,
+      "name": "K5",
+      "source_girth": 10,
+      "uniform_chain_length": 6
+    },
+    {
+      "edge_count": 9,
+      "expanded_girth_by_correspondence": null,
+      "has_5_clique": false,
+      "name": "K5_minus_edge",
+      "source_girth": null,
+      "uniform_chain_length": 6
+    }
+  ],
+  "complexity_conclusion": {
+    "decision_problem": "transversal girth at most L with left degree at most three",
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false,
+    "reduction": "Clique -> corrected Colbourn-Elmallah template -> uniform path-selector series expansion",
+    "status": "NP-complete"
+  },
+  "direct_transformed_witnesses": [
+    {
+      "expanded_circuits": 1,
+      "expanded_elements": 18,
+      "expanded_girth": 18,
+      "name": "K4",
+      "source_elements": 6
+    },
+    {
+      "expanded_circuits": 0,
+      "expanded_elements": 15,
+      "expanded_girth": null,
+      "name": "K4_minus_edge",
+      "source_elements": 5
+    }
+  ],
+  "exhaustive_census": {
+    "boxes": [
+      {
+        "presentations": 512,
+        "source_left": 3,
+        "source_right": 3
+      },
+      {
+        "presentations": 256,
+        "source_left": 4,
+        "source_right": 2
+      }
+    ],
+    "expanded_subset_states_checked": 31184,
+    "source_presentations_checked": 768,
+    "source_subset_states_checked": 7424
+  },
+  "source_arithmetic_audit": {
+    "corrected_reservoir": "r = binom(k,2)-k-1",
+    "displayed_identity": "binom(k,2)-k-1 = binom(k-1,2)",
+    "identity_valid": false,
+    "threshold_reproved_from_hall": true
+  },
+  "theorem": {
+    "circuit_correspondence": "exact",
+    "maximum_expanded_left_degree": 3,
+    "name": "path-selector series expansion",
+    "uniform_degree_girth_scaling": true
+  }
+}

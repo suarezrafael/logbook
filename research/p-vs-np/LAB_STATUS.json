@@ -1,16 +1,17 @@
 {
-  "schema_version": 8,
+  "schema_version": 9,
   "updated": "2026-08-02",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V82",
-  "candidate_version": null,
-  "highest_directory": "V82",
-  "promotion_state": "promoted",
+  "candidate_version": "V83",
+  "highest_directory": "V83",
+  "promotion_state": "candidate",
   "completed_scope": "transversal-girth equivalence and literature-first degree-three complexity boundary",
+  "candidate_scope": "degree-three transversal-girth NP-completeness via exact path-selector series expansion",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V83",
-  "next_laboratory_focus": "left-degree-three transversal girth complexity",
+  "next_laboratory_focus": "degree-three transversal-girth hardness and exact circuit-preserving degree reduction",
   "ci_policy": {
     "draft_pull_request": ["quick", "latex"],
     "ready_pull_request": ["quick", "full", "latex"],
@@ -18,7 +19,7 @@
     "manual_dispatch": ["quick", "full", "latex"]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V82",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V83",
     "full": "cumulative historical verification and exact replays",
     "quick_expected_mutations": 0,
     "full_expected_mutations": 9
@@ -30,10 +31,10 @@
   },
   "scientific_status": {
     "minimum_neighborhood_hall_polynomial_time": null,
-    "minimum_neighborhood_hall_np_hard": null,
+    "minimum_neighborhood_hall_np_hard": true,
     "general_transversal_girth_np_hard": true,
     "degree_three_transversal_girth_polynomial_time": null,
-    "degree_three_transversal_girth_np_hard": null,
+    "degree_three_transversal_girth_np_hard": true,
     "p_vs_np_resolved": false,
     "p_vs_np_route_active": false,
     "direct_route_active": false,

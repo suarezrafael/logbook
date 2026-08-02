@@ -59,9 +59,17 @@ def main() -> None:
     assert status["scientific_status"][
         "degree_three_transversal_girth_polynomial_time"
     ] is None
-    assert status["scientific_status"][
-        "degree_three_transversal_girth_np_hard"
-    ] is None
+    degree_three_closed = version_number(promoted) >= 83 or (
+        candidate is not None and version_number(candidate) >= 83
+    )
+    if degree_three_closed:
+        assert status["scientific_status"][
+            "degree_three_transversal_girth_np_hard"
+        ] is True
+    else:
+        assert status["scientific_status"][
+            "degree_three_transversal_girth_np_hard"
+        ] is None
     assert status["scientific_status"]["p_vs_np_route_active"] is False
 
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")

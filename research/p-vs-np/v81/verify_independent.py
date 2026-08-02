@@ -95,7 +95,13 @@ def main() -> None:
         assert status["highest_directory"] == candidate
         assert status["promotion_state"] == "candidate"
     assert status["scientific_status"]["minimum_neighborhood_hall_polynomial_time"] is None
-    assert status["scientific_status"]["minimum_neighborhood_hall_np_hard"] is None
+    minimum_hall_closed = version_number(promoted) >= 83 or (
+        candidate is not None and version_number(candidate) >= 83
+    )
+    if minimum_hall_closed:
+        assert status["scientific_status"]["minimum_neighborhood_hall_np_hard"] is True
+    else:
+        assert status["scientific_status"]["minimum_neighborhood_hall_np_hard"] is None
     assert status["scientific_status"]["p_vs_np_resolved"] is False
 
     print(
