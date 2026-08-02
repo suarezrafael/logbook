@@ -1,0 +1,131 @@
+{
+  "laboratory": "V81",
+  "literature_audit": {
+    "apc1_priority": "deferred; V56 certificate only after a demonstrated blocker",
+    "exact_left_degree_three_target_obtained_from_located_sources": false,
+    "explicit_constant_degree_lossless_expanders_exist": true
+  },
+  "scientific_status": {
+    "all_orders_obstruction_proved": false,
+    "deterministic_FP_NP_target_solved": false,
+    "minimum_neighborhood_hall_np_hard": null,
+    "minimum_neighborhood_hall_polynomial_time": null,
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false,
+    "p_vs_np_route_active": false,
+    "peer_reviewed": false
+  },
+  "scope": "deficiency conservation, exact census, and Minimum p-Union boundary",
+  "structured_controls": {
+    "rank_one_concentrated": {
+      "balanced_low_width_census": {
+        "balanced_range": [5, 9],
+        "distinct_conservation_triples": [[0,0,5],[0,5,0],[1,0,4],[1,1,3],[1,2,2],[1,3,1],[1,4,0]],
+        "low_width_balanced_cut_count": 13442,
+        "maximum_observed_max_side_deficiency": 5,
+        "minimum_observed_max_side_deficiency": 2,
+        "theorem_guaranteed_deficiency": 2
+      },
+      "conservation_checks": 16384,
+      "lagrangian_supported_deficient_cardinalities": [6,7,8,9,10,11,12,13,14],
+      "lagrangian_supported_points": [
+        {"deficiency":0,"lambda_interval":[[0,1],[1,6]],"minimum_union":0,"p":0},
+        {"deficiency":5,"lambda_interval":[[1,6],[1,1]],"minimum_union":1,"p":6},
+        {"deficiency":5,"lambda_interval":[[1,1],[1,1]],"minimum_union":2,"p":7},
+        {"deficiency":5,"lambda_interval":[[1,1],[1,1]],"minimum_union":3,"p":8},
+        {"deficiency":5,"lambda_interval":[[1,1],[1,1]],"minimum_union":4,"p":9},
+        {"deficiency":5,"lambda_interval":[[1,1],[1,1]],"minimum_union":5,"p":10},
+        {"deficiency":5,"lambda_interval":[[1,1],[1,1]],"minimum_union":6,"p":11},
+        {"deficiency":5,"lambda_interval":[[1,1],[1,1]],"minimum_union":7,"p":12},
+        {"deficiency":5,"lambda_interval":[[1,1],[1,1]],"minimum_union":8,"p":13},
+        {"deficiency":5,"lambda_interval":[[1,1],null],"minimum_union":9,"p":14}
+      ],
+      "m":14,
+      "maximum_support_rank":1,
+      "minimum_neighborhood_hall":{"deficiency":1,"gate_count":2,"neighborhood_size":1,"witness_mask":3},
+      "minimum_neighborhood_witness_is_lagrangian_supported":false,
+      "minimum_union_curve":[0,1,1,1,1,1,1,2,3,4,5,6,7,8,9],
+      "minimum_union_witness_masks":[0,1,3,7,15,31,63,127,255,511,1023,2047,4095,8191,16383],
+      "n_active":9,
+      "name":"rank_one_concentrated",
+      "stretch":5,
+      "support_branchwidth":1
+    },
+    "rank_one_half_tight": {
+      "balanced_low_width_census": {
+        "balanced_range":[3,5],
+        "distinct_conservation_triples":[[0,2,2],[1,0,3],[1,1,2],[1,2,1],[1,3,0]],
+        "low_width_balanced_cut_count":56,
+        "maximum_observed_max_side_deficiency":3,
+        "minimum_observed_max_side_deficiency":2,
+        "theorem_guaranteed_deficiency":2
+      },
+      "conservation_checks":256,
+      "lagrangian_supported_deficient_cardinalities":[3,6,7,8],
+      "lagrangian_supported_points":[
+        {"deficiency":0,"lambda_interval":[[0,1],[1,3]],"minimum_union":0,"p":0},
+        {"deficiency":2,"lambda_interval":[[1,3],[1,3]],"minimum_union":1,"p":3},
+        {"deficiency":4,"lambda_interval":[[1,3],[1,1]],"minimum_union":2,"p":6},
+        {"deficiency":4,"lambda_interval":[[1,1],[1,1]],"minimum_union":3,"p":7},
+        {"deficiency":4,"lambda_interval":[[1,1],null],"minimum_union":4,"p":8}
+      ],
+      "m":8,
+      "maximum_support_rank":1,
+      "minimum_neighborhood_hall":{"deficiency":1,"gate_count":2,"neighborhood_size":1,"witness_mask":3},
+      "minimum_neighborhood_witness_is_lagrangian_supported":false,
+      "minimum_union_curve":[0,1,1,1,2,2,2,3,4],
+      "minimum_union_witness_masks":[0,1,3,7,15,55,119,127,255],
+      "n_active":4,
+      "name":"rank_one_half_tight",
+      "stretch":4,
+      "support_branchwidth":1
+    }
+  },
+  "theorems": {
+    "balanced_edge_witness": "Given a width-w branch decomposition, a balanced edge yields one side with deficiency at least ceil((stretch-w)/2).",
+    "deficiency_conservation": "delta(S)+delta(M\\S)=stretch-lambda_C(S) for every gate cut.",
+    "lagrangian_limitation": "Minimizing |N(S)|-lambda|S| exposes only supported points of the minimum-union curve and can miss the minimum-neighborhood Hall witness.",
+    "minimum_p_union_equivalence": "If U(p)=min_{|S|=p}|N(S)|, then the minimum Hall-neighborhood is min{U(p): U(p)<p}."
+  },
+  "v80_census": {
+    "eight_variables": {
+      "balanced_low_width_census":{"balanced_range":[4,8],"distinct_conservation_triples":[[4,-1,1],[4,1,-1],[5,-2,1],[5,-1,0],[5,0,-1],[5,1,-2]],"low_width_balanced_cut_count":72,"maximum_observed_max_side_deficiency":1,"minimum_observed_max_side_deficiency":0,"theorem_guaranteed_deficiency":0},
+      "conservation_checks":4096,
+      "lagrangian_supported_deficient_cardinalities":[12],
+      "lagrangian_supported_points":[{"deficiency":0,"lambda_interval":[[0,1],[2,3]],"minimum_union":0,"p":0},{"deficiency":4,"lambda_interval":[[2,3],null],"minimum_union":8,"p":12}],
+      "m":12,
+      "maximum_support_rank":3,
+      "minimum_neighborhood_hall":{"deficiency":1,"gate_count":8,"neighborhood_size":7,"witness_mask":891},
+      "minimum_neighborhood_witness_is_lagrangian_supported":false,
+      "minimum_union_curve":[0,3,4,4,5,6,6,7,7,7,8,8,8],
+      "minimum_union_witness_masks":[0,1,3,2568,337,213,469,379,891,2939,1023,2047,4095],
+      "n_active":8,"name":"eight_variables","stretch":4,"support_branchwidth":5
+    },
+    "nine_variables": {
+      "balanced_low_width_census":{"balanced_range":[5,9],"distinct_conservation_triples":[[5,-1,1],[5,1,-1],[6,-2,1],[6,-1,0],[6,0,-1],[6,1,-2]],"low_width_balanced_cut_count":128,"maximum_observed_max_side_deficiency":1,"minimum_observed_max_side_deficiency":0,"theorem_guaranteed_deficiency":0},
+      "conservation_checks":16384,
+      "lagrangian_supported_deficient_cardinalities":[14],
+      "lagrangian_supported_points":[{"deficiency":0,"lambda_interval":[[0,1],[9,14]],"minimum_union":0,"p":0},{"deficiency":5,"lambda_interval":[[9,14],null],"minimum_union":9,"p":14}],
+      "m":14,
+      "maximum_support_rank":3,
+      "minimum_neighborhood_hall":{"deficiency":1,"gate_count":9,"neighborhood_size":8,"witness_mask":1855},
+      "minimum_neighborhood_witness_is_lagrangian_supported":false,
+      "minimum_union_curve":[0,3,4,5,5,6,6,7,8,8,8,9,9,9,9],
+      "minimum_union_witness_masks":[0,1,3,35,1313,481,1505,1507,831,1855,4071,2047,4095,8191,16383],
+      "n_active":9,"name":"nine_variables","stretch":5,"support_branchwidth":6
+    },
+    "seven_variables": {
+      "balanced_low_width_census":{"balanced_range":[4,7],"distinct_conservation_triples":[[5,-2,1],[5,-1,0],[5,0,-1],[5,1,-2]],"low_width_balanced_cut_count":38,"maximum_observed_max_side_deficiency":1,"minimum_observed_max_side_deficiency":0,"theorem_guaranteed_deficiency":0},
+      "conservation_checks":2048,
+      "lagrangian_supported_deficient_cardinalities":[11],
+      "lagrangian_supported_points":[{"deficiency":0,"lambda_interval":[[0,1],[7,11]],"minimum_union":0,"p":0},{"deficiency":4,"lambda_interval":[[7,11],null],"minimum_union":7,"p":11}],
+      "m":11,
+      "maximum_support_rank":3,
+      "minimum_neighborhood_hall":{"deficiency":1,"gate_count":7,"neighborhood_size":6,"witness_mask":445},
+      "minimum_neighborhood_witness_is_lagrangian_supported":false,
+      "minimum_union_curve":[0,3,4,4,5,5,6,6,6,7,7,7],
+      "minimum_union_witness_masks":[0,1,9,400,169,1293,189,445,1469,511,1023,2047],
+      "n_active":7,"name":"seven_variables","stretch":4,"support_branchwidth":5
+    }
+  }
+}
