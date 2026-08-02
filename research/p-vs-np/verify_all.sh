@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -u -o pipefail
 
+# Cumulative verification is an audit, not a build step. Prevent Python imports
+# from creating __pycache__ directories or .pyc files inside the clean checkout.
+export PYTHONDONTWRITEBYTECODE=1
+
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODE="quick"
 
