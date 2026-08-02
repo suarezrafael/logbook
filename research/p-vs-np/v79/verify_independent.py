@@ -13,6 +13,8 @@ TARGETS = (
     ROOT / "v55" / "verify.py",
     ROOT / "v56" / "verify.py",
     ROOT / "v56" / "verify_independent.py",
+    ROOT / "v57" / "verify.py",
+    ROOT / "v57" / "verify_independent.py",
 )
 
 
@@ -46,16 +48,18 @@ def main() -> None:
         for line in (HERE / "EXPECTED_MUTATIONS.tsv").read_text(encoding="utf-8").splitlines()
         if line and not line.startswith("#")
     ]
-    assert len(baseline_lines) == len(set(baseline_lines)) == 16
+    assert len(baseline_lines) == len(set(baseline_lines)) == 13
     parsed = [tuple(line.split("\t")) for line in baseline_lines]
     assert all(len(entry) == 2 for entry in parsed)
-    assert Counter(kind for kind, _ in parsed) == Counter({"modified": 15, "created": 1})
-    assert ("created", "research/p-vs-np/v57/CERTIFICATES.json") in parsed
-    assert not any("v54/" in path or "v55/" in path or "v56/" in path for _, path in parsed)
+    assert Counter(kind for kind, _ in parsed) == Counter({"modified": 13})
+    assert not any(
+        any(f"v{version}/" in path for version in (54, 55, 56, 57))
+        for _, path in parsed
+    )
 
     print(
         "V79 independent verification passed: AST audit finds no file-writing calls "
-        "in the migrated V54-V56 verifiers and the 16-path reduced baseline is unique."
+        "in the migrated V54-V57 verifiers and the 13-path baseline is unique."
     )
 
 
