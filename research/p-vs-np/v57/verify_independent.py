@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independent V57 audit. Does not import v57_core."""
+"""Independent, read-only V57 audit. Does not import v57_core."""
 from __future__ import annotations
 
 import itertools
@@ -16,16 +16,20 @@ def transform(mask, perm, negs, outneg):
     for x in range(8):
         new = [(x >> i) & 1 for i in range(3)]
         old = [new[perm[i]] ^ negs[i] for i in range(3)]
-        idx = old[0] | (old[1] << 1) | (old[2] << 2)
-        out |= ((((mask >> idx) & 1) ^ outneg) << x)
+        index = old[0] | (old[1] << 1) | (old[2] << 2)
+        out |= ((((mask >> index) & 1) ^ outneg) << x)
     return out
 
 
 def orbit(mask):
-    return sorted({transform(mask, p, n, o)
-                   for p in itertools.permutations(range(3))
-                   for n in itertools.product((0, 1), repeat=3)
-                   for o in (0, 1)})
+    return sorted(
+        {
+            transform(mask, permutation, negations, output_negation)
+            for permutation in itertools.permutations(range(3))
+            for negations in itertools.product((0, 1), repeat=3)
+            for output_negation in (0, 1)
+        }
+    )
 
 
 def small_set(mask):
@@ -35,38 +39,41 @@ def small_set(mask):
 
 def redundant(sets, universe):
     result = []
-    for i, target in enumerate(sets):
+    for index, target in enumerate(sets):
         other = set(universe)
         for j, item in enumerate(sets):
-            if i != j:
+            if index != j:
                 other &= item
         if other <= target:
-            result.append(i)
+            result.append(index)
     return result
 
 
 def normalized_block(n, p, q, r, forbidden):
-    fq, fr = forbidden & 1, (forbidden >> 1) & 1
-    return frozenset(x for x in range(1 << n)
-                     if ((x >> p) & 1) == 0
-                     and not (((x >> q) & 1) == fq and ((x >> r) & 1) == fr))
+    forbidden_q, forbidden_r = forbidden & 1, (forbidden >> 1) & 1
+    return frozenset(
+        x
+        for x in range(1 << n)
+        if ((x >> p) & 1) == 0
+        and not (((x >> q) & 1) == forbidden_q and ((x >> r) & 1) == forbidden_r)
+    )
 
 
 def normalized_blocks(n):
     unique = {}
     for p in range(n):
-        for q, r in itertools.combinations([v for v in range(n) if v != p], 2):
+        for q, r in itertools.combinations([variable for variable in range(n) if variable != p], 2):
             for forbidden in (1, 2, 3):
                 unique[normalized_block(n, p, q, r, forbidden)] = (p, q, r, forbidden)
-    return [(desc, block) for block, desc in unique.items()]
+    return [(description, block) for block, description in unique.items()]
 
 
 def boundary_exists(image):
     m = len(next(iter(image)))
     for point in image:
-        for i in range(m):
+        for coordinate in range(m):
             neighbor = list(point)
-            neighbor[i] ^= 1
+            neighbor[coordinate] ^= 1
             if tuple(neighbor) not in image:
                 return True
     return False
@@ -92,26 +99,26 @@ def main():
 
     blocks = normalized_blocks(4)
     assert len(blocks) == 36
-    hist = Counter()
+    histogram = Counter()
     for family in itertools.combinations(blocks, 5):
         sets = [item[1] for item in family]
-        hist[len(redundant(sets, range(16)))] += 1
-    assert hist == Counter({0: 12, 1: 228, 2: 8088, 3: 87804, 4: 194712, 5: 86148})
+        histogram[len(redundant(sets, range(16)))] += 1
+    assert histogram == Counter({0: 12, 1: 228, 2: 8088, 3: 87804, 4: 194712, 5: 86148})
 
-    descriptions = [(0,1,2,1),(0,1,2,2),(0,1,3,1),(0,1,3,2),(0,2,3,3)]
-    sets = [normalized_block(4, *d) for d in descriptions]
+    descriptions = [(0, 1, 2, 1), (0, 1, 2, 2), (0, 1, 3, 1), (0, 1, 3, 2), (0, 2, 3, 3)]
+    sets = [normalized_block(4, *description) for description in descriptions]
     common = set(range(16))
     for item in sets:
         common &= item
     assert common == {0}
     assert redundant(sets, range(16)) == []
-    expected_witnesses = [10,4,6,8,14]
-    for i, witness in enumerate(expected_witnesses):
-        assert witness not in sets[i]
-        assert all(witness in sets[j] for j in range(5) if j != i)
+    expected_witnesses = [10, 4, 6, 8, 14]
+    for index, witness in enumerate(expected_witnesses):
+        assert witness not in sets[index]
+        assert all(witness in sets[j] for j in range(5) if j != index)
 
     boundary_checks = 0
-    for m in range(1,5):
+    for m in range(1, 5):
         cube = [tuple((x >> i) & 1 for i in range(m)) for x in range(1 << m)]
         for subset_mask in range(1, (1 << (1 << m)) - 1):
             image = {cube[i] for i in range(1 << m) if (subset_mask >> i) & 1}
@@ -121,23 +128,33 @@ def main():
 
     primary = json.loads((ROOT / "RESULTS.json").read_text(encoding="utf-8"))
     assert primary["validation"]["proper_cube_subsets_checked"] == boundary_checks
-    assert primary["validation"]["n4_normalized_families"]["consistent_irredundant_families"] == 12
+    assert primary["validation"]["n3_orbit_multisets"] == {
+        "multisets_checked": math.comb(51, 4),
+        "consistent_with_redundant_block": n3["redundant"],
+        "inconsistent": n3["inconsistent"],
+        "consistent_irredundant": n3["irredundant"],
+    }
+    assert primary["validation"]["n4_normalized_families"]["families_checked"] == math.comb(36, 5)
+    assert primary["validation"]["n4_normalized_families"]["consistent_irredundant_families"] == histogram[0]
 
-    independent = {
+    computed = {
         "status": "passed",
-        "n3_multisets": math.comb(51,4),
-        "n4_normalized_families": math.comb(36,5),
-        "n4_irredundant": hist[0],
+        "n3_multisets": math.comb(51, 4),
+        "n4_normalized_families": math.comb(36, 5),
+        "n4_irredundant": histogram[0],
         "boundary_subsets": boundary_checks,
         "explicit_gadget_witnesses": expected_witnesses,
         "failures": 0,
     }
-    (ROOT / "INDEPENDENT_RESULTS.json").write_text(json.dumps(independent, indent=2), encoding="utf-8")
+    committed = json.loads((ROOT / "INDEPENDENT_RESULTS.json").read_text(encoding="utf-8"))
+    assert committed == computed
+
     print("V57 independent verification passed:")
     print("  249900 n=3 orbit multisets independently rebuilt;")
     print("  376992 normalized n=4 families independently rebuilt; 12 irredundant;")
     print("  explicit five-block gadget and witnesses reconstructed;")
-    print(f"  {boundary_checks} proper cube subsets checked; zero failures.")
+    print(f"  {boundary_checks} proper cube subsets checked;")
+    print("  committed independent evidence matches without rewriting; zero failures.")
 
 
 if __name__ == "__main__":
