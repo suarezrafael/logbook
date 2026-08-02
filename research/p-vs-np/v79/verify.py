@@ -26,19 +26,12 @@ def main() -> None:
         kind, path = line.split("\t")
         baseline.append((kind, path))
 
-    assert len(baseline) == 13
-    assert Counter(kind for kind, _ in baseline) == Counter({"modified": 13})
-    forbidden = {
-        "research/p-vs-np/v54/VERIFY_RESULTS.json",
-        "research/p-vs-np/v55/RESULTS.json",
-        "research/p-vs-np/v55/CLASSIFICATION.json",
-        "research/p-vs-np/v56/REPO_VALIDATION_RESULTS.json",
-        "research/p-vs-np/v56/REPO_INDEPENDENT_RESULTS.json",
-        "research/p-vs-np/v57/CERTIFICATES.json",
-        "research/p-vs-np/v57/RESULTS.json",
-        "research/p-vs-np/v57/INDEPENDENT_RESULTS.json",
-    }
-    assert forbidden.isdisjoint(path for _, path in baseline)
+    assert len(baseline) == 9
+    assert Counter(kind for kind, _ in baseline) == Counter({"modified": 9})
+    assert not any(
+        any(f"v{version}/" in path for version in (54, 55, 56, 57, 58, 59))
+        for _, path in baseline
+    )
 
     sandbox = (ROOT / "run_verification_in_sandbox.sh").read_text(encoding="utf-8")
     for token in (
@@ -56,6 +49,10 @@ def main() -> None:
         ROOT / "v56" / "verify_independent.py",
         ROOT / "v57" / "verify.py",
         ROOT / "v57" / "verify_independent.py",
+        ROOT / "v58" / "verify.py",
+        ROOT / "v58" / "verify_independent.py",
+        ROOT / "v59" / "verify.py",
+        ROOT / "v59" / "verify_independent.py",
     ]
     for path in verifier_paths:
         source = path.read_text(encoding="utf-8")
@@ -63,17 +60,12 @@ def main() -> None:
         assert "elapsed_seconds" not in source, path
         assert "time.perf_counter" not in source, path
 
-    for path in (
-        ROOT / "v55" / "verify.py",
-        ROOT / "v56" / "verify.py",
-        ROOT / "v57" / "verify.py",
-        ROOT / "v57" / "verify_independent.py",
-    ):
+    for path in verifier_paths[1:]:
         assert "RESULTS.json" in path.read_text(encoding="utf-8"), path
 
     print(
-        "V79 primary verification passed: V54-V57 are read-only, the legacy "
-        "mutation baseline is reduced to 13 modified paths, and regressions are blocking."
+        "V79 primary verification passed: V54-V59 are read-only, the legacy "
+        "mutation baseline is reduced to nine modified paths, and regressions are blocking."
     )
 
 
