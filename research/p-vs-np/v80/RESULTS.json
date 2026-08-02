@@ -1,0 +1,94 @@
+{
+  "algorithmic_boundary": {
+    "arbitrary_hall_witness_gives_randomized_expected_polynomial_with_NP_oracle": true,
+    "counting_alone_implies_deterministic_FP_NP": false,
+    "global_hall_deficiency_is_automatic_when_m_gt_n": true,
+    "small_neighborhood_enumeration_is_deterministic_polynomial": true
+  },
+  "examples": {
+    "eight_variables": {
+      "balanced_cuts_with_both_sides_hall_expanding": 3458,
+      "balanced_deficient_subset_count": 20,
+      "balanced_range": [4, 8],
+      "cut_identity_checks": 4094,
+      "m": 12,
+      "matching_hall_neighborhood_size": 8,
+      "matching_hall_witness_gate_count": 12,
+      "minimum_hall_deficient_gate_count": 8,
+      "minimum_hall_neighborhood_size": 7,
+      "minimum_lambda_among_both_expanding_balanced_cuts": 5,
+      "n": 8,
+      "name": "eight_variables",
+      "one_minimum_hall_witness": [0, 1, 3, 4, 5, 6, 8, 9],
+      "search_seed": 131,
+      "search_trials": 1000,
+      "stretch": 4,
+      "support_branchwidth": 5,
+      "supports": [[0,1,3],[0,1,4],[1,2,6],[2,4,7],[2,3,5],[0,3,7],[0,3,5],[1,3,6],[1,2,5],[0,2,4],[2,6,7],[0,4,7]]
+    },
+    "nine_variables": {
+      "balanced_cuts_with_both_sides_hall_expanding": 13354,
+      "balanced_deficient_subset_count": 44,
+      "balanced_range": [5, 9],
+      "cut_identity_checks": 16382,
+      "m": 14,
+      "matching_hall_neighborhood_size": 9,
+      "matching_hall_witness_gate_count": 14,
+      "minimum_hall_deficient_gate_count": 9,
+      "minimum_hall_neighborhood_size": 8,
+      "minimum_lambda_among_both_expanding_balanced_cuts": 6,
+      "n": 9,
+      "name": "nine_variables",
+      "one_minimum_hall_witness": [0, 1, 2, 3, 4, 5, 8, 9, 10],
+      "search_seed": 132,
+      "search_trials": 1000,
+      "stretch": 5,
+      "support_branchwidth": 6,
+      "supports": [[2,3,7],[2,5,7],[4,5,8],[0,3,6],[0,5,8],[3,4,7],[1,2,6],[1,2,4],[2,6,7],[5,7,8],[3,4,6],[1,4,8],[0,1,5],[0,5,6]]
+    },
+    "seven_variables": {
+      "balanced_cuts_with_both_sides_hall_expanding": 1566,
+      "balanced_deficient_subset_count": 9,
+      "balanced_range": [4, 7],
+      "cut_identity_checks": 2046,
+      "m": 11,
+      "matching_hall_neighborhood_size": 7,
+      "matching_hall_witness_gate_count": 11,
+      "minimum_hall_deficient_gate_count": 7,
+      "minimum_hall_neighborhood_size": 6,
+      "minimum_lambda_among_both_expanding_balanced_cuts": 5,
+      "n": 7,
+      "name": "seven_variables",
+      "one_minimum_hall_witness": [0, 2, 3, 4, 5, 7, 8],
+      "search_seed": 130,
+      "search_trials": 1000,
+      "stretch": 4,
+      "support_branchwidth": 5,
+      "supports": [[0,5,6],[1,3,6],[0,2,4],[0,4,6],[2,3,5],[0,3,6],[0,1,2],[3,4,5],[2,4,5],[1,5,6],[2,4,6]]
+    }
+  },
+  "laboratory": "V80",
+  "probabilistic_barrier": {
+    "bad_event_geometric_base": [1, 8],
+    "bad_event_sum_upper_bound": [8, 49],
+    "conclusion": "For all sufficiently large n, a rank-at-most-three support family exists with no Hall-deficient gate set of size at most n/(16e^2).",
+    "local_expansion_constant": "1/(16e^2)",
+    "support_rank": 3,
+    "target_stretch": "m=n+ceil(n^(2/3))"
+  },
+  "scientific_status": {
+    "deterministic_FP_NP_target_solved": false,
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false,
+    "p_vs_np_route_active": false,
+    "peer_reviewed": false,
+    "unrestricted_NC0_3_avoid_solved": false
+  },
+  "scope": "high-width Hall/branchwidth dichotomy audit",
+  "theorems": {
+    "balanced_cut_inequality": "lambda(S)=|N(S)|+|N(M\\S)|-|N(M)|; if both sides Hall-expand, lambda(S)>=m-|N(M)|.",
+    "hall_projection": "A Hall-deficient gate set proves an avoided projection exists; deterministic construction is polynomial when its neighborhood is O(log n).",
+    "local_expansion_barrier": "For all sufficiently large n, a rank-at-most-three support family exists with no Hall-deficient gate set of size at most n/(16e^2).",
+    "randomized_np_oracle": "For deficiency d>=1, uniform projection sampling plus an NP range-membership query succeeds with probability at least 1-2^{-d} per trial."
+  }
+}

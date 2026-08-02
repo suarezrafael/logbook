@@ -9,21 +9,21 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
-
 MIGRATED = (
-    ROOT / "v54" / "verify.py",
-    ROOT / "v55" / "verify.py",
-    ROOT / "v56" / "verify.py",
-    ROOT / "v56" / "verify_independent.py",
-    ROOT / "v57" / "verify.py",
-    ROOT / "v57" / "verify_independent.py",
-    ROOT / "v58" / "verify.py",
-    ROOT / "v58" / "verify_independent.py",
-    ROOT / "v58" / "verify_exact.py",
-    ROOT / "v59" / "verify.py",
+    ROOT / "v54" / "verify.py", ROOT / "v55" / "verify.py",
+    ROOT / "v56" / "verify.py", ROOT / "v56" / "verify_independent.py",
+    ROOT / "v57" / "verify.py", ROOT / "v57" / "verify_independent.py",
+    ROOT / "v58" / "verify.py", ROOT / "v58" / "verify_independent.py",
+    ROOT / "v58" / "verify_exact.py", ROOT / "v59" / "verify.py",
     ROOT / "v59" / "verify_independent.py",
 )
 WRITE_FLAGS = ("w", "a", "x", "+")
+BASE_FOCUSED = ("V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79")
+
+
+def version_number(value: str) -> int:
+    assert value.startswith("V") and value[1:].isdigit()
+    return int(value[1:])
 
 
 def string_argument(node: ast.Call, positional_index: int, keyword: str) -> str | None:
@@ -43,7 +43,6 @@ def writing_calls(path: Path) -> list[str]:
     for node in ast.walk(tree):
         if not isinstance(node, ast.Call):
             continue
-
         if isinstance(node.func, ast.Attribute):
             if node.func.attr in {"write_text", "write_bytes", "dump"}:
                 findings.append(node.func.attr)
@@ -51,24 +50,26 @@ def writing_calls(path: Path) -> list[str]:
                 mode = string_argument(node, 0, "mode")
                 if mode is not None and any(flag in mode for flag in WRITE_FLAGS):
                     findings.append(f"Path.open:{mode}")
-
         if isinstance(node.func, ast.Name) and node.func.id == "open":
             mode = string_argument(node, 1, "mode")
             if mode is not None and any(flag in mode for flag in WRITE_FLAGS):
                 findings.append(f"open:{mode}")
-
     return findings
 
 
 def main() -> None:
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V79"
-    assert status.get("candidate_version") is None
-    assert status["highest_directory"] == "V79"
-    assert status["promotion_state"] == "promoted"
+    promoted = version_number(status["promoted_version"])
+    candidate = status.get("candidate_version")
+    assert promoted >= 79
+    if candidate is not None:
+        assert version_number(candidate) == promoted + 1
+        assert status["highest_directory"] == candidate
+        assert status["promotion_state"] == "candidate"
+    else:
+        assert status["highest_directory"] == status["promoted_version"]
+        assert status["promotion_state"] == "promoted"
     assert status["infrastructure_frozen"] is True
-    assert status["next_laboratory_version"] == "V80"
-    assert status["next_laboratory_focus"] == "mathematical research"
 
     baseline = []
     for line in (HERE / "EXPECTED_MUTATIONS.tsv").read_text(encoding="utf-8").splitlines():
@@ -77,7 +78,6 @@ def main() -> None:
             continue
         kind, path = line.split("\t")
         baseline.append((kind, path))
-
     assert len(baseline) == 9
     assert Counter(kind for kind, _ in baseline) == Counter({"modified": 9})
     assert not any(
@@ -87,12 +87,9 @@ def main() -> None:
 
     assert all(path.is_file() for path in MIGRATED)
     for path in MIGRATED:
-        findings = writing_calls(path)
-        assert findings == [], (path, findings)
+        assert writing_calls(path) == []
 
-    workflow = (ROOT.parent.parent / ".github" / "workflows" / "p-vs-np-verify.yml").read_text(
-        encoding="utf-8"
-    )
+    workflow = (ROOT.parent.parent / ".github" / "workflows" / "p-vs-np-verify.yml").read_text(encoding="utf-8")
     assert "branches:\n      - main" in workflow
     assert "github.event.pull_request.draft == false" in workflow
     assert "types: [opened, synchronize, reopened, ready_for_review]" in workflow
@@ -101,20 +98,21 @@ def main() -> None:
     focused_match = re.search(r"FOCUSED_VERSIONS=\(([^)]*)\)", runner)
     assert focused_match
     focused = tuple(focused_match.group(1).split())
-    assert focused == ("V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79")
+    assert focused[: len(BASE_FOCUSED)] == BASE_FOCUSED
+    if candidate is not None:
+        assert candidate in focused
     entries = re.findall(r'"(V\d+)\|([^|]+)\|([^|]+)\|([^|]+)\|', runner)
     quick = [entry for entry in entries if entry[0] in focused and entry[3] == "quick"]
     full = [entry for entry in entries if entry[3] in {"quick", "full"}]
-    assert len(quick) == 18
-    assert len(full) == 63
+    assert len(quick) >= 18
+    assert len(full) >= 63
 
     sandbox = (ROOT / "run_verification_in_sandbox.sh").read_text(encoding="utf-8")
     assert 'expected = load_full_baseline(baseline_path) if mode == "full" else set()' in sandbox
 
     print(
-        "V79 primary verification passed: V54-V59 including the V58 exact verifier "
-        "are read-only; focused and promotion CI are separated; V79 is promoted; "
-        "the infrastructure phase is frozen."
+        "V79 primary verification passed: immutable evidence and focused/promotion CI "
+        "remain installed after later mathematical candidates; infrastructure stays frozen."
     )
 
 
