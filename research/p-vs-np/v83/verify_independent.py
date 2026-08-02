@@ -10,6 +10,11 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 
 
+def version_number(value: str) -> int:
+    assert value.startswith("V") and value[1:].isdigit()
+    return int(value[1:])
+
+
 def maximum_matching_rank(supports: list[set[int]], mask: int) -> int:
     matched: dict[int, int] = {}
 
@@ -137,8 +142,19 @@ def main() -> None:
     assert committed["complexity_conclusion"]["novelty_confirmed"] is False
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["candidate_version"] == "V83"
-    assert status["promotion_state"] == "candidate"
+    promoted = status["promoted_version"]
+    candidate = status.get("candidate_version")
+    assert version_number(promoted) >= 82
+    if candidate is None:
+        assert status["highest_directory"] == promoted
+        assert status["promotion_state"] == "promoted"
+        reached = version_number(promoted)
+    else:
+        assert version_number(candidate) == version_number(promoted) + 1
+        assert status["highest_directory"] == candidate
+        assert status["promotion_state"] == "candidate"
+        reached = version_number(candidate)
+    assert reached >= 83
     assert status["scientific_status"][
         "degree_three_transversal_girth_np_hard"
     ] is True
@@ -147,7 +163,7 @@ def main() -> None:
     print(
         "V83 independent verification passed: private-chain minimality, "
         "1,088 Clique presentations, and the degree-three threshold arithmetic "
-        "were independently checked."
+        "remain independently preserved."
     )
 
 
