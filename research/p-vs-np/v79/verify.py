@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+from collections import Counter
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -25,8 +26,9 @@ def main() -> None:
         kind, path = line.split("\t")
         baseline.append((kind, path))
 
-    assert len(baseline) == 15
-    assert all(kind == "modified" for kind, _ in baseline)
+    assert len(baseline) == 16
+    assert Counter(kind for kind, _ in baseline) == Counter({"modified": 15, "created": 1})
+    assert ("created", "research/p-vs-np/v57/CERTIFICATES.json") in baseline
     forbidden = {
         "research/p-vs-np/v54/VERIFY_RESULTS.json",
         "research/p-vs-np/v55/RESULTS.json",
@@ -64,7 +66,8 @@ def main() -> None:
 
     print(
         "V79 primary verification passed: V54-V56 are read-only, the legacy "
-        "mutation baseline is reduced to 15 modified paths, and regressions are blocking."
+        "mutation baseline is reduced to 15 modified plus one created path, "
+        "and regressions are blocking."
     )
 
 
