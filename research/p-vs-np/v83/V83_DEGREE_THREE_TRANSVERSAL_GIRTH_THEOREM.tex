@@ -1,0 +1,125 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\N}{\mathcal N}
+\newcommand{\C}{\mathcal C}
+\title{Degree-Three Transversal Girth Hardness}
+\author{NC0\_k-Avoid Laboratory V83}
+\date{2026-08-02}
+\begin{document}
+\maketitle
+
+\paragraph{Problem.}
+A bipartite graph $B=(M,X;E)$ presents a transversal matroid on $M$.
+The problem $\mathrm{D3\text{-}TRANSVERSAL\text{-}GIRTH}$ asks, under the
+promise $|N_B(e)|\leq 3$ for every $e\in M$, whether the presented matroid has
+a circuit of size at most a supplied threshold $L$.
+
+\section{Path-selector series expansion}
+For $e\in M$ order $N_B(e)=(x_{e,1},\ldots,x_{e,d_e})$.  Replace $e$ by
+$C_e=\{e_1,\ldots,e_{d_e}\}$, introduce private right vertices
+$P_e=\{p_{e,1},\ldots,p_{e,d_e-1}\}$, and put
+\[
+ N_{B'}(e_i)=\{x_{e,i}\}\cup
+ \bigl(\{p_{e,i-1}\}:i>1\bigr)\cup
+ \bigl(\{p_{e,i}\}:i<d_e\bigr).
+\]
+A source loop is retained as one loop.
+
+\begin{lemma}[Private-chain matching]
+Every proper subset of $C_e$ is matchable into $P_e$.
+\end{lemma}
+\begin{proof}
+Choose a missing index $j$. Match $e_i$ to $p_{e,i}$ for $i<j$ and $e_i$ to
+$p_{e,i-1}$ for $i>j$, then restrict this matching to the desired subset.
+\end{proof}
+
+\begin{lemma}[Complete-chain equivalence]
+For every $A\subseteq M$, the set $A$ is matchable in $B$ if and only if
+$C(A)=\bigcup_{e\in A}C_e$ is matchable in $B'$.
+\end{lemma}
+\begin{proof}
+A source matching edge $e x_{e,j}$ is lifted by matching $e_j$ externally and
+the remaining chain copies privately. Conversely, $C_e$ has $d_e$ left
+vertices and only $d_e-1$ private right vertices, so every matching saturating
+$C(A)$ uses at least one external neighbor for each chain. Selecting one such
+edge per chain gives a matching of $A$ because the external vertices are
+distinct.
+\end{proof}
+
+\begin{theorem}[Exact circuit correspondence]
+The circuits of $B'$ are exactly
+\[
+ \left\{\bigcup_{e\in Q}C_e:Q\text{ is a circuit of }B\right\}.
+\]
+Hence the girth of $B'$ is the minimum source-circuit weight for
+$w(e)=d_e$. If all $d_e=D$, then
+\[
+ \operatorname{girth}(T(B'))=D\operatorname{girth}(T(B)).
+\]
+Moreover, the maximum left degree of $B'$ is at most three.
+\end{theorem}
+\begin{proof}
+A circuit of $B'$ cannot meet a chain in a nonempty proper subset: that part
+has a private matching, so deleting it would leave a dependent proper subset,
+contradicting minimality. Thus every circuit is a union of complete chains.
+Complete-chain dependence and minimality are then equivalent to source
+dependence and minimality by the preceding lemma. The girth statements follow.
+\end{proof}
+
+\section{Clique reduction}
+The author-hosted final-version manuscript of the source theorem displays the
+arithmetically inconsistent identity
+$\ell={k\choose2}-k-1={k-1\choose2}$.  We do not use that identity.  Instead
+we rederive the reservoir size required by Hall deficiency.
+
+For a Clique instance $(G,k)$ with $k\geq4$, let
+\[
+ q={k\choose2},\qquad r=q-k-1,\qquad D=r+2=q-k+1.
+\]
+The source presentation has one left element for each edge $uv$ of $G$, right
+side $V(G)\cup Z$ with $|Z|=r$, and neighborhood $\{u,v\}\cup Z$.
+
+\begin{lemma}[Colbourn--Elmallah threshold]
+Every edge set of size less than $q$ is matchable. An edge set of size $q$ is a
+circuit if and only if it is the edge set of a $k$-clique.
+\end{lemma}
+\begin{proof}
+For an edge set $H$ of size $t<q$ incident with $v$ graph vertices, Hall's
+condition is $t-v\leq r$. If $v\geq k$, then
+$t-v\leq(q-1)-k=r$. If $v\leq k-1$, simplicity gives
+\[
+ t-v\leq {v\choose2}-v\leq {k-1\choose2}-(k-1)\leq r.
+\]
+A $k$-clique has neighborhood size $r+k=q-1$ and is therefore a circuit.
+Any other $q$-edge set uses at least $k+1$ graph vertices; its full
+neighborhood has size at least $q$, while all proper subsets already satisfy
+Hall's condition.
+\end{proof}
+
+\begin{theorem}[Degree-three transversal girth]
+$\mathrm{D3\text{-}TRANSVERSAL\text{-}GIRTH}$ is NP-complete.
+\end{theorem}
+\begin{proof}
+The problem belongs to NP because a dependent set of size at most $L$ is
+verified by maximum matching. Apply the path-selector expansion to the
+left-regular Clique presentation. Its maximum left degree becomes three and
+its girth is multiplied by $D$. Consequently,
+\[
+ G\text{ has a }k\text{-clique}
+ \quad\Longleftrightarrow\quad
+ \operatorname{girth}(T(B'))\leq qD.
+\]
+The construction and threshold are polynomially bounded.
+\end{proof}
+
+\paragraph{Status boundary.}
+The Clique template is from Colbourn and Elmallah, \emph{Discrete
+Mathematics} 114 (1993), 115--129. The degree-reduction proof is internally
+verified in V83. Novelty and peer-review status are not claimed. This theorem
+does not resolve P versus NP or establish Boolean circuit lower bounds.
+
+\end{document}
