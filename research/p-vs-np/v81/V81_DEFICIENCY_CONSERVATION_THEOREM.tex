@@ -1,0 +1,115 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+
+\title{Laboratory V81: Deficiency Conservation and the Minimum Union Boundary}
+\author{NC0\_k-Avoid Laboratory}
+\date{August 2026}
+
+\begin{document}
+\maketitle
+
+Let $M$ be the output gates, let $X=N(M)$ be the active input variables, and
+write $\sigma=|M|-|X|$.  For $S\subseteq M$, define
+\[
+ \delta(S)=|S|-|N(S)|
+ \quad\text{and}\quad
+ \lambda_C(S)=|N(S)\cap N(M\setminus S)|.
+\]
+
+\begin{theorem}[Deficiency conservation]
+For every $S\subseteq M$,
+\[
+ \delta(S)+\delta(M\setminus S)=\sigma-\lambda_C(S).
+\]
+\end{theorem}
+
+\begin{proof}
+Inclusion--exclusion gives
+\[
+ |N(S)|+|N(M\setminus S)|=|X|+\lambda_C(S).
+\]
+Subtracting this equality from $|S|+|M\setminus S|=|M|$ proves the claim.
+\end{proof}
+
+\begin{lemma}[Balanced edge]
+Every unrooted subcubic tree with $m\geq2$ labelled leaves has an edge whose
+two leaf sides have sizes between $\lceil m/3\rceil$ and
+$\lfloor2m/3\rfloor$.
+\end{lemma}
+
+\begin{proof}
+Orient an edge toward a side containing more than $2m/3$ leaves whenever such
+a side exists.  At a vertex with no outgoing incident edge, every incident
+component has at most $2m/3$ leaves.  At most three components meet there and
+their sizes sum to $m$, so one has at least $m/3$ leaves.  Its incident edge
+has the required balance.
+\end{proof}
+
+\begin{theorem}[Width--deficiency tradeoff]
+Given a support branch decomposition of width at most $w$, one can find in
+polynomial time a balanced gate set $S$ satisfying
+\[
+ \delta(S)\geq \left\lceil\frac{\sigma-w}{2}\right\rceil.
+\]
+When the right-hand side is nonpositive the assertion is only a numerical
+bound, not a Hall-deficiency claim.
+\end{theorem}
+
+\begin{proof}
+Scan the decomposition edges and choose the balanced edge from the lemma.
+Its displayed cut has $\lambda_C(S)\leq w$.  Conservation yields
+\[
+ \delta(S)+\delta(M\setminus S)\geq\sigma-w.
+\]
+One of the two integral deficiencies is at least the ceiling of half this
+quantity; output that side.
+\end{proof}
+
+For $0\leq p\leq |M|$, define
+\[
+ U(p)=\min\{|N(S)|:S\subseteq M,\ |S|=p\}.
+\]
+
+\begin{proposition}[Minimum union equivalence]
+The minimum neighborhood size of a Hall-deficient set equals
+\[
+ \min\{U(p):U(p)<p\}.
+\]
+\end{proposition}
+
+\begin{proof}
+Every deficient set of cardinality $p$ witnesses $U(p)<p$.  Conversely, a
+set attaining any $U(p)<p$ is Hall deficient.
+\end{proof}
+
+\begin{remark}[Lagrangian limitation]
+For fixed rational $\alpha\geq0$, the function
+$|N(S)|-\alpha|S|$ is submodular and can be minimized as a minimum-weight
+closure problem.  Varying $\alpha$ exposes only supported points of the lower
+curve $(p,U(p))$.  Exact V81 enumeration shows that the minimum-neighborhood
+Hall points of all three V80 families are unsupported; in each case the only
+supported deficient point is the full gate set.  Thus the Lagrangian scan is
+not a complete algorithm for the constrained problem.
+\end{remark}
+
+\begin{remark}[Scope]
+The theorem does not derandomize Range Avoidance, solve Minimum $p$-Union,
+prove an all-orders lower bound, activate a direct route to P versus NP, or
+resolve P versus NP.  Novelty and peer review are not claimed.
+\end{remark}
+
+\paragraph{References.}
+E.~Chlamtac, M.~Dinitz, C.~Konrad, G.~Kortsarz, and G.~Rabanca,
+\emph{The Densest $k$-Subhypergraph Problem}, arXiv:1605.04284.
+E.~Chlamtac, M.~Dinitz, and Y.~Makarychev,
+\emph{Minimizing the Union: Tight Approximations for Small Set Bipartite
+Vertex Expansion}, arXiv:1611.07866.
+
+\end{document}
