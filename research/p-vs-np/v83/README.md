@@ -28,19 +28,21 @@ The proof has two components.
    It has no circuit shorter than `q=binom(k,2)`, and its circuits of size `q`
    correspond exactly to the `k`-cliques of the source graph.
 
-2. A path-selector series expansion replaces a left element with ordered
+2. A path-selector series expansion replaces a nonloop left element with ordered
    neighborhood `(x_1,...,x_D)` by a chain of `D` left elements and `D-1`
-   private right vertices. Every new left degree is at most three. The circuits
-   of the expanded presentation are exactly the unions of whole chains coming
-   from circuits of the source presentation.
+   private right vertices. A source loop is retained as a one-element loop.
+   Every new left degree is at most three. The circuits of the expanded
+   presentation are exactly the unions of whole chains coming from circuits of
+   the source presentation.
 
-Because the Colbourn–Elmallah presentation is left-regular, every circuit size
-is multiplied by the same factor `D`. Therefore Clique has a `k`-clique if and
-only if the degree-three expanded presentation has girth at most `qD`.
+Because the Colbourn–Elmallah presentation is left-regular and loopless, every
+circuit size is multiplied by the same factor `D`. Therefore Clique has a
+`k`-clique if and only if the degree-three expanded presentation has girth at
+most `qD`.
 
 ## Exact circuit-correspondence theorem
 
-For each source element `e` with ordered neighborhood
+For each nonloop source element `e` with ordered neighborhood
 `(x_{e,1},...,x_{e,d_e})`, create chain elements
 `e_1,...,e_{d_e}` and private right vertices
 `p_{e,1},...,p_{e,d_e-1}` with
@@ -50,15 +52,17 @@ N'(e_i) = {x_{e,i}} union {p_{e,i-1} if i>1}
                     union {p_{e,i} if i<d_e}.
 ```
 
-Every proper subset of a chain matches entirely to its private vertices. A
-union of complete chains is matchable after expansion exactly when the
+Every proper subset of a nonloop chain matches entirely to its private vertices.
+A union of complete chains is matchable after expansion exactly when the
 corresponding source elements are matchable. Consequently:
 
 ```text
 circuits(B') = { union_{e in C} chain(e) : C is a circuit of B }.
 ```
 
-For uniform source degree `D`,
+In general the expanded girth is the minimum source-circuit weight for
+`w(e)=max(1,d_e)`, where the `1` handles loops. For uniform positive source
+degree `D`,
 
 ```text
 girth(T(B')) = D * girth(T(B)).
