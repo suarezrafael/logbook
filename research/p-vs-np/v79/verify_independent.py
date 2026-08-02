@@ -25,6 +25,18 @@ TARGETS = tuple(
         ("v59", "verify_independent.py"),
     )
 )
+WRITE_FLAGS = ("w", "a", "x", "+")
+
+
+def string_argument(node: ast.Call, positional_index: int, keyword: str) -> str | None:
+    value: ast.expr | None = None
+    if len(node.args) > positional_index:
+        value = node.args[positional_index]
+    else:
+        value = next((item.value for item in node.keywords if item.arg == keyword), None)
+    if isinstance(value, ast.Constant) and isinstance(value.value, str):
+        return value.value
+    return None
 
 
 def writing_calls(path: Path) -> list[str]:
@@ -33,25 +45,28 @@ def writing_calls(path: Path) -> list[str]:
     for node in ast.walk(tree):
         if not isinstance(node, ast.Call):
             continue
-        if isinstance(node.func, ast.Attribute) and node.func.attr in {
-            "write_text",
-            "write_bytes",
-            "dump",
-        }:
-            findings.append(node.func.attr)
+
+        if isinstance(node.func, ast.Attribute):
+            if node.func.attr in {"write_text", "write_bytes", "dump"}:
+                findings.append(node.func.attr)
+            elif node.func.attr == "open":
+                mode = string_argument(node, 0, "mode")
+                if mode is not None and any(flag in mode for flag in WRITE_FLAGS):
+                    findings.append(f"Path.open:{mode}")
+
         if isinstance(node.func, ast.Name) and node.func.id == "open":
-            mode_args = node.args[1:2]
-            if mode_args and isinstance(mode_args[0], ast.Constant):
-                mode = mode_args[0].value
-                if isinstance(mode, str) and any(flag in mode for flag in ("w", "a", "x", "+")):
-                    findings.append(f"open:{mode}")
+            mode = string_argument(node, 1, "mode")
+            if mode is not None and any(flag in mode for flag in WRITE_FLAGS):
+                findings.append(f"open:{mode}")
+
     return findings
 
 
 def main() -> None:
     assert all(path.is_file() for path in TARGETS)
     for path in TARGETS:
-        assert writing_calls(path) == [], (path, writing_calls(path))
+        findings = writing_calls(path)
+        assert findings == [], (path, findings)
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
     assert status["verification_policy"]["quick_expected_mutations"] == 0

@@ -23,6 +23,18 @@ MIGRATED = (
     ROOT / "v59" / "verify.py",
     ROOT / "v59" / "verify_independent.py",
 )
+WRITE_FLAGS = ("w", "a", "x", "+")
+
+
+def string_argument(node: ast.Call, positional_index: int, keyword: str) -> str | None:
+    value: ast.expr | None = None
+    if len(node.args) > positional_index:
+        value = node.args[positional_index]
+    else:
+        value = next((item.value for item in node.keywords if item.arg == keyword), None)
+    if isinstance(value, ast.Constant) and isinstance(value.value, str):
+        return value.value
+    return None
 
 
 def writing_calls(path: Path) -> list[str]:
@@ -31,17 +43,20 @@ def writing_calls(path: Path) -> list[str]:
     for node in ast.walk(tree):
         if not isinstance(node, ast.Call):
             continue
-        if isinstance(node.func, ast.Attribute) and node.func.attr in {
-            "write_text",
-            "write_bytes",
-            "dump",
-        }:
-            findings.append(node.func.attr)
+
+        if isinstance(node.func, ast.Attribute):
+            if node.func.attr in {"write_text", "write_bytes", "dump"}:
+                findings.append(node.func.attr)
+            elif node.func.attr == "open":
+                mode = string_argument(node, 0, "mode")
+                if mode is not None and any(flag in mode for flag in WRITE_FLAGS):
+                    findings.append(f"Path.open:{mode}")
+
         if isinstance(node.func, ast.Name) and node.func.id == "open":
-            for arg in node.args[1:2]:
-                if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
-                    if any(mode in arg.value for mode in ("w", "a", "x", "+")):
-                        findings.append(f"open:{arg.value}")
+            mode = string_argument(node, 1, "mode")
+            if mode is not None and any(flag in mode for flag in WRITE_FLAGS):
+                findings.append(f"open:{mode}")
+
     return findings
 
 
@@ -69,7 +84,8 @@ def main() -> None:
 
     assert all(path.is_file() for path in MIGRATED)
     for path in MIGRATED:
-        assert writing_calls(path) == [], (path, writing_calls(path))
+        findings = writing_calls(path)
+        assert findings == [], (path, findings)
 
     workflow = (ROOT.parent.parent / ".github" / "workflows" / "p-vs-np-verify.yml").read_text(
         encoding="utf-8"
