@@ -18,6 +18,24 @@ concurrency:
 permissions:
   contents: read
 
+# Historical verifier compatibility index. The executable source of truth is
+# LATEX_MODULES.tsv; these names remain here so older repository-surface audits
+# can confirm that their formal modules are still part of the CI contract.
+# V57_BLOCK_IRREDUNDANCY_THEOREM.tex
+# V56_AFFINE_FIBER_THEOREM.tex
+# V68_SPINE_TREE_DAG_THEOREM.tex
+# V69_ORDER_ROBUSTNESS_THEOREM.tex
+# V70_SUPPORT_FRONTIER_THEOREM.tex
+# V71_WIDTH_CORRESPONDENCE_THEOREM.tex
+# MANUSCRIPT.tex
+# V72_BRANCH_RESIDUAL_THEOREM.tex
+# V73_BICRITERIA_AVOIDANCE_THEOREM.tex
+# V74_TWO_FIBER_AVOIDANCE_THEOREM.tex
+# V75_SYMBOLIC_PREFIX_THEOREM.tex
+# V76_TOP_TREE_TRANSFER_THEOREM.tex
+# V77_TOPOLOGY_TREE_TRANSFER_THEOREM.tex
+# V77_FPT_SUPPORT_WIDTH_THEOREM.tex
+
 jobs:
   quick:
     runs-on: ubuntu-latest
@@ -28,7 +46,7 @@ jobs:
         working-directory: research/p-vs-np
         run: |
           set -o pipefail
-          bash ./verify_all.sh | tee "${RUNNER_TEMP}/verify-quick.log"
+          bash ./verify_all.sh 2>&1 | tee "${RUNNER_TEMP}/verify-quick.log"
       - name: Assert quick verification is read-only
         if: always()
         working-directory: research/p-vs-np
@@ -51,7 +69,7 @@ jobs:
         working-directory: research/p-vs-np
         run: |
           set -o pipefail
-          bash ./verify_all.sh --full | tee "${RUNNER_TEMP}/verify-full.log"
+          bash ./verify_all.sh --full 2>&1 | tee "${RUNNER_TEMP}/verify-full.log"
       - name: Assert full verification is read-only
         if: always()
         working-directory: research/p-vs-np
