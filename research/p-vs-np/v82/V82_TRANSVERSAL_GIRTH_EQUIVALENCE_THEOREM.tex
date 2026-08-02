@@ -1,0 +1,86 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\title{V82: Hall-Neighborhood Minima and Transversal Girth}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+
+\begin{document}
+\maketitle
+
+Let \(G=(M,X;E)\) be a bipartite graph and let \(T(G)\) be the
+transversal matroid on \(M\). For \(S\subseteq M\), write \(N(S)\) for
+its neighborhood and define
+\[
+  h^*(G)=\min\{|N(S)|:|N(S)|<|S|\}.
+\]
+We assume that the minimum is defined, equivalently that \(T(G)\) has a
+dependent set.
+
+\begin{theorem}[Hall--girth equivalence]
+\[
+  h^*(G)=\operatorname{girth}(T(G))-1.
+\]
+\end{theorem}
+
+\begin{proof}
+Choose an inclusion-minimal set \(S\) attaining \(h^*(G)\). If a
+proper subset \(R\subsetneq S\) were Hall deficient, then
+\(N(R)\subseteq N(S)\), hence \(|N(R)|\le h^*(G)\). Minimality of the
+objective forces equality, contradicting the inclusion-minimal choice
+of \(S\). Therefore \(S\) is a circuit of \(T(G)\).
+
+For each \(e\in S\), the set \(S-\{e\}\) has a matching into \(N(S)\);
+thus \(|N(S)|\ge |S|-1\). Since \(S\) is dependent,
+\(|N(S)|<|S|\), and consequently \(|N(S)|=|S|-1\). This gives
+\(h^*(G)\ge \operatorname{girth}(T(G))-1\).
+
+Conversely, a shortest circuit \(C\) satisfies the same equality
+\(|N(C)|=|C|-1\), yielding the reverse inequality.
+\end{proof}
+
+\begin{corollary}[Deficiency-one separation]
+Every inclusion-minimal minimizer of \(h^*(G)\) has Hall deficiency
+exactly one.
+\end{corollary}
+
+Thus minimum neighborhood and maximum deficiency are distinct
+optimization objectives. The former yields a circuit; the latter can
+improve random-sampling success but need not minimize the number of
+variables.
+
+\begin{proposition}[Degree-two bicircular boundary]
+If every element of \(M\) has at most two neighbors in \(X\), then
+\(T(G)\) is the bicircular matroid of the multigraph obtained by turning
+each two-element support into an edge and each singleton support into a
+loop. With this graph presentation supplied, its girth is computable
+in polynomial time.
+\end{proposition}
+
+\begin{proof}
+A set of edges admits an assignment to distinct incident vertices
+exactly when each connected component is a pseudoforest. Hence the
+circuits are the minimal connected subgraphs with two cycles: theta
+graphs, tight handcuffs, and loose handcuffs. For each of these three
+fixed topologies, enumerate its constant number of branch or attachment
+vertices and solve the resulting fixed-terminal disjoint-path/minimum-
+cost-flow instance. Taking the minimum over all enumerations gives a
+polynomial algorithm.
+\end{proof}
+
+The published general hardness theorem of Colbourn and Elmallah
+(\emph{Discrete Mathematics} 114 (1993), Theorem 2.1) implies, through
+the first theorem, that exact \(h^*\) is NP-hard for unrestricted
+transversal presentations. The exact complexity when every element
+has at most three neighbors is not resolved here.
+
+\paragraph{Nonclaims.}
+This module proves no degree-three hardness or algorithm, no circuit
+lower bound, and no result resolving P versus NP.
+
+\end{document}
