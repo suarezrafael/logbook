@@ -46,7 +46,7 @@ jobs:
         working-directory: research/p-vs-np
         run: |
           set -o pipefail
-          bash ./verify_all.sh 2>&1 | tee "${RUNNER_TEMP}/verify-quick.log"
+          bash ./run_verification_in_sandbox.sh 2>&1 | tee "${RUNNER_TEMP}/verify-quick.log"
       - name: Assert quick verification is read-only
         if: always()
         working-directory: research/p-vs-np
@@ -69,7 +69,7 @@ jobs:
         working-directory: research/p-vs-np
         run: |
           set -o pipefail
-          bash ./verify_all.sh --full 2>&1 | tee "${RUNNER_TEMP}/verify-full.log"
+          bash ./run_verification_in_sandbox.sh --full 2>&1 | tee "${RUNNER_TEMP}/verify-full.log"
       - name: Assert full verification is read-only
         if: always()
         working-directory: research/p-vs-np
