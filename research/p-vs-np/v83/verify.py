@@ -88,6 +88,12 @@ def main() -> None:
     assert status["next_laboratory_version"] == "V83"
     assert status["infrastructure_frozen"] is True
     assert status["scientific_status"][
+        "minimum_neighborhood_hall_polynomial_time"
+    ] is None
+    assert status["scientific_status"][
+        "minimum_neighborhood_hall_np_hard"
+    ] is True
+    assert status["scientific_status"][
         "degree_three_transversal_girth_polynomial_time"
     ] is None
     assert status["scientific_status"][
