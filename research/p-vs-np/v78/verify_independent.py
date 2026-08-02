@@ -42,17 +42,25 @@ def main() -> None:
     full_clean_index = workflow.index("Assert full verification is read-only")
     assert quick_index < quick_clean_index
     assert full_index < full_clean_index
+    assert workflow.count("run_verification_in_sandbox.sh") == 2
     assert "path: ${{ runner.temp }}/verify-quick.log" in workflow
     assert "path: ${{ runner.temp }}/verify-full.log" in workflow
     assert workflow.count("run: bash ./assert_clean_tree.sh") == 3
+
+    sandbox_runner = (ROOT / "run_verification_in_sandbox.sh").read_text(
+        encoding="utf-8"
+    )
+    assert "git -C \"$REPO_ROOT\" archive --format=tar HEAD" in sandbox_runner
+    assert "Sandbox mutation inventory" in sandbox_runner
+    assert "exit \"$verification_status\"" in sandbox_runner
 
     clean_gate = (ROOT / "assert_clean_tree.sh").read_text(encoding="utf-8")
     assert clean_gate.startswith("#!/usr/bin/env bash")
     assert "git status --porcelain --untracked-files=all" in clean_gate
 
     print(
-        "V78 independent verification passed: manifest and runner validators execute, "
-        "V78 is registered, and all CI jobs end in clean-tree gates."
+        "V78 independent verification passed: validators execute, V78 is registered, "
+        "quick/full run in a disposable archive, and all CI jobs end in source-tree gates."
     )
 
 
