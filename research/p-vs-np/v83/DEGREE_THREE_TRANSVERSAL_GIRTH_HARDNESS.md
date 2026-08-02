@@ -49,11 +49,12 @@ N(e_i) = {x_{e,i}}
 ```
 
 The endpoint copies have degree two and the internal copies degree three. A
-source loop is retained as one degree-zero loop.
+source loop is retained as one degree-zero loop, so its chain has effective
+length one.
 
 ### Lemma 2.1 — private matching
 
-Every proper subset of `C_e` is matchable into `P_e`.
+Every proper subset of `C_e` is matchable into `P_e` for every nonloop `e`.
 
 **Proof.** Choose a missing index `j`. Match `e_i` to `p_{e,i}` for `i<j`, and
 match `e_i` to `p_{e,i-1}` for `i>j`. This saturates `C_e-{e_j}` using all
@@ -67,16 +68,17 @@ For every `A subseteq M`, let `C(A)=union_{e in A} C_e`. Then
 A is matchable in B  iff  C(A) is matchable in B'.
 ```
 
-**Forward direction.** Given a source matching that sends `e` to `x_{e,j}`,
-match `e_j` to that external vertex. Match the remaining copies of `C_e` to
-`P_e` by the construction of Lemma 2.1.
+**Forward direction.** If `A` contains a loop, neither side is matchable. Otherwise,
+given a source matching that sends `e` to `x_{e,j}`, match `e_j` to that external
+vertex. Match the remaining copies of `C_e` to `P_e` by the construction of
+Lemma 2.1.
 
-**Reverse direction.** A complete chain `C_e` has `d_e` left elements but only
-`d_e-1` private right vertices. Any matching saturating `C(A)` must therefore
-match at least one member of each chain to an external vertex in `N_B(e)`.
-Choose one such external edge per chain. The chosen external vertices are
-distinct because they came from a matching, so they give a source matching of
-`A`. ∎
+**Reverse direction.** A complete nonloop chain `C_e` has `d_e` left elements
+but only `d_e-1` private right vertices. Any matching saturating `C(A)` must
+therefore match at least one member of each nonloop chain to an external vertex
+in `N_B(e)`. Selecting one such external edge per chain gives a source matching,
+because the external vertices are distinct. If `A` contains a loop, `C(A)`
+contains its retained loop and cannot be matchable. ∎
 
 ### Theorem 2.3 — exact circuit correspondence
 
@@ -86,23 +88,29 @@ The circuits of `B'` are exactly
 { C(A) : A is a circuit of B }.
 ```
 
-**Proof.** Let `Q` be a circuit of `B'`. If `Q` intersects a chain `C_e` in a
-nonempty proper subset `R`, then `R` is privately matchable. If `Q-R` were
-matchable, combining the two disjoint matchings would match `Q`; hence `Q-R` is
-dependent only if `Q` is. Since `Q` is dependent, `Q-R` must be dependent,
-contradicting circuit minimality. Therefore every circuit is a union of whole
-chains.
+**Proof.** Let `Q` be a circuit of `B'`. If `Q` intersects a nonloop chain
+`C_e` in a nonempty proper subset `R`, then `R` is privately matchable. If
+`Q-R` were matchable, combining the two disjoint matchings would match `Q`;
+hence `Q-R` must be dependent, contradicting circuit minimality. Therefore
+every circuit is a union of whole chains. Retained source loops are already
+one-element circuits and obey the same statement.
 
 By Lemma 2.2, a union of whole chains is dependent exactly when its source set
 is dependent. Minimality is preserved in both directions: removing a whole
 chain corresponds to removing a source element, while any subset that cuts a
-chain can match that partial chain privately and match its remaining complete
-chains from the corresponding proper source subset. ∎
+nonloop chain can match that partial chain privately and match its remaining
+complete chains from the corresponding proper source subset. ∎
 
 ### Corollary 2.4 — weighted and uniform girth
 
 The expanded girth is the minimum source-circuit weight for weights
-`w(e)=d_e`. If all source elements have degree `D`, then
+
+```text
+w(e) = max(1, d_e).
+```
+
+The `max` only handles source loops; for every nonloop, `w(e)=d_e`. If all
+source elements have the same positive degree `D`, then
 
 ```text
 girth(T(B')) = D * girth(T(B)).
