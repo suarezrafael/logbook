@@ -28,13 +28,22 @@ def focused_versions(runner: str) -> tuple[str, ...]:
 def main() -> None:
     status = json.loads(STATUS_PATH.read_text(encoding="utf-8"))
     promoted = status["promoted_version"]
-    candidate = status["candidate_version"]
+    candidate = status.get("candidate_version")
     declared_highest = status["highest_directory"]
 
-    assert version_number(candidate) == version_number(promoted) + 1
-    assert declared_highest == candidate
+    if candidate is None:
+        assert declared_highest == promoted
+        active_versions = (promoted,)
+    else:
+        assert version_number(candidate) == version_number(promoted) + 1
+        assert declared_highest == candidate
+        active_versions = (promoted, candidate)
+
+    assert status["promotion_state"] == "promoted"
     assert status["metadata_policy"]["authority"] == "LAB_STATUS.json"
     assert status["infrastructure_freeze_after_candidate"] is True
+    assert status["infrastructure_frozen"] is True
+    assert status["next_laboratory_version"] == f"V{version_number(promoted) + 1}"
     assert status["next_laboratory_focus"] == "mathematical research"
 
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
@@ -61,7 +70,7 @@ def main() -> None:
     missing = [item for item in required if item not in registered]
     assert not missing, f"promoted-era verifier omitted from runner: {missing}"
 
-    for version in (promoted, candidate):
+    for version in active_versions:
         directory = f"v{version_number(version)}"
         assert (version, "primary", f"{directory}/verify.py") in registered
         assert (version, "independent", f"{directory}/verify_independent.py") in registered
@@ -69,8 +78,8 @@ def main() -> None:
     highest_directory = max(
         version_number(path.name) for path in ROOT.glob("v[0-9]*") if path.is_dir()
     )
-    assert highest_directory == version_number(candidate), (
-        f"LAB_STATUS.json declares candidate {candidate}, "
+    assert highest_directory == version_number(declared_highest), (
+        f"LAB_STATUS.json declares highest {declared_highest}, "
         f"but the highest laboratory directory is V{highest_directory}"
     )
 
@@ -83,8 +92,9 @@ def main() -> None:
     assert len(quick_entries) == 18
     assert len(full_entries) == 63
 
+    candidate_label = candidate or "none"
     print(
-        f"Runner coverage passed: promoted={promoted}; candidate={candidate}; "
+        f"Runner coverage passed: promoted={promoted}; candidate={candidate_label}; "
         f"quick={len(quick_entries)} checks; full={len(full_entries)} checks."
     )
 

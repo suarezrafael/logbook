@@ -69,9 +69,16 @@ def main() -> None:
         assert findings == [], (path, findings)
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
+    assert status["promoted_version"] == "V79"
+    assert status.get("candidate_version") is None
+    assert status["highest_directory"] == "V79"
+    assert status["promotion_state"] == "promoted"
     assert status["verification_policy"]["quick_expected_mutations"] == 0
     assert status["verification_policy"]["full_expected_mutations"] == 9
     assert status["metadata_policy"]["authority"] == "LAB_STATUS.json"
+    assert status["infrastructure_frozen"] is True
+    assert status["next_laboratory_version"] == "V80"
+    assert status["next_laboratory_focus"] == "mathematical research"
 
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
     focused_match = re.search(r"FOCUSED_VERSIONS=\(([^)]*)\)", runner)
@@ -94,8 +101,8 @@ def main() -> None:
 
     print(
         "V79 independent verification passed: exact V58 is covered by the static "
-        "read-only audit, draft and promotion CI are separated, and one explicit "
-        "status file controls version coherence."
+        "read-only audit, focused and promotion CI are separated, V79 is promoted, "
+        "and V80 is reserved for mathematics."
     )
 
 

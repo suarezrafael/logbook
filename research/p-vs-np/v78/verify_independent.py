@@ -10,6 +10,11 @@ ROOT = HERE.parent
 REPO_ROOT = ROOT.parent.parent
 
 
+def version_number(value: str) -> int:
+    assert value.startswith("V") and value[1:].isdigit()
+    return int(value[1:])
+
+
 def run(*args: str) -> str:
     completed = subprocess.run(
         args,
@@ -63,13 +68,17 @@ def main() -> None:
     assert "git status --porcelain --untracked-files=all" in clean_gate
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V78"
-    assert status["candidate_version"] == "V79"
+    promoted = version_number(status["promoted_version"])
+    candidate = status.get("candidate_version")
+    assert promoted >= 78
+    if candidate is not None:
+        assert version_number(candidate) > promoted
+    assert status["infrastructure_frozen"] is True
 
     print(
         "V78 independent verification passed: validators execute, V78 remains "
         "registered, focused/full modes share the disposable archive, and all "
-        "executed CI jobs end in source-tree gates."
+        "executed CI jobs end in source-tree gates after later promotions."
     )
 
 

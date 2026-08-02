@@ -9,6 +9,11 @@ ROOT = HERE.parent
 REPO_ROOT = ROOT.parent.parent
 
 
+def version_number(value: str) -> int:
+    assert value.startswith("V") and value[1:].isdigit()
+    return int(value[1:])
+
+
 def main() -> None:
     required = [
         HERE / "README.md",
@@ -89,14 +94,18 @@ def main() -> None:
         assert forbidden not in readme
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V78"
-    assert status["candidate_version"] == "V79"
+    promoted = version_number(status["promoted_version"])
+    candidate = status.get("candidate_version")
+    assert promoted >= 78
+    if candidate is not None:
+        assert version_number(candidate) > promoted
     assert status["verification_policy"]["quick_expected_mutations"] == 0
+    assert status["infrastructure_frozen"] is True
 
     print(
         "V78 primary verification passed: source-checkout gates, disposable sandbox, "
         "external CI logs, validated LaTeX manifest, and explicit operational status "
-        "remain installed after V79 stabilization."
+        "remain installed after later promotions."
     )
 
 

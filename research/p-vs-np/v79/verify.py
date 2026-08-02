@@ -62,9 +62,12 @@ def writing_calls(path: Path) -> list[str]:
 
 def main() -> None:
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V78"
-    assert status["candidate_version"] == "V79"
-    assert status["infrastructure_freeze_after_candidate"] is True
+    assert status["promoted_version"] == "V79"
+    assert status.get("candidate_version") is None
+    assert status["highest_directory"] == "V79"
+    assert status["promotion_state"] == "promoted"
+    assert status["infrastructure_frozen"] is True
+    assert status["next_laboratory_version"] == "V80"
     assert status["next_laboratory_focus"] == "mathematical research"
 
     baseline = []
@@ -110,8 +113,8 @@ def main() -> None:
 
     print(
         "V79 primary verification passed: V54-V59 including the V58 exact verifier "
-        "are read-only; draft CI is focused; full historical verification remains "
-        "a promotion gate; operational metadata is explicit."
+        "are read-only; focused and promotion CI are separated; V79 is promoted; "
+        "the infrastructure phase is frozen."
     )
 
 
