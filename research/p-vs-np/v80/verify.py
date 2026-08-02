@@ -34,14 +34,16 @@ def main() -> None:
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
     assert status["promoted_version"] == "V80"
-    assert status.get("candidate_version") is None
-    assert status["highest_directory"] == "V80"
-    assert status["promotion_state"] == "promoted"
+    candidate = status.get("candidate_version")
+    if candidate is None:
+        assert status["highest_directory"] == "V80"
+        assert status["promotion_state"] == "promoted"
+    else:
+        assert candidate == "V81"
+        assert status["highest_directory"] == "V81"
+        assert status["promotion_state"] == "candidate"
     assert status["infrastructure_frozen"] is True
     assert status["next_laboratory_version"] == "V81"
-    assert status["next_laboratory_focus"] == (
-        "deterministic candidate lists or explicit all-orders obstructions"
-    )
     assert status["scientific_status"]["p_vs_np_route_active"] is False
 
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
@@ -61,7 +63,7 @@ def main() -> None:
     print(
         "V80 primary verification passed: Hall counting is separated from deterministic "
         "FP^NP construction; the cut identity, local-expansion barrier, and exact finite "
-        "branchwidth audits match committed evidence; V80 is promoted."
+        "branchwidth audits match committed evidence; V80 remains promoted."
     )
 
 
