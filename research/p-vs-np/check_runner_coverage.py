@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parent
 POLICY_VERSION = 63
 STATUS_PATH = ROOT / "LAB_STATUS.json"
 EXPECTED_FOCUSED = (
-    "V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79", "V80", "V81"
+    "V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79", "V80", "V81", "V82"
 )
 
 
