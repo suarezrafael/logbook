@@ -81,11 +81,21 @@ def main() -> None:
     assert committed["complexity_conclusion"]["p_vs_np_resolved"] is False
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V82"
-    assert status["candidate_version"] == "V83"
-    assert status["highest_directory"] == "V83"
-    assert status["promotion_state"] == "candidate"
-    assert status["next_laboratory_version"] == "V83"
+    promoted = status["promoted_version"]
+    candidate = status.get("candidate_version")
+    assert version_number(promoted) >= 82
+    if candidate is None:
+        assert status["highest_directory"] == promoted
+        assert status["promotion_state"] == "promoted"
+        assert status["next_laboratory_version"] == f"V{version_number(promoted) + 1}"
+        reached = version_number(promoted)
+    else:
+        assert version_number(candidate) == version_number(promoted) + 1
+        assert status["highest_directory"] == candidate
+        assert status["promotion_state"] == "candidate"
+        assert status["next_laboratory_version"] == candidate
+        reached = version_number(candidate)
+    assert reached >= 83
     assert status["infrastructure_frozen"] is True
     assert status["scientific_status"][
         "minimum_neighborhood_hall_polynomial_time"
@@ -112,7 +122,7 @@ def main() -> None:
     print(
         "V83 primary verification passed: exact path-selector circuit "
         "correspondence and degree-three transversal-girth NP-completeness "
-        "match the committed evidence."
+        "remain preserved."
     )
 
 
