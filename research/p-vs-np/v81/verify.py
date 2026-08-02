@@ -10,6 +10,11 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 
 
+def version_number(value: str) -> int:
+    assert value.startswith("V") and value[1:].isdigit()
+    return int(value[1:])
+
+
 def main() -> None:
     committed = json.loads((HERE / "RESULTS.json").read_text(encoding="utf-8"))
     assert build_results() == committed
@@ -35,20 +40,19 @@ def main() -> None:
     assert "Width--deficiency tradeoff" in tex
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V81"
+    promoted = status["promoted_version"]
     candidate = status.get("candidate_version")
+    assert version_number(promoted) >= 81
     if candidate is None:
-        assert status["highest_directory"] == "V81"
+        assert status["highest_directory"] == promoted
         assert status["promotion_state"] == "promoted"
+        assert status["next_laboratory_version"] == f"V{version_number(promoted) + 1}"
     else:
-        assert candidate == "V82"
-        assert status["highest_directory"] == "V82"
+        assert version_number(candidate) == version_number(promoted) + 1
+        assert status["highest_directory"] == candidate
         assert status["promotion_state"] == "candidate"
+        assert status["next_laboratory_version"] == candidate
     assert status["infrastructure_frozen"] is True
-    assert status["next_laboratory_version"] == "V82"
-    assert status["next_laboratory_focus"] == (
-        "exact Minimum p-Union/Hall complexity or explicit degree-three obstruction"
-    )
     assert status["scientific_status"]["p_vs_np_route_active"] is False
 
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
@@ -68,8 +72,7 @@ def main() -> None:
 
     print(
         "V81 primary verification passed: conservation, balanced width-deficiency, "
-        "Minimum p-Union curves, and unsupported Lagrangian Hall points match evidence; "
-        "V81 is promoted."
+        "Minimum p-Union curves, and unsupported Lagrangian Hall points remain preserved."
     )
 
 
