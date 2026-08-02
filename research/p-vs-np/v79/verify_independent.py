@@ -8,24 +8,24 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
-
 TARGETS = tuple(
     ROOT / version / filename
     for version, filename in (
-        ("v54", "verify.py"),
-        ("v55", "verify.py"),
-        ("v56", "verify.py"),
-        ("v56", "verify_independent.py"),
-        ("v57", "verify.py"),
-        ("v57", "verify_independent.py"),
-        ("v58", "verify.py"),
-        ("v58", "verify_independent.py"),
-        ("v58", "verify_exact.py"),
-        ("v59", "verify.py"),
+        ("v54", "verify.py"), ("v55", "verify.py"),
+        ("v56", "verify.py"), ("v56", "verify_independent.py"),
+        ("v57", "verify.py"), ("v57", "verify_independent.py"),
+        ("v58", "verify.py"), ("v58", "verify_independent.py"),
+        ("v58", "verify_exact.py"), ("v59", "verify.py"),
         ("v59", "verify_independent.py"),
     )
 )
 WRITE_FLAGS = ("w", "a", "x", "+")
+BASE_FOCUSED = ("V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79")
+
+
+def version_number(value: str) -> int:
+    assert value.startswith("V") and value[1:].isdigit()
+    return int(value[1:])
 
 
 def string_argument(node: ast.Call, positional_index: int, keyword: str) -> str | None:
@@ -45,7 +45,6 @@ def writing_calls(path: Path) -> list[str]:
     for node in ast.walk(tree):
         if not isinstance(node, ast.Call):
             continue
-
         if isinstance(node.func, ast.Attribute):
             if node.func.attr in {"write_text", "write_bytes", "dump"}:
                 findings.append(node.func.attr)
@@ -53,56 +52,54 @@ def writing_calls(path: Path) -> list[str]:
                 mode = string_argument(node, 0, "mode")
                 if mode is not None and any(flag in mode for flag in WRITE_FLAGS):
                     findings.append(f"Path.open:{mode}")
-
         if isinstance(node.func, ast.Name) and node.func.id == "open":
             mode = string_argument(node, 1, "mode")
             if mode is not None and any(flag in mode for flag in WRITE_FLAGS):
                 findings.append(f"open:{mode}")
-
     return findings
 
 
 def main() -> None:
     assert all(path.is_file() for path in TARGETS)
     for path in TARGETS:
-        findings = writing_calls(path)
-        assert findings == [], (path, findings)
+        assert writing_calls(path) == []
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V79"
-    assert status.get("candidate_version") is None
-    assert status["highest_directory"] == "V79"
-    assert status["promotion_state"] == "promoted"
+    promoted = version_number(status["promoted_version"])
+    candidate = status.get("candidate_version")
+    assert promoted >= 79
+    if candidate is not None:
+        assert version_number(candidate) == promoted + 1
+        assert status["promotion_state"] == "candidate"
+    else:
+        assert status["promotion_state"] == "promoted"
     assert status["verification_policy"]["quick_expected_mutations"] == 0
     assert status["verification_policy"]["full_expected_mutations"] == 9
     assert status["metadata_policy"]["authority"] == "LAB_STATUS.json"
     assert status["infrastructure_frozen"] is True
-    assert status["next_laboratory_version"] == "V80"
-    assert status["next_laboratory_focus"] == "mathematical research"
 
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
     focused_match = re.search(r"FOCUSED_VERSIONS=\(([^)]*)\)", runner)
     assert focused_match
     focused = tuple(focused_match.group(1).split())
-    assert focused == ("V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79")
+    assert focused[: len(BASE_FOCUSED)] == BASE_FOCUSED
+    if candidate is not None:
+        assert candidate in focused
     entries = re.findall(r'"(V\d+)\|([^|]+)\|([^|]+)\|([^|]+)\|', runner)
     quick = [entry for entry in entries if entry[0] in focused and entry[3] == "quick"]
     full = [entry for entry in entries if entry[3] in {"quick", "full"}]
-    assert len(quick) == 18
-    assert len(full) == 63
+    assert len(quick) >= 18
+    assert len(full) >= 63
 
-    workflow = (ROOT.parent.parent / ".github" / "workflows" / "p-vs-np-verify.yml").read_text(
-        encoding="utf-8"
-    )
+    workflow = (ROOT.parent.parent / ".github" / "workflows" / "p-vs-np-verify.yml").read_text(encoding="utf-8")
     push_block = workflow.split("pull_request:", 1)[0]
     assert "branches:\n      - main" in push_block
     assert "ready_for_review" in workflow
     assert "github.event.pull_request.draft == false" in workflow
 
     print(
-        "V79 independent verification passed: exact V58 is covered by the static "
-        "read-only audit, focused and promotion CI are separated, V79 is promoted, "
-        "and V80 is reserved for mathematics."
+        "V79 independent verification passed: read-only audits and low-noise CI remain "
+        "stable under later mathematical candidates."
     )
 
 

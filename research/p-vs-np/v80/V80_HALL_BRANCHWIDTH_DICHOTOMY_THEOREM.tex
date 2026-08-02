@@ -1,0 +1,131 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+
+\title{Laboratory V80: Hall Certificates and Support Branchwidth}
+\author{NC0\_k-Avoid Laboratory}
+\date{August 2026}
+
+\begin{document}
+\maketitle
+
+Let $C:\{0,1\}^n\to\{0,1\}^m$ be a Boolean circuit. Let $M$ be its
+output gates, let $X$ be the set of active input variables, and write
+\[
+ N(S)=\bigcup_{i\in S}\operatorname{supp}(i)
+ \qquad(S\subseteq M).
+\]
+The support connectivity function is
+\[
+ \lambda_C(S)=|N(S)\cap N(M\setminus S)|.
+\]
+
+\begin{lemma}[Hall projection]
+If $|N(S)|<|S|$, then the projected circuit on coordinates $S$ omits an
+output pattern. Every full output word extending such a pattern is outside
+$\operatorname{range}(C)$.
+\end{lemma}
+
+\begin{proof}
+The projection depends on at most $|N(S)|$ Boolean variables, so its range has
+size at most $2^{|N(S)|}<2^{|S|}$. A preimage of a full extension would give a
+preimage of the omitted projected pattern.
+\end{proof}
+
+\begin{remark}[Algorithmic boundary]
+If $|N(S)|=O(\log n)$, exhaustive evaluation constructs an omitted pattern in
+polynomial time. For deficiency $d=|S|-|N(S)|\geq1$, a uniformly random pattern
+on $S$ is omitted with probability at least $1-2^{-d}$; an NP oracle tests
+range membership, giving a zero-error expected-polynomial randomized
+procedure. This counting argument does not by itself give a deterministic
+$\mathbf{FP}^{\mathbf{NP}}$ procedure or a polynomial canonical candidate
+list.
+\end{remark}
+
+\begin{lemma}[Exact cut identity]
+For every $S\subseteq M$,
+\[
+ \lambda_C(S)=|N(S)|+|N(M\setminus S)|-|X|.
+\]
+Consequently, if both $S$ and $M\setminus S$ are Hall-nondeficient, then
+\[
+ \lambda_C(S)\geq |M|-|X|.
+\]
+\end{lemma}
+
+\begin{proof}
+The first identity is inclusion--exclusion, since
+$N(S)\cup N(M\setminus S)=X$. Under the two Hall inequalities, substitute
+$|N(S)|\geq|S|$ and
+$|N(M\setminus S)|\geq|M\setminus S|$.
+\end{proof}
+
+\begin{theorem}[Balanced Hall expansion forces support width]
+Assume every $S\subseteq M$ with
+$m/3\leq |S|\leq2m/3$ is Hall-nondeficient. Then
+\[
+ \operatorname{bw}(\lambda_C)\geq m-|X|.
+\]
+Equivalently, every branch decomposition of width below the stretch has a
+balanced edge with a Hall-deficient side.
+\end{theorem}
+
+\begin{proof}
+Every subcubic tree with $m$ labelled leaves has an edge for which both sides
+contain between $m/3$ and $2m/3$ leaves. The two sides Hall-expand by
+hypothesis, so the cut identity lower-bounds the width of that edge by
+$m-|X|$.
+\end{proof}
+
+\begin{theorem}[Local Hall-expansion barrier]
+For all sufficiently large $n$, with
+$m=n+\lceil n^{2/3}\rceil$, there exists a rank-at-most-three support family
+with no Hall-deficient gate set of size at most $n/(16e^2)$.
+\end{theorem}
+
+\begin{proof}
+Choose three variables independently and uniformly for each gate, collapsing
+repetitions. Fix $s\leq n/(16e^2)$ gates. A Hall violation is witnessed by
+fewer than $s$ variables containing all $3s$ choices. Since $m\leq2n$ and
+$s\leq n/2$, a union bound gives
+\[
+ \Pr[\text{a bad set of size }s]
+ \leq {m\choose s}\,s{n\choose s}\left(\frac{s}{n}\right)^{3s}
+ \leq s\left(\frac18\right)^s.
+\]
+Therefore the probability of any such bad set is at most
+\[
+ \sum_{s\geq1}s(1/8)^s=\frac8{49}<1.
+\]
+A family with the required property exists.
+\end{proof}
+
+\begin{remark}
+The last theorem rules out a universal logarithmic-size Hall witness based only
+on rank three and the target stretch. It does not prove high branchwidth for
+every locally expanding family. The laboratory therefore targets deterministic
+candidate lists from additional affine, sunflower, or overlap structure, with
+explicit resistant families as the alternative output.
+\end{remark}
+
+\paragraph{Scientific boundary.}
+No deterministic $\mathbf{FP}^{\mathbf{NP}}$ algorithm for unrestricted
+$\mathrm{NC}^0_3$-Avoid, circuit lower bound, bounded-arithmetic formalization,
+novelty claim, peer review, or P-versus-NP resolution is asserted.
+
+\paragraph{References.}
+K.~Gajulapalli, A.~Golovnev, S.~Nagargoje, and S.~Saraogi,
+\emph{Range Avoidance for Constant-Depth Circuits: Hardness and Algorithms},
+ECCC TR23-021, 2023. S.~Huang, X.~Li, and Y.~Zhong,
+\emph{Range Avoidance and Remote Point: New Algorithms and Hardness},
+ECCC TR25-049, 2025. H.~Ren, Y.~Wang, and Y.~Zhong,
+\emph{Hardness of Range Avoidance and Proof Complexity Generators from
+Demi-Bits}, ECCC TR25-191, 2025.
+
+\end{document}

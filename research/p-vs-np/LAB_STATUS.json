@@ -1,39 +1,25 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "updated": "2026-08-02",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V79",
-  "candidate_version": null,
-  "highest_directory": "V79",
-  "promotion_state": "promoted",
+  "candidate_version": "V80",
+  "highest_directory": "V80",
+  "promotion_state": "candidate",
   "completed_scope": "immutable evidence migration for V54-V59 plus CI stabilization",
+  "candidate_scope": "high-width Hall/branchwidth dichotomy at lower-bound-relevant stretch",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V80",
-  "next_laboratory_focus": "mathematical research",
+  "next_laboratory_focus": "high-width deterministic candidate-list dichotomy",
   "ci_policy": {
-    "draft_pull_request": [
-      "quick",
-      "latex"
-    ],
-    "ready_pull_request": [
-      "quick",
-      "full",
-      "latex"
-    ],
-    "main_push": [
-      "quick",
-      "full",
-      "latex"
-    ],
-    "manual_dispatch": [
-      "quick",
-      "full",
-      "latex"
-    ]
+    "draft_pull_request": ["quick", "latex"],
+    "ready_pull_request": ["quick", "full", "latex"],
+    "main_push": ["quick", "full", "latex"],
+    "manual_dispatch": ["quick", "full", "latex"]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V79",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V80",
     "full": "cumulative historical verification and exact replays",
     "quick_expected_mutations": 0,
     "full_expected_mutations": 9
@@ -45,7 +31,10 @@
   },
   "scientific_status": {
     "p_vs_np_resolved": false,
+    "p_vs_np_route_active": false,
     "direct_route_active": false,
+    "unrestricted_NC0_3_avoid_solved": false,
+    "deterministic_FP_NP_target_solved": false,
     "peer_reviewed": false,
     "novelty_confirmed": false
   }
