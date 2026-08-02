@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 set -u -o pipefail
 
-# Cumulative verification is an audit, not a build step. Prevent Python imports
-# from creating __pycache__ directories or .pyc files inside the clean checkout.
 export PYTHONDONTWRITEBYTECODE=1
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODE="quick"
+FOCUSED_VERSIONS=(V53 V54 V55 V56 V57 V58 V59 V78 V79)
 
 case "${1:-}" in
   "") ;;
@@ -16,12 +15,12 @@ case "${1:-}" in
     cat <<'HELP'
 Usage: ./verify_all.sh [--full|--list]
 
-  default  Run curated primary and independent verifiers.
-  --full   Also run exact/extended verifiers where available.
-  --list   Print the planned checks without executing them.
+  default  Run the focused regression gate for V53-V59 and V78-V79.
+  --full   Run the complete historical and exact verification suite.
+  --list   Print the registered checks without executing them.
 
-A missing script or required historical artifact is reported as SKIP with a
-reason. Any executed verifier failure makes the script exit nonzero.
+Registration tiers remain historically stable. The focused version list controls
+draft-PR cost without rewriting old verifier contracts.
 HELP
     exit 0
     ;;
@@ -32,6 +31,15 @@ if command -v python3 >/dev/null 2>&1; then PYTHON="$(command -v python3)"
 elif command -v python >/dev/null 2>&1; then PYTHON="$(command -v python)"
 else echo "Python 3 is required." >&2; exit 2
 fi
+
+is_focused_version() {
+  local candidate="$1"
+  local version
+  for version in "${FOCUSED_VERSIONS[@]}"; do
+    [[ "$candidate" == "$version" ]] && return 0
+  done
+  return 1
+}
 
 "$PYTHON" "$ROOT/check_runner_coverage.py"
 "$PYTHON" "$ROOT/check_latex_manifest.py"
@@ -99,31 +107,71 @@ CHECKS=(
   "V77|composition-independent|v77/verify_composition_independent.py|quick|"
   "V78|primary|v78/verify.py|quick|"
   "V78|independent|v78/verify_independent.py|quick|"
+  "V79|primary|v79/verify.py|quick|"
+  "V79|independent|v79/verify_independent.py|quick|"
 )
 
-printf '%-6s | %-12s | %-6s | %s\n' "LAB" "CHECK" "STATUS" "DETAIL"
-printf '%-6s-+-%-12s-+-%-6s-+-%s\n' "------" "------------" "------" "----------------------------------------"
+printf '%-6s | %-24s | %-6s | %s\n' "LAB" "CHECK" "STATUS" "DETAIL"
+printf '%-6s-+-%-24s-+-%-6s-+-%s\n' "------" "------------------------" "------" "----------------------------------------"
 
-failures=0;executed=0;skipped=0
+failures=0
+executed=0
+skipped=0
+
 for item in "${CHECKS[@]}"; do
-  IFS='|' read -r version kind relative tier reason <<<"$item";path="$ROOT/$relative"
-  if [[ "$tier" == "skip" ]]; then printf '%-6s | %-12s | %-6s | %s\n' "$version" "$kind" "SKIP" "$reason";skipped=$((skipped+1));continue;fi
-  if [[ "$tier" == "full" && "$MODE" != "full" ]]; then printf '%-6s | %-12s | %-6s | %s\n' "$version" "$kind" "SKIP" "requires --full";skipped=$((skipped+1));continue;fi
-  if [[ ! -f "$path" ]]; then printf '%-6s | %-12s | %-6s | %s\n' "$version" "$kind" "SKIP" "script not present";skipped=$((skipped+1));continue;fi
-  if [[ "$MODE" == "list" ]]; then printf '%-6s | %-12s | %-6s | %s\n' "$version" "$kind" "PLAN" "$relative";continue;fi
+  IFS='|' read -r version kind relative tier reason <<<"$item"
+  path="$ROOT/$relative"
+
+  if [[ "$tier" == "skip" ]]; then
+    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "SKIP" "$reason"
+    skipped=$((skipped + 1))
+    continue
+  fi
+  if [[ "$MODE" == "quick" ]] && ! is_focused_version "$version"; then
+    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "SKIP" "requires --full"
+    skipped=$((skipped + 1))
+    continue
+  fi
+  if [[ "$tier" == "full" && "$MODE" != "full" ]]; then
+    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "SKIP" "requires --full"
+    skipped=$((skipped + 1))
+    continue
+  fi
+  if [[ ! -f "$path" ]]; then
+    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "SKIP" "script not present"
+    skipped=$((skipped + 1))
+    continue
+  fi
+  if [[ "$MODE" == "list" ]]; then
+    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "PLAN" "$relative"
+    continue
+  fi
+
   log_file="$(mktemp)"
   if (cd "$(dirname "$path")" && "$PYTHON" "$(basename "$path")") >"$log_file" 2>&1; then
-    detail="$(tail -n 1 "$log_file" | tr '\t' ' ' | cut -c1-120)";[[ -n "$detail" ]] || detail="completed"
-    printf '%-6s | %-12s | %-6s | %s\n' "$version" "$kind" "PASS" "$detail"
+    detail="$(tail -n 1 "$log_file" | tr '\t' ' ' | cut -c1-120)"
+    [[ -n "$detail" ]] || detail="completed"
+    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "PASS" "$detail"
   else
-    detail="$(tail -n 1 "$log_file" | tr '\t' ' ' | cut -c1-120)";[[ -n "$detail" ]] || detail="verifier exited nonzero"
-    printf '%-6s | %-12s | %-6s | %s\n' "$version" "$kind" "FAIL" "$detail"
-    echo "---- $version $kind log ----" >&2;cat "$log_file" >&2;echo "----------------------------" >&2;failures=$((failures+1))
+    detail="$(tail -n 1 "$log_file" | tr '\t' ' ' | cut -c1-120)"
+    [[ -n "$detail" ]] || detail="verifier exited nonzero"
+    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "FAIL" "$detail"
+    echo "---- $version $kind log ----" >&2
+    cat "$log_file" >&2
+    echo "----------------------------" >&2
+    failures=$((failures + 1))
   fi
-  rm -f "$log_file";executed=$((executed+1))
+  rm -f "$log_file"
+  executed=$((executed + 1))
 done
 
-if [[ "$MODE" == "list" ]]; then exit 0;fi
+if [[ "$MODE" == "list" ]]; then
+  exit 0
+fi
+
 echo
-printf 'Summary: mode=%s executed=%d skipped=%d failures=%d\n' "$MODE" "$executed" "$skipped" "$failures"
-if (( failures > 0 )); then exit 1;fi
+printf 'Summary: mode=%s executed=%d skipped=%d failures=%d\n' \
+  "$MODE" "$executed" "$skipped" "$failures"
+if (( failures > 0 )); then
+  exit 1
+fi

@@ -2,17 +2,20 @@ name: NC0_k-Avoid verification
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'research/p-vs-np/**'
       - '.github/workflows/p-vs-np-verify.yml'
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - 'research/p-vs-np/**'
       - '.github/workflows/p-vs-np-verify.yml'
   workflow_dispatch:
 
 concurrency:
-  group: p-vs-np-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: p-vs-np-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref_name }}
   cancel-in-progress: true
 
 permissions:
@@ -39,10 +42,10 @@ permissions:
 jobs:
   quick:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
-      - name: Quick verification
+      - name: Focused quick verification
         working-directory: research/p-vs-np
         run: |
           set -o pipefail
@@ -61,11 +64,15 @@ jobs:
           retention-days: 30
 
   full:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'push' ||
+      github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
-      - name: Full verification
+      - name: Cumulative full verification
         working-directory: research/p-vs-np
         run: |
           set -o pipefail

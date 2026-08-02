@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import re
+import json
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -19,6 +19,7 @@ def main() -> None:
         ROOT / "run_verification_in_sandbox.sh",
         ROOT / "LATEX_MODULES.tsv",
         ROOT / "check_latex_manifest.py",
+        ROOT / "LAB_STATUS.json",
     ]
     assert all(path.is_file() for path in required)
 
@@ -57,9 +58,10 @@ def main() -> None:
         assert token in clean_gate, token
 
     coverage = (ROOT / "check_runner_coverage.py").read_text(encoding="utf-8")
-    assert "STATE.md" in coverage
+    assert "LAB_STATUS.json" in coverage
     assert "LEDGER.json" not in coverage
-    assert "Current laboratory" in coverage
+    assert "promoted_version" in coverage
+    assert "candidate_version" in coverage
 
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
     assert "V78|primary|v78/verify.py|quick|" in runner
@@ -86,14 +88,15 @@ def main() -> None:
     ):
         assert forbidden not in readme
 
-    state = (ROOT / "STATE.md").read_text(encoding="utf-8")
-    current = re.search(r"\*\*Current laboratory:\*\* V(\d+)(?: candidate)?", state)
-    assert current and int(current.group(1)) >= 77
+    status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
+    assert status["promoted_version"] == "V78"
+    assert status["candidate_version"] == "V79"
+    assert status["verification_policy"]["quick_expected_mutations"] == 0
 
     print(
-        "V78 primary verification passed: clean source-checkout gates, disposable "
-        "verification sandbox, explicit 21-path mutation baseline, external CI logs, "
-        "validated LaTeX manifest, and ledger-independent runner coverage are installed."
+        "V78 primary verification passed: source-checkout gates, disposable sandbox, "
+        "external CI logs, validated LaTeX manifest, and explicit operational status "
+        "remain installed after V79 stabilization."
     )
 
 

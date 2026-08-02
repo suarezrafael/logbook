@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Primary exhaustive verifier for Laboratory V57."""
+"""Primary exhaustive, read-only verifier for Laboratory V57."""
 from __future__ import annotations
 
 import itertools
 import json
 import math
-import time
 from collections import Counter
 from pathlib import Path
 
@@ -28,9 +27,13 @@ def check_boundary_theorem(max_m: int = 4) -> int:
             neighbor = list(point)
             neighbor[coordinate] ^= 1
             assert tuple(neighbor) not in image
-            context = point[:coordinate] + point[coordinate + 1:]
-            matching = [p for p in image if p[:coordinate] + p[coordinate + 1:] == context]
-            assert matching and all(p[coordinate] == point[coordinate] for p in matching)
+            context = point[:coordinate] + point[coordinate + 1 :]
+            matching = [
+                candidate
+                for candidate in image
+                if candidate[:coordinate] + candidate[coordinate + 1 :] == context
+            ]
+            assert matching and all(candidate[coordinate] == point[coordinate] for candidate in matching)
             checks += 1
     return checks
 
@@ -40,7 +43,11 @@ def explicit_g4_certificate() -> dict:
     assert len(orbit) == 48
     assert all(mask in orbit for mask, _support in core.G4_MASK_SUPPORT)
     assert [f"0x{mask:02x}" for mask, _support in core.G4_MASK_SUPPORT] == [
-        "0x51", "0x45", "0x51", "0x45", "0x15"
+        "0x51",
+        "0x45",
+        "0x51",
+        "0x45",
+        "0x15",
     ]
 
     sets = core.gadget_sets(4, core.G4_MASK_SUPPORT)
@@ -56,8 +63,8 @@ def explicit_g4_certificate() -> dict:
     clauses = [clause for block in core.G4_CLAUSE_BLOCKS for clause in block]
     components = core.implication_graph_sccs(4, clauses)
     normalized_components = sorted(
-        [sorted([(v, int(sign)) for v, sign in comp]) for comp in components],
-        key=lambda comp: (len(comp), comp),
+        [sorted([(variable, int(sign)) for variable, sign in component]) for component in components],
+        key=lambda component: (len(component), component),
     )
     assert len(components) == 4
 
@@ -100,13 +107,20 @@ def exhaustive_n3() -> dict:
             else:
                 counts["consistent_irredundant"] += 1
         checked += 1
-    assert checked == math.comb(48 + 4 - 1, 4) == 249900
-    assert counts == Counter({
-        "inconsistent": 206280,
-        "consistent_with_redundant_block": 43620,
-        "consistent_irredundant": 0,
-    })
-    return {"multisets_checked": checked, **dict(counts)}
+    assert checked == math.comb(51, 4) == 249900
+    assert counts == Counter(
+        {
+            "inconsistent": 206280,
+            "consistent_with_redundant_block": 43620,
+            "consistent_irredundant": 0,
+        }
+    )
+    return {
+        "multisets_checked": checked,
+        "inconsistent": counts["inconsistent"],
+        "consistent_with_redundant_block": counts["consistent_with_redundant_block"],
+        "consistent_irredundant": counts["consistent_irredundant"],
+    }
 
 
 def exhaustive_normalized_n4() -> dict:
@@ -124,10 +138,12 @@ def exhaustive_normalized_n4() -> dict:
             witnesses = core.irredundancy_witnesses(sets, range(16))
             assert witnesses is not None
             if len(irredundant_examples) < 12:
-                irredundant_examples.append({
-                    "descriptions": [list(item) for item in descriptions],
-                    "witnesses": [list(bits(x, 4)) for x in witnesses],
-                })
+                irredundant_examples.append(
+                    {
+                        "descriptions": [list(item) for item in descriptions],
+                        "witnesses": [list(bits(x, 4)) for x in witnesses],
+                    }
+                )
         checked += 1
     assert checked == math.comb(36, 5) == 376992
     assert histogram == Counter({0: 12, 1: 228, 2: 8088, 3: 87804, 4: 194712, 5: 86148})
@@ -135,7 +151,9 @@ def exhaustive_normalized_n4() -> dict:
     return {
         "normalized_blocks": len(blocks),
         "families_checked": checked,
-        "redundant_block_count_histogram": {str(k): v for k, v in sorted(histogram.items())},
+        "redundant_block_count_histogram": {
+            str(key): value for key, value in sorted(histogram.items())
+        },
         "consistent_irredundant_families": histogram[0],
         "examples": irredundant_examples,
     }
@@ -163,56 +181,57 @@ def asymptotic_family_checks() -> dict:
 
 
 def main() -> None:
-    started = time.perf_counter()
     boundary_checks = check_boundary_theorem(4)
     gadget = explicit_g4_certificate()
     n3 = exhaustive_n3()
     n4 = exhaustive_normalized_n4()
     family = asymptotic_family_checks()
 
-    results = {
-        "version": "V57",
-        "status": "passed",
-        "central_results": {
-            "universal_boundary_forcing": True,
-            "direct_bijunctive_block_redundancy_false": True,
-            "minimal_distinct_support_counterexample": {"n": 4, "m": 5, "orbit": "0x07"},
-            "infinite_stretch_one_irredundant_family": "n=4+3k, m=5+3k=n+1",
-            "scc_count_rank_surrogate_refuted_by_gadget": True,
-        },
-        "validation": {
-            "proper_cube_subsets_checked": boundary_checks,
-            "n3_orbit_multisets": n3,
-            "n4_normalized_families": n4,
-            "asymptotic_family": family,
-            "explicit_gadget": gadget,
-            "failures": 0,
-        },
-        "scientific_status": {
-            "peer_reviewed": False,
-            "novelty_confirmed": False,
-            "prior_art_for_2cnf_redundancy_exists": True,
-            "general_nc0_3_avoid_solved": False,
-            "p_vs_np_resolved": False,
-        },
-        "elapsed_seconds": round(time.perf_counter() - started, 6),
+    committed = json.loads((ROOT / "RESULTS.json").read_text(encoding="utf-8"))
+    assert committed["version"] == "V57"
+    assert committed["status"] == "passed"
+    assert committed["central_results"] == {
+        "universal_boundary_forcing": True,
+        "direct_bijunctive_block_redundancy_false": True,
+        "minimal_distinct_support_counterexample": {"n": 4, "m": 5, "orbit": "0x07"},
+        "infinite_stretch_one_irredundant_family": "n=4+3k, m=5+3k=n+1",
+        "scc_count_rank_surrogate_refuted_by_gadget": True,
     }
-    certificates = {
-        "explicit_g4": gadget,
-        "n3_minimality": n3,
-        "n4_exhaustive_histogram": n4["redundant_block_count_histogram"],
-        "asymptotic_formula": family["structural_instances"],
+
+    validation = committed["validation"]
+    assert validation["proper_cube_subsets_checked"] == boundary_checks
+    assert validation["n3_orbit_multisets"] == n3
+    for key in (
+        "normalized_blocks",
+        "families_checked",
+        "redundant_block_count_histogram",
+        "consistent_irredundant_families",
+    ):
+        assert validation["n4_normalized_families"][key] == n4[key], key
+
+    assert validation["asymptotic_family"] == {
+        "formula": "n=4+3k, m=5+3k=n+1",
+        "structural_k_through": family["structural_instances"][-1]["k"],
+        "brute_force_k_through": family["brute_force_instances"][-1]["k"],
     }
-    (ROOT / "RESULTS.json").write_text(json.dumps(results, indent=2), encoding="utf-8")
-    (ROOT / "CERTIFICATES.json").write_text(json.dumps(certificates, indent=2), encoding="utf-8")
+    for key, value in validation["explicit_gadget"].items():
+        assert gadget[key] == value, key
+    assert validation["failures"] == 0
+    assert committed["scientific_status"] == {
+        "peer_reviewed": False,
+        "novelty_confirmed": False,
+        "prior_art_for_2cnf_redundancy_exists": True,
+        "general_nc0_3_avoid_solved": False,
+        "p_vs_np_resolved": False,
+    }
 
     print("V57 primary verification passed:")
     print(f"  {boundary_checks} nonempty proper cube subsets checked for boundary forcing;")
-    print("  explicit n=4,m=5 0x07 gadget: consistent, unique common assignment, 0 redundant blocks;")
-    print("  249900 n=3,m=4 orbit multisets exhausted; no consistent irredundant family;")
-    print("  376992 normalized n=4,m=5 block families exhausted; exactly 12 irredundant;")
-    print("  stretch-one direct-product family checked structurally through k=20 and exhaustively through k=3;")
-    print("  implication graph has 4 SCCs while all 5 blocks remain essential; zero failures.")
+    print("  explicit n=4,m=5 0x07 gadget remains consistent and block-irredundant;")
+    print("  249900 n=3,m=4 orbit multisets and 376992 normalized n=4 families exhausted;")
+    print("  direct-product family checked structurally through k=20 and exhaustively through k=3;")
+    print("  committed RESULTS.json matches recomputed invariant fields without rewriting;")
+    print("  no generated CERTIFICATES.json is required.")
 
 
 if __name__ == "__main__":

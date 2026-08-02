@@ -1,125 +1,212 @@
 #!/usr/bin/env python3
-"""Independent audit for V58. Does not import v58_core."""
+"""Independent read-only audit for V58. Does not import v58_core."""
 from __future__ import annotations
-import itertools, json, math, random, time
+
+import itertools
+import json
+import math
+import random
 from pathlib import Path
-ROOT=Path(__file__).resolve().parent
 
-def active_mask(n,d):
-    p,l,r,f=d;v=0
-    for x in range(1<<n):
-        if (x>>p)&1: continue
-        pair=((x>>l)&1)|(((x>>r)&1)<<1)
-        if pair!=f:v|=1<<x
-    return v
+ROOT = Path(__file__).resolve().parent
 
-def descs(n):
-    out=[]
-    for p in range(n):
-        o=[v for v in range(n) if v!=p]
-        for l,r in itertools.combinations(o,2):
-            for f in (1,2,3):out.append((p,l,r,f))
-    return out
 
-def redundants(sets,full):
-    ans=[]
-    for i,a in enumerate(sets):
-        z=full
-        for j,b in enumerate(sets):
-            if i!=j:z&=b
-        if z&~a==0:ans.append(i)
-    return ans
+def active_mask(n, description):
+    pivot, left, right, forbidden = description
+    value = 0
+    for x in range(1 << n):
+        if (x >> pivot) & 1:
+            continue
+        pair = ((x >> left) & 1) | (((x >> right) & 1) << 1)
+        if pair != forbidden:
+            value |= 1 << x
+    return value
 
-def canon(family,n):
-    best=None
-    for perm in itertools.permutations(range(n)):
-        cur=[]
-        for p,l,r,f in family:
-            p,a,b=perm[p],perm[l],perm[r]
-            if a>b:a,b=b,a;f={1:2,2:1,3:3}[f]
-            cur.append((p,a,b,f))
-        cur=tuple(sorted(cur))
-        best=cur if best is None or cur<best else best
+
+def descriptions(n):
+    output = []
+    for pivot in range(n):
+        others = [variable for variable in range(n) if variable != pivot]
+        for left, right in itertools.combinations(others, 2):
+            for forbidden in (1, 2, 3):
+                output.append((pivot, left, right, forbidden))
+    return output
+
+
+def redundant_indices(sets, full):
+    answer = []
+    for index, target in enumerate(sets):
+        intersection = full
+        for j, candidate in enumerate(sets):
+            if index != j:
+                intersection &= candidate
+        if intersection & ~target == 0:
+            answer.append(index)
+    return answer
+
+
+def canonical(family, n):
+    best = None
+    for permutation in itertools.permutations(range(n)):
+        current = []
+        for pivot, left, right, forbidden in family:
+            pivot, first, second = permutation[pivot], permutation[left], permutation[right]
+            if first > second:
+                first, second = second, first
+                forbidden = {1: 2, 2: 1, 3: 3}[forbidden]
+            current.append((pivot, first, second, forbidden))
+        candidate = tuple(sorted(current))
+        best = candidate if best is None or candidate < best else best
     return best
 
-def required(m,t,z):
-    if z>2:return 0
-    return sum(math.comb(m-t,j) for j in range(3-z))
 
-def exact_no_ball2(n,cf):
-    m=n+1;D=descs(n);first=(0,1,2,cf);D=[first]+[d for d in D if d!=first]
-    masks=[active_mask(n,d) for d in D];full=(1<<(1<<n))-1
-    cells={1:masks[0],0:full^masks[0]};nodes=0
-    def rec(t,start,cells):
-        nonlocal nodes;nodes+=1
-        if t==m:return False # counterexample found => False means property fails
-        for idx in range(start,len(D)):
-            a=masks[idx];nextcells={};ok=True
-            for pref,rows in cells.items():
-                z=t-pref.bit_count();yes=rows&a;no=rows&~a&full
-                ry=required(m,t+1,z);rn=required(m,t+1,z+1)
-                if yes.bit_count()<ry or no.bit_count()<rn:ok=False;break
-                if ry:nextcells[(pref<<1)|1]=yes
-                if rn:nextcells[pref<<1]=no
-            if ok and not rec(t+1,idx+1,nextcells):return False
+def required(m, depth, zeros):
+    if zeros > 2:
+        return 0
+    return sum(math.comb(m - depth, count) for count in range(3 - zeros))
+
+
+def exact_no_ball2(n, canonical_type):
+    m = n + 1
+    all_descriptions = descriptions(n)
+    first = (0, 1, 2, canonical_type)
+    all_descriptions = [first] + [item for item in all_descriptions if item != first]
+    masks = [active_mask(n, item) for item in all_descriptions]
+    full = (1 << (1 << n)) - 1
+    cells = {1: masks[0], 0: full ^ masks[0]}
+    nodes = 0
+
+    def recurse(depth, start, current_cells):
+        nonlocal nodes
+        nodes += 1
+        if depth == m:
+            return False
+        for index in range(start, len(all_descriptions)):
+            active = masks[index]
+            next_cells = {}
+            viable = True
+            for prefix, rows in current_cells.items():
+                zeros = depth - prefix.bit_count()
+                yes = rows & active
+                no = rows & ~active & full
+                required_yes = required(m, depth + 1, zeros)
+                required_no = required(m, depth + 1, zeros + 1)
+                if yes.bit_count() < required_yes or no.bit_count() < required_no:
+                    viable = False
+                    break
+                if required_yes:
+                    next_cells[(prefix << 1) | 1] = yes
+                if required_no:
+                    next_cells[prefix << 1] = no
+            if viable and not recurse(depth + 1, index + 1, next_cells):
+                return False
         return True
-    return rec(1,1,cells),nodes
+
+    return recurse(1, 1, cells), nodes
+
 
 def main():
-    st=time.perf_counter();D=descs(4);M=[active_mask(4,d) for d in D];full=(1<<16)-1;fams=[]
-    for ids in itertools.combinations(range(36),5):
-        ss=[M[i] for i in ids]
-        if not redundants(ss,full):fams.append(tuple(D[i] for i in ids))
-    assert len(fams)==12 and len({canon(f,4) for f in fams})==1
-    flips=0
-    for fam in fams:
-        ss=[active_mask(4,d) for d in fam]
-        for i in range(5):
-            oriented=[(full^a) if j==i else a for j,a in enumerate(ss)]
-            z=full
-            for a in oriented:z&=a
-            assert z!=0
-            assert redundants(oriented,full)
-            flips+=1
+    all_descriptions = descriptions(4)
+    masks = [active_mask(4, item) for item in all_descriptions]
+    full = (1 << 16) - 1
+    families = []
+    for indices in itertools.combinations(range(36), 5):
+        sets = [masks[index] for index in indices]
+        if not redundant_indices(sets, full):
+            families.append(tuple(all_descriptions[index] for index in indices))
+    assert len(families) == 12
+    assert len({canonical(family, 4) for family in families}) == 1
 
-    exact=[]
-    for n in range(3,8):
-        for cf in (1,3):
-            ok,nodes=exact_no_ball2(n,cf)
-            assert ok
-            exact.append({'n':n,'canonical_type':cf,'nodes':nodes})
+    flips = 0
+    for family in families:
+        sets = [active_mask(4, item) for item in family]
+        for index in range(5):
+            oriented = [(full ^ value) if j == index else value for j, value in enumerate(sets)]
+            intersection = full
+            for value in oriented:
+                intersection &= value
+            assert intersection != 0
+            assert redundant_indices(oriented, full)
+            flips += 1
 
-    # Independent direct-sum set audit through k=5.
-    g4=((0,1,2,1),(0,1,2,2),(0,1,3,1),(0,1,3,2),(0,2,3,3))
-    direct=0
+    exact_cases = []
+    for n in range(3, 8):
+        for canonical_type in (1, 3):
+            passed, nodes = exact_no_ball2(n, canonical_type)
+            assert passed
+            exact_cases.append({"n": n, "canonical_type": canonical_type, "nodes": nodes})
+
+    base = ((0, 1, 2, 1), (0, 1, 2, 2), (0, 1, 3, 1), (0, 1, 3, 2), (0, 2, 3, 3))
+    direct_sum_cases = 0
     for k in range(6):
-        ds=list(g4);off=4
+        direct_sum = list(base)
+        offset = 4
         for _ in range(k):
-            ds.extend(((off+2,off,off+1,1),(off+2,off,off+1,2),(off+2,off,off+1,3)));off+=3
-        n=4+3*k;fulln=(1<<(1<<n))-1;sets=[active_mask(n,d) for d in ds]
-        # Flipping the first G4 block always yields redundancy inside that component.
-        oriented=[(fulln^a) if i==0 else a for i,a in enumerate(sets)]
-        assert redundants(oriented,fulln)
-        direct+=1
+            direct_sum.extend(
+                (
+                    (offset + 2, offset, offset + 1, 1),
+                    (offset + 2, offset, offset + 1, 2),
+                    (offset + 2, offset, offset + 1, 3),
+                )
+            )
+            offset += 3
+        n = 4 + 3 * k
+        full_n = (1 << (1 << n)) - 1
+        sets = [active_mask(n, item) for item in direct_sum]
+        oriented = [(full_n ^ value) if index == 0 else value for index, value in enumerate(sets)]
+        assert redundant_indices(oriented, full_n)
+        direct_sum_cases += 1
 
-    # Independent combinatorial boundary equivalence.
-    rng=random.Random(5858);boundary=0
-    for m in range(2,7):
-        cube=list(range(1<<m));allmask=(1<<m)-1
+    rng = random.Random(5858)
+    boundary_checks = 0
+    for m in range(2, 7):
+        cube = list(range(1 << m))
         for _ in range(100):
-            image=set(rng.sample(cube,rng.randrange(1,1<<m)));base=rng.choice(tuple(image))
-            bd=min(( (y^base).bit_count() for y in image if any((y^(1<<i)) not in image for i in range(m)) ),default=None)
-            assert bd is not None
-            for r in range(min(3,m)):
-                ball={base^sum(1<<i for i in S) for s in range(r+2) for S in itertools.combinations(range(m),s)}
-                assert (bd>r)==ball.issubset(image)
-            boundary+=1
+            image = set(rng.sample(cube, rng.randrange(1, 1 << m)))
+            base_point = rng.choice(tuple(image))
+            distance = min(
+                (
+                    (candidate ^ base_point).bit_count()
+                    for candidate in image
+                    if any((candidate ^ (1 << coordinate)) not in image for coordinate in range(m))
+                ),
+                default=None,
+            )
+            assert distance is not None
+            for radius in range(min(3, m)):
+                ball = {
+                    base_point ^ sum(1 << coordinate for coordinate in subset)
+                    for size in range(radius + 2)
+                    for subset in itertools.combinations(range(m), size)
+                }
+                assert (distance > radius) == ball.issubset(image)
+            boundary_checks += 1
 
-    output={'status':'passed','v57_families':12,'isomorphism_classes':1,'single_flips':flips,'independent_exact_cases':exact,'direct_sum_cases':direct,'boundary_checks':boundary,'failures':0,'elapsed_seconds':round(time.perf_counter()-st,6)}
-    (ROOT/'INDEPENDENT_RESULTS.json').write_text(json.dumps(output,indent=2),encoding='utf-8')
-    print('V58 independent verification passed:')
-    print('  12 V57 families collapsed to one isomorphism class;')
-    print(f'  {flips} single flips independently checked;')
-    print('  exact no-counterexample search independently rebuilt for n=3..7;')
-    print(f'  {boundary} boundary/ball checks; zero failures.')
-if __name__=='__main__':main()
+    computed = {
+        "status": "passed",
+        "v57_families": 12,
+        "isomorphism_classes": 1,
+        "single_flips": flips,
+        "independent_exact_cases": exact_cases,
+        "direct_sum_cases": direct_sum_cases,
+        "boundary_checks": boundary_checks,
+        "failures": 0,
+    }
+    committed = json.loads((ROOT / "INDEPENDENT_RESULTS.json").read_text(encoding="utf-8"))
+    for key, value in computed.items():
+        assert committed[key] == value, key
+
+    primary = json.loads((ROOT / "RESULTS.json").read_text(encoding="utf-8"))
+    for key, value in computed.items():
+        assert primary["validation"]["independent"][key] == value, key
+
+    print("V58 independent verification passed:")
+    print("  12 V57 families collapsed to one isomorphism class;")
+    print(f"  {flips} single flips independently checked;")
+    print("  exact no-counterexample search independently rebuilt for n=3..7;")
+    print(f"  {boundary_checks} boundary/ball checks;")
+    print("  committed independent evidence matches without rewriting; zero failures.")
+
+
+if __name__ == "__main__":
+    main()
