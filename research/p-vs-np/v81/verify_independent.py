@@ -9,6 +9,11 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 
 
+def version_number(value: str) -> int:
+    assert value.startswith("V") and value[1:].isdigit()
+    return int(value[1:])
+
+
 def independent_profiles(supports: list[list[int]]) -> tuple[list[int], list[int], list[int]]:
     encoded = [sum(1 << x for x in support) for support in supports]
     m = len(encoded)
@@ -79,24 +84,23 @@ def main() -> None:
     assert half["balanced_low_width_census"]["theorem_guaranteed_deficiency"] == 2
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V81"
+    promoted = status["promoted_version"]
     candidate = status.get("candidate_version")
+    assert version_number(promoted) >= 81
     if candidate is None:
-        assert status["highest_directory"] == "V81"
+        assert status["highest_directory"] == promoted
         assert status["promotion_state"] == "promoted"
     else:
-        assert candidate == "V82"
-        assert status["highest_directory"] == "V82"
+        assert version_number(candidate) == version_number(promoted) + 1
+        assert status["highest_directory"] == candidate
         assert status["promotion_state"] == "candidate"
-    assert status["next_laboratory_version"] == "V82"
     assert status["scientific_status"]["minimum_neighborhood_hall_polynomial_time"] is None
     assert status["scientific_status"]["minimum_neighborhood_hall_np_hard"] is None
     assert status["scientific_status"]["p_vs_np_resolved"] is False
 
     print(
         f"V81 independent verification passed: {total_checks} cut states, complete "
-        "minimum-union curves, and Lagrangian support intervals independently checked; "
-        "V81 is promoted."
+        "minimum-union curves, and Lagrangian support intervals remain preserved."
     )
 
 

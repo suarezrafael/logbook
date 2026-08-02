@@ -8,6 +8,11 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 
 
+def version_number(value: str) -> int:
+    assert value.startswith("V") and value[1:].isdigit()
+    return int(value[1:])
+
+
 def unions(supports: list[list[int]]) -> list[int]:
     encoded = [sum(1 << variable for variable in support) for support in supports]
     result = [0] * (1 << len(encoded))
@@ -125,8 +130,16 @@ def main() -> None:
     ] is False
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V81"
-    assert status["candidate_version"] == "V82"
+    promoted = status["promoted_version"]
+    candidate = status.get("candidate_version")
+    assert version_number(promoted) >= 82
+    if candidate is None:
+        assert status["highest_directory"] == promoted
+        assert status["promotion_state"] == "promoted"
+    else:
+        assert version_number(candidate) == version_number(promoted) + 1
+        assert status["highest_directory"] == candidate
+        assert status["promotion_state"] == "candidate"
     assert status["scientific_status"]["p_vs_np_resolved"] is False
     assert status["scientific_status"][
         "degree_three_transversal_girth_polynomial_time"
