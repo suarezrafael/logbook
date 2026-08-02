@@ -86,9 +86,11 @@ def main() -> None:
     assert barrier["bad_event_sum_upper_bound"] == [8, 49]
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V79"
-    assert status["candidate_version"] == "V80"
-    assert status["promotion_state"] == "candidate"
+    assert status["promoted_version"] == "V80"
+    assert status.get("candidate_version") is None
+    assert status["highest_directory"] == "V80"
+    assert status["promotion_state"] == "promoted"
+    assert status["next_laboratory_version"] == "V81"
     assert status["scientific_status"]["p_vs_np_resolved"] is False
     assert status["scientific_status"]["p_vs_np_route_active"] is False
 
@@ -100,8 +102,8 @@ def main() -> None:
 
     print(
         f"V80 independent verification passed: {total_subsets} nontrivial subset cuts "
-        "checked, exact branchwidth recomputed independently, and deterministic versus "
-        "randomized oracle boundaries preserved."
+        "checked, exact branchwidth recomputed independently, deterministic versus "
+        "randomized oracle boundaries preserved, and V80 is promoted."
     )
 
 
