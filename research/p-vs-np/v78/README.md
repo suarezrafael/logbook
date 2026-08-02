@@ -19,4 +19,4 @@ The first V78 commit installs the firewall and intentionally lets CI expose rema
 
 ## Nonclaims
 
-V78 is infrastructure and audit work. It adds no new avoidance theorem, no circuit lower bound, and no progress claim toward resolving P versus NP.
+V78 is infrastructure and audit work. It establishes no avoidance result, no circuit lower bound, and no progress claim toward resolving P versus NP.
