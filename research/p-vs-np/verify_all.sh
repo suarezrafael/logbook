@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -u -o pipefail
 
+# Cumulative verification is an audit, not a build step. Prevent Python imports
+# from creating __pycache__ directories or .pyc files inside the clean checkout.
+export PYTHONDONTWRITEBYTECODE=1
+
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODE="quick"
 
@@ -30,6 +34,7 @@ else echo "Python 3 is required." >&2; exit 2
 fi
 
 "$PYTHON" "$ROOT/check_runner_coverage.py"
+"$PYTHON" "$ROOT/check_latex_manifest.py"
 
 CHECKS=(
   "V20|historical|v20/verify.py|quick|"
@@ -92,6 +97,8 @@ CHECKS=(
   "V77|independent|v77/verify_independent.py|quick|"
   "V77|composition|v77/verify_composition.py|quick|"
   "V77|composition-independent|v77/verify_composition_independent.py|quick|"
+  "V78|primary|v78/verify.py|quick|"
+  "V78|independent|v78/verify_independent.py|quick|"
 )
 
 printf '%-6s | %-12s | %-6s | %s\n' "LAB" "CHECK" "STATUS" "DETAIL"
