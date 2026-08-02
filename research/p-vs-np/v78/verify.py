@@ -12,6 +12,7 @@ REPO_ROOT = ROOT.parent.parent
 def main() -> None:
     required = [
         HERE / "README.md",
+        HERE / "MUTATION_INVENTORY.md",
         HERE / "verify.py",
         HERE / "verify_independent.py",
         ROOT / "assert_clean_tree.sh",
@@ -69,7 +70,15 @@ def main() -> None:
     assert len(entries) >= 14
     assert all(len(line.split("\t")) == 2 for line in entries)
 
+    inventory = (HERE / "MUTATION_INVENTORY.md").read_text(encoding="utf-8")
+    modified = [line for line in inventory.splitlines() if line.startswith("- `v")]
+    assert len(modified) == 21
+    assert "Modified tracked artifacts (16)" in inventory
+    assert "Newly generated artifacts (5)" in inventory
+    assert "reduce the sandbox mutation inventory to zero" in inventory
+
     readme = (HERE / "README.md").read_text(encoding="utf-8").lower()
+    assert "v79" in readme
     for forbidden in (
         "p versus np is solved",
         "we prove p != np",
@@ -83,8 +92,8 @@ def main() -> None:
 
     print(
         "V78 primary verification passed: clean source-checkout gates, disposable "
-        "verification sandbox, external CI logs, validated LaTeX manifest, and "
-        "ledger-independent runner coverage are installed."
+        "verification sandbox, explicit 21-path mutation baseline, external CI logs, "
+        "validated LaTeX manifest, and ledger-independent runner coverage are installed."
     )
 
 
