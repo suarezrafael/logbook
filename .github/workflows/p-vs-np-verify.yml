@@ -84,7 +84,7 @@ jobs:
           set -euo pipefail
           while IFS=$'\t' read -r output_key module; do
             [[ -z "$output_key" || "$output_key" == \#* ]] && continue
-            output_directory="$GITHUB_WORKSPACE/latex-build/$output_key"
+            output_directory="${RUNNER_TEMP}/latex-build/$output_key"
             mkdir -p "$output_directory"
             for pass in 1 2; do
               pdflatex -interaction=nonstopmode -halt-on-error \
@@ -101,7 +101,7 @@ jobs:
         with:
           name: p-vs-np-latex-${{ github.run_id }}
           path: |
-            latex-build/**/*.pdf
-            latex-build/**/*.log
+            ${{ runner.temp }}/latex-build/**/*.pdf
+            ${{ runner.temp }}/latex-build/**/*.log
           if-no-files-found: error
           retention-days: 30
