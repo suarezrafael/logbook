@@ -15,6 +15,7 @@ def main() -> None:
         HERE / "verify.py",
         HERE / "verify_independent.py",
         ROOT / "assert_clean_tree.sh",
+        ROOT / "run_verification_in_sandbox.sh",
         ROOT / "LATEX_MODULES.tsv",
         ROOT / "check_latex_manifest.py",
     ]
@@ -26,6 +27,7 @@ def main() -> None:
     for token in (
         "${RUNNER_TEMP}/verify-quick.log",
         "${RUNNER_TEMP}/verify-full.log",
+        "run_verification_in_sandbox.sh",
         "Assert quick verification is read-only",
         "Assert full verification is read-only",
         "bash ./assert_clean_tree.sh",
@@ -33,6 +35,17 @@ def main() -> None:
         "check_latex_manifest.py",
     ):
         assert token in workflow, token
+
+    sandbox_runner = (ROOT / "run_verification_in_sandbox.sh").read_text(
+        encoding="utf-8"
+    )
+    for token in (
+        "git -C \"$REPO_ROOT\" archive --format=tar HEAD",
+        "mktemp -d",
+        "Sandbox mutation inventory",
+        "bash ./verify_all.sh",
+    ):
+        assert token in sandbox_runner, token
 
     clean_gate = (ROOT / "assert_clean_tree.sh").read_text(encoding="utf-8")
     for token in (
@@ -69,8 +82,9 @@ def main() -> None:
     assert current and int(current.group(1)) >= 77
 
     print(
-        "V78 primary verification passed: clean-tree gates, external CI logs, "
-        "validated LaTeX manifest, and ledger-independent runner coverage are installed."
+        "V78 primary verification passed: clean source-checkout gates, disposable "
+        "verification sandbox, external CI logs, validated LaTeX manifest, and "
+        "ledger-independent runner coverage are installed."
     )
 
 
