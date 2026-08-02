@@ -15,7 +15,9 @@ V78 blocks further theorem promotion until cumulative verification is demonstrab
 
 ## Current phase
 
-The first V78 commit installs the firewall and intentionally lets CI expose remaining dirty generators. Subsequent commits must remove every reported mutation. No unexplained allowlist is permitted.
+Quick and full cumulative verification now execute from an exact `git archive` inside a disposable sandbox. Legacy regenerators may modify only that sandbox; every modified, created, or deleted path is still printed as a mutation inventory. The source checkout remains protected by the blocking clean-tree gate.
+
+This isolation fixes the CI boundary without treating generated files as harmless or adding an allowlist. The inventory remains technical debt: V78 is not complete until the historical verifiers are individually converted to compare immutable committed evidence without rewriting it.
 
 ## Nonclaims
 
