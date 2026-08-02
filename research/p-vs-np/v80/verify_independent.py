@@ -9,6 +9,11 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 
 
+def version_number(value: str) -> int:
+    assert value.startswith("V") and value[1:].isdigit()
+    return int(value[1:])
+
+
 def masks(supports: list[list[int]]) -> tuple[int, ...]:
     return tuple(sum(1 << variable for variable in support) for support in supports)
 
@@ -86,16 +91,17 @@ def main() -> None:
     assert barrier["bad_event_sum_upper_bound"] == [8, 49]
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V80"
+    promoted = version_number(status["promoted_version"])
     candidate = status.get("candidate_version")
+    assert promoted >= 80
     if candidate is None:
-        assert status["highest_directory"] == "V80"
+        assert status["highest_directory"] == status["promoted_version"]
         assert status["promotion_state"] == "promoted"
     else:
-        assert candidate == "V81"
-        assert status["highest_directory"] == "V81"
+        assert version_number(candidate) == promoted + 1
+        assert status["highest_directory"] == candidate
         assert status["promotion_state"] == "candidate"
-    assert status["next_laboratory_version"] == "V81"
+    assert status["next_laboratory_version"] == f"V{promoted + 1}"
     assert status["scientific_status"]["p_vs_np_resolved"] is False
     assert status["scientific_status"]["p_vs_np_route_active"] is False
 
@@ -108,7 +114,7 @@ def main() -> None:
     print(
         f"V80 independent verification passed: {total_subsets} nontrivial subset cuts "
         "checked, exact branchwidth recomputed independently, deterministic versus "
-        "randomized oracle boundaries preserved, and V80 remains promoted."
+        "randomized oracle boundaries preserved after later promotions."
     )
 
 

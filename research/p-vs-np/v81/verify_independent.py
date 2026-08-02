@@ -79,15 +79,24 @@ def main() -> None:
     assert half["balanced_low_width_census"]["theorem_guaranteed_deficiency"] == 2
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V80"
-    assert status["candidate_version"] == "V81"
+    assert status["promoted_version"] == "V81"
+    candidate = status.get("candidate_version")
+    if candidate is None:
+        assert status["highest_directory"] == "V81"
+        assert status["promotion_state"] == "promoted"
+    else:
+        assert candidate == "V82"
+        assert status["highest_directory"] == "V82"
+        assert status["promotion_state"] == "candidate"
+    assert status["next_laboratory_version"] == "V82"
     assert status["scientific_status"]["minimum_neighborhood_hall_polynomial_time"] is None
     assert status["scientific_status"]["minimum_neighborhood_hall_np_hard"] is None
     assert status["scientific_status"]["p_vs_np_resolved"] is False
 
     print(
         f"V81 independent verification passed: {total_checks} cut states, complete "
-        "minimum-union curves, and Lagrangian support intervals independently checked."
+        "minimum-union curves, and Lagrangian support intervals independently checked; "
+        "V81 is promoted."
     )
 
 
