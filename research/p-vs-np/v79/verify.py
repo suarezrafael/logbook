@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import ast
 import json
+import re
 from collections import Counter
 from pathlib import Path
 
@@ -78,8 +79,15 @@ def main() -> None:
     assert "types: [opened, synchronize, reopened, ready_for_review]" in workflow
 
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
-    assert runner.count("|quick|") <= 20
-    assert runner.count("|full|") > runner.count("|quick|")
+    focused_match = re.search(r"FOCUSED_VERSIONS=\(([^)]*)\)", runner)
+    assert focused_match
+    focused = tuple(focused_match.group(1).split())
+    assert focused == ("V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79")
+    entries = re.findall(r'"(V\d+)\|([^|]+)\|([^|]+)\|([^|]+)\|', runner)
+    quick = [entry for entry in entries if entry[0] in focused and entry[3] == "quick"]
+    full = [entry for entry in entries if entry[3] in {"quick", "full"}]
+    assert len(quick) == 18
+    assert len(full) == 63
 
     sandbox = (ROOT / "run_verification_in_sandbox.sh").read_text(encoding="utf-8")
     assert 'expected = load_full_baseline(baseline_path) if mode == "full" else set()' in sandbox

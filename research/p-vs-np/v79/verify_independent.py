@@ -59,11 +59,15 @@ def main() -> None:
     assert status["metadata_policy"]["authority"] == "LAB_STATUS.json"
 
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
+    focused_match = re.search(r"FOCUSED_VERSIONS=\(([^)]*)\)", runner)
+    assert focused_match
+    focused = tuple(focused_match.group(1).split())
+    assert focused == ("V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79")
     entries = re.findall(r'"(V\d+)\|([^|]+)\|([^|]+)\|([^|]+)\|', runner)
-    quick = [entry for entry in entries if entry[3] == "quick"]
+    quick = [entry for entry in entries if entry[0] in focused and entry[3] == "quick"]
     full = [entry for entry in entries if entry[3] in {"quick", "full"}]
-    assert 1 <= len(quick) <= 20
-    assert len(full) > len(quick)
+    assert len(quick) == 18
+    assert len(full) == 63
 
     workflow = (ROOT.parent.parent / ".github" / "workflows" / "p-vs-np-verify.yml").read_text(
         encoding="utf-8"

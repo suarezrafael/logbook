@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 POLICY_VERSION = 63
 STATUS_PATH = ROOT / "LAB_STATUS.json"
+EXPECTED_FOCUSED = ("V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79")
 
 
 def version_number(name: str) -> int:
@@ -16,6 +17,12 @@ def version_number(name: str) -> int:
     if not match:
         raise ValueError(name)
     return int(match.group(1))
+
+
+def focused_versions(runner: str) -> tuple[str, ...]:
+    match = re.search(r"FOCUSED_VERSIONS=\(([^)]*)\)", runner)
+    assert match, "verify_all.sh does not declare FOCUSED_VERSIONS"
+    return tuple(match.group(1).split())
 
 
 def main() -> None:
@@ -67,10 +74,14 @@ def main() -> None:
         f"but the highest laboratory directory is V{highest_directory}"
     )
 
-    quick_entries = [entry for entry in entries if entry[3] == "quick"]
+    focused = focused_versions(runner)
+    assert focused == EXPECTED_FOCUSED
+    quick_entries = [
+        entry for entry in entries if entry[0] in focused and entry[3] == "quick"
+    ]
     full_entries = [entry for entry in entries if entry[3] in {"quick", "full"}]
-    assert len(quick_entries) < len(full_entries)
-    assert len(quick_entries) <= 20
+    assert len(quick_entries) == 18
+    assert len(full_entries) == 63
 
     print(
         f"Runner coverage passed: promoted={promoted}; candidate={candidate}; "

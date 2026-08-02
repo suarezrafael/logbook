@@ -5,6 +5,7 @@ export PYTHONDONTWRITEBYTECODE=1
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODE="quick"
+FOCUSED_VERSIONS=(V53 V54 V55 V56 V57 V58 V59 V78 V79)
 
 case "${1:-}" in
   "") ;;
@@ -14,12 +15,12 @@ case "${1:-}" in
     cat <<'HELP'
 Usage: ./verify_all.sh [--full|--list]
 
-  default  Run the focused regression gate for the active infrastructure boundary.
+  default  Run the focused regression gate for V53-V59 and V78-V79.
   --full   Run the complete historical and exact verification suite.
-  --list   Print the planned checks without executing them.
+  --list   Print the registered checks without executing them.
 
-Draft pull requests use the focused gate. Full verification is reserved for a
-ready pull request, main, or manual dispatch. Any executed failure exits nonzero.
+Registration tiers remain historically stable. The focused version list controls
+draft-PR cost without rewriting old verifier contracts.
 HELP
     exit 0
     ;;
@@ -31,15 +32,24 @@ elif command -v python >/dev/null 2>&1; then PYTHON="$(command -v python)"
 else echo "Python 3 is required." >&2; exit 2
 fi
 
+is_focused_version() {
+  local candidate="$1"
+  local version
+  for version in "${FOCUSED_VERSIONS[@]}"; do
+    [[ "$candidate" == "$version" ]] && return 0
+  done
+  return 1
+}
+
 "$PYTHON" "$ROOT/check_runner_coverage.py"
 "$PYTHON" "$ROOT/check_latex_manifest.py"
 
 CHECKS=(
-  "V20|historical|v20/verify.py|full|"
+  "V20|historical|v20/verify.py|quick|"
   "V22|primary|v22/verify.py|skip|missing v22/full_certificate_cases.json; aggregate RESULTS.json cannot reconstruct the original 125 certificates"
-  "V25|index|v25/verify_index.py|full|"
-  "V26|primary|v26/verify.py|full|"
-  "V27|index|v27/verify_index.py|full|"
+  "V25|index|v25/verify_index.py|quick|"
+  "V26|primary|v26/verify.py|quick|"
+  "V27|index|v27/verify_index.py|quick|"
   "V53|primary|v53/verify.py|quick|"
   "V53|independent|v53/verify_independent.py|quick|"
   "V54|primary|v54/verify.py|quick|"
@@ -56,45 +66,45 @@ CHECKS=(
   "V58|exact|v58/verify_exact.py|full|"
   "V59|primary|v59/verify.py|quick|"
   "V59|independent|v59/verify_independent.py|quick|"
-  "V60|primary|v60/verify.py|full|"
-  "V60|independent|v60/verify_independent.py|full|"
-  "V61|primary|v61/verify.py|full|"
-  "V61|independent|v61/verify_independent.py|full|"
-  "V62|primary|v62/verify.py|full|"
-  "V62|independent|v62/verify_independent.py|full|"
-  "V63|primary|v63/verify.py|full|"
-  "V63|independent|v63/verify_independent.py|full|"
-  "V64|primary|v64/verify.py|full|"
-  "V64|independent|v64/verify_independent.py|full|"
-  "V65|primary|v65/verify.py|full|"
-  "V65|independent|v65/verify_independent.py|full|"
-  "V66|primary|v66/verify.py|full|"
-  "V66|independent|v66/verify_independent.py|full|"
-  "V67|primary|v67/verify.py|full|"
-  "V67|independent|v67/verify_independent.py|full|"
-  "V68|primary|v68/verify.py|full|"
-  "V68|independent|v68/verify_independent.py|full|"
-  "V69|primary|v69/verify.py|full|"
-  "V69|independent|v69/verify_independent.py|full|"
-  "V70|primary|v70/verify.py|full|"
-  "V70|independent|v70/verify_independent.py|full|"
+  "V60|primary|v60/verify.py|quick|"
+  "V60|independent|v60/verify_independent.py|quick|"
+  "V61|primary|v61/verify.py|quick|"
+  "V61|independent|v61/verify_independent.py|quick|"
+  "V62|primary|v62/verify.py|quick|"
+  "V62|independent|v62/verify_independent.py|quick|"
+  "V63|primary|v63/verify.py|quick|"
+  "V63|independent|v63/verify_independent.py|quick|"
+  "V64|primary|v64/verify.py|quick|"
+  "V64|independent|v64/verify_independent.py|quick|"
+  "V65|primary|v65/verify.py|quick|"
+  "V65|independent|v65/verify_independent.py|quick|"
+  "V66|primary|v66/verify.py|quick|"
+  "V66|independent|v66/verify_independent.py|quick|"
+  "V67|primary|v67/verify.py|quick|"
+  "V67|independent|v67/verify_independent.py|quick|"
+  "V68|primary|v68/verify.py|quick|"
+  "V68|independent|v68/verify_independent.py|quick|"
+  "V69|primary|v69/verify.py|quick|"
+  "V69|independent|v69/verify_independent.py|quick|"
+  "V70|primary|v70/verify.py|quick|"
+  "V70|independent|v70/verify_independent.py|quick|"
   "V70|search-replay|v70/verify_search_reproduction.py|full|"
-  "V71|primary|v71/verify.py|full|"
-  "V71|independent|v71/verify_independent.py|full|"
-  "V72|primary|v72/verify.py|full|"
-  "V72|independent|v72/verify_independent.py|full|"
-  "V73|primary|v73/verify.py|full|"
-  "V73|independent|v73/verify_independent.py|full|"
-  "V74|primary|v74/verify.py|full|"
-  "V74|independent|v74/verify_independent.py|full|"
-  "V75|primary|v75/verify.py|full|"
-  "V75|independent|v75/verify_independent.py|full|"
-  "V76|primary|v76/verify.py|full|"
-  "V76|independent|v76/verify_independent.py|full|"
-  "V77|primary|v77/verify.py|full|"
-  "V77|independent|v77/verify_independent.py|full|"
-  "V77|composition|v77/verify_composition.py|full|"
-  "V77|composition-independent|v77/verify_composition_independent.py|full|"
+  "V71|primary|v71/verify.py|quick|"
+  "V71|independent|v71/verify_independent.py|quick|"
+  "V72|primary|v72/verify.py|quick|"
+  "V72|independent|v72/verify_independent.py|quick|"
+  "V73|primary|v73/verify.py|quick|"
+  "V73|independent|v73/verify_independent.py|quick|"
+  "V74|primary|v74/verify.py|quick|"
+  "V74|independent|v74/verify_independent.py|quick|"
+  "V75|primary|v75/verify.py|quick|"
+  "V75|independent|v75/verify_independent.py|quick|"
+  "V76|primary|v76/verify.py|quick|"
+  "V76|independent|v76/verify_independent.py|quick|"
+  "V77|primary|v77/verify.py|quick|"
+  "V77|independent|v77/verify_independent.py|quick|"
+  "V77|composition|v77/verify_composition.py|quick|"
+  "V77|composition-independent|v77/verify_composition_independent.py|quick|"
   "V78|primary|v78/verify.py|quick|"
   "V78|independent|v78/verify_independent.py|quick|"
   "V79|primary|v79/verify.py|quick|"
@@ -114,6 +124,11 @@ for item in "${CHECKS[@]}"; do
 
   if [[ "$tier" == "skip" ]]; then
     printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "SKIP" "$reason"
+    skipped=$((skipped + 1))
+    continue
+  fi
+  if [[ "$MODE" == "quick" ]] && ! is_focused_version "$version"; then
+    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "SKIP" "requires --full"
     skipped=$((skipped + 1))
     continue
   fi
