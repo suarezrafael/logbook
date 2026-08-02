@@ -5,7 +5,7 @@ export PYTHONDONTWRITEBYTECODE=1
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODE="quick"
-FOCUSED_VERSIONS=(V53 V54 V55 V56 V57 V58 V59 V78 V79 V80 V81 V82)
+FOCUSED_VERSIONS=(V53 V54 V55 V56 V57 V58 V59 V78 V79 V80 V81 V82 V83)
 
 case "${1:-}" in
   "") ;;
@@ -15,7 +15,7 @@ case "${1:-}" in
     cat <<'HELP'
 Usage: ./verify_all.sh [--full|--list]
 
-  default  Run the focused regression gate for V53-V59 and V78-V82.
+  default  Run the focused regression gate for V53-V59 and V78-V83.
   --full   Run the complete historical and exact verification suite.
   --list   Print the registered checks without executing them.
 
@@ -115,6 +115,8 @@ CHECKS=(
   "V81|independent|v81/verify_independent.py|quick|"
   "V82|primary|v82/verify.py|quick|"
   "V82|independent|v82/verify_independent.py|quick|"
+  "V83|primary|v83/verify.py|quick|"
+  "V83|independent|v83/verify_independent.py|quick|"
 )
 
 printf '%-6s | %-24s | %-6s | %s\n' "LAB" "CHECK" "STATUS" "DETAIL"
