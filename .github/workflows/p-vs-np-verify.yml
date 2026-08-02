@@ -2,47 +2,32 @@ name: NC0_k-Avoid verification
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'research/p-vs-np/**'
       - '.github/workflows/p-vs-np-verify.yml'
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - 'research/p-vs-np/**'
       - '.github/workflows/p-vs-np-verify.yml'
   workflow_dispatch:
 
 concurrency:
-  group: p-vs-np-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: p-vs-np-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref_name }}
   cancel-in-progress: true
 
 permissions:
   contents: read
 
-# Historical verifier compatibility index. The executable source of truth is
-# LATEX_MODULES.tsv; these names remain here so older repository-surface audits
-# can confirm that their formal modules are still part of the CI contract.
-# V57_BLOCK_IRREDUNDANCY_THEOREM.tex
-# V56_AFFINE_FIBER_THEOREM.tex
-# V68_SPINE_TREE_DAG_THEOREM.tex
-# V69_ORDER_ROBUSTNESS_THEOREM.tex
-# V70_SUPPORT_FRONTIER_THEOREM.tex
-# V71_WIDTH_CORRESPONDENCE_THEOREM.tex
-# MANUSCRIPT.tex
-# V72_BRANCH_RESIDUAL_THEOREM.tex
-# V73_BICRITERIA_AVOIDANCE_THEOREM.tex
-# V74_TWO_FIBER_AVOIDANCE_THEOREM.tex
-# V75_SYMBOLIC_PREFIX_THEOREM.tex
-# V76_TOP_TREE_TRANSFER_THEOREM.tex
-# V77_TOPOLOGY_TREE_TRANSFER_THEOREM.tex
-# V77_FPT_SUPPORT_WIDTH_THEOREM.tex
-
 jobs:
   quick:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
-      - name: Quick verification
+      - name: Focused quick verification
         working-directory: research/p-vs-np
         run: |
           set -o pipefail
@@ -61,11 +46,15 @@ jobs:
           retention-days: 30
 
   full:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'push' ||
+      github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
-      - name: Full verification
+      - name: Cumulative full verification
         working-directory: research/p-vs-np
         run: |
           set -o pipefail

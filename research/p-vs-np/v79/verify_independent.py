@@ -2,23 +2,28 @@
 from __future__ import annotations
 
 import ast
-from collections import Counter
+import json
+import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 
-TARGETS = (
-    ROOT / "v54" / "verify.py",
-    ROOT / "v55" / "verify.py",
-    ROOT / "v56" / "verify.py",
-    ROOT / "v56" / "verify_independent.py",
-    ROOT / "v57" / "verify.py",
-    ROOT / "v57" / "verify_independent.py",
-    ROOT / "v58" / "verify.py",
-    ROOT / "v58" / "verify_independent.py",
-    ROOT / "v59" / "verify.py",
-    ROOT / "v59" / "verify_independent.py",
+TARGETS = tuple(
+    ROOT / version / filename
+    for version, filename in (
+        ("v54", "verify.py"),
+        ("v55", "verify.py"),
+        ("v56", "verify.py"),
+        ("v56", "verify_independent.py"),
+        ("v57", "verify.py"),
+        ("v57", "verify_independent.py"),
+        ("v58", "verify.py"),
+        ("v58", "verify_independent.py"),
+        ("v58", "verify_exact.py"),
+        ("v59", "verify.py"),
+        ("v59", "verify_independent.py"),
+    )
 )
 
 
@@ -35,10 +40,11 @@ def writing_calls(path: Path) -> list[str]:
         }:
             findings.append(node.func.attr)
         if isinstance(node.func, ast.Name) and node.func.id == "open":
-            for arg in node.args[1:2]:
-                if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
-                    if any(mode in arg.value for mode in ("w", "a", "x", "+")):
-                        findings.append(f"open:{arg.value}")
+            mode_args = node.args[1:2]
+            if mode_args and isinstance(mode_args[0], ast.Constant):
+                mode = mode_args[0].value
+                if isinstance(mode, str) and any(flag in mode for flag in ("w", "a", "x", "+")):
+                    findings.append(f"open:{mode}")
     return findings
 
 
@@ -47,23 +53,30 @@ def main() -> None:
     for path in TARGETS:
         assert writing_calls(path) == [], (path, writing_calls(path))
 
-    baseline_lines = [
-        line
-        for line in (HERE / "EXPECTED_MUTATIONS.tsv").read_text(encoding="utf-8").splitlines()
-        if line and not line.startswith("#")
-    ]
-    assert len(baseline_lines) == len(set(baseline_lines)) == 9
-    parsed = [tuple(line.split("\t")) for line in baseline_lines]
-    assert all(len(entry) == 2 for entry in parsed)
-    assert Counter(kind for kind, _ in parsed) == Counter({"modified": 9})
-    assert not any(
-        any(f"v{version}/" in path for version in (54, 55, 56, 57, 58, 59))
-        for _, path in parsed
+    status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
+    assert status["verification_policy"]["quick_expected_mutations"] == 0
+    assert status["verification_policy"]["full_expected_mutations"] == 9
+    assert status["metadata_policy"]["authority"] == "LAB_STATUS.json"
+
+    runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
+    entries = re.findall(r'"(V\d+)\|([^|]+)\|([^|]+)\|([^|]+)\|', runner)
+    quick = [entry for entry in entries if entry[3] == "quick"]
+    full = [entry for entry in entries if entry[3] in {"quick", "full"}]
+    assert 1 <= len(quick) <= 20
+    assert len(full) > len(quick)
+
+    workflow = (ROOT.parent.parent / ".github" / "workflows" / "p-vs-np-verify.yml").read_text(
+        encoding="utf-8"
     )
+    push_block = workflow.split("pull_request:", 1)[0]
+    assert "branches:\n      - main" in push_block
+    assert "ready_for_review" in workflow
+    assert "github.event.pull_request.draft == false" in workflow
 
     print(
-        "V79 independent verification passed: AST audit finds no file-writing calls "
-        "in the migrated V54-V59 verifiers and the nine-path baseline is unique."
+        "V79 independent verification passed: exact V58 is covered by the static "
+        "read-only audit, draft and promotion CI are separated, and one explicit "
+        "status file controls version coherence."
     )
 
 

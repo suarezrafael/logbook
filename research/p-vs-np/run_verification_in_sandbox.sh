@@ -5,6 +5,8 @@ LAB_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$LAB_ROOT/../.." && pwd)"
 TEMP_ROOT="${RUNNER_TEMP:-${TMPDIR:-/tmp}}"
 BASELINE="$LAB_ROOT/v79/EXPECTED_MUTATIONS.tsv"
+MODE="quick"
+[[ "${1:-}" == "--full" ]] && MODE="full"
 
 if ! git -C "$REPO_ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   echo "A Git worktree is required to create the verification sandbox." >&2
@@ -21,12 +23,11 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Build the sandbox from the exact checked-out commit. Historical verifiers may
-# still regenerate snapshots there, but cannot mutate the protected checkout.
 git -C "$REPO_ROOT" archive --format=tar HEAD | tar -xf - -C "$sandbox"
 SANDBOX_LAB="$sandbox/research/p-vs-np"
 
-printf 'Verification sandbox: commit %s\n' "$(git -C "$REPO_ROOT" rev-parse --short HEAD)"
+printf 'Verification sandbox: commit %s; mode=%s\n' \
+  "$(git -C "$REPO_ROOT" rev-parse --short HEAD)" "$MODE"
 
 set +e
 (
@@ -37,11 +38,8 @@ set +e
 verification_status=$?
 set -e
 
-# Report all writes and require exact agreement with the versioned V79 baseline.
-# Removing a mutation requires shrinking EXPECTED_MUTATIONS.tsv in the same PR;
-# adding or changing a mutation fails immediately.
 set +e
-python3 - "$REPO_ROOT" "$sandbox" "$BASELINE" <<'PY'
+python3 - "$REPO_ROOT" "$sandbox" "$BASELINE" "$MODE" <<'PY'
 from __future__ import annotations
 
 import hashlib
@@ -51,6 +49,7 @@ from pathlib import Path
 source = Path(sys.argv[1]).resolve()
 sandbox = Path(sys.argv[2]).resolve()
 baseline_path = Path(sys.argv[3]).resolve()
+mode = sys.argv[4]
 
 
 def inventory(root: Path) -> dict[str, str]:
@@ -63,7 +62,7 @@ def inventory(root: Path) -> dict[str, str]:
     return files
 
 
-def load_baseline(path: Path) -> set[tuple[str, str]]:
+def load_full_baseline(path: Path) -> set[tuple[str, str]]:
     expected: set[tuple[str, str]] = set()
     for line_number, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         line = raw.strip()
@@ -85,11 +84,11 @@ modified = sorted(path for path in before.keys() & after.keys() if before[path] 
 created = sorted(after.keys() - before.keys())
 deleted = sorted(before.keys() - after.keys())
 actual = {
-    *(('modified', path) for path in modified),
-    *(('created', path) for path in created),
-    *(('deleted', path) for path in deleted),
+    *(("modified", path) for path in modified),
+    *(("created", path) for path in created),
+    *(("deleted", path) for path in deleted),
 }
-expected = load_baseline(baseline_path)
+expected = load_full_baseline(baseline_path) if mode == "full" else set()
 
 print()
 print("Sandbox mutation inventory:")
@@ -107,7 +106,7 @@ unexpected = sorted(actual - expected)
 missing = sorted(expected - actual)
 if unexpected or missing:
     print()
-    print("Mutation baseline mismatch:", file=sys.stderr)
+    print(f"Mutation baseline mismatch in {mode} mode:", file=sys.stderr)
     if unexpected:
         print("  unexpected mutations:", file=sys.stderr)
         for kind, path in unexpected:
@@ -118,7 +117,7 @@ if unexpected or missing:
             print(f"    {kind}\t{path}", file=sys.stderr)
     raise SystemExit(1)
 
-print(f"Mutation baseline passed: {len(actual)} expected paths.")
+print(f"Mutation baseline passed: mode={mode}; expected_paths={len(expected)}.")
 PY
 inventory_status=$?
 set -e

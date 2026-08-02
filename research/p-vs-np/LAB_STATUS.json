@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "updated": "2026-08-02",
+  "program": "NC0_k-Avoid Laboratory",
+  "promoted_version": "V78",
+  "candidate_version": "V79",
+  "highest_directory": "V79",
+  "candidate_scope": "immutable evidence migration for V54-V59 plus CI stabilization",
+  "infrastructure_freeze_after_candidate": true,
+  "next_laboratory_focus": "mathematical research",
+  "ci_policy": {
+    "draft_pull_request": [
+      "quick",
+      "latex"
+    ],
+    "ready_pull_request": [
+      "quick",
+      "full",
+      "latex"
+    ],
+    "main_push": [
+      "quick",
+      "full",
+      "latex"
+    ],
+    "manual_dispatch": [
+      "quick",
+      "full",
+      "latex"
+    ]
+  },
+  "verification_policy": {
+    "quick": "focused read-only regression gate for V53-V59 and V78-V79",
+    "full": "cumulative historical verification and exact replays",
+    "quick_expected_mutations": 0,
+    "full_expected_mutations": 9
+  },
+  "metadata_policy": {
+    "authority": "LAB_STATUS.json",
+    "STATE.md": "cumulative scientific narrative snapshot",
+    "LEDGER.json": "conservative historical ledger; not CI authority"
+  },
+  "scientific_status": {
+    "p_vs_np_resolved": false,
+    "direct_route_active": false,
+    "peer_reviewed": false,
+    "novelty_confirmed": false
+  }
+}
