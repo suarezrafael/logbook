@@ -31,7 +31,7 @@
   },
   "scientific_status": {
     "minimum_neighborhood_hall_polynomial_time": null,
-    "minimum_neighborhood_hall_np_hard": null,
+    "minimum_neighborhood_hall_np_hard": true,
     "general_transversal_girth_np_hard": true,
     "degree_three_transversal_girth_polynomial_time": null,
     "degree_three_transversal_girth_np_hard": true,
