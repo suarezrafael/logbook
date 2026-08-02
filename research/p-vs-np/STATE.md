@@ -1,6 +1,6 @@
 # Cumulative scientific state
 
-**Current laboratory:** V77 candidate  
+**Current laboratory:** V77  
 **Updated:** 2026-08-01  
 **Program name:** `NC0_k-Avoid Laboratory`  
 **P-versus-NP research active:** exploratory  
@@ -9,6 +9,7 @@
 **External review:** requested, replies pending  
 **External contact:** sent  
 **Publication status:** no DOI, submission, acceptance, peer review, or novelty confirmation  
+**Promotion status:** V77 merged to `main` after quick, full, and LaTeX CI plus final-diff Copilot review  
 **Promotion policy:** quick, full, and LaTeX GitHub Actions plus final-diff Copilot review must pass before merge
 
 ## Structural chain through V73
@@ -224,7 +225,7 @@ The FPT theorem remains parameterized by `k=branchwidth(lambda_C)`. V77 does not
 
 `v71/MANUSCRIPT.tex` remains the consolidated article through V71. V72–V77 are standalone modules pending external proof review. No ECCC/arXiv/Zenodo submission, DOI, acceptance, peer review, or novelty confirmation is claimed.
 
-The V22 reproducibility correction remains active: V22 is a proof candidate with a missing original certificate dataset, and the aggregate snapshot cannot reconstruct the original certificates. V26 remains a justified missing-script skip. The V53 girth implications remain retracted. Incomplete `n=9` searches remain falsification/regression only. `LEDGER.json` remains a conservative historical ledger and currently lags the candidate package.
+The V22 reproducibility correction remains active: V22 is a proof candidate with a missing original certificate dataset, and the aggregate snapshot cannot reconstruct the original certificates. V26 remains a justified missing-script skip. The V53 girth implications remain retracted. Incomplete `n=9` searches remain falsification/regression only. `LEDGER.json` remains a conservative historical ledger, currently records through V70, and is scheduled for reconciliation under V78 priority zero.
 
 ## Repository entry points
 
