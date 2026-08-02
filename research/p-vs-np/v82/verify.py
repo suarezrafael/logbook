@@ -10,6 +10,11 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 
 
+def version_number(value: str) -> int:
+    assert value.startswith("V") and value[1:].isdigit()
+    return int(value[1:])
+
+
 def main() -> None:
     committed = json.loads((HERE / "RESULTS.json").read_text(encoding="utf-8"))
     assert build_results() == committed
@@ -38,12 +43,19 @@ def main() -> None:
     assert "Deficiency-one separation" in theorem
 
     status = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V81"
-    assert status["candidate_version"] == "V82"
-    assert status["highest_directory"] == "V82"
-    assert status["promotion_state"] == "candidate"
+    promoted = status["promoted_version"]
+    candidate = status.get("candidate_version")
+    assert version_number(promoted) >= 82
+    if candidate is None:
+        assert status["highest_directory"] == promoted
+        assert status["promotion_state"] == "promoted"
+        assert status["next_laboratory_version"] == f"V{version_number(promoted) + 1}"
+    else:
+        assert version_number(candidate) == version_number(promoted) + 1
+        assert status["highest_directory"] == candidate
+        assert status["promotion_state"] == "candidate"
+        assert status["next_laboratory_version"] == candidate
     assert status["infrastructure_frozen"] is True
-    assert status["next_laboratory_version"] == "V82"
     assert status["scientific_status"][
         "degree_three_transversal_girth_polynomial_time"
     ] is None
@@ -91,7 +103,7 @@ def main() -> None:
     print(
         "V82 primary verification passed: Hall-neighborhood minima equal "
         "transversal girth minus one, minimal minimizers have deficiency one, "
-        "and the degree-two/general-hardness boundary matches committed evidence."
+        "and the degree-two/general-hardness boundary remains preserved."
     )
 
 
