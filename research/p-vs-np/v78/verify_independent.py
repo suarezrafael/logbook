@@ -44,13 +44,15 @@ def main() -> None:
     assert full_index < full_clean_index
     assert "path: ${{ runner.temp }}/verify-quick.log" in workflow
     assert "path: ${{ runner.temp }}/verify-full.log" in workflow
+    assert workflow.count("run: bash ./assert_clean_tree.sh") == 3
 
-    clean_gate = ROOT / "assert_clean_tree.sh"
-    assert clean_gate.stat().st_mode & 0o111, "clean-tree script must be executable"
+    clean_gate = (ROOT / "assert_clean_tree.sh").read_text(encoding="utf-8")
+    assert clean_gate.startswith("#!/usr/bin/env bash")
+    assert "git status --porcelain --untracked-files=all" in clean_gate
 
     print(
         "V78 independent verification passed: manifest and runner validators execute, "
-        "V78 is registered, and both CI verification jobs end in clean-tree gates."
+        "V78 is registered, and all CI jobs end in clean-tree gates."
     )
 
 
