@@ -1,6 +1,6 @@
 # V88 validation record
 
-## Local execution before publication
+## Initial collision packet
 
 The initial candidate was executed in a clean temporary directory with Python
 3 and bytecode side effects disabled by the repository runner policy.
@@ -10,24 +10,47 @@ python3 verify.py
 python3 verify_independent.py
 ```
 
-Observed results:
+The two paths agreed on all `7,264` collision instances. Initial elapsed times
+were approximately `1.60s` for the primary path and `1.11s` for the independent
+path.
+
+## Three-row barrier extension
+
+The optimized bitset implementation independently recomputed:
+
+- `1,710` labeled distinct-support intersections;
+- every one of the `2,187` Fano labelings;
+- the five fourteen-output moment certificates.
+
+The standalone barrier kernel completed locally in approximately `2.95s`; the
+independent combined verifier completed in approximately `3.83s` before the
+Property-B extension.
+
+## Property-B extension
+
+The Property-B kernel completed locally in approximately `3.05s`. It checked
+all three V80 controls and eight deterministic V87 samples and reproduced the
+committed proper-coloring counts.
+
+The extended independent verifier was also executed locally after adding the
+Property-B checks. It completed in approximately `3.62s` and reported:
 
 ```text
-V88 verification passed: 7,264 exact target instances, collision/direct
-equivalence, universal pair constructor, and three-row coloring reduction.
-
-V88 independent verification passed: direct observed-table extension matches
-the pattern CSP and the three-color reduction on 7,264 instances.
+V88 independent verification passed: collision geometry, bad-cylinder moments,
+Fano labelings, 11 Property-B controls, and the universal three-row constructor
+lower bound.
 ```
 
-Measured local elapsed time was approximately `1.60s` for the primary path and
-`1.11s` for the independent path.
+The asymptotic density calculation is source-backed rather than established by
+finite execution: the verifier checks the exact constant
+`(7/2)ln(2)-1`, the strict comparison with `5/4`, and the target-density
+coupling arithmetic.
 
-## Pending repository gates
+## Repository gates
 
-Because V88 is opened as a draft candidate, GitHub Actions remains authoritative
-for the integrated quick gate and any conditional documentation checks. Before
-promotion, the branch must also pass the required compatibility gate and any
-full replay triggered by CI-sensitive changes.
+GitHub Actions is authoritative for the integrated quick gate and conditional
+documentation checks. Before promotion, the candidate must pass the ready-PR
+compatibility gate and any full replay triggered by CI-sensitive changes.
 
-No promotion is implied by the local result.
+No external novelty, peer-review status, or promotion is implied by the local
+execution record.
