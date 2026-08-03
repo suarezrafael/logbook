@@ -1,0 +1,216 @@
+{
+  "fixed_cut_expectations": [
+    {
+      "expected_lambda": 42.84214790381356,
+      "expected_lambda_over_n": 0.6694085609970869,
+      "m": 80,
+      "n": 64,
+      "selected_gates": 27
+    },
+    {
+      "expected_lambda": 159.22267613998912,
+      "expected_lambda_over_n": 0.6219635786718325,
+      "m": 297,
+      "n": 256,
+      "selected_gates": 99
+    },
+    {
+      "expected_lambda": 608.4452045459016,
+      "expected_lambda_over_n": 0.594184770064357,
+      "m": 1126,
+      "n": 1024,
+      "selected_gates": 376
+    },
+    {
+      "expected_lambda": 2361.285443006577,
+      "expected_lambda_over_n": 0.5764857038590276,
+      "m": 4352,
+      "n": 4096,
+      "selected_gates": 1451
+    }
+  ],
+  "laboratory": "V87",
+  "mcdiarmid_audit": {
+    "asymptotic_expected_fixed_cut_lambda_over_n": 0.5465723439598089,
+    "balanced_fraction": 0.3333333333333333,
+    "balanced_subset_entropy_rate_per_gate": 0.6365141682948128,
+    "conclusion": "Direct bounded-differences plus a union bound over all balanced gate subsets cannot prove uniform linear connectivity.",
+    "entropy_exceeds_best_tail_rate": true,
+    "incorrect_subtract_n_approximation": 0.49678527559194485,
+    "missing_unused_vertex_term": 0.049787068367863944,
+    "optimistic_maximum_mcdiarmid_tail_rate_per_n": 0.05555555555555555,
+    "support_replacement_lipschitz": 6
+  },
+  "pair_shadow_uniformity": {
+    "expected_occurrences_per_pair": 4,
+    "n": 6,
+    "occurrences_per_pair": [
+      4
+    ],
+    "pairs": 15,
+    "triples": 20,
+    "uniform": true
+  },
+  "random_balanced_census": [
+    {
+      "balanced_subsets_checked": 28886,
+      "m": 15,
+      "minimizer_count": 36,
+      "minimum_balanced_lambda": 5,
+      "minimum_balanced_lambda_over_n": 0.5,
+      "n": 10,
+      "seed": 88000
+    },
+    {
+      "balanced_subsets_checked": 28886,
+      "m": 15,
+      "minimizer_count": 46,
+      "minimum_balanced_lambda": 5,
+      "minimum_balanced_lambda_over_n": 0.5,
+      "n": 10,
+      "seed": 88001
+    },
+    {
+      "balanced_subsets_checked": 236912,
+      "m": 18,
+      "minimizer_count": 36,
+      "minimum_balanced_lambda": 6,
+      "minimum_balanced_lambda_over_n": 0.5,
+      "n": 12,
+      "seed": 88200
+    },
+    {
+      "balanced_subsets_checked": 236912,
+      "m": 18,
+      "minimizer_count": 52,
+      "minimum_balanced_lambda": 6,
+      "minimum_balanced_lambda_over_n": 0.5,
+      "n": 12,
+      "seed": 88201
+    },
+    {
+      "balanced_subsets_checked": 927656,
+      "m": 20,
+      "minimizer_count": 50,
+      "minimum_balanced_lambda": 6,
+      "minimum_balanced_lambda_over_n": 0.42857142857142855,
+      "n": 14,
+      "seed": 88400
+    },
+    {
+      "balanced_subsets_checked": 927656,
+      "m": 20,
+      "minimizer_count": 8,
+      "minimum_balanced_lambda": 6,
+      "minimum_balanced_lambda_over_n": 0.42857142857142855,
+      "n": 14,
+      "seed": 88401
+    },
+    {
+      "balanced_subsets_checked": 7607296,
+      "m": 23,
+      "minimizer_count": 12,
+      "minimum_balanced_lambda": 5,
+      "minimum_balanced_lambda_over_n": 0.3125,
+      "n": 16,
+      "seed": 88600
+    },
+    {
+      "balanced_subsets_checked": 7607296,
+      "m": 23,
+      "minimizer_count": 36,
+      "minimum_balanced_lambda": 7,
+      "minimum_balanced_lambda_over_n": 0.4375,
+      "n": 16,
+      "seed": 88601
+    }
+  ],
+  "scientific_status": {
+    "constructive_eval_h_list": false,
+    "explicit_deterministic_three_certificate_family": false,
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false,
+    "peer_reviewed": false,
+    "rigid_matrix_constructed": false,
+    "same_family_defeats_hall_syndrome_and_width_certificates": true,
+    "support_branchwidth_linear_for_v86_random_model": true,
+    "unrestricted_NC0_3_avoid_solved": false
+  },
+  "scope": "linear support branchwidth via a random-pair shadow and completion of the three-certificate obstruction",
+  "theorems": {
+    "linear_branchwidth": "At m=n+ceil(n^(2/3)), the V86 random simple support model has support branchwidth Omega(n) with high probability.",
+    "mcdiarmid_no_go": "The direct McDiarmid union bound over all balanced cuts does not close; a random-graph shadow is used instead.",
+    "pair_shadow": "A uniformly selected pair inside a uniformly random 3-subset is a uniform random graph edge.",
+    "rank_three_transfer": "For every rank-at-most-three hypergraph H, tw(primal(H))+1 <= max(3, ceil(3*bw(H)/2)).",
+    "three_certificate_obstruction": "For all sufficiently large n, one simple 3-uniform support family simultaneously has linear-scale local Hall expansion, no constant NOR3 syndrome, and linear branchwidth."
+  },
+  "transfer_census": {
+    "by_gate_count": {
+      "2": 45,
+      "3": 120,
+      "4": 210,
+      "5": 252,
+      "6": 210
+    },
+    "equality_cases": 55,
+    "families_checked": 837,
+    "maximum_branchwidth": 4,
+    "maximum_treewidth": 4,
+    "verified_inequality": "tw(primal)+1 <= max(3, ceil(3*bw/2))",
+    "violations": 0
+  },
+  "v80_balanced_census": {
+    "eight_variables": {
+      "balanced_range": [
+        4,
+        8
+      ],
+      "balanced_subsets_checked": 3498,
+      "m": 12,
+      "minimizer_count": 4,
+      "minimum_balanced_lambda": 4,
+      "n": 8,
+      "one_minimizer": [
+        0,
+        4,
+        6,
+        8
+      ]
+    },
+    "nine_variables": {
+      "balanced_range": [
+        5,
+        9
+      ],
+      "balanced_subsets_checked": 13442,
+      "m": 14,
+      "minimizer_count": 4,
+      "minimum_balanced_lambda": 5,
+      "n": 9,
+      "one_minimizer": [
+        0,
+        3,
+        5,
+        8,
+        10
+      ]
+    },
+    "seven_variables": {
+      "balanced_range": [
+        4,
+        7
+      ],
+      "balanced_subsets_checked": 1584,
+      "m": 11,
+      "minimizer_count": 38,
+      "minimum_balanced_lambda": 5,
+      "n": 7,
+      "one_minimizer": [
+        0,
+        3,
+        5,
+        7
+      ]
+    }
+  }
+}
