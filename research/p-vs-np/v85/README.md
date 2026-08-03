@@ -66,7 +66,7 @@ subsystems with cancelling linear parts.
 A committed seven-output witness shows that before C4 elimination a nonlinear
 constant syndrome can solve a selector that is not Hall deficient.
 
-### 5. Source-verified bounded-width remote points
+### 5. Source-verified remote points
 
 For radius `r`, let `B(m,r)` be the Hamming-ball volume. If
 
@@ -82,7 +82,7 @@ distance greater than `r` from the whole range. At additive stretch
 Omega(sigma/log m).
 ```
 
-V85 now verifies the composition with the actual V75 arithmetic DAG. The V75
+V85 verifies the composition with the actual V75 arithmetic DAG. The V75
 circuit represents
 
 ```text
@@ -104,9 +104,37 @@ DAG size `S`, naive truncated convolution gives runtime
 O(m S r^2 poly(n+m)).
 ```
 
-In particular, every regime where the V75 DAG is polynomial-size — including
-fixed bounded branchwidth — now has a polynomial-time remote-point algorithm at
-distance `Omega((m-n)/log m)`.
+### 6. Sqrt-log support-width corollary
+
+The number `A(b)` of nonempty affine subspaces of `GF(2)^b` obeys
+
+```text
+A(b) <= (b+1) 2^(floor(b^2/4)+b).
+```
+
+Combining this bound with V77's decomposition construction gives a direct
+algorithm from the explicit circuit, with total runtime
+
+```text
+2^{O(k^2)} gamma m^6 log m
+ + O(m^2 A(2k)^2 r^2 poly(n,m)),
+```
+
+where `k` is support connectivity branchwidth and `gamma=O(m)` for explicit
+fan-in-three supports. Thus the algorithm is polynomial whenever
+
+```text
+k = O(sqrt(log m)).
+```
+
+In this regime V85 deterministically constructs a point at distance
+
+```text
+Omega((m-n)/log m)
+```
+
+from the range. At `m-n=n^(2/3)`, the guaranteed distance is
+`Omega(n^(2/3)/log n)`.
 
 ## Finite audit
 
@@ -121,7 +149,9 @@ The primary and independent paths check:
 - 12 V75 models with 840 cumulative prefix-pair comparisons and 12 constructed
   radius-one remote points;
 - eight independent V75 models with 216 exact distance-coefficient comparisons
-  and eight constructed remote points.
+  and eight constructed remote points;
+- the exact affine-state count and its elementary upper bound for dimensions
+  zero through twelve.
 
 Run:
 
@@ -133,8 +163,10 @@ python3 verify_independent.py
 ## Files
 
 - `THEOREMS.md` — completeness, support-list, Fourier, syndrome/C4, and
-  remote-point proofs;
-- `distance_semiring.py` — source-level V75 truncated-polynomial evaluator;
+  source-integrated remote-point proofs;
+- `WIDTH_DISTANCE_COROLLARY.md` — the `O(sqrt(log m))` support-width theorem;
+- `distance_semiring.py` — source-level V75 truncated-polynomial evaluator and
+  affine-state counting functions;
 - `LITERATURE_BOUNDARY.md` — current primary-source boundary and novelty
   cautions;
 - `support_lists.py`, `structural.py`, and `v85_core.py` — executable theorem
