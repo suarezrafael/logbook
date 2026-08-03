@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Independent V88 audit without importing the primary implementation."""
+"""Independent V88 audit without importing the primary implementations."""
 from __future__ import annotations
 
 import json
+import random
 from collections import Counter
 from itertools import combinations, product
-from math import ceil, comb
+from math import ceil, comb, log
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -244,6 +245,123 @@ def independent_target_scales() -> list[dict[str, int]]:
     ]
 
 
+V80_PROPERTY_SUPPORTS = {
+    "seven_variables": (
+        (0, 5, 6), (1, 3, 6), (0, 2, 4), (0, 4, 6),
+        (2, 3, 5), (0, 3, 6), (0, 1, 2), (3, 4, 5),
+        (2, 4, 5), (1, 5, 6), (2, 4, 6),
+    ),
+    "eight_variables": (
+        (0, 1, 3), (0, 1, 4), (1, 2, 6), (2, 4, 7),
+        (2, 3, 5), (0, 3, 7), (0, 3, 5), (1, 3, 6),
+        (1, 2, 5), (0, 2, 4), (2, 6, 7), (0, 4, 7),
+    ),
+    "nine_variables": (
+        (2, 3, 7), (2, 5, 7), (4, 5, 8), (0, 3, 6),
+        (0, 5, 8), (3, 4, 7), (1, 2, 6), (1, 2, 4),
+        (2, 6, 7), (5, 7, 8), (3, 4, 6), (1, 4, 8),
+        (0, 1, 5), (0, 5, 6),
+    ),
+}
+
+V87_PROPERTY_SAMPLES = (
+    (10, 15, 88000),
+    (10, 15, 88001),
+    (12, 18, 88200),
+    (12, 18, 88201),
+    (14, 20, 88400),
+    (14, 20, 88401),
+    (16, 23, 88600),
+    (16, 23, 88601),
+)
+
+
+def count_property_b(
+    variable_count: int, supports: tuple[tuple[int, int, int], ...]
+) -> int:
+    count = 0
+    for mask in range(1 << variable_count):
+        valid = True
+        for a, b, c in supports:
+            color = (mask >> a) & 1
+            if ((mask >> b) & 1) == color and ((mask >> c) & 1) == color:
+                valid = False
+                break
+        count += valid
+    return count
+
+
+def coloring_is_proper(
+    coloring: list[int], supports: tuple[tuple[int, int, int], ...]
+) -> bool:
+    return all(
+        not (coloring[a] == coloring[b] == coloring[c])
+        for a, b, c in supports
+    )
+
+
+def independent_property_b_counts() -> tuple[dict[str, int], dict[int, int]]:
+    v80_counts: dict[str, int] = {}
+    for name, supports in V80_PROPERTY_SUPPORTS.items():
+        n = max(max(support) for support in supports) + 1
+        v80_counts[name] = count_property_b(n, supports)
+
+    sample_counts: dict[int, int] = {}
+    for n, m, seed in V87_PROPERTY_SAMPLES:
+        rng = random.Random(seed)
+        supports = tuple(
+            rng.sample(tuple(combinations(range(n), 3)), m)
+        )
+        sample_counts[seed] = count_property_b(n, supports)
+    return v80_counts, sample_counts
+
+
+def validate_property_b_results(committed: dict) -> None:
+    lower_density = 3.5 * log(2) - 1
+    calibration = committed["density_calibration"]
+    assert abs(
+        calibration["random_3_uniform_two_colorability_lower_density"]
+        - lower_density
+    ) < 1e-15
+    assert calibration["coupling_density"] == 1.25
+    assert calibration["coupling_density"] < lower_density
+    assert calibration["target_density_limit"] == 1.0
+    for row in calibration["calibration_scales"]:
+        assert row["m"] == row["n"] + ceil(row["n"] ** (2 / 3))
+        assert abs(row["density"] - row["m"] / row["n"]) < 1e-15
+        assert row["below_five_quarters"] == (row["m"] <= 1.25 * row["n"])
+
+    v80_counts, sample_counts = independent_property_b_counts()
+    v80_rows = committed["finite_audit"]["v80_controls"]
+    assert {row["name"]: row["proper_two_colorings"] for row in v80_rows} == v80_counts
+    for row in v80_rows:
+        supports = V80_PROPERTY_SUPPORTS[row["name"]]
+        assert coloring_is_proper(row["one_coloring"], supports)
+
+    sample_rows = committed["finite_audit"]["v87_random_samples"]
+    assert {row["seed"]: row["proper_two_colorings"] for row in sample_rows} == sample_counts
+    for row in sample_rows:
+        rng = random.Random(row["seed"])
+        supports = tuple(
+            rng.sample(tuple(combinations(range(row["n"]), 3)), row["m"])
+        )
+        assert coloring_is_proper(row["one_coloring"], supports)
+
+    assert committed["finite_audit"]["v80_all_two_colorable"]
+    assert committed["finite_audit"]["v87_samples_all_two_colorable"]
+    assert committed["finite_audit"]["total_support_families_checked"] == 11
+    assert committed["constructor_lower_bound"]["minimum_universal_rows"] == 4
+    assert not committed["constructor_lower_bound"][
+        "support_only_universal_triple_exists"
+    ]
+    status = committed["scientific_status"]
+    assert status["v87_random_model_two_colorable_whp"]
+    assert status["same_family_three_certificates_plus_property_b_exists"]
+    assert status["constructor_model_lower_bound"]
+    assert not status["support_only_universal_triple_exists"]
+    assert not status["four_row_obstruction_constructed"]
+
+
 def main() -> None:
     committed = json.loads((ROOT / "RESULTS.json").read_text(encoding="utf-8"))
     triples = tuple(combinations(range(4), 3))
@@ -287,10 +405,15 @@ def main() -> None:
     assert independent_target_scales() == barrier["target_stretch_scales"]
     assert barrier["minimum_active_outputs_for_three_row_obstruction"] == 15
 
+    property_b = json.loads(
+        (ROOT / "PROPERTY_B_RESULTS.json").read_text(encoding="utf-8")
+    )
+    validate_property_b_results(property_b)
+
     print(
-        "V88 independent verification passed: 7,264 collision instances, "
-        "1,710 bad-cylinder pairs, 2,187 Fano labelings, and the independent "
-        "fourteen-output moment contradiction."
+        "V88 independent verification passed: collision geometry, bad-cylinder "
+        "moments, Fano labelings, 11 Property-B controls, and the universal "
+        "three-row constructor lower bound."
     )
 
 
