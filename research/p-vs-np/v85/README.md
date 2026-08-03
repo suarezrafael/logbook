@@ -66,7 +66,7 @@ subsystems with cancelling linear parts.
 A committed seven-output witness shows that before C4 elimination a nonlinear
 constant syndrome can solve a selector that is not Hall deficient.
 
-### 5. Remote point by exact pair counting
+### 5. Source-verified bounded-width remote points
 
 For radius `r`, let `B(m,r)` be the Hamming-ball volume. If
 
@@ -74,17 +74,39 @@ For radius `r`, let `B(m,r)` be the Hamming-ball volume. If
 2^n B(m,r) < 2^m,
 ```
 
-exact prefix counting of pairs `(x,z)` with `d_H(C(x),z)<=r` constructs a target
-at distance greater than `r` from the whole range. At additive stretch
+prefix counting of pairs `(x,z)` with `d_H(C(x),z)<=r` constructs a target at
+distance greater than `r` from the whole range. At additive stretch
 `sigma=m-n`, the elementary bound gives radius
 
 ```text
 Omega(sigma/log m).
 ```
 
-The theorem is unconditional relative to the exact pair-count oracle. The
-claimed composition with the historical V75 bounded-width engine remains an
-explicit V86 verification task.
+V85 now verifies the composition with the actual V75 arithmetic DAG. The V75
+circuit represents
+
+```text
+P_C(z) = sum_x product_i z_(i,C_i(x)).
+```
+
+Evaluate the same DAG over truncated polynomials in `t`:
+
+- on a fixed prefix coordinate, assign weight `1` to agreement and `t` to
+  disagreement;
+- on a free coordinate, assign `1+t` to both paired variables.
+
+The coefficient of `t^d` is exactly the number of pairs at distance `d`.
+Therefore the V75 prefix search lifts to a deterministic remote-point algorithm
+without changing the branch decomposition or boundary width. With arithmetic
+DAG size `S`, naive truncated convolution gives runtime
+
+```text
+O(m S r^2 poly(n+m)).
+```
+
+In particular, every regime where the V75 DAG is polynomial-size — including
+fixed bounded branchwidth — now has a polynomial-time remote-point algorithm at
+distance `Omega((m-n)/log m)`.
 
 ## Finite audit
 
@@ -95,7 +117,11 @@ The primary and independent paths check:
 - the counting and `Eval_H` dimensions on eight parameter scales;
 - 384 C4-free support instances and 866 constant syndromes;
 - a symbolic nonlinear C4 witness;
-- eight exact remote-point controls.
+- eight exact oracle-level remote-point controls;
+- 12 V75 models with 840 cumulative prefix-pair comparisons and 12 constructed
+  radius-one remote points;
+- eight independent V75 models with 216 exact distance-coefficient comparisons
+  and eight constructed remote points.
 
 Run:
 
@@ -107,11 +133,12 @@ python3 verify_independent.py
 ## Files
 
 - `THEOREMS.md` — completeness, support-list, Fourier, syndrome/C4, and
-  remote-point proofs, plus the V75 integration contract;
+  remote-point proofs;
+- `distance_semiring.py` — source-level V75 truncated-polynomial evaluator;
 - `LITERATURE_BOUNDARY.md` — current primary-source boundary and novelty
   cautions;
-- `v85_core.py` — executable support-list, Fourier, syndrome, and remote-point
-  kernel;
+- `support_lists.py`, `structural.py`, and `v85_core.py` — executable theorem
+  kernels;
 - `RESULTS.json` — compact immutable claim and audit summary;
 - `verify.py` and `verify_independent.py` — registered primary and independent
   checks;
@@ -120,7 +147,7 @@ python3 verify_independent.py
 ## Nonclaims
 
 V85 does not construct the existential support-only list efficiently, solve the
-unrestricted Hall-expander branch, verify the V75 source integration, prove
-locality-three surjectivity hardness, inherit proof-complexity lower bounds,
-construct a rigid matrix, prove a new unrestricted circuit lower bound, or
-resolve `P` versus `NP`. Novelty and peer-review status remain unconfirmed.
+unrestricted Hall-expander branch, prove locality-three surjectivity hardness,
+inherit proof-complexity lower bounds, construct a rigid matrix, prove a new
+unrestricted circuit lower bound, or resolve `P` versus `NP`. Novelty and
+peer-review status remain unconfirmed.
