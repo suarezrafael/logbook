@@ -99,6 +99,8 @@
     "eval_h_collision_normal_form": true,
     "eval_h_pairwise_obstruction_impossible": true,
     "eval_h_three_row_labeled_hypergraph_reduction": true,
+    "eval_h_three_row_requires_fifteen_active_outputs": true,
+    "eval_h_three_row_target_stretch_n5_n9_coverable": true,
     "explicit_deterministic_three_certificate_family": false,
     "novelty_confirmed": false,
     "p_vs_np_resolved": false,
@@ -108,6 +110,126 @@
   "theorems": {
     "collision_normal_form": "A target list is coverable iff normalized variable-row patterns separate every differing target pair on its output support.",
     "pair_constructor": "Every two-row target list is coverable by activating the union of supports on which the two targets differ.",
+    "three_row_fourteen_output_barrier": "Every three-row target list on a simple 3-uniform support family with at most fourteen active output columns is coverable.",
     "three_row_reduction": "Three-row coverability is exactly a labeled three-color hypergraph problem; a nonconstant target column labels its unique equal row pair."
+  },
+  "three_row_barrier": {
+    "fano_labeling_census": {
+      "labelings": 2187,
+      "maximum_satisfying_colorings": 1317,
+      "minimum_satisfying_colorings": 1238,
+      "satisfiable_labelings": 2187,
+      "support_edges": 7,
+      "total_satisfying_pairs": 2726139,
+      "uncoverable_labelings": 0
+    },
+    "minimum_active_outputs_for_three_row_obstruction": 15,
+    "moment_certificates": [
+      {
+        "colorings": 243,
+        "contradiction_gap": 28,
+        "incidence_excess_if_cover": 9,
+        "pair_intersection_lower_bound": 91,
+        "pair_intersection_upper_bound_if_cover": 63,
+        "single_bad_colorings": 18,
+        "variables": 5
+      },
+      {
+        "colorings": 729,
+        "contradiction_gap": 84,
+        "incidence_excess_if_cover": 27,
+        "pair_intersection_lower_bound": 273,
+        "pair_intersection_upper_bound_if_cover": 189,
+        "single_bad_colorings": 54,
+        "variables": 6
+      },
+      {
+        "colorings": 2187,
+        "contradiction_gap": 252,
+        "incidence_excess_if_cover": 81,
+        "pair_intersection_lower_bound": 819,
+        "pair_intersection_upper_bound_if_cover": 567,
+        "single_bad_colorings": 162,
+        "variables": 7
+      },
+      {
+        "colorings": 6561,
+        "contradiction_gap": 756,
+        "incidence_excess_if_cover": 243,
+        "pair_intersection_lower_bound": 2457,
+        "pair_intersection_upper_bound_if_cover": 1701,
+        "single_bad_colorings": 486,
+        "variables": 8
+      },
+      {
+        "colorings": 19683,
+        "contradiction_gap": 2268,
+        "incidence_excess_if_cover": 729,
+        "pair_intersection_lower_bound": 7371,
+        "pair_intersection_upper_bound_if_cover": 5103,
+        "single_bad_colorings": 1458,
+        "variables": 9
+      }
+    ],
+    "pair_formula_census": {
+      "distribution": {
+        "overlap=0;same_label=false;intersection=4": 60,
+        "overlap=0;same_label=true;intersection=4": 30,
+        "overlap=1;same_label=false;intersection=3": 540,
+        "overlap=1;same_label=true;intersection=6": 270,
+        "overlap=2;same_label=false;intersection=9": 540,
+        "overlap=2;same_label=true;intersection=18": 270
+      },
+      "formula_mismatches": 0,
+      "labeled_distinct_support_pairs_checked": 1710,
+      "minimum_pair_intersection": 3,
+      "supports": 20,
+      "variables": 6
+    },
+    "proof_constants": {
+      "fourteen_cover_upper_coefficient": 63,
+      "fourteen_pair_lower_coefficient": 91,
+      "minimum_distinct_pair_intersection_probability": "1/243",
+      "single_bad_probability": "2/27"
+    },
+    "scientific_status": {
+      "four_row_obstruction_constructed": false,
+      "three_row_asymptotic_constructor": false,
+      "three_row_obstruction_requires_fifteen_outputs": true,
+      "three_row_target_stretch_n5_through_n9_coverable": true
+    },
+    "target_stretch_scales": [
+      {
+        "covered_by_fourteen_output_theorem": 1,
+        "m": 8,
+        "n": 5,
+        "simple_support_capacity": 10
+      },
+      {
+        "covered_by_fourteen_output_theorem": 1,
+        "m": 10,
+        "n": 6,
+        "simple_support_capacity": 20
+      },
+      {
+        "covered_by_fourteen_output_theorem": 1,
+        "m": 11,
+        "n": 7,
+        "simple_support_capacity": 35
+      },
+      {
+        "covered_by_fourteen_output_theorem": 1,
+        "m": 12,
+        "n": 8,
+        "simple_support_capacity": 56
+      },
+      {
+        "covered_by_fourteen_output_theorem": 1,
+        "m": 14,
+        "n": 9,
+        "simple_support_capacity": 84
+      }
+    ],
+    "theorem": "Every three-row target list on a simple 3-uniform support family with at most fourteen active output columns is coverable."
   }
 }
