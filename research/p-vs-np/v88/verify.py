@@ -28,6 +28,20 @@ def generated_results() -> dict:
     return generated
 
 
+def verify_status(status: dict) -> None:
+    assert status["highest_directory"] == "V88"
+    candidate = status["candidate_version"]
+    if candidate == "V88":
+        assert status["promoted_version"] == "V87"
+        assert status["promotion_state"] == "candidate"
+        assert status["next_laboratory_version"] == "V88"
+    else:
+        assert candidate is None
+        assert status["promoted_version"] == "V88"
+        assert status["promotion_state"] == "promoted"
+        assert status["next_laboratory_version"] == "V89"
+
+
 def main() -> None:
     committed = json.loads((ROOT / "RESULTS.json").read_text(encoding="utf-8"))
     generated = generated_results()
@@ -78,10 +92,7 @@ def main() -> None:
     ]
 
     status = json.loads(STATUS.read_text(encoding="utf-8"))
-    assert status["promoted_version"] == "V87"
-    assert status["candidate_version"] == "V88"
-    assert status["highest_directory"] == "V88"
-    assert status["promotion_state"] == "candidate"
+    verify_status(status)
     scientific = status["scientific_status"]
     assert scientific["eval_h_collision_normal_form"]
     assert scientific["eval_h_pairwise_obstruction_impossible"]
