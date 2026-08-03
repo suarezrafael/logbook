@@ -23,8 +23,17 @@ def main() -> None:
     assert "  schedule:\n" in VERIFY
     assert "cron: '17 06 * * 1'" in VERIFY
     assert "  changes:\n" in VERIFY
+    assert "compatibility: ${{ steps.detect.outputs.compatibility }}" in VERIFY
+    assert "compatibility=false" in VERIFY
+    assert "research/p-vs-np/LAB_STATUS.json" in VERIFY
+    assert 'echo "compatibility=$compatibility" >> "$GITHUB_OUTPUT"' in VERIFY
     assert "  compatibility:\n" in VERIFY
     assert "run_verification_in_sandbox.sh --compat" in VERIFY
+
+    compatibility = between(VERIFY, "  compatibility:\n", "  full:\n")
+    assert "github.event.pull_request.draft == false" in compatibility
+    assert "github.event_name == 'push'" in compatibility
+    assert "needs.changes.outputs.compatibility == 'true'" in compatibility
 
     full = between(VERIFY, "  full:\n", "  latex:\n")
     assert "github.event_name == 'schedule'" in full
@@ -44,7 +53,7 @@ def main() -> None:
     policy = STATUS["ci_policy"]
     assert policy["draft_pull_request"] == ["quick", "latex_when_relevant"]
     assert policy["ready_pull_request"] == ["quick", "compatibility", "latex_when_relevant", "full_when_ci_sensitive"]
-    assert policy["main_push"] == ["quick", "latex_when_relevant"]
+    assert policy["main_push"] == ["quick", "compatibility_when_status_changes", "latex_when_relevant"]
     assert policy["scheduled"] == ["full"]
     assert policy["manual_dispatch"] == ["quick", "full", "latex"]
 
@@ -59,7 +68,7 @@ def main() -> None:
     assert "github.event.pull_request.head.repo.full_name == github.repository" in CLEANUP
     assert "branches=(" not in CLEANUP
 
-    print("CI contract passed: safe promotion gates, scheduled exact replays, conditional LaTeX, dynamic cleanup.")
+    print("CI contract passed: compatibility before promotion and after status promotion, scheduled exact replays, conditional LaTeX, dynamic cleanup.")
 
 
 if __name__ == "__main__":

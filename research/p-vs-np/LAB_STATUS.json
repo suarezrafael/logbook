@@ -1,5 +1,5 @@
 {
-  "schema_version": 13,
+  "schema_version": 14,
   "updated": "2026-08-02",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V84",
@@ -14,7 +14,7 @@
   "ci_policy": {
     "draft_pull_request": ["quick", "latex_when_relevant"],
     "ready_pull_request": ["quick", "compatibility", "latex_when_relevant", "full_when_ci_sensitive"],
-    "main_push": ["quick", "latex_when_relevant"],
+    "main_push": ["quick", "compatibility_when_status_changes", "latex_when_relevant"],
     "scheduled": ["full"],
     "manual_dispatch": ["quick", "full", "latex"]
   },
