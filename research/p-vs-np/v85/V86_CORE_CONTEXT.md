@@ -1,4 +1,4 @@
-# V86 core context — constructive remote points and certificate hardness
+# V86 core context — constructive `Eval_H` and certificate hardness
 
 ## Frozen output from V85
 
@@ -14,39 +14,44 @@
 5. On C4-free supports, constant output-parity syndromes use only affine gates.
 6. Exact Hamming-ball pair counting constructs a remote point whenever
    `2^n B(m,r)<2^m`.
+7. The actual V75 monotone arithmetic DAG supports truncated-polynomial distance
+   evaluation without changing the branch decomposition. Polynomial-size V75
+   DAG regimes therefore have deterministic remote points at distance
+   `Omega((m-n)/log m)`.
 
-## Priority one — source-level V75 integration
-
-Load the historical paired generating-polynomial implementation and prove that
-its width parameter supports the distance marker required by V85. The output
-must be either:
-
-- a verified polynomial-time remote-point algorithm for bounded branchwidth;
-- an explicit runtime or state-space obstruction;
-- a counterexample to the proposed specialization.
-
-Do not infer the integration only from the abstract recurrence.
-
-## Priority two — constructive `Eval_H`
+## Priority one — constructive `Eval_H`
 
 Exploit truth-table reuse across the candidate layers. Test splitters, perfect
 hash families, small-bias spaces, and codes aligned with the support
 hypergraph. A valid result must construct the missing list, not merely prove it
 exists.
 
-## Priority three — local-surjectivity certificates
+The primary quantitative target is to beat generic locality-eleven avoidance
+by using the fact that the same gate table is shared across all candidate
+layers.
+
+## Priority two — local-surjectivity certificates
 
 Separate polynomially checkable reasons for a local map to be non-surjective:
-Hall deficiency, affine syndromes, bounded-width exact enumeration, and other
-algebraic certificates. Audit the complexity of recognizing surjectivity for
-finite locality-three maps. No `Pi_2^P`-completeness claim is allowed without a
-surjectivity-preserving bounded-locality gadget.
+Hall deficiency, affine syndromes, bounded-width exact distance enumeration,
+and other algebraic certificates. Audit the complexity of recognizing
+surjectivity for finite locality-three maps. No `Pi_2^P`-completeness claim is
+allowed without a surjectivity-preserving bounded-locality gadget.
 
-## Priority four — proof-complexity match
+## Priority three — proof-complexity match
 
 Compare the exact V80 obstruction generators with PRG-tautology lower-bound
-hypotheses. Record failures of parameter matching as results. Expansion alone
-is not sufficient for inheritance.
+hypotheses. Match the predicate, encoding, expansion parameters, proof system,
+field, auxiliary variables, and stretch. Record every failed match as a result;
+expansion alone is not sufficient for inheritance.
+
+## Priority four — width/distance frontier
+
+Use the now-verified V75 distance semiring to determine the largest width scale
+for which the remote-point algorithm remains polynomial. Measure the true
+state function `A(b)`, coefficient growth, and whether faster truncated
+convolution or incremental DAG reevaluation improves the boundary beyond fixed
+branchwidth.
 
 ## Nonclaims
 
