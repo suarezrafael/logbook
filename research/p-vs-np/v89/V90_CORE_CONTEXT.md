@@ -12,33 +12,56 @@ V89 establishes:
 4. eight is the exact target-independent ceiling for ternary supports;
 5. all V80 and deterministic V87 controls are basis-colorable;
 6. the controls are not primal-four-colorable;
-7. the asymptotic V87 basis-coloring bridge remains open.
+7. strong four-coloring reduces to an exact cubic overlap objective;
+8. the uniform overlap is locally stable for every density below `3/2`;
+9. the global Birkhoff inequality and the asymptotic V87 bridge remain open.
 
-## Priority one — asymptotic basis-addressing bridge
+## Priority one — close or kill the strong-four bridge
 
-Prove or refute that the V87 random support model admits, with high probability
-or positive bounded-away-from-zero probability, a labeling
+For a `4x4` doubly stochastic matrix `B`, define
 
 ```text
-a_v in F_2^3 \ {0}
+Phi_c(B)
+  = H(B)/4 - ln(4)
+    + c ln(4(2 + sum_ij B_ij^3)/9).
 ```
 
-such that every support receives a basis.
+The first target is to prove or refute, for one explicit fixed `c0>1`,
 
-Acceptable routes include:
+```text
+Phi_c0(B) <= 0
+```
 
-- exact second-moment analysis of the seven-state basis CSP;
+for every `B`, with equality only at the uniform matrix.
+
+Acceptable closures:
+
+- an analytic entropy/cubic inequality on the Birkhoff polytope;
+- a rigorous interval or sum-of-squares certificate covering the full polytope;
+- a line-by-line verified published theorem at `k=3,r=4,c0>1`;
+- a concrete counterexample overlap with positive exponent.
+
+A proof plus the standard second-moment bookkeeping must establish probability
+bounded away from zero in the exact fixed-edge support model. Only then may the
+V86/V87 high-probability barriers be intersected to raise the constructor lower
+bound to nine.
+
+## Priority two — seven-state basis CSP
+
+If the strong-four route fails, analyze the more permissive CSP with domain
+`F_2^3\{0}` and allowed constraints equal to ordered bases. Candidate routes:
+
+- exact second-moment analysis of the `7x7` overlap;
 - a core-peeling extension theorem;
-- a rigorous coupling to a known random-CSP model;
+- a rigorous coupling to a known symmetric random-CSP model;
 - an explicit deterministic resistant family with a basis coloring.
 
-A successful intersection with the V86/V87 Hall, syndrome, and width events
-raises the support-only universal-list lower bound from four to nine.
+Finite satisfiability of the eleven controls is not an asymptotic theorem.
 
-## Priority two — superconstant constructor lower bound
+## Priority three — superconstant constructor lower bound
 
-The nine-row result is still constant. Seek a mechanism that grows with `n`,
-or prove a lower bound for a precise constructor class whose parameter grows.
+Even a nine-row result is constant. Seek a mechanism that grows with `n`, or
+prove a lower bound for a precise constructor class whose parameter grows.
 
 ## Stop rule
 
@@ -59,5 +82,5 @@ The next laboratory must return to one of:
 
 ## Nonclaims
 
-A finite basis-coloring census is not an asymptotic theorem and is not evidence
-that `P != NP`.
+Local overlap stability and finite rational grids do not prove the global
+second-moment inequality and are not evidence that `P != NP`.
