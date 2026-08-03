@@ -23,6 +23,7 @@
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
+    "compatibility_expected_mutations": 9,
     "full_expected_mutations": 9
   },
   "metadata_policy": {
