@@ -23,6 +23,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          gh api --silent --method DELETE \
-            "repos/${GH_REPOSITORY}/git/refs/heads/${BRANCH}"
-          echo "deleted ${BRANCH}"
+          ref="repos/${GH_REPOSITORY}/git/ref/heads/${BRANCH}"
+          if gh api --silent "$ref" >/dev/null 2>&1; then
+            gh api --silent --method DELETE \
+              "repos/${GH_REPOSITORY}/git/refs/heads/${BRANCH}"
+            echo "deleted ${BRANCH}"
+          else
+            echo "already absent ${BRANCH}"
+          fi
