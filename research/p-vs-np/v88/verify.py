@@ -29,21 +29,35 @@ def generated_results() -> dict:
 
 
 def verify_status(status: dict) -> None:
-    assert status["highest_directory"] == "V88"
     candidate = status["candidate_version"]
+    promoted = status["promoted_version"]
+    highest = status["highest_directory"]
+
     if candidate == "V88":
-        assert status["promoted_version"] == "V87"
+        assert promoted == "V87"
+        assert highest == "V88"
         assert status["promotion_state"] == "candidate"
         assert status["next_laboratory_version"] == "V88"
-    else:
-        assert candidate is None
-        assert status["promoted_version"] == "V88"
+        return
+
+    assert promoted == "V88"
+    if candidate is None:
+        assert highest == "V88"
         assert status["promotion_state"] == "promoted"
         assert status["next_laboratory_version"] == "V89"
+        return
+
+    assert candidate.startswith("V")
+    assert int(candidate[1:]) >= 89
+    assert highest == candidate
+    assert status["promotion_state"] == "candidate"
+    assert status["next_laboratory_version"] == candidate
 
 
 def main() -> None:
-    committed = json.loads((ROOT / "RESULTS.json").read_text(encoding="utf-8"))
+    committed = json.loads(
+        (ROOT / "RESULTS.json").read_text(encoding="utf-8")
+    )
     generated = generated_results()
     assert generated == committed
 
