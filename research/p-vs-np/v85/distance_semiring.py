@@ -17,6 +17,29 @@ def hamming_ball_volume(m: int, radius: int) -> int:
     return sum(comb(m, j) for j in range(min(m, radius) + 1))
 
 
+def gaussian_binomial_two(b: int, d: int) -> int:
+    """Number of d-dimensional linear subspaces of GF(2)^b."""
+    if not 0 <= d <= b:
+        return 0
+    numerator = denominator = 1
+    for i in range(d):
+        numerator *= (1 << b) - (1 << i)
+        denominator *= (1 << d) - (1 << i)
+    if numerator % denominator:
+        raise AssertionError("Gaussian binomial must be integral")
+    return numerator // denominator
+
+
+def affine_subspace_count(b: int) -> int:
+    """Exact V75 state bound A(b): all nonempty affine subspaces of GF(2)^b."""
+    return sum((1 << (b - d)) * gaussian_binomial_two(b, d) for d in range(b + 1))
+
+
+def affine_subspace_elementary_bound(b: int) -> int:
+    """Elementary bound A(b) <= (b+1) 2^(floor(b^2/4)+b)."""
+    return (b + 1) * (1 << ((b * b) // 4 + b))
+
+
 def _zero(radius: int) -> tuple[int, ...]:
     return (0,) * (radius + 1)
 
