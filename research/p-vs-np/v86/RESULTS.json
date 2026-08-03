@@ -1,0 +1,148 @@
+{
+  "asymptotic_two_barrier": {
+    "conclusion": "For all sufficiently large n, there exists a simple 3-uniform support family at target stretch with no Hall-deficient set of size at most n/(16e^2); assigning NOR3 to every gate gives no nonzero constant syndrome.",
+    "duplicate_support_bound": "binom(m,2)/binom(n,3)=O(1/n)",
+    "hall_bad_event_bound": "at most 8/49 for the V80 local-expansion range",
+    "high_branchwidth_proved": false,
+    "model": "independent uniformly random 3-subsets",
+    "rows": [
+      {
+        "combined_with_v80_hall_bad_event_bound": 0.2391101601931095,
+        "duplicate_support_union_bound": 0.07584485407066052,
+        "m": 80,
+        "n": 64
+      },
+      {
+        "combined_with_v80_hall_bad_event_bound": 0.17071177786182964,
+        "duplicate_support_union_bound": 0.007446471739380684,
+        "m": 576,
+        "n": 512
+      },
+      {
+        "combined_with_v80_hall_bad_event_bound": 0.16409255756340338,
+        "duplicate_support_union_bound": 0.000827251440954421,
+        "m": 4352,
+        "n": 4096
+      },
+      {
+        "combined_with_v80_hall_bad_event_bound": 0.1633626763427389,
+        "duplicate_support_union_bound": 9.737022028993344e-05,
+        "m": 33792,
+        "n": 32768
+      }
+    ]
+  },
+  "examples": {
+    "eight_variables": {
+      "all_three_certificate_families_fail_simultaneously": false,
+      "bounded_width_enumeration_still_applies": true,
+      "c4_count": 17,
+      "incidence_girth": 4,
+      "m": 12,
+      "minimum_hall_deficient_gate_count": 8,
+      "minimum_hall_neighborhood_size": 7,
+      "n": 8,
+      "name": "eight_variables",
+      "nonzero_constant_syndromes_under_nor3": 0,
+      "nor3_nonconstant_anf_rank": 12,
+      "small_hall_enumeration_still_applies": true,
+      "stretch": 4,
+      "support_branchwidth": 5
+    },
+    "nine_variables": {
+      "all_three_certificate_families_fail_simultaneously": false,
+      "bounded_width_enumeration_still_applies": true,
+      "c4_count": 18,
+      "incidence_girth": 4,
+      "m": 14,
+      "minimum_hall_deficient_gate_count": 9,
+      "minimum_hall_neighborhood_size": 8,
+      "n": 9,
+      "name": "nine_variables",
+      "nonzero_constant_syndromes_under_nor3": 0,
+      "nor3_nonconstant_anf_rank": 14,
+      "small_hall_enumeration_still_applies": true,
+      "stretch": 5,
+      "support_branchwidth": 6
+    },
+    "seven_variables": {
+      "all_three_certificate_families_fail_simultaneously": false,
+      "bounded_width_enumeration_still_applies": true,
+      "c4_count": 15,
+      "incidence_girth": 4,
+      "m": 11,
+      "minimum_hall_deficient_gate_count": 7,
+      "minimum_hall_neighborhood_size": 6,
+      "n": 7,
+      "name": "seven_variables",
+      "nonzero_constant_syndromes_under_nor3": 0,
+      "nor3_nonconstant_anf_rank": 11,
+      "small_hall_enumeration_still_applies": true,
+      "stretch": 4,
+      "support_branchwidth": 5
+    }
+  },
+  "nonclaims": {
+    "new_unrestricted_circuit_lower_bound": false,
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false,
+    "peer_reviewed": false,
+    "rigid_matrix_constructed": false,
+    "unrestricted_NC0_3_avoid_solved": false
+  },
+  "restriction_no_pullback": {
+    "avoids_original_map": false,
+    "avoids_restricted_map": true,
+    "map": "C(x)=(x,0)",
+    "restriction": "x=0",
+    "target": [1, 0]
+  },
+  "scope": "intersection audit for Hall, syndrome, and width certificates",
+  "status": "candidate",
+  "theorems": {
+    "asymptotic_high_branchwidth_for_that_family": false,
+    "asymptotic_local_hall_plus_no_syndrome_family_exists": true,
+    "c4_is_necessary_not_sufficient_for_nonlinear_syndrome": true,
+    "restriction_of_inputs_has_no_avoidance_pullback": true,
+    "simple_3_uniform_nor3_has_no_constant_syndrome": true,
+    "single_family_defeating_all_three_certificates_found": false,
+    "sqrt_log_width_optimization_reaches_v84_hard_branch": false
+  },
+  "totals": {
+    "c4_witnesses": 50,
+    "examples": 3,
+    "nonzero_constant_syndromes_under_nor3": 0,
+    "nor3_nonconstant_anf_rank": 37
+  },
+  "version": "V86",
+  "width_gap": [
+    {
+      "hard_branch_width_lower_bound": 16,
+      "m": 80,
+      "n": 64,
+      "ratio": 6.363487666412519,
+      "v85_polynomial_width_scale": 2.5143444662351584
+    },
+    {
+      "hard_branch_width_lower_bound": 64,
+      "m": 576,
+      "n": 512,
+      "ratio": 21.13474840130274,
+      "v85_polynomial_width_scale": 3.0281884025671704
+    },
+    {
+      "hard_branch_width_lower_bound": 256,
+      "m": 4352,
+      "n": 4096,
+      "ratio": 73.63298205955569,
+      "v85_polynomial_width_scale": 3.4767028692786415
+    },
+    {
+      "hard_branch_width_lower_bound": 1024,
+      "m": 33792,
+      "n": 32768,
+      "ratio": 264.00527567879465,
+      "v85_polynomial_width_scale": 3.878710368068033
+    }
+  ]
+}
