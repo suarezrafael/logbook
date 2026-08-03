@@ -1,54 +1,33 @@
 name: Cleanup merged research branches
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - .github/workflows/cleanup-merged-research-branches.yml
-  workflow_dispatch:
+  pull_request:
+    types: [closed]
 
 permissions:
   contents: write
 
 jobs:
   cleanup:
+    if: >-
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'agent/')
     runs-on: ubuntu-latest
     steps:
-      - name: Delete audited merged branches
+      - name: Delete merged agent branch
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPOSITORY: ${{ github.repository }}
+          BRANCH: ${{ github.event.pull_request.head.ref }}
         shell: bash
         run: |
           set -euo pipefail
-
-          branches=(
-            "agent/copilot-review-remediation-v71-v74"
-            "agent/laboratory-v71-width-correspondence"
-            "agent/laboratory-v72-branch-residual-complexity"
-            "agent/laboratory-v73-bicriteria-counting-avoidance"
-            "agent/laboratory-v74-two-fiber-avoidance"
-            "agent/p-vs-np-lab-v16"
-            "agent/p-vs-np-lab-v63"
-            "agent/p-vs-np-lab-v64"
-            "agent/p-vs-np-lab-v65"
-            "agent/p-vs-np-lab-v66"
-            "agent/p-vs-np-lab-v67"
-            "agent/p-vs-np-lab-v68"
-            "agent/p-vs-np-lab-v69"
-            "agent/p-vs-np-lab-v70"
-            "agent/p-vs-np-lab-v71"
-            "agent/v62-staging"
-            "agent/reorganize-v17-v20-history"
-          )
-
-          for branch in "${branches[@]}"; do
-            ref="heads/${branch}"
-            if gh api --silent "repos/${GH_REPOSITORY}/git/ref/${ref}" >/dev/null 2>&1; then
-              gh api --silent --method DELETE "repos/${GH_REPOSITORY}/git/refs/${ref}"
-              echo "deleted ${branch}"
-            else
-              echo "already absent ${branch}"
-            fi
-          done
+          ref="repos/${GH_REPOSITORY}/git/ref/heads/${BRANCH}"
+          if gh api --silent "$ref" >/dev/null 2>&1; then
+            gh api --silent --method DELETE \
+              "repos/${GH_REPOSITORY}/git/refs/heads/${BRANCH}"
+            echo "deleted ${BRANCH}"
+          else
+            echo "already absent ${BRANCH}"
+          fi

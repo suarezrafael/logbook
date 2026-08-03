@@ -44,16 +44,21 @@ def main() -> None:
     )
     quick_index = workflow.index("Focused quick verification")
     quick_clean_index = workflow.index("Assert quick verification is read-only")
-    full_index = workflow.index("Cumulative full verification")
+    compat_index = workflow.index("Historical compatibility verification")
+    compat_clean_index = workflow.index("Assert compatibility verification is read-only")
+    full_index = workflow.index("Cumulative exact replay verification")
     full_clean_index = workflow.index("Assert full verification is read-only")
     assert quick_index < quick_clean_index
+    assert compat_index < compat_clean_index
     assert full_index < full_clean_index
-    assert workflow.count("run_verification_in_sandbox.sh") == 2
+    assert workflow.count("run_verification_in_sandbox.sh") == 3
     assert "path: ${{ runner.temp }}/verify-quick.log" in workflow
+    assert "path: ${{ runner.temp }}/verify-compatibility.log" in workflow
     assert "path: ${{ runner.temp }}/verify-full.log" in workflow
-    assert workflow.count("run: bash ./assert_clean_tree.sh") == 3
+    assert workflow.count("run: bash ./assert_clean_tree.sh") == 4
     assert "branches:\n      - main" in workflow
     assert "ready_for_review" in workflow
+    assert "github.event_name == 'push'" not in workflow.split("  full:\n", 1)[1].split("  latex:\n", 1)[0]
 
     sandbox_runner = (ROOT / "run_verification_in_sandbox.sh").read_text(
         encoding="utf-8"
@@ -61,7 +66,8 @@ def main() -> None:
     assert "git -C \"$REPO_ROOT\" archive --format=tar HEAD" in sandbox_runner
     assert "Sandbox mutation inventory" in sandbox_runner
     assert "exit \"$verification_status\"" in sandbox_runner
-    assert 'mode == "full" else set()' in sandbox_runner
+    assert '--compat) MODE="compat"' in sandbox_runner
+    assert 'mode in {"compat", "full"}' in sandbox_runner
 
     clean_gate = (ROOT / "assert_clean_tree.sh").read_text(encoding="utf-8")
     assert clean_gate.startswith("#!/usr/bin/env bash")
@@ -77,8 +83,8 @@ def main() -> None:
 
     print(
         "V78 independent verification passed: validators execute, V78 remains "
-        "registered, focused/full modes share the disposable archive, and all "
-        "executed CI jobs end in source-tree gates after later promotions."
+        "registered, quick/compat/full modes share the disposable archive, and "
+        "every executed verification job ends in a source-tree gate."
     )
 
 

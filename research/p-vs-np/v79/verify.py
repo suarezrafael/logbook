@@ -93,6 +93,12 @@ def main() -> None:
     assert "branches:\n      - main" in workflow
     assert "github.event.pull_request.draft == false" in workflow
     assert "types: [opened, synchronize, reopened, ready_for_review]" in workflow
+    assert "  compatibility:\n" in workflow
+    assert "run_verification_in_sandbox.sh --compat" in workflow
+    assert "  schedule:\n" in workflow
+    full_job = workflow.split("  full:\n", 1)[1].split("  latex:\n", 1)[0]
+    assert "github.event_name == 'schedule'" in full_job
+    assert "github.event_name == 'push'" not in full_job
 
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
     focused_match = re.search(r"FOCUSED_VERSIONS=\(([^)]*)\)", runner)
@@ -106,13 +112,21 @@ def main() -> None:
     full = [entry for entry in entries if entry[3] in {"quick", "full"}]
     assert len(quick) >= 18
     assert len(full) >= 63
+    assert '--compat) MODE="compat"' in runner
 
     sandbox = (ROOT / "run_verification_in_sandbox.sh").read_text(encoding="utf-8")
-    assert 'expected = load_full_baseline(baseline_path) if mode == "full" else set()' in sandbox
+    assert '--compat) MODE="compat"' in sandbox
+    assert 'expected = load_full_baseline(baseline_path) if mode in {"compat", "full"} else set()' in sandbox
+
+    verification_policy = status["verification_policy"]
+    assert verification_policy["quick_expected_mutations"] == 0
+    assert verification_policy["compatibility_expected_mutations"] == 9
+    assert verification_policy["full_expected_mutations"] == 9
 
     print(
-        "V79 primary verification passed: immutable evidence and focused/promotion CI "
-        "remain installed after later mathematical candidates; infrastructure stays frozen."
+        "V79 primary verification passed: immutable evidence, focused quick CI, "
+        "historical compatibility, and scheduled exact replays remain installed "
+        "after later mathematical candidates."
     )
 
 

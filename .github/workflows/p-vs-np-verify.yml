@@ -12,6 +12,8 @@ on:
     paths:
       - 'research/p-vs-np/**'
       - '.github/workflows/p-vs-np-verify.yml'
+  schedule:
+    - cron: '17 06 * * 1'
   workflow_dispatch:
 
 concurrency:
@@ -40,7 +42,68 @@ permissions:
 # V77_FPT_SUPPORT_WIDTH_THEOREM.tex
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      latex: ${{ steps.detect.outputs.latex }}
+      full_replay: ${{ steps.detect.outputs.full_replay }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Detect expensive verification needs
+        id: detect
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          PUSH_HEAD_SHA: ${{ github.sha }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          latex=false
+          full_replay=false
+          files=""
+
+          case "$EVENT_NAME" in
+            workflow_dispatch)
+              latex=true
+              full_replay=true
+              ;;
+            schedule)
+              ;;
+            pull_request)
+              files="$(git diff --name-only "$PR_BASE_SHA" "$PR_HEAD_SHA")"
+              ;;
+            push)
+              base="$BEFORE_SHA"
+              if [[ -z "$base" || "$base" =~ ^0+$ ]]; then
+                base="$(git rev-list --max-parents=0 "$PUSH_HEAD_SHA")"
+              fi
+              files="$(git diff --name-only "$base" "$PUSH_HEAD_SHA")"
+              ;;
+          esac
+
+          if printf '%s\n' "$files" | grep -Eq \
+            '(^research/p-vs-np/.*\.tex$|^research/p-vs-np/LATEX_MODULES\.tsv$|^research/p-vs-np/check_latex_manifest\.py$|^\.github/workflows/p-vs-np-verify\.yml$)'; then
+            latex=true
+          fi
+
+          if printf '%s\n' "$files" | grep -Eq \
+            '(^\.github/workflows/p-vs-np-verify\.yml$|^research/p-vs-np/verify_all\.sh$|^research/p-vs-np/run_verification_in_sandbox\.sh$|^research/p-vs-np/assert_clean_tree\.sh$|^research/p-vs-np/check_(runner_coverage|latex_manifest|ci_contract)\.py$|^research/p-vs-np/v56/verify_index\.py$|^research/p-vs-np/v58/verify_exact\.py$|^research/p-vs-np/v70/verify_search_reproduction\.py$)'; then
+            full_replay=true
+          fi
+
+          echo "latex=$latex" >> "$GITHUB_OUTPUT"
+          echo "full_replay=$full_replay" >> "$GITHUB_OUTPUT"
+          printf 'latex=%s full_replay=%s\n' "$latex" "$full_replay"
+          printf '%s\n' "$files"
+
   quick:
+    needs: changes
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -61,18 +124,46 @@ jobs:
           name: p-vs-np-quick-${{ github.run_id }}
           path: ${{ runner.temp }}/verify-quick.log
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 14
 
-  full:
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      github.event_name == 'push' ||
-      github.event.pull_request.draft == false
+  compatibility:
+    needs: changes
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v6
-      - name: Cumulative full verification
+      - name: Historical compatibility verification
+        working-directory: research/p-vs-np
+        run: |
+          set -o pipefail
+          bash ./run_verification_in_sandbox.sh --compat 2>&1 | tee "${RUNNER_TEMP}/verify-compatibility.log"
+      - name: Assert compatibility verification is read-only
+        if: always()
+        working-directory: research/p-vs-np
+        run: bash ./assert_clean_tree.sh
+      - name: Upload compatibility transcript
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: p-vs-np-compatibility-${{ github.run_id }}
+          path: ${{ runner.temp }}/verify-compatibility.log
+          if-no-files-found: error
+          retention-days: 14
+
+  full:
+    needs: changes
+    if: >-
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.draft == false &&
+       needs.changes.outputs.full_replay == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v6
+      - name: Cumulative exact replay verification
         working-directory: research/p-vs-np
         run: |
           set -o pipefail
@@ -91,6 +182,8 @@ jobs:
           retention-days: 30
 
   latex:
+    needs: changes
+    if: needs.changes.outputs.latex == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:

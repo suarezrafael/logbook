@@ -9,18 +9,21 @@ FOCUSED_VERSIONS=(V53 V54 V55 V56 V57 V58 V59 V78 V79 V80 V81 V82 V83 V84)
 
 case "${1:-}" in
   "") ;;
+  --compat) MODE="compat" ;;
   --full) MODE="full" ;;
   --list) MODE="list" ;;
   -h|--help)
     cat <<'HELP'
-Usage: ./verify_all.sh [--full|--list]
+Usage: ./verify_all.sh [--compat|--full|--list]
 
-  default  Run the focused regression gate for V53-V59 and V78-V84.
-  --full   Run the complete historical and exact verification suite.
-  --list   Print the registered checks without executing them.
+  default   Run the focused regression gate for V53-V59 and V78-V84.
+  --compat  Run every ordinary historical verifier, excluding exact replay tier.
+  --full    Run the complete historical suite including exact replay tier.
+  --list    Print every registered check without executing it.
 
-Registration tiers remain historically stable. The focused version list controls
-draft-PR cost without rewriting old verifier contracts.
+The compatibility gate protects promotion against historical status and contract
+regressions. Exact replays remain available for CI-sensitive changes, weekly
+scheduled verification, and manual dispatch.
 HELP
     exit 0
     ;;
@@ -41,8 +44,9 @@ is_focused_version() {
   return 1
 }
 
-"$PYTHON" "$ROOT/check_runner_coverage.py"
-"$PYTHON" "$ROOT/check_latex_manifest.py"
+"$PYTHON" "$ROOT/check_runner_coverage.py" || exit 1
+"$PYTHON" "$ROOT/check_latex_manifest.py" || exit 1
+"$PYTHON" "$ROOT/check_ci_contract.py" || exit 1
 
 CHECKS=(
   "V20|historical|v20/verify.py|quick|"
@@ -137,23 +141,23 @@ for item in "${CHECKS[@]}"; do
     skipped=$((skipped + 1))
     continue
   fi
+  if [[ "$MODE" == "list" ]]; then
+    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "PLAN" "$relative ($tier)"
+    continue
+  fi
   if [[ "$MODE" == "quick" ]] && ! is_focused_version "$version"; then
-    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "SKIP" "requires --full"
+    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "SKIP" "requires --compat or --full"
     skipped=$((skipped + 1))
     continue
   fi
   if [[ "$tier" == "full" && "$MODE" != "full" ]]; then
-    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "SKIP" "requires --full"
+    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "SKIP" "exact replay requires --full"
     skipped=$((skipped + 1))
     continue
   fi
   if [[ ! -f "$path" ]]; then
     printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "SKIP" "script not present"
     skipped=$((skipped + 1))
-    continue
-  fi
-  if [[ "$MODE" == "list" ]]; then
-    printf '%-6s | %-24s | %-6s | %s\n' "$version" "$kind" "PLAN" "$relative"
     continue
   fi
 
