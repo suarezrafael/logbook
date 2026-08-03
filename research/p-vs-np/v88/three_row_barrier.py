@@ -27,7 +27,6 @@ def validate_simple_ternary_supports(
 
 
 def bad_coloring_count(n: int) -> int:
-    """Number of three-colorings violating one labeled ternary support."""
     if n < 3:
         raise ValueError("n must be at least three")
     return 2 * 3 ** (n - 3)
@@ -40,7 +39,6 @@ def bad_intersection_formula(
     support_b: Sequence[int],
     label_b: int,
 ) -> int:
-    """Exact intersection of two bad-coloring cylinders."""
     a, b = validate_simple_ternary_supports((support_a, support_b), n)
     if label_a not in (0, 1, 2) or label_b not in (0, 1, 2):
         raise ValueError("labels must lie in {0,1,2}")
@@ -52,34 +50,24 @@ def bad_intersection_formula(
     return common_bad_colors * 3 ** (n - union_size)
 
 
-def exact_bad_intersection(
-    n: int,
-    support_a: Sequence[int],
-    label_a: int,
-    support_b: Sequence[int],
-    label_b: int,
-) -> int:
-    a, b = validate_simple_ternary_supports((support_a, support_b), n)
-    total = 0
-    for coloring in product(range(3), repeat=n):
-        color_a = coloring[a[0]]
-        bad_a = (
-            coloring[a[1]] == color_a
-            and coloring[a[2]] == color_a
-            and color_a != label_a
-        )
-        color_b = coloring[b[0]]
-        bad_b = (
-            coloring[b[1]] == color_b
-            and coloring[b[2]] == color_b
-            and color_b != label_b
-        )
-        total += bool(bad_a and bad_b)
-    return total
+def bad_coloring_masks(
+    n: int, supports: Sequence[Sequence[int]]
+) -> tuple[tuple[int, int, int], ...]:
+    normalized = validate_simple_ternary_supports(supports, n)
+    masks = [[0, 0, 0] for _ in normalized]
+    for index, coloring in enumerate(product(range(3), repeat=n)):
+        bit = 1 << index
+        for support_index, support in enumerate(normalized):
+            color = coloring[support[0]]
+            if coloring[support[1]] != color or coloring[support[2]] != color:
+                continue
+            for label in range(3):
+                if label != color:
+                    masks[support_index][label] |= bit
+    return tuple(tuple(row) for row in masks)
 
 
 def fourteen_output_moment_certificate(n: int) -> dict[str, int]:
-    """Return the contradictory first/second moment bounds at q=14."""
     if n < 5:
         raise ValueError("the uniform pair bound is stated for n at least five")
     universe = 3**n
@@ -126,31 +114,18 @@ FANO_SUPPORTS: tuple[Support, ...] = (
 )
 
 
-def coloring_satisfies_labels(
-    supports: Sequence[Sequence[int]],
-    labels: Sequence[int],
-    coloring: Sequence[int],
-) -> bool:
-    if len(supports) != len(labels):
-        raise ValueError("one label per support is required")
-    for support, label in zip(supports, labels):
-        a, b, c = (coloring[v] for v in support)
-        if a == b == c and a != label:
-            return False
-    return True
-
-
 def fano_labeling_census() -> dict[str, int]:
-    colorings = tuple(product(range(3), repeat=7))
+    masks = bad_coloring_masks(7, FANO_SUPPORTS)
+    total_colorings = 3**7
     satisfiable = 0
-    minimum_witnesses = len(colorings)
+    minimum_witnesses = total_colorings
     maximum_witnesses = 0
     total_witnesses = 0
     for labels in product(range(3), repeat=len(FANO_SUPPORTS)):
-        witnesses = sum(
-            coloring_satisfies_labels(FANO_SUPPORTS, labels, coloring)
-            for coloring in colorings
-        )
+        bad_union = 0
+        for support_index, label in enumerate(labels):
+            bad_union |= masks[support_index][label]
+        witnesses = total_colorings - bad_union.bit_count()
         satisfiable += witnesses > 0
         minimum_witnesses = min(minimum_witnesses, witnesses)
         maximum_witnesses = max(maximum_witnesses, witnesses)
@@ -169,18 +144,21 @@ def fano_labeling_census() -> dict[str, int]:
 
 def pair_formula_census(n: int = 6) -> dict:
     triples = tuple(combinations(range(n), 3))
+    masks = bad_coloring_masks(n, triples)
     distributions: Counter[str] = Counter()
     checked = 0
     mismatches = 0
     minimum = 3**n
+
     for index, support_a in enumerate(triples):
-        for support_b in triples[index + 1 :]:
+        for other_index in range(index + 1, len(triples)):
+            support_b = triples[other_index]
             overlap = len(set(support_a) & set(support_b))
             for label_a in range(3):
                 for label_b in range(3):
-                    exact = exact_bad_intersection(
-                        n, support_a, label_a, support_b, label_b
-                    )
+                    exact = (
+                        masks[index][label_a] & masks[other_index][label_b]
+                    ).bit_count()
                     formula = bad_intersection_formula(
                         n, support_a, label_a, support_b, label_b
                     )
