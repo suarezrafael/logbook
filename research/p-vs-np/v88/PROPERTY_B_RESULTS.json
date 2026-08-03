@@ -1,0 +1,278 @@
+{
+  "constructor_lower_bound": {
+    "minimum_universal_rows": 4,
+    "model": "support-only ordered target lists with at most three rows",
+    "support_only_universal_triple_exists": false
+  },
+  "density_calibration": {
+    "calibration_scales": [
+      {
+        "below_five_quarters": true,
+        "density": 1.236842105263158,
+        "m": 94,
+        "n": 76
+      },
+      {
+        "below_five_quarters": true,
+        "density": 1.2,
+        "m": 150,
+        "n": 125
+      },
+      {
+        "below_five_quarters": true,
+        "density": 1.125,
+        "m": 576,
+        "n": 512
+      },
+      {
+        "below_five_quarters": true,
+        "density": 1.0625,
+        "m": 4352,
+        "n": 4096
+      },
+      {
+        "below_five_quarters": true,
+        "density": 1.03125,
+        "m": 33792,
+        "n": 32768
+      }
+    ],
+    "coupling_density": 1.25,
+    "random_3_uniform_two_colorability_lower_density": 1.4260151319598084,
+    "strict_margin": 0.17601513195980845,
+    "target_density_limit": 1.0
+  },
+  "finite_audit": {
+    "total_support_families_checked": 11,
+    "v80_all_two_colorable": true,
+    "v80_controls": [
+      {
+        "name": "seven_variables",
+        "one_coloring": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0
+        ],
+        "proper_two_colorings": 4,
+        "supports": 11,
+        "variables": 7
+      },
+      {
+        "name": "eight_variables",
+        "one_coloring": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "proper_two_colorings": 20,
+        "supports": 12,
+        "variables": 8
+      },
+      {
+        "name": "nine_variables",
+        "one_coloring": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "proper_two_colorings": 30,
+        "supports": 14,
+        "variables": 9
+      }
+    ],
+    "v87_random_samples": [
+      {
+        "m": 15,
+        "n": 10,
+        "one_coloring": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "proper_two_colorings": 42,
+        "seed": 88000
+      },
+      {
+        "m": 15,
+        "n": 10,
+        "one_coloring": [
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "proper_two_colorings": 10,
+        "seed": 88001
+      },
+      {
+        "m": 18,
+        "n": 12,
+        "one_coloring": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "proper_two_colorings": 36,
+        "seed": 88200
+      },
+      {
+        "m": 18,
+        "n": 12,
+        "one_coloring": [
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "proper_two_colorings": 56,
+        "seed": 88201
+      },
+      {
+        "m": 20,
+        "n": 14,
+        "one_coloring": [
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0
+        ],
+        "proper_two_colorings": 36,
+        "seed": 88400
+      },
+      {
+        "m": 20,
+        "n": 14,
+        "one_coloring": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "proper_two_colorings": 60,
+        "seed": 88401
+      },
+      {
+        "m": 23,
+        "n": 16,
+        "one_coloring": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0
+        ],
+        "proper_two_colorings": 70,
+        "seed": 88600
+      },
+      {
+        "m": 23,
+        "n": 16,
+        "one_coloring": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "proper_two_colorings": 128,
+        "seed": 88601
+      }
+    ],
+    "v87_samples_all_two_colorable": true
+  },
+  "scientific_status": {
+    "constructor_model_lower_bound": true,
+    "four_row_obstruction_constructed": false,
+    "same_family_three_certificates_plus_property_b_exists": true,
+    "support_only_universal_triple_exists": false,
+    "v87_random_model_two_colorable_whp": true
+  },
+  "theorem": "The V87 random support model is two-colorable with high probability; therefore a target-stretch family simultaneously has the three V87 certificate barriers and covers every target list of at most three rows."
+}
