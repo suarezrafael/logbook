@@ -6,7 +6,10 @@ REPO_ROOT="$(cd "$LAB_ROOT/../.." && pwd)"
 TEMP_ROOT="${RUNNER_TEMP:-${TMPDIR:-/tmp}}"
 BASELINE="$LAB_ROOT/v79/EXPECTED_MUTATIONS.tsv"
 MODE="quick"
-[[ "${1:-}" == "--full" ]] && MODE="full"
+case "${1:-}" in
+  --compat) MODE="compat" ;;
+  --full) MODE="full" ;;
+esac
 
 if ! git -C "$REPO_ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   echo "A Git worktree is required to create the verification sandbox." >&2
@@ -88,7 +91,7 @@ actual = {
     *(("created", path) for path in created),
     *(("deleted", path) for path in deleted),
 }
-expected = load_full_baseline(baseline_path) if mode == "full" else set()
+expected = load_full_baseline(baseline_path) if mode in {"compat", "full"} else set()
 
 print()
 print("Sandbox mutation inventory:")
