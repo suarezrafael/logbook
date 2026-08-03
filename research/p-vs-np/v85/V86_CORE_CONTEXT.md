@@ -15,9 +15,11 @@
 6. Exact Hamming-ball pair counting constructs a remote point whenever
    `2^n B(m,r)<2^m`.
 7. The actual V75 monotone arithmetic DAG supports truncated-polynomial distance
-   evaluation without changing the branch decomposition. Polynomial-size V75
-   DAG regimes therefore have deterministic remote points at distance
-   `Omega((m-n)/log m)`.
+   evaluation without changing the branch decomposition.
+8. Combining V77, V75, and the bound
+   `A(b)<=(b+1)2^(floor(b^2/4)+b)` yields a polynomial-time remote-point
+   algorithm directly from the circuit whenever support branchwidth is
+   `O(sqrt(log m))`, with distance `Omega((m-n)/log m)`.
 
 ## Priority one — constructive `Eval_H`
 
@@ -45,13 +47,19 @@ hypotheses. Match the predicate, encoding, expansion parameters, proof system,
 field, auxiliary variables, and stretch. Record every failed match as a result;
 expansion alone is not sufficient for inheritance.
 
-## Priority four — width/distance frontier
+## Priority four — beyond the sqrt-log frontier
 
-Use the now-verified V75 distance semiring to determine the largest width scale
-for which the remote-point algorithm remains polynomial. Measure the true
-state function `A(b)`, coefficient growth, and whether faster truncated
-convolution or incremental DAG reevaluation improves the boundary beyond fixed
-branchwidth.
+Determine whether the width boundary can exceed `O(sqrt(log m))` through:
+
+- compressed or symmetry-quotiented affine residual states;
+- faster truncated convolution and incremental semiring evaluation;
+- rank-sensitive state bounds below the worst-case `A(2k)` count;
+- approximation schemes strong enough to preserve the strict prefix
+  pigeonhole invariant.
+
+A valid improvement must either enlarge the polynomial width range, prove a
+state-space obstruction, or produce an explicit family saturating the current
+quadratic exponent.
 
 ## Nonclaims
 
