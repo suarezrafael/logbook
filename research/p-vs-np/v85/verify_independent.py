@@ -3,6 +3,20 @@ from __future__ import annotations
 
 from itertools import combinations, product
 from math import comb
+from pathlib import Path
+import sys
+
+from distance_semiring import (
+    build_v75_model,
+    distance_polynomial,
+    remote_point_from_v75_model,
+)
+
+ROOT = Path(__file__).resolve().parent
+V74 = str(ROOT.parent / "v74")
+if V74 not in sys.path:
+    sys.path.insert(0, V74)
+from two_fiber_model import brute_preimage_counts, make_gate
 
 PARAMETERS = ((8, 12), (27, 36), (64, 80), (125, 150), (216, 252), (343, 392), (512, 576), (1000, 1100))
 REMOTE_CASES = ((4, 8, 851001), (4, 9, 851002), (5, 10, 851003), (5, 11, 851004), (6, 12, 851005), (6, 13, 851006), (5, 9, 851007), (6, 11, 851008))
@@ -38,6 +52,45 @@ def eval_gate(support: tuple[int, ...], truth: int, x: int) -> int:
 
 def ball(m: int, r: int) -> int:
     return sum(comb(m, j) for j in range(r + 1)) if r >= 0 else 0
+
+
+def exact_distance_coefficients(
+    counts: dict[int, int], m: int, prefix: tuple[int, ...], radius: int
+) -> tuple[int, ...]:
+    exact = [0] * (radius + 1)
+    remaining = m - len(prefix)
+    for output, multiplicity in counts.items():
+        mismatch = sum(bit_value != ((output >> i) & 1) for i, bit_value in enumerate(prefix))
+        for tail_distance in range(remaining + 1):
+            distance = mismatch + tail_distance
+            if distance <= radius:
+                exact[distance] += multiplicity * comb(remaining, tail_distance)
+    return tuple(exact)
+
+
+def verify_v75_semiring_independently() -> tuple[int, int, int]:
+    supports = ((0,), (1,), (2,), (0, 1), (0, 2), (1, 2), (0, 1, 2))
+    coefficient_checks = remote_points = 0
+    for case in range(8):
+        raw = xorshift(852000 + case, 21)
+        gates = []
+        for i, support in enumerate(supports):
+            arity = len(support)
+            truth_mask = raw[i] % (1 << (1 << arity))
+            gates.append(make_gate(list(support), truth_mask, raw[7 + i] & 1))
+        model = build_v75_model(3, gates)
+        counts = brute_preimage_counts(3, gates)
+        for length in range(8):
+            for value in range(min(1 << length, 4)):
+                prefix = tuple((value >> i) & 1 for i in range(length))
+                expected = exact_distance_coefficients(counts, 7, prefix, 2)
+                assert distance_polynomial(model, prefix, 2) == expected
+                coefficient_checks += 1
+        remote = remote_point_from_v75_model(model, 1)
+        target = int(remote["target_integer"])
+        assert min((output ^ target).bit_count() for output in counts) > 1
+        remote_points += 1
+    return 8, coefficient_checks, remote_points
 
 
 def main() -> None:
@@ -95,7 +148,10 @@ def main() -> None:
                 break
         assert any(min((y ^ z).bit_count() for y in image) > radius for z in range(1 << m))
 
-    print("V85 independent verification passed: direct Walsh census, endpoint search, symbolic C4 witness, and exhaustive remote existence.")
+    models, coefficient_checks, v75_remote_points = verify_v75_semiring_independently()
+    assert (models, coefficient_checks, v75_remote_points) == (8, 248, 8)
+
+    print("V85 independent verification passed: direct Walsh census, C4 witness, exhaustive remote existence, and 248 V75 distance coefficients.")
 
 
 if __name__ == "__main__":
