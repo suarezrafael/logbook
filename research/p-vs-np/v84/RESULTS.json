@@ -1,0 +1,132 @@
+{
+  "complexity_boundary": {
+    "deterministic_FP_NP_target_solved": false,
+    "large_girth": "all output subsets of size at most c log2(n+m) satisfy |N(S)| >= |S|",
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false,
+    "small_girth": "if g <= c log2(n+m) for fixed c, local enumeration and lift is polynomial",
+    "unrestricted_NC0_3_avoid_solved": false
+  },
+  "exhaustive_extraction_census": {
+    "boxes": [
+      {
+        "dependent_presentations": 64,
+        "left": 3,
+        "presentations": 64,
+        "right": 2
+      },
+      {
+        "dependent_presentations": 256,
+        "left": 4,
+        "presentations": 256,
+        "right": 2
+      },
+      {
+        "dependent_presentations": 265,
+        "left": 3,
+        "presentations": 512,
+        "right": 3
+      }
+    ],
+    "canonical_circuits_checked": 585,
+    "dependent_presentations": 585,
+    "free_presentations": 247,
+    "hall_witnesses_checked": 585,
+    "maximum_query_bound_slack": 5,
+    "oracle_queries_simulated": 3961,
+    "presentations_checked": 832,
+    "subset_states_checked": 7872
+  },
+  "local_avoidance_census": {
+    "avoided_outputs_verified": 272,
+    "families": [
+      {
+        "avoided_outputs_verified": 16,
+        "canonical_circuit": [
+          0,
+          1
+        ],
+        "girth": 2,
+        "local_assignments_enumerated": 2,
+        "neighborhood_size": 1,
+        "supports": [
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ],
+        "truth_table_combinations": 16
+      },
+      {
+        "avoided_outputs_verified": 256,
+        "canonical_circuit": [
+          0,
+          1,
+          2
+        ],
+        "girth": 3,
+        "local_assignments_enumerated": 4,
+        "neighborhood_size": 2,
+        "supports": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "truth_table_combinations": 256
+      }
+    ],
+    "truth_table_combinations": 272
+  },
+  "long_circuit_controls": [
+    {
+      "girth": 4,
+      "hall_expanding_through": 3,
+      "length": 4,
+      "neighborhood_size": 3,
+      "oracle_queries": 6,
+      "query_bound": 6
+    },
+    {
+      "girth": 6,
+      "hall_expanding_through": 5,
+      "length": 6,
+      "neighborhood_size": 5,
+      "oracle_queries": 8,
+      "query_bound": 9
+    },
+    {
+      "girth": 8,
+      "hall_expanding_through": 7,
+      "length": 8,
+      "neighborhood_size": 7,
+      "oracle_queries": 11,
+      "query_bound": 11
+    },
+    {
+      "girth": 10,
+      "hall_expanding_through": 9,
+      "length": 10,
+      "neighborhood_size": 9,
+      "oracle_queries": 13,
+      "query_bound": 14
+    }
+  ],
+  "theorem": {
+    "canonical_circuit_queries": "at most m deletion queries",
+    "degree_three_promise_preserved": true,
+    "exact_girth_queries": "ceil(log2(m)) when dependence is guaranteed; one extra existence query otherwise",
+    "hard_branch": "girth > L implies Hall noncontraction for every output set of size at most L",
+    "name": "FP^NP girth extraction and logarithmic-circuit avoidance",
+    "reduction_type": "deterministic FP^NP preprocessing dichotomy / promise reduction, not a many-one solver",
+    "short_circuit_local_range_bound": "2^(g-1) out of 2^g projections"
+  }
+}
