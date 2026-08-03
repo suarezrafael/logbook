@@ -1,5 +1,5 @@
 {
-  "schema_version": 16,
+  "schema_version": 17,
   "updated": "2026-08-02",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V84",
@@ -7,7 +7,7 @@
   "highest_directory": "V85",
   "promotion_state": "candidate",
   "completed_scope": "exact FP^NP girth/circuit/Hall extraction and logarithmic Hall-expander promise reduction",
-  "candidate_scope": "support-only list correction, Eval_H reduction, ternary Fourier census, syndrome/C4 unification, and source-verified bounded-width remote points",
+  "candidate_scope": "support-only list correction, Eval_H reduction, ternary Fourier census, syndrome/C4 unification, and sqrt-log-support-width remote points",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V85",
@@ -53,6 +53,7 @@
     "remote_point_prefix_pair_counting_theorem": true,
     "V75_remote_point_integration_verified": true,
     "bounded_width_remote_point_constructive": true,
+    "support_branchwidth_sqrt_log_remote_point_constructive": true,
     "p_vs_np_resolved": false,
     "p_vs_np_route_active": false,
     "direct_route_active": false,
