@@ -1,100 +1,128 @@
 # Laboratory V88 — repeated-table `Eval_H` collision geometry
 
-V88 begins the constructivity program reserved by V87. The first step is to
-use the repeated truth-table structure of `Eval_H` rather than treating it as
-an arbitrary locality-eleven circuit.
+V88 attacks the constructive support-only list problem isolated by V85 and
+preserved by V87. Its organizing principle is to exploit the repeated local
+truth-table coordinates of `Eval_H`, rather than treating the map as an
+arbitrary locality-eleven circuit.
 
-## Collision normal form
+## 1. Collision normal form
 
 A `k`-row target list is coverable exactly when one can assign each input
 variable a normalized pattern in `{0,1}^{k-1}` such that every pair of target
 rows that differs at output `i` is separated by at least one variable of the
 support `S_i`.
 
-This gives an exact CSP with alphabet `2^(k-1)` and local arity at most three.
-The proof isolates the sole obstruction created by repeated truth-table
-coordinates: collisions of local addresses carrying incompatible target bits.
+This gives an exact local CSP with alphabet `2^(k-1)` and arity at most three.
+The only obstruction created by repeated truth-table coordinates is a collision
+of equal local addresses carrying incompatible target bits.
 
-## Row lower bounds
+## 2. Two and three rows
 
 - Every two-row target list is coverable by an explicit union-of-supports
   witness.
-- For three rows, coverability is exactly a labeled three-color hypergraph
-  problem. A nonconstant target column labels its support by its unique equal
-  row pair; a valid coloring may make that support monochromatic only in the
-  labeled color.
-- A new bad-cylinder intersection argument proves that **every three-row target
-  list with at most fourteen active simple ternary output columns is
-  coverable**. Hence a genuine three-row obstruction needs at least fifteen
-  active outputs.
+- Three-row coverability is exactly a labeled three-color hypergraph problem.
+  A nonconstant target column labels its support by its unique equal row pair;
+  a valid coloring may make that support monochromatic only in the labeled
+  color.
+- A bad-cylinder intersection argument proves that every three-row target list
+  with at most fourteen active simple ternary outputs is coverable. Thus the
+  first possible three-row obstruction needs at least fifteen active outputs.
 - At the target stretch `m=n+ceil(n^(2/3))`, this rules out three-row
-  obstructions for every simple ternary scale `5 <= n <= 9`.
-- All `3^7=2,187` labelings of the committed Fano support control remain
-  coverable; the exact number of satisfying colorings ranges from `1,238` to
-  `1,317`.
+  obstructions for `5 <= n <= 9`.
 
-## Executable evidence
+## 3. Property B and the constructor lower bound
 
-The initial complete census over all simple ternary support families on four
-variables and every target matrix with at most three rows contains `7,264`
-instances and zero formulation mismatches.
+If the support hypergraph has Property B, any proper two-coloring can be
+embedded into the three active row-pair colors. Every support is then
+nonmonochromatic, independently of its target label. Therefore every target
+matrix with at most three rows is coverable.
 
-The extended barrier audit additionally checks:
+Achlioptas and Moore prove that a random 3-uniform hypergraph at any fixed edge
+density below
 
-- `1,710` labeled pairs of distinct ternary supports on six variables;
-- the exact intersection formulas for support overlaps zero, one, and two;
-- five explicit first/second-moment contradiction scales from `n=5` through
-  `n=9`;
-- every one of the `2,187` Fano labelings.
+```text
+(7/2) ln 2 - 1 = 1.426015...
+```
 
-Both primary and independent implementations use exact integer bitsets for the
-larger coloring censuses.
+is two-colorable with high probability. The V87 model has density
 
-## Why this direction was selected
+```text
+(n+ceil(n^(2/3)))/n -> 1.
+```
 
-V87 produced a probabilistic family simultaneously resistant to Hall,
-constant-syndrome, and bounded-width certificates, but it did not construct a
-support-only target list. V85 had already reduced that missing construction to
-a remote point of `Eval_H`. The collision normal form turns the target-list
-problem into a combinatorial separation CSP that can be attacked by coding,
-coloring, higher intersection moments, or constructor-model lower bounds.
+Coupling it to the denser fixed-ratio model at `5n/4` shows that the V87 random
+support family has Property B with high probability.
+
+Intersecting this event with the V86/V87 Hall, simplicity, syndrome, and
+linear-width events gives one target-stretch family that simultaneously has:
+
+1. linear-scale local Hall expansion;
+2. no nonzero constant syndrome under `NOR3`;
+3. support branchwidth `Omega(n)`;
+4. Property B.
+
+Hence every list of at most three targets remains coverable on that resistant
+family. This proves the precise constructor-model lower bound
+
+```text
+universal support-only Eval_H list size >= 4.
+```
+
+This satisfies the V88 stop condition requesting a rigorous lower bound in a
+specified constructor model. It remains far below the existential
+`O(n^(1/3))` counting upper bound.
+
+## 4. Executable evidence
+
+The committed independent audits include:
+
+- `7,264` exact collision-normal-form instances;
+- `1,710` labeled pairs of distinct ternary supports;
+- all `2,187` labelings of the Fano support control;
+- five exact first/second-moment contradiction scales;
+- the three V80 controls, with `4`, `20`, and `30` proper two-colorings;
+- eight deterministic V87 samples, with `42`, `10`, `36`, `56`, `36`, `60`,
+  `70`, and `128` proper two-colorings.
+
+The larger coloring censuses use exact integer bitsets. The primary and
+independent verifiers do not import one another's theorem kernels.
 
 ## Files
 
 - `COLLISION_NORMAL_FORM.md` — exact repeated-table normal form;
-- `THREE_ROW_BARRIER.md` — fourteen-output theorem and proof;
-- `collision_normal_form.py` — normal form, pair constructor, three-row
-  reduction, and exact small census;
-- `three_row_barrier.py` — bad-cylinder formulas, moment certificates, and Fano
-  census;
-- `RESULTS.json` — immutable audit summary;
-- `verify.py` — primary verifier;
-- `verify_independent.py` — independent direct audit;
-- `LITERATURE_BOUNDARY.md` — novelty and source boundary;
+- `THREE_ROW_BARRIER.md` — fourteen-output theorem;
+- `PROPERTY_B_BOUNDARY.md` — asymptotic Property-B composition and constructor
+  lower bound;
+- `collision_normal_form.py` — collision CSP and exact small census;
+- `three_row_barrier.py` — bad-cylinder formulas and Fano audit;
+- `property_b_boundary.py` — density calibration and finite Property-B census;
+- `RESULTS.json` and `PROPERTY_B_RESULTS.json` — committed evidence;
+- `verify.py` and `verify_independent.py` — independent verification paths;
+- `LITERATURE_BOUNDARY.md` — primary-source and novelty boundary;
 - `VALIDATION.md` — execution record;
-- `V89_CORE_CONTEXT.md` — continuation targets, conditional on V88 progress.
+- `V89_CORE_CONTEXT.md` — reserved continuation priorities.
 
 ## Current frontier
 
-The next focused questions are:
+The direct continuation is no longer a three-row search on the V87 family.
+The next focused targets are:
 
-1. whether a fifteen-output three-row obstruction exists;
-2. whether third or higher intersection moments raise the constant lower bound;
-3. whether four-row target matrices admit a cleaner explicit obstruction;
-4. whether a precise constructor class can be ruled out.
+1. construct an explicit four-row missing output;
+2. derive a four-row analogue of the collision-label geometry;
+3. seek deterministic non-Property-B support families preserving the Hall,
+   syndrome, and width barriers;
+4. raise the lower bound for restricted linear, cyclic, or low-degree
+   constructors.
 
 ## Candidate status
 
-V88 remains a **draft candidate**, not a promoted laboratory. The current
-packet does not yet satisfy the promotion stop conditions. Promotion still
-requires a constructive `Eval_H` list, a rigorous lower bound for a precise
-constructor model, an explicit deterministic three-certificate family, a
-complete remote-point bridge ledger, or a verified bounded-arithmetic
-boundary.
+V88 remains a candidate until integrated quick and compatibility verification
+complete. Repository promotion means internal verification only; it would not
+establish external novelty or peer review.
 
 ## Nonclaims
 
-V88 has not constructed the `O(n^(1/3))` target list, found a fifteen-output or
-four-row obstruction, solved unrestricted `NC0_3-Avoid`, derandomized V87,
-produced rigid matrices, proved a new circuit or proof-complexity lower bound,
-confirmed novelty, passed peer review, or resolved `P` versus `NP`.
+V88 does not construct the `O(n^(1/3))` list, produce a four-row obstruction,
+solve unrestricted `NC0_3-Avoid`, derandomize the V87 family, construct rigid
+matrices, prove a new unrestricted circuit lower bound, confirm novelty, pass
+peer review, or resolve `P` versus `NP`.
