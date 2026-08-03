@@ -24,7 +24,7 @@ paying that cost on every promotion.
 
 A push to `main` runs `quick`, plus LaTeX only when relevant files changed. It
 does not repeat the exact replay already validated before merge. Promotion-only
-changes to `LAB_STATUS.json` therefore receive a focused compatibility check
+changes to `LAB_STATUS.json` therefore receive a focused regression check
 without reinstalling TeX Live or re-running the historical exact searches.
 
 ## Scheduled and manual verification
@@ -42,7 +42,9 @@ LaTeX and is the explicit recovery/audit path.
 - `verify_all.sh --list`: complete registration inventory.
 
 All modes execute in the sandbox and the workflow separately asserts that the
-repository checkout remains clean.
+repository checkout remains clean. The compatibility and full modes accept the
+same nine-path legacy mutation inventory inside the disposable sandbox; quick
+continues to require zero mutations. No accepted mutation reaches the checkout.
 
 ## Branch cleanup
 
