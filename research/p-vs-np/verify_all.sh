@@ -44,9 +44,9 @@ is_focused_version() {
   return 1
 }
 
-"$PYTHON" "$ROOT/check_runner_coverage.py"
-"$PYTHON" "$ROOT/check_latex_manifest.py"
-"$PYTHON" "$ROOT/check_ci_contract.py"
+"$PYTHON" "$ROOT/check_runner_coverage.py" || exit 1
+"$PYTHON" "$ROOT/check_latex_manifest.py" || exit 1
+"$PYTHON" "$ROOT/check_ci_contract.py" || exit 1
 
 CHECKS=(
   "V20|historical|v20/verify.py|quick|"
