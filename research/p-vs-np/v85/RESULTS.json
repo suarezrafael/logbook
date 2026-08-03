@@ -1,0 +1,45 @@
+{
+  "version": "V85",
+  "status": "candidate",
+  "finite_audit": {
+    "ternary_predicates": 256,
+    "predicate_partition": [16, 184, 56],
+    "balanced_nonaffine_low_degree_correlation_abs": 0.5,
+    "balanced_nonaffine_best_agreement": 0.75,
+    "endpoint_patterns": 4,
+    "counting_parameter_scales": 8,
+    "C4_free_support_cases": 384,
+    "nonzero_constant_syndromes": 866,
+    "syndrome_violations": 0,
+    "remote_point_cases": 8,
+    "V75_distance_models": 12,
+    "V75_distance_prefix_checks": 840,
+    "V75_remote_points": 12,
+    "V75_independent_models": 8,
+    "V75_independent_distance_coefficients": 216,
+    "V75_independent_remote_points": 8,
+    "affine_state_dimensions_checked": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  },
+  "theorems": {
+    "v84_hard_branch_equivalence": "FP^NP search-Turing",
+    "support_only_pair_impossibility": true,
+    "support_only_counting_existence": "k(m-n)>Q",
+    "support_only_constructive_solver": false,
+    "Eval_H_reduction": true,
+    "syndrome_C4_unification": true,
+    "remote_point_prefix_pair_counting": true,
+    "V75_source_integration_verified": true,
+    "bounded_width_remote_point_constructive": true,
+    "support_branchwidth_sqrt_log_remote_point_constructive": true,
+    "affine_state_bound": "A(b) <= (b+1) 2^(floor(b^2/4)+b)",
+    "distance_runtime": "2^{O(k^2)} gamma m^6 log m + O(m^2 A(2k)^2 r^2 poly(n,m))"
+  },
+  "nonclaims": {
+    "unrestricted_NC0_3_avoid_solved": false,
+    "rigid_matrix_constructed": false,
+    "new_general_circuit_lower_bound": false,
+    "p_vs_np_resolved": false,
+    "peer_reviewed": false,
+    "novelty_confirmed": false
+  }
+}
