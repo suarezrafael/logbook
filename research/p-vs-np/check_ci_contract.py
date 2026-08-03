@@ -9,6 +9,7 @@ REPO = ROOT.parent.parent
 VERIFY = (REPO / ".github/workflows/p-vs-np-verify.yml").read_text(encoding="utf-8")
 CLEANUP = (REPO / ".github/workflows/cleanup-merged-research-branches.yml").read_text(encoding="utf-8")
 RUNNER = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
+SANDBOX = (ROOT / "run_verification_in_sandbox.sh").read_text(encoding="utf-8")
 STATUS = json.loads((ROOT / "LAB_STATUS.json").read_text(encoding="utf-8"))
 
 
@@ -37,6 +38,8 @@ def main() -> None:
     assert "--compat) MODE=\"compat\"" in RUNNER
     assert "exact replay requires --full" in RUNNER
     assert "check_ci_contract.py" in RUNNER
+    assert '--compat) MODE="compat"' in SANDBOX
+    assert 'mode in {"compat", "full"}' in SANDBOX
 
     policy = STATUS["ci_policy"]
     assert policy["draft_pull_request"] == ["quick", "latex_when_relevant"]
@@ -44,6 +47,11 @@ def main() -> None:
     assert policy["main_push"] == ["quick", "latex_when_relevant"]
     assert policy["scheduled"] == ["full"]
     assert policy["manual_dispatch"] == ["quick", "full", "latex"]
+
+    verification = STATUS["verification_policy"]
+    assert verification["quick_expected_mutations"] == 0
+    assert verification["compatibility_expected_mutations"] == 9
+    assert verification["full_expected_mutations"] == 9
 
     assert "pull_request:\n    types: [closed]" in CLEANUP
     assert "github.event.pull_request.merged == true" in CLEANUP
