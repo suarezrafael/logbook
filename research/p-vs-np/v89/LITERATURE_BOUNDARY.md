@@ -12,10 +12,9 @@ The laboratory does not claim novelty for this classical coding-theory object.
 
 ## Random graph results do not directly apply
 
-Achlioptas--Naor determine two possible chromatic values for the
-Erdős--Rényi model `G(n,d/n)`. The primal graph of the V87 support model is
-not distributed as `G(n,d/n)`: every selected support inserts a correlated
-triangle.
+Achlioptas--Naor determine two possible chromatic values for the Erdős--Rényi
+model `G(n,d/n)`. The primal graph of the V87 support model is not distributed
+as `G(n,d/n)`: every selected support inserts a correlated triangle.
 
 Therefore a threshold based only on matching average degree is not a valid
 transfer theorem. Any asymptotic primal-colorability claim must be proved for
@@ -36,17 +35,44 @@ Strong colorability of random 3-uniform hypergraphs is the directly adjacent
 literature, because a strong four-coloring is exactly a proper four-coloring of
 the primal graph.
 
-The available asymptotic statements must be checked at the exact parameter
-`r=4` and edge density `m/n -> 1`; large-`r` formulas are not automatically
-valid at four colors.
-
-Primary adjacent source:
+Balobanov--Shabanov analyze this model by the second-moment method and state an
+explicit lower-density formula for sufficiently large numbers of colors. That
+large-`r` formula is not automatically valid at `r=4`.
 
 ```text
 A. E. Balobanov and D. A. Shabanov,
 On the strong chromatic number of a random 3-uniform hypergraph,
 Discrete Mathematics 344 (2021), 112231.
+DOI 10.1016/j.disc.2020.112231.
 ```
+
+Khuzieva--Matveeva--Shabanov subsequently study fixed `r>=k>=3` in the sparse
+regime and report tight threshold bounds. The V89 packet does not cite that
+abstract as an exact `k=3,r=4,c=1` theorem. Promotion of the nine-row lower bound
+requires checking the paper's hypotheses and normalization line by line.
+
+```text
+A. Khuzieva, T. Matveeva and D. A. Shabanov,
+Estimating the strong r-colorability threshold in random hypergraphs,
+Moscow Journal of Combinatorics and Number Theory 12 (2023), 57–88.
+DOI 10.2140/moscow.2023.12.57.
+```
+
+## Internal second-moment reduction
+
+V89 independently derives the balanced four-color overlap objective. For a
+`4x4` overlap matrix `A` with every margin `1/4`,
+
+```text
+q(A)=1/8+4 sum_ij A_ij^3.
+```
+
+After normalization `B=4A`, the remaining continuous problem is an
+entropy/cubic inequality on the Birkhoff polytope. This reduction is internal;
+it is not presented as a new threshold theorem.
+
+The uniform overlap is locally stable for all densities below `3/2`. Finite
+rational grids support global maximality near density one, but do not prove it.
 
 ## Random hypergraph cores
 
@@ -65,6 +91,6 @@ Random Structures & Algorithms 51 (2017), 381–424.
 
 ## Novelty discipline
 
-The affine basis construction and the finite audits are internal mathematical
-results. External novelty, a sharp random-model threshold, and peer review
-remain unconfirmed.
+The affine basis construction, cubic overlap identity, and finite audits are
+internal mathematical results. External novelty, a sharp `r=4` random-model
+threshold, and peer review remain unconfirmed.
