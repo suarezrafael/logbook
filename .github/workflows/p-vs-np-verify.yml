@@ -26,7 +26,7 @@ permissions:
 # Historical verifier compatibility index. The executable source of truth is
 # LATEX_MODULES.tsv; these names remain here so older repository-surface audits
 # can confirm that their formal modules are still part of the CI contract.
-# V57_BLOCK_IRREDUNDANCY_THEOREM.tex
+# V57_BLOCK_IRUNDANCY_THEOREM.tex
 # V56_AFFINE_FIBER_THEOREM.tex
 # V68_SPINE_TREE_DAG_THEOREM.tex
 # V69_ORDER_ROBUSTNESS_THEOREM.tex
@@ -46,6 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       latex: ${{ steps.detect.outputs.latex }}
+      compatibility: ${{ steps.detect.outputs.compatibility }}
       full_replay: ${{ steps.detect.outputs.full_replay }}
     steps:
       - uses: actions/checkout@v6
@@ -64,6 +65,7 @@ jobs:
           set -euo pipefail
 
           latex=false
+          compatibility=false
           full_replay=false
           files=""
 
@@ -91,14 +93,21 @@ jobs:
             latex=true
           fi
 
+          if printf '%s\n' "$files" | grep -Fxq \
+            'research/p-vs-np/LAB_STATUS.json'; then
+            compatibility=true
+          fi
+
           if printf '%s\n' "$files" | grep -Eq \
             '(^\.github/workflows/p-vs-np-verify\.yml$|^research/p-vs-np/verify_all\.sh$|^research/p-vs-np/run_verification_in_sandbox\.sh$|^research/p-vs-np/assert_clean_tree\.sh$|^research/p-vs-np/check_(runner_coverage|latex_manifest|ci_contract)\.py$|^research/p-vs-np/v56/verify_index\.py$|^research/p-vs-np/v58/verify_exact\.py$|^research/p-vs-np/v70/verify_search_reproduction\.py$)'; then
             full_replay=true
           fi
 
           echo "latex=$latex" >> "$GITHUB_OUTPUT"
+          echo "compatibility=$compatibility" >> "$GITHUB_OUTPUT"
           echo "full_replay=$full_replay" >> "$GITHUB_OUTPUT"
-          printf 'latex=%s full_replay=%s\n' "$latex" "$full_replay"
+          printf 'latex=%s compatibility=%s full_replay=%s\n' \
+            "$latex" "$compatibility" "$full_replay"
           printf '%s\n' "$files"
 
   quick:
@@ -128,7 +137,11 @@ jobs:
 
   compatibility:
     needs: changes
-    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
+    if: >-
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.draft == false) ||
+      (github.event_name == 'push' &&
+       needs.changes.outputs.compatibility == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
