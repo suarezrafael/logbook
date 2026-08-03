@@ -1,16 +1,17 @@
 {
-  "schema_version": 10,
+  "schema_version": 11,
   "updated": "2026-08-02",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V83",
-  "candidate_version": null,
-  "highest_directory": "V83",
-  "promotion_state": "promoted",
+  "candidate_version": "V84",
+  "highest_directory": "V84",
+  "promotion_state": "candidate",
   "completed_scope": "degree-three transversal-girth NP-completeness via exact path-selector series expansion",
+  "candidate_scope": "exact FP^NP girth/circuit/Hall extraction and logarithmic Hall-expander promise reduction",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V84",
-  "next_laboratory_focus": "exact FP^NP extraction of transversal girth, a canonical shortest circuit, and Hall witnesses",
+  "next_laboratory_focus": "exact FP^NP extraction, local short-girth avoidance, and isolation of the logarithmic Hall-expander branch",
   "ci_policy": {
     "draft_pull_request": ["quick", "latex"],
     "ready_pull_request": ["quick", "full", "latex"],
@@ -18,7 +19,7 @@
     "manual_dispatch": ["quick", "full", "latex"]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V83",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V84",
     "full": "cumulative historical verification and exact replays",
     "quick_expected_mutations": 0,
     "full_expected_mutations": 9
@@ -34,6 +35,10 @@
     "general_transversal_girth_np_hard": true,
     "degree_three_transversal_girth_polynomial_time": null,
     "degree_three_transversal_girth_np_hard": true,
+    "exact_degree_three_girth_in_FP_NP": true,
+    "canonical_shortest_circuit_in_FP_NP": true,
+    "logarithmic_girth_NC0_3_avoid_in_FP_NP": true,
+    "logarithmic_hall_expander_promise_reduction": true,
     "p_vs_np_resolved": false,
     "p_vs_np_route_active": false,
     "direct_route_active": false,
