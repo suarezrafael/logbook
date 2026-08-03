@@ -1,5 +1,5 @@
 {
-  "schema_version": 12,
+  "schema_version": 13,
   "updated": "2026-08-02",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V84",
@@ -12,14 +12,16 @@
   "next_laboratory_version": "V85",
   "next_laboratory_focus": "candidate lists, certifiable remote points, or insufficiency of Hall expansion on the logarithmic hard branch",
   "ci_policy": {
-    "draft_pull_request": ["quick", "latex"],
-    "ready_pull_request": ["quick", "full", "latex"],
-    "main_push": ["quick", "full", "latex"],
+    "draft_pull_request": ["quick", "latex_when_relevant"],
+    "ready_pull_request": ["quick", "compatibility", "latex_when_relevant", "full_when_ci_sensitive"],
+    "main_push": ["quick", "latex_when_relevant"],
+    "scheduled": ["full"],
     "manual_dispatch": ["quick", "full", "latex"]
   },
   "verification_policy": {
     "quick": "focused read-only regression gate for V53-V59 and V78-V84",
-    "full": "cumulative historical verification and exact replays",
+    "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
+    "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
     "full_expected_mutations": 9
   },
