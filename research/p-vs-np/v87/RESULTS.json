@@ -22,8 +22,8 @@
       "selected_gates": 376
     },
     {
-      "expected_lambda": 2361.285032792177,
-      "expected_lambda_over_n": 0.5764856037090276,
+      "expected_lambda": 2361.285443006577,
+      "expected_lambda_over_n": 0.5764857038590276,
       "m": 4352,
       "n": 4096,
       "selected_gates": 1451
