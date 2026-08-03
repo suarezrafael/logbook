@@ -17,7 +17,8 @@
     "V75_remote_points": 12,
     "V75_independent_models": 8,
     "V75_independent_distance_coefficients": 216,
-    "V75_independent_remote_points": 8
+    "V75_independent_remote_points": 8,
+    "affine_state_dimensions_checked": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   },
   "theorems": {
     "v84_hard_branch_equivalence": "FP^NP search-Turing",
@@ -29,7 +30,9 @@
     "remote_point_prefix_pair_counting": true,
     "V75_source_integration_verified": true,
     "bounded_width_remote_point_constructive": true,
-    "distance_runtime": "O(m*S*r^2*poly(n+m)) with naive truncated convolution, where S is the V75 arithmetic-DAG size"
+    "support_branchwidth_sqrt_log_remote_point_constructive": true,
+    "affine_state_bound": "A(b) <= (b+1) 2^(floor(b^2/4)+b)",
+    "distance_runtime": "2^{O(k^2)} gamma m^6 log m + O(m^2 A(2k)^2 r^2 poly(n,m))"
   },
   "nonclaims": {
     "unrestricted_NC0_3_avoid_solved": false,
