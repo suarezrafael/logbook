@@ -1,0 +1,69 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\begin{document}
+\title{Laboratory V84: Exact $\mathrm{FP}^{\mathrm{NP}}$ Girth Extraction and a Hall-Expander Promise Reduction}
+\author{NC$^0_k$-Avoid Laboratory}
+\date{August 2026}
+\maketitle
+
+Let $B=(M,X;E)$ present a transversal matroid, with $|M|=m$ and
+$|N(e)|\leq 3$ for every $e\in M$. Let $g(B)$ be its girth and let the oracle
+language ask whether $g(B)\leq L$.
+
+\begin{theorem}[Exact extraction]
+When dependence is guaranteed, $g(B)$ is computable with
+$\lceil\log_2 m\rceil$ oracle queries. A fixed-order deletion self-reduction
+then returns a canonical shortest circuit using at most $m$ additional oracle
+queries. Without guaranteed dependence, one existence query suffices.
+Every query preserves maximum left degree three.
+\end{theorem}
+
+\begin{proof}
+Binary-search the least accepted threshold. For the self-reduction, process
+left elements in a fixed order and delete $e$ whenever the oracle accepts the
+restriction $B\setminus e$ at the already-known threshold $g(B)$. Deletion
+cannot create a shorter circuit, so every accepted deletion preserves girth.
+At termination every remaining element belongs to every shortest circuit;
+since a shortest circuit is contained in the remaining ground set, the
+remaining set is that unique circuit.
+\end{proof}
+
+\begin{lemma}[Exact Hall witness]
+If $C$ is a transversal circuit, then $|N(C)|=|C|-1$. Hence a shortest circuit
+of size $g$ yields the exact minimum Hall-neighborhood value $h^*=g-1$.
+\end{lemma}
+
+\begin{proof}
+Circuit dependence gives $|N(C)|<|C|$, because any proper Hall-deficient subset
+would contradict minimality. For each $e\in C$, the independent set
+$C\setminus\{e\}$ has at least $|C|-1$ neighbors, all in $N(C)$. Thus equality
+holds. Every deficient set contains a circuit, so no smaller neighborhood
+than $g-1$ is possible.
+\end{proof}
+
+\begin{theorem}[Local avoidance or Hall expansion]
+For every threshold $L$, an $\mathrm{FP}^{\mathrm{NP}}$ preprocessing procedure
+returns either:
+\begin{enumerate}
+\item an avoided output, using $2^{g-1}\operatorname{poly}(n+m)$ deterministic
+local work when $g\leq L$; or
+\item the promise $|N(S)|\geq |S|$ for every $S\subseteq M$ with $|S|\leq L$
+when $g>L$.
+\end{enumerate}
+For fixed $c$ and $L=c\log_2(n+m)$, the first branch is polynomial.
+\end{theorem}
+
+\begin{proof}
+For a shortest circuit $C$, the local map on $N(C)$ has at most
+$2^{|N(C)|}=2^{g-1}$ images inside a codomain of size $2^g$. Enumerate the
+local range, choose a missing projection, and lift it by fixing arbitrary bits
+outside $C$. If $g>L$, every set of at most $L$ outputs is independent, and
+Hall's theorem gives the stated noncontraction promise.
+\end{proof}
+
+This is a promise reduction, not a complete solver for the large-girth branch.
+It does not establish matrix rigidity, circuit lower bounds, or $P\neq NP$.
+\end{document}
