@@ -5,6 +5,8 @@ from __future__ import annotations
 import itertools
 import json
 import random
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -143,7 +145,7 @@ def oa_rows_direct() -> list[list[int]]:
     return [[column[row] for column in columns] for row in range(4)]
 
 
-def main() -> None:
+def verify_addressing() -> None:
     committed = json.loads(
         (ROOT / "RESULTS.json").read_text(encoding="utf-8")
     )
@@ -195,10 +197,21 @@ def main() -> None:
         "support_only_universal_list_lower_bound_nine"
     ]
 
+
+def main() -> None:
+    verify_addressing()
+    strong = subprocess.run(
+        [sys.executable, str(ROOT / "verify_strong4_independent.py")],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert "12,461 rational-grid overlaps" in strong.stdout
+
     print(
         "V89 independent verification passed: direct even-parity OA, "
-        "11 exact chromatic lower checks, and 11 affine basis-address "
-        "witnesses."
+        "11 exact chromatic lower checks, 11 affine basis-address witnesses, "
+        "and an independent strong-four overlap reconstruction."
     )
 
 
