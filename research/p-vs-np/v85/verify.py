@@ -3,13 +3,62 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import random
+import sys
 
 import v85_core as core
+from distance_semiring import (
+    build_v75_model,
+    distance_pair_count,
+    hamming_ball_volume as v75_ball,
+    remote_point_from_v75_model,
+)
 
 ROOT = Path(__file__).resolve().parent
+V74 = str(ROOT.parent / "v74")
+if V74 not in sys.path:
+    sys.path.insert(0, V74)
+from two_fiber_model import brute_preimage_counts, make_gate
 
 PARAMETERS = ((8, 12), (27, 36), (64, 80), (125, 150), (216, 252), (343, 392), (512, 576), (1000, 1100))
 REMOTE_CASES = ((4, 8, 851001), (4, 9, 851002), (5, 10, 851003), (5, 11, 851004), (6, 12, 851005), (6, 13, 851006), (5, 9, 851007), (6, 11, 851008))
+
+
+def brute_pair_count(counts: dict[int, int], m: int, prefix: tuple[int, ...], radius: int) -> int:
+    total = 0
+    for output, multiplicity in counts.items():
+        mismatch = sum(bit != ((output >> i) & 1) for i, bit in enumerate(prefix))
+        total += multiplicity * v75_ball(m - len(prefix), radius - mismatch)
+    return total
+
+
+def verify_v75_distance_integration() -> tuple[int, int, int]:
+    rng = random.Random(850075)
+    models = pair_checks = remote_points = 0
+    for _ in range(12):
+        n, m = 4, 9
+        gates = []
+        for _ in range(m):
+            arity = rng.randint(1, 3)
+            support = sorted(rng.sample(range(n), arity))
+            truth_mask = rng.randrange(1 << (1 << arity))
+            gates.append(make_gate(support, truth_mask, rng.randrange(2)))
+        model = build_v75_model(n, gates)
+        counts = brute_preimage_counts(n, gates)
+        for radius in (0, 1):
+            for length in range(m + 1):
+                for value in range(min(1 << length, 4)):
+                    prefix = tuple((value >> i) & 1 for i in range(length))
+                    expected = brute_pair_count(counts, m, prefix, radius)
+                    assert distance_pair_count(model, prefix, radius) == expected
+                    pair_checks += 1
+        remote = remote_point_from_v75_model(model, 1)
+        target = int(remote["target_integer"])
+        assert min((output ^ target).bit_count() for output in counts) > 1
+        assert remote["terminal_pair_count"] == 0
+        models += 1
+        remote_points += 1
+    return models, pair_checks, remote_points
 
 
 def main() -> None:
@@ -68,7 +117,12 @@ def main() -> None:
         target = core.remote_point_by_pair_count(circuit, radius)
         assert core.distance_to_range(circuit, target) > radius
 
-    print("V85 primary verification passed: 256 predicates, 8 counting scales, 384 C4-free cases, 866 syndromes, and 8 remote points.")
+    models, pair_checks, v75_remote_points = verify_v75_distance_integration()
+    assert models == expected["V75_distance_models"] == 12
+    assert pair_checks == expected["V75_distance_prefix_checks"] == 840
+    assert v75_remote_points == expected["V75_remote_points"] == 12
+
+    print("V85 primary verification passed: 256 predicates, 866 syndromes, 8 oracle remote points, and 12 source-level V75 distance models.")
 
 
 if __name__ == "__main__":
