@@ -21,13 +21,14 @@ def verify_repository_surface(v57,n3,n3c,n4):
     assert 'V66|primary|v66/verify.py|quick|' in runner and 'V66|independent|v66/verify_independent.py|quick|' in runner
     coverage=(ROOT/'check_runner_coverage.py').read_text();assert 'POLICY_VERSION = 63' in coverage and 'promoted-era verifier omitted' in coverage
     workflow=(ROOT.parent.parent/'.github'/'workflows'/'p-vs-np-verify.yml').read_text()
-    assert workflow.count('actions/upload-artifact@v7')==3 and 'pdflatex -interaction=nonstopmode -halt-on-error' in workflow
+    assert workflow.count('actions/upload-artifact@v7')>=4 and 'pdflatex -interaction=nonstopmode -halt-on-error' in workflow
+    assert all(name in workflow for name in ('p-vs-np-quick-','p-vs-np-compatibility-','p-vs-np-full-','p-vs-np-latex-'))
     assert 'V57_BLOCK_IRREDUNDANCY_THEOREM.tex' in workflow and 'V56_AFFINE_FIBER_THEOREM.tex' in workflow
     state=(ROOT/'STATE.md').read_text();current=re.search(r'\*\*Current laboratory:\*\* V(\d+)',state)
     assert current and int(current.group(1))>=66 and 'Direct P-versus-NP route active:** no' in state
     corpus='\n'.join((HERE/x).read_text().lower() for x in required if x.endswith(('.md','.json')))
     assert all(x not in corpus for x in ('we prove p != np','p versus np is solved','finite data prove polynomial branching'))
-    return 31
+    return 32
 
 
 def main():
