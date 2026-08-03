@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import json
+from collections import Counter
 from itertools import combinations, product
+from math import ceil, comb
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -59,8 +61,16 @@ def pattern_consistent(
                         continue
                     separated = False
                     for variable in support:
-                        left_bit = 0 if left == 0 else (columns[variable] >> (left - 1)) & 1
-                        right_bit = 0 if right == 0 else (columns[variable] >> (right - 1)) & 1
+                        left_bit = (
+                            0
+                            if left == 0
+                            else (columns[variable] >> (left - 1)) & 1
+                        )
+                        right_bit = (
+                            0
+                            if right == 0
+                            else (columns[variable] >> (right - 1)) & 1
+                        )
                         if left_bit != right_bit:
                             separated = True
                             break
@@ -99,12 +109,139 @@ def labeled_three_color_consistent(
             if label is None:
                 continue
             first = coloring[support[0]]
-            if all(coloring[variable] == first for variable in support) and first != label:
+            if (
+                all(coloring[variable] == first for variable in support)
+                and first != label
+            ):
                 valid = False
                 break
         if valid:
             return True
     return False
+
+
+def bad_masks(
+    n: int, supports: tuple[tuple[int, int, int], ...]
+) -> tuple[tuple[int, int, int], ...]:
+    masks = [[0, 0, 0] for _ in supports]
+    for index, coloring in enumerate(product(range(3), repeat=n)):
+        bit = 1 << index
+        for support_index, support in enumerate(supports):
+            color = coloring[support[0]]
+            if coloring[support[1]] != color or coloring[support[2]] != color:
+                continue
+            for label in range(3):
+                if label != color:
+                    masks[support_index][label] |= bit
+    return tuple(tuple(row) for row in masks)
+
+
+def independent_pair_census(n: int = 6) -> dict:
+    triples = tuple(combinations(range(n), 3))
+    masks = bad_masks(n, triples)
+    distribution: Counter[str] = Counter()
+    mismatches = 0
+    checked = 0
+    minimum = 3**n
+    for first, support_a in enumerate(triples):
+        for second in range(first + 1, len(triples)):
+            support_b = triples[second]
+            overlap = len(set(support_a) & set(support_b))
+            for label_a in range(3):
+                for label_b in range(3):
+                    exact = (
+                        masks[first][label_a] & masks[second][label_b]
+                    ).bit_count()
+                    if overlap == 0:
+                        formula = 4 * 3 ** (n - 6)
+                    else:
+                        common = 2 if label_a == label_b else 1
+                        formula = common * 3 ** (n - (6 - overlap))
+                    mismatches += exact != formula
+                    minimum = min(minimum, exact)
+                    key = (
+                        f"overlap={overlap};"
+                        f"same_label={str(label_a == label_b).lower()};"
+                        f"intersection={exact}"
+                    )
+                    distribution[key] += 1
+                    checked += 1
+
+    return {
+        "variables": n,
+        "supports": len(triples),
+        "labeled_distinct_support_pairs_checked": checked,
+        "formula_mismatches": mismatches,
+        "minimum_pair_intersection": minimum,
+        "distribution": dict(sorted(distribution.items())),
+    }
+
+
+FANO = (
+    (0, 1, 2),
+    (0, 3, 4),
+    (0, 5, 6),
+    (1, 3, 5),
+    (1, 4, 6),
+    (2, 3, 6),
+    (2, 4, 5),
+)
+
+
+def independent_fano_census() -> dict:
+    masks = bad_masks(7, FANO)
+    total_colorings = 3**7
+    counts = []
+    for labels in product(range(3), repeat=7):
+        bad_union = 0
+        for edge, label in enumerate(labels):
+            bad_union |= masks[edge][label]
+        counts.append(total_colorings - bad_union.bit_count())
+    return {
+        "support_edges": 7,
+        "labelings": len(counts),
+        "satisfiable_labelings": sum(count > 0 for count in counts),
+        "uncoverable_labelings": sum(count == 0 for count in counts),
+        "minimum_satisfying_colorings": min(counts),
+        "maximum_satisfying_colorings": max(counts),
+        "total_satisfying_pairs": sum(counts),
+    }
+
+
+def independent_moment_certificates() -> list[dict[str, int]]:
+    rows = []
+    for n in (5, 6, 7, 8, 9):
+        universe = 3**n
+        single = 2 * 3 ** (n - 3)
+        excess = 14 * single - universe
+        lower = comb(14, 2) * 3 ** (n - 5)
+        upper = 7 * excess
+        rows.append(
+            {
+                "variables": n,
+                "colorings": universe,
+                "single_bad_colorings": single,
+                "incidence_excess_if_cover": excess,
+                "pair_intersection_lower_bound": lower,
+                "pair_intersection_upper_bound_if_cover": upper,
+                "contradiction_gap": lower - upper,
+            }
+        )
+    return rows
+
+
+def independent_target_scales() -> list[dict[str, int]]:
+    return [
+        {
+            "n": n,
+            "m": n + ceil(n ** (2 / 3)),
+            "simple_support_capacity": comb(n, 3),
+            "covered_by_fourteen_output_theorem": int(
+                n + ceil(n ** (2 / 3)) <= 14
+            ),
+        }
+        for n in range(5, 10)
+    ]
 
 
 def main() -> None:
@@ -143,9 +280,17 @@ def main() -> None:
     assert coloring_mismatches == 0
     assert all(coverable for (_k, _m, coverable) in totals)
 
+    barrier = committed["three_row_barrier"]
+    assert independent_pair_census() == barrier["pair_formula_census"]
+    assert independent_fano_census() == barrier["fano_labeling_census"]
+    assert independent_moment_certificates() == barrier["moment_certificates"]
+    assert independent_target_scales() == barrier["target_stretch_scales"]
+    assert barrier["minimum_active_outputs_for_three_row_obstruction"] == 15
+
     print(
-        "V88 independent verification passed: direct observed-table extension "
-        "matches the pattern CSP and the three-color reduction on 7,264 instances."
+        "V88 independent verification passed: 7,264 collision instances, "
+        "1,710 bad-cylinder pairs, 2,187 Fano labelings, and the independent "
+        "fourteen-output moment contradiction."
     )
 
 
