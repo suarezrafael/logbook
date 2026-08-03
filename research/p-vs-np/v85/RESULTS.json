@@ -11,7 +11,13 @@
     "C4_free_support_cases": 384,
     "nonzero_constant_syndromes": 866,
     "syndrome_violations": 0,
-    "remote_point_cases": 8
+    "remote_point_cases": 8,
+    "V75_distance_models": 12,
+    "V75_distance_prefix_checks": 840,
+    "V75_remote_points": 12,
+    "V75_independent_models": 8,
+    "V75_independent_distance_coefficients": 216,
+    "V75_independent_remote_points": 8
   },
   "theorems": {
     "v84_hard_branch_equivalence": "FP^NP search-Turing",
@@ -21,7 +27,9 @@
     "Eval_H_reduction": true,
     "syndrome_C4_unification": true,
     "remote_point_prefix_pair_counting": true,
-    "V75_source_integration_verified": false
+    "V75_source_integration_verified": true,
+    "bounded_width_remote_point_constructive": true,
+    "distance_runtime": "O(m*S*r^2*poly(n+m)) with naive truncated convolution, where S is the V75 arithmetic-DAG size"
   },
   "nonclaims": {
     "unrestricted_NC0_3_avoid_solved": false,
