@@ -22,10 +22,12 @@ paying that cost on every promotion.
 
 ## Main branch
 
-A push to `main` runs `quick`, plus LaTeX only when relevant files changed. It
-does not repeat the exact replay already validated before merge. Promotion-only
-changes to `LAB_STATUS.json` therefore receive a focused regression check
-without reinstalling TeX Live or re-running the historical exact searches.
+Every push to `main` runs `quick`, plus LaTeX only when relevant files changed.
+A push that changes `LAB_STATUS.json` additionally runs `compatibility` against
+the actual promoted state. This closes the gap between validating a candidate
+inside its PR and validating the subsequent candidate-to-promoted transition.
+The exact replay tier is not repeated on the push because it was already
+validated before merge.
 
 ## Scheduled and manual verification
 
@@ -56,6 +58,6 @@ maintained.
 ## Safety boundary
 
 This optimization does not replace historical compatibility with only recent
-checks. It separates ordinary historical verifiers from the small exact replay
-tier. Any change to the CI machinery itself still triggers the complete suite
-before merge.
+checks. Ordinary historical verifiers run both before scientific promotion and
+after the status transition reaches `main`. The small exact replay tier remains
+reserved for CI-sensitive PRs, weekly audits, and manual dispatch.
