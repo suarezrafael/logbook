@@ -1,16 +1,30 @@
 {
-  "schema_version": 26,
+  "schema_version": 27,
   "updated": "2026-08-03",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V88",
-  "candidate_version": null,
-  "highest_directory": "V88",
-  "promotion_state": "promoted",
+  "candidate_version": "V89",
+  "highest_directory": "V89",
+  "promotion_state": "candidate",
   "completed_scope": "repeated-table Eval_H collision normal form, exact three-row reduction, fourteen-output barrier, Property-B composition, and a four-row lower bound for universal support-only lists",
+  "candidate_scope": "target-independent eight-row addressing, OA(8,4,2,3), affine F_2^3 basis colorings, exact primal-color audits, and an explicit asymptotic bridge boundary",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V89",
-  "next_laboratory_focus": "exact four-row collision geometry, explicit four-row obstruction search, stronger constructor-model lower bounds, and deterministic non-Property-B target-stretch families",
+  "next_laboratory_focus": "prove or refute asymptotic F_2^3 basis colorability for the V87 random model, then seek a superconstant constructor lower bound before the V90 stop rule",
+  "research_budget": {
+    "eval_h_constructor_front_deadline": "V90",
+    "required_material_advance": [
+      "superconstant support-only constructor lower bound",
+      "constructive O(n^(1/3)) target list",
+      "rigorous asymptotic eight-row bridge with consequences beyond a finite census"
+    ],
+    "close_front_if_no_material_advance": true,
+    "fallback_fronts": [
+      "rigidity and average-case bridge",
+      "bounded arithmetic and proof complexity"
+    ]
+  },
   "ci_policy": {
     "draft_pull_request": ["quick", "latex_when_relevant"],
     "ready_pull_request": ["quick", "compatibility", "latex_when_relevant", "full_when_ci_sensitive"],
@@ -19,7 +33,7 @@
     "manual_dispatch": ["quick", "full", "latex"]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V88",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V89",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -60,6 +74,14 @@
     "eval_h_four_row_obstruction_found": false,
     "v87_random_model_two_colorable_whp": true,
     "same_family_three_certificates_plus_property_b_exists": true,
+    "eval_h_eight_row_basis_addressing_theorem": true,
+    "primal_four_color_sufficient_for_eight_rows": true,
+    "target_independent_ternary_addressing_ceiling_eight": true,
+    "v80_controls_primal_four_colorable": false,
+    "v87_samples_primal_four_colorable": false,
+    "v80_and_v87_samples_basis_colorable": true,
+    "v87_random_model_basis_colorable_whp": false,
+    "support_only_universal_list_lower_bound_nine": false,
     "ternary_predicate_partition_16_184_56": true,
     "balanced_nonaffine_low_degree_correlation_half": true,
     "constant_syndrome_C4_theorem": true,
