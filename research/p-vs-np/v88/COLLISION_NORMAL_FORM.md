@@ -133,6 +133,26 @@ a contradiction.
 Therefore the first possible three-row obstruction has at least fifteen active
 output columns.
 
+## Theorem 6 — Property B rules out every three-row obstruction
+
+If the support hypergraph is properly two-colorable, embed its two colors into
+any two of the three active colors above. Every support remains
+nonmonochromatic, so every three-row labeling is satisfiable.
+
+`PROPERTY_B_BOUNDARY.md` combines this observation with the random-hypergraph
+two-colorability theorem used there. The V87 target-stretch random model has
+Property B with high probability, while its Hall, simplicity, and linear-width
+events have the probabilities established in V86/V87. Consequently one family
+simultaneously defeats the three earlier certificate mechanisms and still
+covers every target list of at most three rows.
+
+Thus, in the exact constructor model of ordered target lists depending only on
+the supports,
+
+```text
+minimum universal list size >= 4.
+```
+
 ## Finite censuses
 
 The collision census enumerates all `15` nonempty simple ternary support
@@ -148,31 +168,29 @@ Two independent implementations compare:
 There are zero mismatches. Every target list in this smallest complete census
 is coverable.
 
-The extended three-row audit checks `1,710` labeled pairs of distinct supports
-on six variables, all five moment-certificate scales from `n=5` through `n=9`,
-and all `2,187` labelings of the Fano support control. Every formula matches
-and every Fano labeling is coverable.
+The extended audits check `1,710` labeled pairs of distinct supports on six
+variables, all five moment-certificate scales from `n=5` through `n=9`, all
+`2,187` labelings of the Fano support control, the three V80 support controls,
+and eight deterministic V87 samples.
 
 ## Strategic consequence
 
-V88 replaces an unstructured range-avoidance view of `Eval_H` with a precise
-finite-domain separation problem. The constructive question is now:
+The direct constructive question is now genuinely four-row:
 
 ```text
-construct, from H alone, a k-row target matrix whose induced separation CSP
-is unsatisfiable, with k=O(n^(1/3)) at m=n+ceil(n^(2/3));
+construct, from H alone, a four-or-more-row target matrix whose induced
+separation CSP is unsatisfiable at m=n+ceil(n^(2/3));
 ```
 
-or prove that a specified constructor class cannot do so.
+or raise the lower bound for a precisely specified constructor class.
 
-The current frontier begins at fifteen active columns for three rows. A
-parallel four-row search is justified because the three-row bad-set geometry
-may impose stronger constant barriers than the counting theorem alone reveals.
+The Hall, syndrome, and width barriers do not imply even a three-row missing
+output. Future work must use four-row collision geometry or support properties
+that force failure of Property B while preserving the target stretch.
 
 ## Nonclaims
 
-This normal form and the fourteen-output theorem do not construct the V85
-counting list, prove a constructor-model lower bound, settle the existence of a
-fifteen-output obstruction, derandomize the V87 family, solve unrestricted
+This normal form and its lower bounds do not construct the V85 counting list,
+produce a four-row obstruction, derandomize the V87 family, solve unrestricted
 `NC0_3-Avoid`, establish a circuit lower bound, or resolve `P` versus `NP`.
 Novelty and peer-review status remain unconfirmed.
