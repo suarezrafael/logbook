@@ -107,9 +107,35 @@ label. Constant target columns impose no constraint.
 
 This is an exact equivalence, not a relaxation.
 
-## Finite census
+## Theorem 5 — three rows need at least fifteen active outputs
 
-The committed audit enumerates all `15` nonempty simple ternary support
+For simple 3-uniform supports, every three-row target list with at most
+fourteen nonconstant columns is coverable.
+
+The full proof is in `THREE_ROW_BARRIER.md`. In bad-set language, one labeled
+support excludes exactly a `2/27` fraction of all vertex three-colorings, and
+any two distinct bad cylinders intersect in at least a `1/243` fraction. At
+fourteen columns, a hypothetical cover would force the sum of pair
+intersections to be simultaneously at least
+
+```text
+91 * 3^(n-5)
+```
+
+and at most
+
+```text
+63 * 3^(n-5),
+```
+
+a contradiction.
+
+Therefore the first possible three-row obstruction has at least fifteen active
+output columns.
+
+## Finite censuses
+
+The collision census enumerates all `15` nonempty simple ternary support
 families on four variables and every target matrix with one, two, or three
 rows. It checks `7,264` instances in total.
 
@@ -120,12 +146,17 @@ Two independent implementations compare:
 3. for three rows, the labeled three-color formulation.
 
 There are zero mismatches. Every target list in this smallest complete census
-is coverable, so no three-row obstruction occurs on four variables.
+is coverable.
+
+The extended three-row audit checks `1,710` labeled pairs of distinct supports
+on six variables, all five moment-certificate scales from `n=5` through `n=9`,
+and all `2,187` labelings of the Fano support control. Every formula matches
+and every Fano labeling is coverable.
 
 ## Strategic consequence
 
 V88 replaces an unstructured range-avoidance view of `Eval_H` with a precise
-finite-domain separation problem. The next constructive question is now:
+finite-domain separation problem. The constructive question is now:
 
 ```text
 construct, from H alone, a k-row target matrix whose induced separation CSP
@@ -134,9 +165,14 @@ is unsatisfiable, with k=O(n^(1/3)) at m=n+ceil(n^(2/3));
 
 or prove that a specified constructor class cannot do so.
 
+The current frontier begins at fifteen active columns for three rows. A
+parallel four-row search is justified because the three-row bad-set geometry
+may impose stronger constant barriers than the counting theorem alone reveals.
+
 ## Nonclaims
 
-This normal form does not construct the V85 counting list, prove a
-constructor-model lower bound, derandomize the V87 obstruction family, solve
-unrestricted `NC0_3-Avoid`, establish a circuit lower bound, or resolve
-`P` versus `NP`. Novelty and peer-review status remain unconfirmed.
+This normal form and the fourteen-output theorem do not construct the V85
+counting list, prove a constructor-model lower bound, settle the existence of a
+fifteen-output obstruction, derandomize the V87 family, solve unrestricted
+`NC0_3-Avoid`, establish a circuit lower bound, or resolve `P` versus `NP`.
+Novelty and peer-review status remain unconfirmed.
