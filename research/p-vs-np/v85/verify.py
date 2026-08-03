@@ -8,6 +8,8 @@ import sys
 
 import v85_core as core
 from distance_semiring import (
+    affine_subspace_count,
+    affine_subspace_elementary_bound,
     build_v75_model,
     distance_pair_count,
     hamming_ball_volume as v75_ball,
@@ -80,6 +82,15 @@ def main() -> None:
         assert dims["adaptive_query_depth"] == 4
         assert dims["nonadaptive_junta_bound"] == 11
 
+    state_dimensions = expected["affine_state_dimensions_checked"]
+    previous = 0
+    for b in state_dimensions:
+        exact = affine_subspace_count(b)
+        assert exact >= previous
+        assert exact <= affine_subspace_elementary_bound(b)
+        previous = exact
+    assert state_dimensions == list(range(13))
+
     plane = core.affine_plane_order_three_supports()
     assert len(plane) == 12
     assert all(len(set(a) & set(b)) <= 1 for i, a in enumerate(plane) for b in plane[i + 1 :])
@@ -122,7 +133,7 @@ def main() -> None:
     assert pair_checks == expected["V75_distance_prefix_checks"] == 840
     assert v75_remote_points == expected["V75_remote_points"] == 12
 
-    print("V85 primary verification passed: 256 predicates, 866 syndromes, 8 oracle remote points, and 12 source-level V75 distance models.")
+    print("V85 primary verification passed: 256 predicates, 866 syndromes, 13 affine-state dimensions, and 12 source-level V75 distance models.")
 
 
 if __name__ == "__main__":
