@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from basis_core_obstruction import build_results as build_core_results
 from oa8_addressing import build_results
 from strong4_second_moment import build_strong4_results
 
@@ -105,9 +106,54 @@ def verify_strong_four_reduction() -> None:
     assert not scientific["support_only_universal_list_lower_bound_nine"]
 
 
+def verify_basis_core_obstructions() -> None:
+    committed = json.loads(
+        (ROOT / "BASIS_CORE_RESULTS.json").read_text(encoding="utf-8")
+    )
+    generated = build_core_results()
+    assert generated == committed
+
+    small = committed["small_obstruction"]
+    assert small["vertices"] == 8
+    assert small["edge_count"] == 10
+    assert small["empty_three_core"]
+    assert not small["basis_colorable"]
+    assert small["edge_critical"]
+    assert small["normalized_assignment_census"][
+        "assignments_checked"
+    ] == 16807
+    assert small["normalized_assignment_census"][
+        "satisfying_assignments"
+    ] == 0
+
+    minimality = committed["seven_vertex_minimality"][
+        "replayed_census"
+    ]
+    assert minimality["normalized_assignments"] == 2401
+    assert minimality["maximal_ordered_hypergraphs_checked"] == 212625
+    assert minimality["all_colorable"]
+
+    linear = committed["linear_obstruction"]
+    assert linear["vertices"] == 12
+    assert linear["edge_count"] == 14
+    assert linear["maximum_pair_codegree"] == 1
+    assert linear["empty_three_core"]
+    assert not linear["basis_colorable"]
+    assert linear["edge_critical"]
+
+    scientific = committed["scientific_status"]
+    assert not scientific["empty_three_core_implies_basis_colorable"]
+    assert not scientific[
+        "linear_empty_three_core_implies_basis_colorable"
+    ]
+    assert not scientific["core_threshold_alone_closes_eight_row_bridge"]
+    assert not scientific["random_model_basis_colorable_whp"]
+
+
 def main() -> None:
     verify_addressing()
     verify_strong_four_reduction()
+    verify_basis_core_obstructions()
 
     status = json.loads(STATUS.read_text(encoding="utf-8"))
     verify_status(status)
@@ -120,12 +166,19 @@ def main() -> None:
         "strong4_uniform_overlap_locally_stable_through_density_three_halves"
     ]
     assert not scientific["strong4_birkhoff_global_inequality_proved"]
+    assert scientific["basis_core_obstruction_found"]
+    assert scientific["basis_linear_core_obstruction_found"]
+    assert not scientific["empty_three_core_implies_basis_colorable"]
+    assert not scientific[
+        "linear_empty_three_core_implies_basis_colorable"
+    ]
     assert not scientific["support_only_universal_list_lower_bound_nine"]
 
     print(
-        "V89 verification passed: eight-row OA/basis addressing, 11 finite "
-        "controls, 2,314 exact strong-four overlap identities, 52,637 "
-        "rational overlaps, and the exact local-stability reduction."
+        "V89 verification passed: eight-row addressing, 2,314 exact "
+        "strong-four identities, 52,637 rational overlaps, the exact "
+        "eight-vertex core obstruction, the 212,625-instance minimality "
+        "census, and one linear core obstruction."
     )
 
 
