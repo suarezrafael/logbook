@@ -208,10 +208,19 @@ def main() -> None:
     )
     assert "12,461 rational-grid overlaps" in strong.stdout
 
+    core = subprocess.run(
+        [sys.executable, str(ROOT / "verify_basis_core_independent.py")],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert "212,625-instance seven-vertex census" in core.stdout
+
     print(
         "V89 independent verification passed: direct even-parity OA, "
         "11 exact chromatic lower checks, 11 affine basis-address witnesses, "
-        "and an independent strong-four overlap reconstruction."
+        "an independent strong-four reconstruction, and independent exact "
+        "basis-core obstruction checks."
     )
 
 
