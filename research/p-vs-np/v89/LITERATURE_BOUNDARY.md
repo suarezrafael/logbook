@@ -76,10 +76,30 @@ rational grids support global maximality near density one, but do not prove it.
 
 ## Random hypergraph cores
 
-A possible alternative route is structural rather than chromatic: exploit the
-low-density core decomposition of the V87 random hypergraph and prove that the
-seven-state basis CSP extends through the resulting peeling order. No such
-extension theorem is claimed in the current packet.
+Skubch states the standard threshold for the `k`-core of the binomial random
+`r`-uniform hypergraph `H_r(n,d/n^(r-1))`:
+
+```text
+d_r,k = inf_{lambda>0}
+        lambda (r-1)! / Pr[Po(lambda)>=k-1]^(r-1).
+```
+
+For `r=k=3`, numerical minimization gives
+
+```text
+d_3,3 = 9.316979644...,
+expected edge density d_3,3/6 = 1.552829940... .
+```
+
+Thus the V87 density `m/n -> 1` is below the 3-core threshold. This correctly
+implies an empty 3-core with high probability, but it does not imply the
+seven-state basis CSP is satisfiable.
+
+The committed V89 continuation gives an exact eight-vertex empty-core
+noncolorable support family and a separate linear empty-core obstruction. These
+examples refute the proposed universal reverse-peeling extension theorem. They
+do not refute a random-specific theorem, because each fixed dense obstruction
+has vanishing occurrence probability in the sparse model.
 
 Primary adjacent source:
 
@@ -91,6 +111,6 @@ Random Structures & Algorithms 51 (2017), 381–424.
 
 ## Novelty discipline
 
-The affine basis construction, cubic overlap identity, and finite audits are
-internal mathematical results. External novelty, a sharp `r=4` random-model
-threshold, and peer review remain unconfirmed.
+The affine basis construction, cubic overlap identity, finite audits, and exact
+core-peeling obstructions are internal mathematical results. External novelty,
+a sharp `r=4` random-model threshold, and peer review remain unconfirmed.
