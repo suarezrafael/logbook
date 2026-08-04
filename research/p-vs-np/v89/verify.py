@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from basis7_second_moment import build_results as build_basis7_results
 from basis_core_obstruction import build_results as build_core_results
 from oa8_addressing import build_results
 from strong4_second_moment import build_strong4_results
@@ -150,10 +151,51 @@ def verify_basis_core_obstructions() -> None:
     assert not scientific["random_model_basis_colorable_whp"]
 
 
+def verify_basis7_second_moment() -> None:
+    committed = json.loads(
+        (ROOT / "BASIS7_RESULTS.json").read_text(encoding="utf-8")
+    )
+    generated = build_basis7_results()
+    assert generated == committed
+
+    first = committed["first_moment"]
+    assert first["ordered_bases"] == 168
+    assert first["single_edge_basis_probability"] == "24/49"
+    assert first["exponential_base_at_density_one"] == 3.428571428571
+
+    local = committed["local_stability"]
+    assert local["overlap_tangent_dimension"] == 36
+    assert local["bilinear_pairs_checked"] == 1296
+    assert local["identity_mismatches"] == 0
+    assert local["energy_log_hessian_eigenvalue"] == "1/6"
+    assert local["combined_hessian_eigenvalue"] == "-1+c/6"
+    assert local[
+        "uniform_overlap_locally_maximal_for_density_below"
+    ] == 6
+    assert local["strict_quadratic_coefficient_at_density_one"] == "-5/12"
+
+    permutation = committed["permutation_boundary"]
+    assert permutation["permutations_checked"] == 5040
+    assert permutation["fano_automorphisms"] == 168
+
+    diagonal = committed["diagonal_family"]
+    assert diagonal["steps"] == 20000
+    assert diagonal["minimum_scanned_critical_density"] == 2.520745085422
+
+    scientific = committed["scientific_status"]
+    assert scientific["basis7_overlap_objective_exact"]
+    assert scientific[
+        "basis7_uniform_overlap_locally_stable_through_density_six"
+    ]
+    assert not scientific["basis7_global_overlap_inequality_proved"]
+    assert not scientific["v87_random_model_basis_colorable_whp"]
+
+
 def main() -> None:
     verify_addressing()
     verify_strong_four_reduction()
     verify_basis_core_obstructions()
+    verify_basis7_second_moment()
 
     status = json.loads(STATUS.read_text(encoding="utf-8"))
     verify_status(status)
@@ -172,13 +214,18 @@ def main() -> None:
     assert not scientific[
         "linear_empty_three_core_implies_basis_colorable"
     ]
+    assert scientific["basis7_overlap_objective_exact"]
+    assert scientific[
+        "basis7_uniform_overlap_locally_stable_through_density_six"
+    ]
+    assert not scientific["basis7_global_overlap_inequality_proved"]
     assert not scientific["support_only_universal_list_lower_bound_nine"]
 
     print(
-        "V89 verification passed: eight-row addressing, 2,314 exact "
-        "strong-four identities, 52,637 rational overlaps, the exact "
-        "eight-vertex core obstruction, the 212,625-instance minimality "
-        "census, and one linear core obstruction."
+        "V89 verification passed: eight-row addressing, exact strong-four "
+        "and seven-state overlap geometry, the eight-vertex minimal core "
+        "obstruction, the 212,625-instance census, and one linear core "
+        "obstruction."
     )
 
 
