@@ -216,11 +216,19 @@ def main() -> None:
     )
     assert "212,625-instance seven-vertex census" in core.stdout
 
+    basis7 = subprocess.run(
+        [sys.executable, str(ROOT / "verify_basis7_independent.py")],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert "36-dimensional local-stability certificate" in basis7.stdout
+
     print(
         "V89 independent verification passed: direct even-parity OA, "
         "11 exact chromatic lower checks, 11 affine basis-address witnesses, "
-        "an independent strong-four reconstruction, and independent exact "
-        "basis-core obstruction checks."
+        "independent strong-four and seven-state overlap reconstructions, "
+        "and independent exact basis-core obstruction checks."
     )
 
 
