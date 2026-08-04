@@ -1,0 +1,62 @@
+{
+  "exact_quadratic_identity": {
+    "bilinear_pairs_checked": 1296,
+    "mismatches": 0,
+    "one_pair_quadratic_coefficient": "16/2401",
+    "relative_quadratic_coefficient": "1/12",
+    "tangent_dimension": 36,
+    "three_pair_quadratic_coefficient": "48/2401"
+  },
+  "global_spectral_envelope": {
+    "centered_matrix": "C=B-U",
+    "cubic_bound": "|T_3(C)| <= (312/2401) sigma^3",
+    "exact_decomposition": "q(B)=(24/49)^2+(48/2401)||C||_F^2+T_3(C)",
+    "operator_norm": "sigma=||C||_(2->2) <= 1",
+    "relative_energy_bound": "q(B)/(24/49)^2 <= 1+||C||_F^2/12+13 sigma^3/24"
+  },
+  "hoeffding_decomposition": {
+    "basis_probability": "24/49",
+    "degree_three_norm_squared": "312/2401",
+    "degree_two_norm_squared": "288/2401",
+    "one_pair_component_norm_squared": "96/2401",
+    "ordered_bases": 168,
+    "pair_component_values": {
+      "diagonal": "-24/49",
+      "off_diagonal": "4/49"
+    },
+    "variance": "600/2401"
+  },
+  "invariant_family": {
+    "entropy_defect": "D(alpha)=alpha ln(7 alpha)+(1-alpha) ln(7(1-alpha)/6)",
+    "joint_probability": "q(alpha)=(91 alpha^3+33 alpha^2-15 alpha+107)/441",
+    "matrix": "diagonal alpha; off-diagonal (1-alpha)/6",
+    "symmetry_reduction_proved": false
+  },
+  "laboratory": "V90",
+  "literature_boundary": {
+    "reason": "Located strong-colorability lower theorems require the number of colors to be sufficiently large; no checked theorem statement covers k=3, r=4, c=1.",
+    "strong_four_case_imported": false
+  },
+  "local_certificate": {
+    "certified_density": "21/20",
+    "conclusion": "D(B)-(21/20)L(B) >= (17/2400)||B-U||_F^2 for ||B-U||_F <= 1/5",
+    "energy_upper_coefficient": "23/120",
+    "entropy_lower_coefficient": "5/24",
+    "frobenius_radius": "1/5",
+    "strict_margin_coefficient": "17/2400"
+  },
+  "module": "seven-state local-global entropy contraction",
+  "nonclaims": [
+    "The local ball is not a global second-moment theorem.",
+    "The GL(3,2)-invariant family is not known to contain every maximizer.",
+    "The literature audit does not prove strong four-colorability at density one.",
+    "P versus NP remains unresolved."
+  ],
+  "remaining_gap": {
+    "global_entropy_contraction_proved": false,
+    "nine_row_constructor_lower_bound": false,
+    "random_model_basis_colorable_whp": false,
+    "region": "||B-U||_F > 1/5 in the 7x7 Birkhoff polytope",
+    "v90_stop_condition_met": false
+  }
+}
