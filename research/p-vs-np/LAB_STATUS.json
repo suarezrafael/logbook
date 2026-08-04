@@ -1,16 +1,15 @@
 {
-  "schema_version": 30,
+  "schema_version": 31,
   "updated": "2026-08-03",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V88",
-  "candidate_version": "V89",
+  "promoted_version": "V89",
+  "candidate_version": null,
   "highest_directory": "V89",
-  "promotion_state": "candidate",
-  "completed_scope": "repeated-table Eval_H collision normal form, exact three-row reduction, fourteen-output barrier, Property-B composition, and a four-row lower bound for universal support-only lists",
-  "candidate_scope": "target-independent eight-row addressing, exact strong-four and seven-state overlap geometry, local second-moment stability, and exact obstructions to universal empty-core peeling bridges",
+  "promotion_state": "promoted",
+  "completed_scope": "target-independent eight-row addressing, exact strong-four and seven-state overlap geometry, local second-moment stability, and exact obstructions to universal empty-core peeling bridges",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V89",
+  "next_laboratory_version": "V90",
   "next_laboratory_focus": "prove a global seven-state entropy-contraction inequality on the 7x7 Birkhoff polytope or the strong-four inequality; otherwise close the constructor front under the V90 stop rule",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -26,11 +25,29 @@
     ]
   },
   "ci_policy": {
-    "draft_pull_request": ["quick", "latex_when_relevant"],
-    "ready_pull_request": ["quick", "compatibility", "latex_when_relevant", "full_when_ci_sensitive"],
-    "main_push": ["quick", "compatibility_when_status_changes", "latex_when_relevant"],
-    "scheduled": ["full"],
-    "manual_dispatch": ["quick", "full", "latex"]
+    "draft_pull_request": [
+      "quick",
+      "latex_when_relevant"
+    ],
+    "ready_pull_request": [
+      "quick",
+      "compatibility",
+      "latex_when_relevant",
+      "full_when_ci_sensitive"
+    ],
+    "main_push": [
+      "quick",
+      "compatibility_when_status_changes",
+      "latex_when_relevant"
+    ],
+    "scheduled": [
+      "full"
+    ],
+    "manual_dispatch": [
+      "quick",
+      "full",
+      "latex"
+    ]
   },
   "verification_policy": {
     "quick": "focused read-only regression gate for V53-V59 and V78-V89",
