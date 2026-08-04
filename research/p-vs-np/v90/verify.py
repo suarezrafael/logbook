@@ -11,12 +11,35 @@ STATUS = ROOT.parent / "LAB_STATUS.json"
 POLICY = ROOT.parent / "IMPLICATION_POLICY.md"
 
 
+def version_number(name: str) -> int:
+    assert name.startswith("V")
+    return int(name[1:])
+
+
 def verify_status(status: dict) -> None:
-    assert status["promoted_version"] == "V89"
-    assert status["candidate_version"] == "V90"
-    assert status["highest_directory"] == "V90"
-    assert status["promotion_state"] == "candidate"
-    assert status["next_laboratory_version"] == "V90"
+    promoted = status["promoted_version"]
+    candidate = status["candidate_version"]
+    highest = status["highest_directory"]
+
+    if candidate == "V90":
+        assert promoted == "V89"
+        assert highest == "V90"
+        assert status["promotion_state"] == "candidate"
+        assert status["next_laboratory_version"] == "V90"
+    else:
+        assert version_number(promoted) >= 90
+        if candidate is None:
+            assert highest == promoted
+            assert status["promotion_state"] == "promoted"
+            assert status["next_laboratory_version"] == (
+                f"V{version_number(promoted) + 1}"
+            )
+        else:
+            assert version_number(candidate) == version_number(promoted) + 1
+            assert highest == candidate
+            assert status["promotion_state"] == "candidate"
+            assert status["next_laboratory_version"] == candidate
+
     assert status["research_budget"]["eval_h_constructor_front_deadline"] == "V90"
     assert status["research_budget"]["close_front_if_no_material_advance"] is True
     assert status["research_budget"]["eval_h_constructor_front_closed"] is True
@@ -67,6 +90,7 @@ def main() -> None:
     assert "Direct implication" in policy
     assert "Natural-proofs checkpoint" in policy
     assert "Algorithmic-method checkpoint" in policy
+    assert "barrier_and_closure" in policy
 
     barrier = (ROOT / "NATURAL_PROOFS_BARRIER.md").read_text(
         encoding="utf-8"
