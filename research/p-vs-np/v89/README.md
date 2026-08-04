@@ -73,6 +73,27 @@ overlaps and audits `52,637` rational Birkhoff points through density `1.05`.
 All tested exponents are nonpositive. These grids are evidence only and are not
 recorded as a continuous proof.
 
+## Empty-core peeling boundary
+
+The density-one V87 model lies below the 3-core threshold for random
+3-uniform hypergraphs, which initially suggested a reverse-peeling construction
+for the seven-state basis CSP. V89 now closes that shortcut negatively.
+
+An exact eight-vertex, ten-edge hypergraph has empty 3-core but no `F_2^3`
+basis coloring. It has a short affine-coset contradiction, zero satisfying
+assignments among `7^5=16,807` normalized possibilities, and becomes colorable
+after deleting any edge.
+
+A bitset census checks all `212,625` maximal ordered empty-core hypergraphs on
+seven vertices and finds all of them colorable, so the obstruction is
+vertex-minimal in that class. A separate 12-vertex, 14-edge obstruction is
+linear, has pair-codegree one, and is also edge-critical and not basis-colorable.
+
+Therefore neither empty 3-core nor empty 3-core plus linearity implies the
+basis-coloring condition. The random-model bridge remains open and must exploit
+additional probabilistic structure, the full seven-state overlap, or the
+strong-four inequality.
+
 ## Exact uniform ceiling
 
 A ternary support has eight local addresses. Hence target-independent injective
@@ -105,9 +126,12 @@ complexity.
 - `STRONG4_SECOND_MOMENT.md` — exact overlap reduction and analytic boundary;
 - `strong4_second_moment.py` — exact overlap and rational-grid census;
 - `STRONG4_RESULTS.json` — immutable strong-four evidence;
+- `BASIS_CORE_OBSTRUCTION.md` — analytic and executable peeling boundary;
+- `basis_core_obstruction.py` — exact obstructions and minimality census;
+- `BASIS_CORE_RESULTS.json` — immutable core-obstruction evidence;
 - `verify.py` — primary verifier;
-- `verify_independent.py` and `verify_strong4_independent.py` — independent
-  reconstructions;
+- `verify_independent.py`, `verify_strong4_independent.py`, and
+  `verify_basis_core_independent.py` — independent reconstructions;
 - `LITERATURE_BOUNDARY.md` — source and model-transfer boundary;
 - `VALIDATION.md` — execution record;
 - `V90_CORE_CONTEXT.md` — continuation and stop rule.
