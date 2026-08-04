@@ -13,12 +13,35 @@ ROOT = Path(__file__).resolve().parent
 STATUS = ROOT.parent / "LAB_STATUS.json"
 
 
+def version_number(name: str) -> int:
+    assert name.startswith("V")
+    return int(name[1:])
+
+
 def verify_status(status: dict) -> None:
-    assert status["highest_directory"] == "V89"
-    assert status["promoted_version"] == "V88"
-    assert status["candidate_version"] == "V89"
-    assert status["promotion_state"] == "candidate"
-    assert status["next_laboratory_version"] == "V89"
+    candidate = status["candidate_version"]
+    promoted = status["promoted_version"]
+    highest = status["highest_directory"]
+
+    if candidate == "V89":
+        assert promoted == "V88"
+        assert highest == "V89"
+        assert status["promotion_state"] == "candidate"
+        assert status["next_laboratory_version"] == "V89"
+    else:
+        assert version_number(promoted) >= 89
+        if candidate is None:
+            assert highest == promoted
+            assert status["promotion_state"] == "promoted"
+            assert status["next_laboratory_version"] == (
+                f"V{version_number(promoted) + 1}"
+            )
+        else:
+            assert version_number(candidate) == version_number(promoted) + 1
+            assert highest == candidate
+            assert status["promotion_state"] == "candidate"
+            assert status["next_laboratory_version"] == candidate
+
     budget = status["research_budget"]
     assert budget["eval_h_constructor_front_deadline"] == "V90"
     assert budget["close_front_if_no_material_advance"] is True

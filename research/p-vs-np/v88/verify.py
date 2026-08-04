@@ -28,6 +28,11 @@ def generated_results() -> dict:
     return generated
 
 
+def version_number(name: str) -> int:
+    assert name.startswith("V")
+    return int(name[1:])
+
+
 def verify_status(status: dict) -> None:
     candidate = status["candidate_version"]
     promoted = status["promoted_version"]
@@ -40,15 +45,16 @@ def verify_status(status: dict) -> None:
         assert status["next_laboratory_version"] == "V88"
         return
 
-    assert promoted == "V88"
+    assert version_number(promoted) >= 88
     if candidate is None:
-        assert highest == "V88"
+        assert highest == promoted
         assert status["promotion_state"] == "promoted"
-        assert status["next_laboratory_version"] == "V89"
+        assert status["next_laboratory_version"] == (
+            f"V{version_number(promoted) + 1}"
+        )
         return
 
-    assert candidate.startswith("V")
-    assert int(candidate[1:]) >= 89
+    assert version_number(candidate) == version_number(promoted) + 1
     assert highest == candidate
     assert status["promotion_state"] == "candidate"
     assert status["next_laboratory_version"] == candidate
