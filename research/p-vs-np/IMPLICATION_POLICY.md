@@ -10,11 +10,11 @@ Each `vNN/IMPLICATION.json` must contain:
 - `conditional_implication`: the exact statement of the form “if result X is proved, then consequence Y follows”;
 - `bridge_lemmas`: every nontrivial implication needed between X and Y;
 - `current_gap`: the first unproved bridge;
-- `classification`: one of `frontier_progress`, `barrier`, `infrastructure`, `audit`, or `closure`;
+- `classification`: one of `frontier_progress`, `barrier`, `infrastructure`, `audit`, `closure`, or `barrier_and_closure`;
 - `stop_rule`: the condition under which the front is abandoned;
 - `external_validation_target`: a paper, theorem, seminar, or expert review against which the result can be checked.
 
-A laboratory with no credible implication to a recognized frontier is not counted as frontier progress. It may still be valuable as infrastructure, a barrier result, a reproducibility improvement, or a disciplined closure.
+A laboratory with no credible implication to a recognized frontier is not counted as frontier progress. It may still be valuable as infrastructure, a barrier result, a reproducibility improvement, or a disciplined closure. The compound value `barrier_and_closure` is reserved for a laboratory that both records a route-level barrier and fires the stop rule for that front.
 
 ## Evidence levels
 
