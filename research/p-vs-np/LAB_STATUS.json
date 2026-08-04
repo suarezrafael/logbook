@@ -1,5 +1,5 @@
 {
-  "schema_version": 29,
+  "schema_version": 30,
   "updated": "2026-08-03",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V88",
@@ -7,11 +7,11 @@
   "highest_directory": "V89",
   "promotion_state": "candidate",
   "completed_scope": "repeated-table Eval_H collision normal form, exact three-row reduction, fourteen-output barrier, Property-B composition, and a four-row lower bound for universal support-only lists",
-  "candidate_scope": "target-independent eight-row addressing, affine F_2^3 basis colorings, exact strong-four overlap geometry, local second-moment stability, and exact obstructions to universal empty-core peeling bridges",
+  "candidate_scope": "target-independent eight-row addressing, exact strong-four and seven-state overlap geometry, local second-moment stability, and exact obstructions to universal empty-core peeling bridges",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V89",
-  "next_laboratory_focus": "prove the strong-four Birkhoff overlap inequality or a random-specific seven-state basis-coloring theorem that avoids the exact core obstructions; otherwise close the constructor front under the V90 stop rule",
+  "next_laboratory_focus": "prove a global seven-state entropy-contraction inequality on the 7x7 Birkhoff polytope or the strong-four inequality; otherwise close the constructor front under the V90 stop rule",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
     "required_material_advance": [
@@ -87,6 +87,9 @@
     "empty_three_core_implies_basis_colorable": false,
     "linear_empty_three_core_implies_basis_colorable": false,
     "core_threshold_alone_closes_eight_row_bridge": false,
+    "basis7_overlap_objective_exact": true,
+    "basis7_uniform_overlap_locally_stable_through_density_six": true,
+    "basis7_global_overlap_inequality_proved": false,
     "support_only_universal_list_lower_bound_nine": false,
     "strong4_overlap_identity": true,
     "strong4_second_moment_reduced_to_birkhoff_inequality": true,
