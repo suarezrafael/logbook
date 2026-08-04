@@ -8,9 +8,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 POLICY_VERSION = 63
+IMPLICATION_POLICY_VERSION = 90
 STATUS_PATH = ROOT / "LAB_STATUS.json"
 EXPECTED_FOCUSED = (
-    "V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79", "V80", "V81", "V82", "V83", "V84", "V85", "V86", "V87", "V88", "V89"
+    "V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79", "V80", "V81", "V82", "V83", "V84", "V85", "V86", "V87", "V88", "V89", "V90"
 )
 
 
@@ -25,6 +26,27 @@ def focused_versions(runner: str) -> tuple[str, ...]:
     match = re.search(r"FOCUSED_VERSIONS=\(([^)]*)\)", runner)
     assert match, "verify_all.sh does not declare FOCUSED_VERSIONS"
     return tuple(match.group(1).split())
+
+
+def verify_implication_declaration(directory: Path, version: str) -> None:
+    path = directory / "IMPLICATION.json"
+    assert path.is_file(), f"{version} lacks mandatory IMPLICATION.json"
+    declaration = json.loads(path.read_text(encoding="utf-8"))
+    assert declaration["laboratory"] == version
+    assert declaration["classification"] in {
+        "frontier_progress",
+        "barrier",
+        "infrastructure",
+        "audit",
+        "closure",
+        "barrier_and_closure",
+    }
+    assert declaration["target_problem"]
+    assert declaration["conditional_implication"]
+    assert declaration["current_gap"]
+    assert declaration["stop_rule"]
+    assert declaration["external_validation_target"]
+    assert isinstance(declaration["bridge_lemmas"], list)
 
 
 def main() -> None:
@@ -48,6 +70,9 @@ def main() -> None:
     assert status["metadata_policy"]["authority"] == "LAB_STATUS.json"
     assert status["infrastructure_freeze_after_candidate"] is True
     assert status["infrastructure_frozen"] is True
+    if version_number(declared_highest) >= IMPLICATION_POLICY_VERSION:
+        assert (ROOT / "IMPLICATION_POLICY.md").is_file()
+        assert "IMPLICATION_POLICY.md" in status["metadata_policy"]
 
     runner = (ROOT / "verify_all.sh").read_text(encoding="utf-8")
     entries = re.findall(r'"(V\d+)\|([^|]+)\|([^|]+)\|([^|]+)\|', runner)
@@ -58,6 +83,8 @@ def main() -> None:
     required: list[tuple[str, str, str]] = []
     for directory in sorted(ROOT.glob("v[0-9]*"), key=lambda path: version_number(path.name)):
         number = version_number(directory.name)
+        if number >= IMPLICATION_POLICY_VERSION:
+            verify_implication_declaration(directory, f"V{number}")
         if number < POLICY_VERSION:
             continue
         version = f"V{number}"
