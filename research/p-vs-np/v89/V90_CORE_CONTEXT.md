@@ -14,7 +14,10 @@ V89 establishes:
 6. the controls are not primal-four-colorable;
 7. strong four-coloring reduces to an exact cubic overlap objective;
 8. the uniform overlap is locally stable for every density below `3/2`;
-9. the global Birkhoff inequality and the asymptotic V87 bridge remain open.
+9. the global Birkhoff inequality and the asymptotic V87 bridge remain open;
+10. empty 3-core does not imply basis colorability;
+11. an eight-vertex obstruction is minimal through seven vertices;
+12. even linear empty-core supports admit an exact basis-coloring obstruction.
 
 ## Priority one — close or kill the strong-four bridge
 
@@ -46,17 +49,33 @@ bounded away from zero in the exact fixed-edge support model. Only then may the
 V86/V87 high-probability barriers be intersected to raise the constructor lower
 bound to nine.
 
-## Priority two — seven-state basis CSP
+## Priority two — random-specific seven-state basis CSP
 
-If the strong-four route fails, analyze the more permissive CSP with domain
-`F_2^3\{0}` and allowed constraints equal to ordered bases. Candidate routes:
+The seven-state domain is `F_2^3\{0}` and allowed constraints are ordered bases.
+The naive structural shortcut is now closed:
+
+```text
+empty 3-core does not imply basis colorability,
+empty 3-core plus pair-codegree one does not imply basis colorability.
+```
+
+The exact eight-vertex obstruction has ten edges and a common pair of
+codegree five. More importantly, the 12-vertex obstruction is linear, so merely
+excluding repeated pairs is insufficient. Both fixed obstructions occur with
+vanishing probability in the density-one random model; therefore they kill the
+universal extension lemma but do not settle the random CSP.
+
+Remaining acceptable routes are:
 
 - exact second-moment analysis of the `7x7` overlap;
-- a core-peeling extension theorem;
+- a random-specific peeling theorem with additional invariant state;
 - a rigorous coupling to a known symmetric random-CSP model;
+- a density or excess theorem excluding every critical obstruction with high
+  probability;
 - an explicit deterministic resistant family with a basis coloring.
 
-Finite satisfiability of the eleven controls is not an asymptotic theorem.
+Finite satisfiability of the eleven original controls is not an asymptotic
+theorem.
 
 ## Priority three — superconstant constructor lower bound
 
@@ -82,5 +101,6 @@ The next laboratory must return to one of:
 
 ## Nonclaims
 
-Local overlap stability and finite rational grids do not prove the global
-second-moment inequality and are not evidence that `P != NP`.
+Local overlap stability, finite rational grids, an empty random 3-core, and the
+absence of the committed fixed obstructions do not prove asymptotic basis
+colorability and are not evidence that `P != NP`.
