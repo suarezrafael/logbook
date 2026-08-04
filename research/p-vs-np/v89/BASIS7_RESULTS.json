@@ -1,0 +1,65 @@
+{
+  "diagonal_family": {
+    "diagonal_parameter_at_minimum": 0.833714285714,
+    "minimum_scanned_critical_density": 2.520745085422,
+    "ordered_basis_pair_match_counts": {
+      "0": 17976,
+      "1": 8568,
+      "2": 1512,
+      "3": 168
+    },
+    "proof_status": "numerical one-dimensional evidence only",
+    "steps": 20000
+  },
+  "first_moment": {
+    "exponential_base_at_density_one": 3.428571428571,
+    "first_moment_upper_density": 2.72625604724,
+    "grows_exponentially_at_density_one": true,
+    "ordered_bases": 168,
+    "single_edge_basis_probability": "24/49"
+  },
+  "interpretation": "The seven-state basis CSP has a much larger exact local-stability margin than the strong-four specialization at density one. The remaining obstruction is global on the 7x7 Birkhoff polytope.",
+  "laboratory": "V89/V90",
+  "local_stability": {
+    "bilinear_pairs_checked": 1296,
+    "combined_hessian_eigenvalue": "-1+c/6",
+    "energy_log_hessian_eigenvalue": "1/6",
+    "entropy_hessian_eigenvalue": "-1",
+    "identity_mismatches": 0,
+    "overlap_tangent_dimension": 36,
+    "quadratic_coefficient": "-(6-c)/12 * ||D||_F^2",
+    "strict_quadratic_coefficient_at_density_one": "-5/12",
+    "uniform_overlap_locally_maximal_for_density_below": 6,
+    "uniform_overlap_polynomial_value": "576/7"
+  },
+  "module": "seven-state basis-CSP second-moment local geometry",
+  "nonclaims": [
+    "Local Hessian stability does not prove the global overlap inequality.",
+    "The diagonal scan is not a proof over the continuous polytope.",
+    "No asymptotic basis-colorability theorem is claimed.",
+    "No nine-row constructor lower bound follows."
+  ],
+  "overlap_objective": {
+    "joint_probability": "q(B)=7^-3 sum_{x,y ordered bases} B[x1,y1] B[x2,y2] B[x3,y3]",
+    "normalization": "B is 7x7 doubly stochastic and A=B/7",
+    "relative_exponent": "Psi_c(B)=H(B)/7-ln(7)+c ln(q(B)/(24/49)^2)",
+    "uniform_value": 0
+  },
+  "permutation_boundary": {
+    "basis_image_count_distribution": [
+      {"basis_images": 126, "permutations": 1344},
+      {"basis_images": 132, "permutations": 2352},
+      {"basis_images": 144, "permutations": 1176},
+      {"basis_images": 168, "permutations": 168}
+    ],
+    "fano_automorphisms": 168,
+    "permutations_checked": 5040
+  },
+  "scientific_status": {
+    "basis7_global_overlap_inequality_proved": false,
+    "basis7_overlap_objective_exact": true,
+    "basis7_uniform_overlap_locally_stable_through_density_six": true,
+    "support_only_universal_list_lower_bound_nine": false,
+    "v87_random_model_basis_colorable_whp": false
+  }
+}

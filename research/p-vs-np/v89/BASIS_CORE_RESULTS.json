@@ -1,0 +1,89 @@
+{
+  "interpretation": "The 3-core threshold may still be useful probabilistically, but it cannot be converted into basis colorability by a universal reverse-peeling extension theorem, even for linear supports.",
+  "laboratory": "V89/V90",
+  "linear_obstruction": {
+    "basis_colorable": false,
+    "edge_count": 14,
+    "edge_critical": true,
+    "edges": [[0, 8, 11], [1, 4, 7], [1, 5, 9], [2, 4, 9], [2, 6, 11], [3, 4, 10], [3, 9, 11], [4, 5, 11], [4, 6, 8], [5, 6, 7], [5, 8, 10], [6, 9, 10], [7, 8, 9], [7, 10, 11]],
+    "empty_three_core": true,
+    "maximum_pair_codegree": 1,
+    "peel_certificate": [
+      {"active_degree": 1, "removed_edges": [[0, 8, 11]], "vertex": 0},
+      {"active_degree": 2, "removed_edges": [[1, 4, 7], [1, 5, 9]], "vertex": 1},
+      {"active_degree": 2, "removed_edges": [[2, 4, 9], [2, 6, 11]], "vertex": 2},
+      {"active_degree": 2, "removed_edges": [[3, 4, 10], [3, 9, 11]], "vertex": 3},
+      {"active_degree": 2, "removed_edges": [[4, 5, 11], [4, 6, 8]], "vertex": 4},
+      {"active_degree": 1, "removed_edges": [[7, 10, 11]], "vertex": 11},
+      {"active_degree": 2, "removed_edges": [[5, 6, 7], [5, 8, 10]], "vertex": 5},
+      {"active_degree": 1, "removed_edges": [[6, 9, 10]], "vertex": 6},
+      {"active_degree": 0, "removed_edges": [], "vertex": 10},
+      {"active_degree": 1, "removed_edges": [[7, 8, 9]], "vertex": 7},
+      {"active_degree": 0, "removed_edges": [], "vertex": 8},
+      {"active_degree": 0, "removed_edges": [], "vertex": 9}
+    ],
+    "vertices": 12
+  },
+  "module": "basis-coloring core-peeling obstruction",
+  "nonclaims": [
+    "The obstructions do not show that the V87 random model is not basis-colorable with high probability.",
+    "The fixed obstructions occur with vanishing probability in the sparse random model.",
+    "No nine-row constructor lower bound follows.",
+    "P versus NP remains unresolved."
+  ],
+  "scientific_status": {
+    "core_threshold_alone_closes_eight_row_bridge": false,
+    "empty_three_core_implies_basis_colorable": false,
+    "linear_empty_three_core_implies_basis_colorable": false,
+    "random_model_basis_colorable_whp": false,
+    "support_only_universal_list_lower_bound_nine": false
+  },
+  "seven_vertex_minimality": {
+    "all_colorable": true,
+    "conclusion": "The eight-vertex obstruction is vertex-minimal among empty-3-core 3-uniform hypergraphs.",
+    "exact_census_registered_for_full_replay": true,
+    "maximal_ordered_hypergraphs": 212625,
+    "replayed_census": {
+      "all_colorable": true,
+      "coverage_argument": "Every empty-3-core hypergraph has a peeling order. Relabel that order increasingly and extend each owner to load two whenever possible. Basis colorability is inherited by subhypergraphs.",
+      "expected_count": 212625,
+      "maximal_ordered_hypergraphs_checked": 212625,
+      "noncolorable_found": 0,
+      "normalized_assignments": 2401
+    }
+  },
+  "small_obstruction": {
+    "analytic_certificate": {
+      "common_neighbors": [1, 2, 3, 4, 6],
+      "common_pair": [5, 7],
+      "contradicting_edges": [[0, 1, 3], [0, 1, 4]],
+      "forced_relation": "label(1) is label(3) or label(4)",
+      "four_point_coset": true
+    },
+    "basis_colorable": false,
+    "edge_count": 10,
+    "edge_critical": true,
+    "edges": [[0, 1, 3], [0, 1, 4], [1, 2, 6], [1, 5, 7], [2, 3, 4], [2, 5, 7], [3, 4, 6], [3, 5, 7], [4, 5, 7], [5, 6, 7]],
+    "empty_three_core": true,
+    "normalized_assignment_census": {
+      "assignments_checked": 16807,
+      "normalization": {
+        "edge": [0, 1, 3],
+        "justification": "GL(3,2) acts transitively on ordered bases",
+        "labels": [1, 2, 4]
+      },
+      "satisfying_assignments": 0
+    },
+    "peel_certificate": [
+      {"active_degree": 2, "removed_edges": [[0, 1, 3], [0, 1, 4]], "vertex": 0},
+      {"active_degree": 2, "removed_edges": [[1, 2, 6], [1, 5, 7]], "vertex": 1},
+      {"active_degree": 2, "removed_edges": [[2, 3, 4], [2, 5, 7]], "vertex": 2},
+      {"active_degree": 2, "removed_edges": [[3, 4, 6], [3, 5, 7]], "vertex": 3},
+      {"active_degree": 1, "removed_edges": [[4, 5, 7]], "vertex": 4},
+      {"active_degree": 1, "removed_edges": [[5, 6, 7]], "vertex": 5},
+      {"active_degree": 0, "removed_edges": [], "vertex": 6},
+      {"active_degree": 0, "removed_edges": [], "vertex": 7}
+    ],
+    "vertices": 8
+  }
+}

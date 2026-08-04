@@ -1,0 +1,117 @@
+{
+  "diagonal_family": {
+    "interpretation": "Within the diagonal/off-diagonal family, the uniform overlap remains maximal below the reported scanned density.",
+    "minimum_scanned_critical_density": 1.086445038539,
+    "parameter_at_minimum": 0.643975,
+    "proof_status": "numerical one-dimensional evidence",
+    "steps": 10000
+  },
+  "finite_rational_grid": {
+    "all_grid_maxima_nonpositive": true,
+    "overlap_matrices_checked": 52637,
+    "rows": [
+      {
+        "density_maxima": [
+          {"density": 1.0, "maximizers": 24, "maximum_relative_exponent": -0.405465108108164, "nonpositive": true},
+          {"density": 1.01, "maximizers": 24, "maximum_relative_exponent": -0.395656815578047, "nonpositive": true},
+          {"density": 1.02, "maximizers": 24, "maximum_relative_exponent": -0.38584852304793, "nonpositive": true},
+          {"density": 1.05, "maximizers": 24, "maximum_relative_exponent": -0.356423645457578, "nonpositive": true}
+        ],
+        "overlap_matrices": 24,
+        "row_sum": 1
+      },
+      {
+        "density_maxima": [
+          {"density": 1.0, "maximizers": 72, "maximum_relative_exponent": -0.346573590279973, "nonpositive": true},
+          {"density": 1.01, "maximizers": 72, "maximum_relative_exponent": -0.339642118474373, "nonpositive": true},
+          {"density": 1.02, "maximizers": 72, "maximum_relative_exponent": -0.332710646668774, "nonpositive": true},
+          {"density": 1.05, "maximizers": 72, "maximum_relative_exponent": -0.311916231251975, "nonpositive": true}
+        ],
+        "overlap_matrices": 282,
+        "row_sum": 2
+      },
+      {
+        "density_maxima": [
+          {"density": 1.0, "maximizers": 16, "maximum_relative_exponent": -0.169292556509201, "nonpositive": true},
+          {"density": 1.01, "maximizers": 16, "maximum_relative_exponent": -0.165362130628105, "nonpositive": true},
+          {"density": 1.02, "maximizers": 16, "maximum_relative_exponent": -0.161431704747009, "nonpositive": true},
+          {"density": 1.05, "maximizers": 16, "maximum_relative_exponent": -0.149640427103721, "nonpositive": true}
+        ],
+        "overlap_matrices": 2008,
+        "row_sum": 3
+      },
+      {
+        "density_maxima": [
+          {"density": 1.0, "maximizers": 1, "maximum_relative_exponent": 0.0, "nonpositive": true},
+          {"density": 1.01, "maximizers": 1, "maximum_relative_exponent": 0.0, "nonpositive": true},
+          {"density": 1.02, "maximizers": 1, "maximum_relative_exponent": 0.0, "nonpositive": true},
+          {"density": 1.05, "maximizers": 1, "maximum_relative_exponent": 0.0, "nonpositive": true}
+        ],
+        "overlap_matrices": 10147,
+        "row_sum": 4
+      },
+      {
+        "density_maxima": [
+          {"density": 1.0, "maximizers": 24, "maximum_relative_exponent": -0.009779507089717, "nonpositive": true},
+          {"density": 1.01, "maximizers": 24, "maximum_relative_exponent": -0.009336148951516, "nonpositive": true},
+          {"density": 1.02, "maximizers": 24, "maximum_relative_exponent": -0.008892790813316, "nonpositive": true},
+          {"density": 1.05, "maximizers": 24, "maximum_relative_exponent": -0.007562716398714, "nonpositive": true}
+        ],
+        "overlap_matrices": 40176,
+        "row_sum": 5
+      }
+    ],
+    "warning": "Finite rational grids are evidence only; they do not certify the continuous Birkhoff-polytope inequality."
+  },
+  "first_moment": {
+    "balanced_color_classes": 4,
+    "exponential_base_at_density_one": 1.5,
+    "first_moment_upper_density": 1.413390105223,
+    "grows_exponentially_at_density_one": true,
+    "single_edge_rainbow_probability": "3/8"
+  },
+  "laboratory": "V89",
+  "local_stability": {
+    "combined_coefficient": "-8 + (16/3)c",
+    "energy_log_quadratic_coefficient": "16/3",
+    "entropy_quadratic_coefficient": "-8/1",
+    "strict_local_margin_at_density_one": "8/3",
+    "target_density_limit": 1,
+    "uniform_overlap_locally_maximal_for_density_below": "3/2"
+  },
+  "module": "strong-four-color second-moment reduction",
+  "nonclaims": [
+    "The finite grid is not a proof over the continuous polytope.",
+    "Local stability does not imply global maximality.",
+    "No strong-four-colorability threshold at r=4 is claimed from the cited large-r literature.",
+    "The nine-row constructor lower bound remains open."
+  ],
+  "overlap_identity": {
+    "birkhoff_constraints": "B is a nonnegative 4x4 matrix with all row and column sums one",
+    "exact_census": {
+      "identity_mismatches": 0,
+      "margins": [
+        {"identity_mismatches": 0, "overlap_matrices": 24, "row_sum": 1},
+        {"identity_mismatches": 0, "overlap_matrices": 282, "row_sum": 2},
+        {"identity_mismatches": 0, "overlap_matrices": 2008, "row_sum": 3}
+      ],
+      "overlap_matrices_checked": 2314
+    },
+    "formula": "q(A)=1/8+4*sum(A_ij^3)",
+    "normalized_formula": "q(B)=(2+sum(B_ij^3))/16"
+  },
+  "scientific_status": {
+    "strong4_birkhoff_global_inequality_proved": false,
+    "strong4_overlap_identity": true,
+    "strong4_second_moment_reduced_to_birkhoff_inequality": true,
+    "strong4_uniform_overlap_locally_stable_through_density_three_halves": true,
+    "support_only_universal_list_lower_bound_nine": false,
+    "v87_random_model_primal_four_colorable_whp": false
+  },
+  "second_moment_objective": {
+    "bridge_sufficient_condition": "For one fixed c0>1, prove Phi_c0(B)<=0 for every 4x4 doubly stochastic B, with equality only at the uniform matrix.",
+    "density_one_equivalent_inequality": "ln(2+sum(B_ij^3))-(1/4)sum(B_ij ln B_ij)<=ln(9)",
+    "relative_exponent": "Phi_c(B)=H(B)/4-ln(4)+c*ln(4*(2+sum(B_ij^3))/9)",
+    "uniform_value": 0
+  }
+}

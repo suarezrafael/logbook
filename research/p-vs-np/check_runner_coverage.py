@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parent
 POLICY_VERSION = 63
 STATUS_PATH = ROOT / "LAB_STATUS.json"
 EXPECTED_FOCUSED = (
-    "V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79", "V80", "V81", "V82", "V83", "V84", "V85", "V86", "V87", "V88"
+    "V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79", "V80", "V81", "V82", "V83", "V84", "V85", "V86", "V87", "V88", "V89"
 )
 
 
@@ -84,14 +84,21 @@ def main() -> None:
 
     focused = focused_versions(runner)
     assert focused == EXPECTED_FOCUSED
-    quick_entries = [entry for entry in entries if entry[0] in focused and entry[3] == "quick"]
+    quick_entries = [
+        entry for entry in entries
+        if entry[0] in focused and entry[3] == "quick"
+    ]
     expected_pairs = {
         (version, kind)
         for version in focused
         for kind in ("primary", "independent")
     }
-    assert {(version, kind) for version, kind, _path, _tier in quick_entries} == expected_pairs
-    full_entries = [entry for entry in entries if entry[3] in {"quick", "full"}]
+    assert {
+        (version, kind) for version, kind, _path, _tier in quick_entries
+    } == expected_pairs
+    full_entries = [
+        entry for entry in entries if entry[3] in {"quick", "full"}
+    ]
 
     candidate_label = candidate or "none"
     print(
