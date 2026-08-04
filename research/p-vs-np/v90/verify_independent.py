@@ -122,6 +122,38 @@ def diagonal_family_audit(ordered_bases):
     return checked
 
 
+def version_number(name: str) -> int:
+    assert name.startswith("V")
+    return int(name[1:])
+
+
+def verify_status(status: dict) -> None:
+    promoted = status["promoted_version"]
+    candidate = status["candidate_version"]
+    highest = status["highest_directory"]
+
+    if candidate == "V90":
+        assert promoted == "V89"
+        assert highest == "V90"
+        assert status["promotion_state"] == "candidate"
+        assert status["next_laboratory_version"] == "V90"
+        return
+
+    assert version_number(promoted) >= 90
+    if candidate is None:
+        assert highest == promoted
+        assert status["promotion_state"] == "promoted"
+        assert status["next_laboratory_version"] == (
+            f"V{version_number(promoted) + 1}"
+        )
+        return
+
+    assert version_number(candidate) == version_number(promoted) + 1
+    assert highest == candidate
+    assert status["promotion_state"] == "candidate"
+    assert status["next_laboratory_version"] == candidate
+
+
 def main() -> None:
     ordered_bases = bases()
     assert len(ordered_bases) == 168
@@ -170,7 +202,7 @@ def main() -> None:
     status = json.loads(
         (ROOT.parent / "LAB_STATUS.json").read_text(encoding="utf-8")
     )
-    assert status["candidate_version"] == "V90"
+    verify_status(status)
     assert status["scientific_status"]["eval_h_constructor_front_closed_after_v90"]
 
     print(
