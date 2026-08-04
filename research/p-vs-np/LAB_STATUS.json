@@ -1,5 +1,5 @@
 {
-  "schema_version": 28,
+  "schema_version": 29,
   "updated": "2026-08-03",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V88",
@@ -7,11 +7,11 @@
   "highest_directory": "V89",
   "promotion_state": "candidate",
   "completed_scope": "repeated-table Eval_H collision normal form, exact three-row reduction, fourteen-output barrier, Property-B composition, and a four-row lower bound for universal support-only lists",
-  "candidate_scope": "target-independent eight-row addressing, affine F_2^3 basis colorings, exact strong-four overlap geometry, local second-moment stability, and a global Birkhoff-polytope bridge boundary",
+  "candidate_scope": "target-independent eight-row addressing, affine F_2^3 basis colorings, exact strong-four overlap geometry, local second-moment stability, and exact obstructions to universal empty-core peeling bridges",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V89",
-  "next_laboratory_focus": "prove the strong-four Birkhoff overlap inequality for one fixed density c0>1 or verify an exact r=4 literature theorem; otherwise test the seven-state basis CSP before the V90 stop rule",
+  "next_laboratory_focus": "prove the strong-four Birkhoff overlap inequality or a random-specific seven-state basis-coloring theorem that avoids the exact core obstructions; otherwise close the constructor front under the V90 stop rule",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
     "required_material_advance": [
@@ -81,6 +81,12 @@
     "v87_samples_primal_four_colorable": false,
     "v80_and_v87_samples_basis_colorable": true,
     "v87_random_model_basis_colorable_whp": false,
+    "basis_core_obstruction_found": true,
+    "basis_core_obstruction_vertex_minimal_through_seven": true,
+    "basis_linear_core_obstruction_found": true,
+    "empty_three_core_implies_basis_colorable": false,
+    "linear_empty_three_core_implies_basis_colorable": false,
+    "core_threshold_alone_closes_eight_row_bridge": false,
     "support_only_universal_list_lower_bound_nine": false,
     "strong4_overlap_identity": true,
     "strong4_second_moment_reduced_to_birkhoff_inequality": true,
