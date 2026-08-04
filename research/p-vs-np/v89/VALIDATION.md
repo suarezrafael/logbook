@@ -22,13 +22,13 @@ address family.
 
 ## Strong-four overlap component
 
-The primary generator additionally recomputes:
+The primary generator recomputes:
 
 - the first-moment rainbow probability `3/8`;
 - the exact identity `q(A)=1/8+4 sum A_ij^3`;
 - the normalized Birkhoff second-moment exponent;
 - the exact local coefficient `-8+(16/3)c`;
-- all rational overlap matrices with common margins one through five;
+- every rational overlap matrix with common margins one through five;
 - a deterministic diagonal/off-diagonal family scan.
 
 Committed counts:
@@ -40,18 +40,64 @@ Committed counts:
 0 positive grid maxima at c=1.00,1.01,1.02,1.05.
 ```
 
-The independent strong-four verifier reconstructs `306` exact identities and
-`12,461` rational overlaps without importing the primary module.
+The independent verifier reconstructs `306` exact identities and `12,461`
+rational overlaps without importing the primary module. The continuous global
+Birkhoff inequality remains unproved; the grids and scan are diagnostics only.
 
-The continuous Birkhoff inequality remains unproved. Finite grids and the
-one-dimensional scan are explicitly diagnostic, not proof certificates.
+## Empty-core obstruction component
 
-## Repository gates
+The exact obstruction packet verifies:
 
-The earlier integrated draft quick gate passed `38` focused checks with zero
-failures and a clean tree. The new overlap packet changes V89 mathematical
-content and must pass a fresh integrated quick gate before the candidate can be
-considered stable. Compatibility and any full replay required by runner changes
-remain promotion prerequisites.
+- the eight-vertex, ten-edge empty-3-core obstruction;
+- zero satisfying assignments among `7^5=16,807` normalized colorings;
+- colorability after deleting any one edge;
+- the exact `212,625`-instance maximal seven-vertex census, with no obstruction;
+- a separate 12-vertex, 14-edge linear empty-core obstruction;
+- pair-codegree one and edge-minimal unsatisfiability of the linear example.
 
-No promotion or nine-row constructor lower bound is implied by these audits.
+Thus neither empty 3-core nor empty 3-core plus linearity implies an
+`F_2^3` basis coloring. These finite obstructions do not imply asymptotic
+uncolorability of the random model.
+
+## Seven-state overlap component
+
+The full basis-CSP packet recomputes:
+
+- the `168` ordered bases and single-edge probability `24/49`;
+- the exact `7x7` overlap objective;
+- a 36-dimensional tangent-space basis;
+- all `1,296` rational Hessian bilinear identities;
+- the Hessian identity `-I+(c/6)I`;
+- local maximality of the uniform overlap for every density below `6`;
+- all `5,040` permutation overlaps;
+- the deterministic diagonal-family scan.
+
+The global seven-state entropy-contraction inequality remains unproved. Local
+stability and the one-dimensional scan are not global certificates.
+
+## Integrated repository gates
+
+The final draft quick gate for head `82989f2` completed successfully in GitHub
+Actions run `30870527110`:
+
+```text
+38 focused checks executed,
+46 documented skips,
+0 failures,
+V89 primary passed,
+V89 independent passed,
+0 verifier-generated mutations,
+clean-tree assertion passed.
+```
+
+Before candidate merge, the pull request must be marked ready for review. The
+ready-for-review event is required to execute historical compatibility, and the
+runner-sensitive diff requires the cumulative full replay. Promotion to V89 is
+a separate status-only change after the candidate merge and its successful
+ready gates.
+
+## Nonclaims
+
+These audits do not prove either global overlap inequality, asymptotic basis
+colorability, the nine-row constructor lower bound, unrestricted
+`NC0_3-Avoid`, a new circuit lower bound, novelty, peer review, or `P != NP`.
