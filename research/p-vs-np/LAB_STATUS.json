@@ -1,16 +1,18 @@
 {
-  "schema_version": 31,
+  "schema_version": 32,
   "updated": "2026-08-03",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V89",
-  "candidate_version": null,
-  "highest_directory": "V89",
-  "promotion_state": "promoted",
+  "candidate_version": "V90",
+  "highest_directory": "V90",
+  "promotion_state": "candidate",
   "completed_scope": "target-independent eight-row addressing, exact strong-four and seven-state overlap geometry, local second-moment stability, and exact obstructions to universal empty-core peeling bridges",
+  "candidate_scope": "finite seven-state entropy contraction near the uniform overlap, implication-ratio governance, a natural-proofs barrier audit, and formal closure of the Eval_H constructor front",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V90",
-  "next_laboratory_focus": "prove a global seven-state entropy-contraction inequality on the 7x7 Birkhoff polytope or the strong-four inequality; otherwise close the constructor front under the V90 stop rule",
+  "next_laboratory_focus": "finish the V90 barrier-and-closure packet, then audit Williams-style SAT/#SAT and Missing-String transfers in V91",
+  "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
     "required_material_advance": [
@@ -19,7 +21,11 @@
       "rigorous asymptotic eight-row bridge with consequences beyond a finite census"
     ],
     "close_front_if_no_material_advance": true,
+    "eval_h_constructor_front_closed": true,
+    "closure_reason": "V90 proves only a finite local entropy ball; no global bridge, superconstant lower bound, or constructive list was obtained",
     "fallback_fronts": [
+      "Williams-style SAT/#SAT and Missing-String transfers",
+      "meta-complexity",
       "rigidity and average-case bridge",
       "bounded arithmetic and proof complexity"
     ]
@@ -50,7 +56,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V89",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V90",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -60,7 +66,8 @@
   "metadata_policy": {
     "authority": "LAB_STATUS.json",
     "STATE.md": "cumulative scientific narrative snapshot",
-    "LEDGER.json": "conservative historical ledger; not CI authority"
+    "LEDGER.json": "conservative historical ledger; not CI authority",
+    "IMPLICATION_POLICY.md": "mandatory implication-ratio governance from V90 onward"
   },
   "scientific_status": {
     "minimum_neighborhood_hall_polynomial_time": null,
@@ -106,6 +113,10 @@
     "core_threshold_alone_closes_eight_row_bridge": false,
     "basis7_overlap_objective_exact": true,
     "basis7_uniform_overlap_locally_stable_through_density_six": true,
+    "basis7_finite_local_entropy_certificate": true,
+    "basis7_finite_local_entropy_radius": "1/5",
+    "basis7_finite_local_entropy_density": "21/20",
+    "basis7_finite_local_entropy_margin": "17/2400",
     "basis7_global_overlap_inequality_proved": false,
     "support_only_universal_list_lower_bound_nine": false,
     "strong4_overlap_identity": true,
@@ -113,6 +124,12 @@
     "strong4_uniform_overlap_locally_stable_through_density_three_halves": true,
     "strong4_birkhoff_global_inequality_proved": false,
     "v87_random_model_primal_four_colorable_whp": false,
+    "eval_h_constructor_front_closed_after_v90": true,
+    "implication_ratio_policy_active": true,
+    "natural_proofs_risk_audited": true,
+    "certificate_ladder_natural_property_established": false,
+    "williams_transfer_instantiated": false,
+    "meta_complexity_bridge_instantiated": false,
     "ternary_predicate_partition_16_184_56": true,
     "balanced_nonaffine_low_degree_correlation_half": true,
     "constant_syndrome_C4_theorem": true,
