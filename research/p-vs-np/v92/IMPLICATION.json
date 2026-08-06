@@ -1,0 +1,51 @@
+{
+  "laboratory": "V92",
+  "classification": "infrastructure",
+  "target_problem": "an all-instance canonical Range-Avoidance algorithm whose exact runtime and circuit parameters trigger a checked circuit-lower-bound transfer",
+  "conditional_implication": "If the canonical child comparison N(p0)<=N(p1) can be implemented for every circuit in a checked target class within the transfer theorem's required complexity, then the V92 halving adapter gives a total single-valued avoided-string algorithm in one output model, allowing the remaining transfer parameters to be tested directly.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "V92 closes the semantic and single-valued output bridge, but the Huang-Li-Zhong all-instance evaluator remains exponential in the worst case and no published lower-bound transfer runtime is met.",
+  "bridge_lemmas": [
+    {
+      "name": "exact low-width prefix counting from V75/V77",
+      "proved": true
+    },
+    {
+      "name": "all-instance halving correctness",
+      "proved": true
+    },
+    {
+      "name": "one canonical output policy shared by low-width and all-instance evaluators",
+      "proved": true
+    },
+    {
+      "name": "connected-component prefix factorization",
+      "proved": true
+    },
+    {
+      "name": "all-instance child comparison in a transfer-sufficient complexity bound",
+      "proved": false
+    },
+    {
+      "name": "exact locality, stretch, size, and uniformity parameters of a still-open transfer",
+      "proved": false
+    },
+    {
+      "name": "nonalgebrizing ingredient when required by the selected route",
+      "proved": false
+    }
+  ],
+  "current_gap": "The first missing bridge is runtime and constructivity: high-width instances can force the Huang-Li-Zhong traversed-space representation to size 2^Omega(n), while the inherited arithmetic DAG is polynomial only in the low-width regime. The existential V87 linear-width obstruction does not expose a deterministic certificate capable of deciding the canonical child or producing a single-valued output.",
+  "result_obtained": "A canonical single-valued halving adapter that makes the inherited low-width prefix-count engine and the published all-instance greedy algorithm return the same avoided output, plus exact finite component-factorization and policy-separation audits.",
+  "material_advance_rule_met": true,
+  "research_budget_policy": {
+    "constructive_positive_track": "equal",
+    "certificate_no_go_track": "equal",
+    "negative_result_status": "first-class promotable outcome when stated for a precise certificate model"
+  },
+  "certificate_gate": "A high-width lower bound counts as a positive algorithmic branch only when it yields an input-constructible, efficiently verifiable object with a deterministic map to the canonical child comparison or to a checked transfer-accepted single-valued output. The existential/probabilistic V87 obstruction does not satisfy this gate.",
+  "stop_rule": "Close the canonical-output interface after V92. V93 receives equal bounded milestones for a constructive high-width certificate and for a rigorous no-go theorem. Continue only a track that produces a quantified formal lemma; otherwise close the high-width certificate front.",
+  "stop_rule_fired": false,
+  "external_validation_target": "Huang-Li-Zhong ECCC TR25-049 revision 5, Algorithm 4, Theorem 6.2, Claim 6.8, and Theorem 6.11; repository V75, V77, V85, and V87 contracts",
+  "next_front": "V93 constructive high-width child-count comparison or an equally weighted impossibility theorem for a precise certificate model"
+}

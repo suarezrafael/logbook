@@ -1,0 +1,46 @@
+{
+  "canonical_policy": {
+    "choice": "smaller exact preimage child",
+    "maximum_nonempty_steps": "n+1",
+    "output_order": "0,1,...,m-1",
+    "suffix_after_empty": 0,
+    "tie_break": 0
+  },
+  "exhaustive_binary": {
+    "avoided_outputs": 4096,
+    "circuits": 4096,
+    "claim_6_8_checks": 8448,
+    "claim_6_8_mismatches": 0,
+    "different_from_v75_capacity_policy": 1536,
+    "halving_step_histogram": {
+      "1": 512,
+      "2": 2816,
+      "3": 768
+    },
+    "maximum_traversed_weight": 4,
+    "prefix_count_checks": 61440,
+    "same_as_v75_capacity_policy": 2560
+  },
+  "laboratory": "V92",
+  "module": "canonical all-instance halving adapter",
+  "seeded_ternary": {
+    "avoided_outputs": 512,
+    "circuits": 512,
+    "claim_6_8_checks": 1595,
+    "claim_6_8_mismatches": 0,
+    "maximum_halving_steps": 5,
+    "maximum_traversed_weight": 16,
+    "prefix_count_checks": 2107,
+    "seed": 920092
+  },
+  "theorem_status": {
+    "all_instance_semantic_completion": true,
+    "canonical_halving_returns_nonimage": true,
+    "component_factorization_exact": true,
+    "hlz_greedy_can_implement_policy": true,
+    "p_vs_np_resolved": false,
+    "polynomial_all_instance_runtime": false,
+    "published_lower_bound_transfer_triggered": false,
+    "v75_exact_prefix_counts_can_implement_policy": true
+  }
+}
