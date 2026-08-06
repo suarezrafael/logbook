@@ -95,6 +95,17 @@ The next laboratory must give equal budget to two outcomes:
 
 The second outcome is a successful promotion result when it closes a formal certificate model; it is not merely fallback documentation.
 
+## Cheap affine comparison gate for V93
+
+The affine-syndrome direction must first answer the cheaper question it actually needs:
+
+```text
+Does the proposed certificate determine N(p0) <= N(p1),
+or does it merely detect non-surjectivity or one empty child?
+```
+
+Before asymptotic theory, V93 must search for pairs of circuit-prefix instances with the same proposed affine certificate but opposite child-count orderings. Such a pair immediately refutes that certificate as a general comparison oracle and becomes the seed of the no-go track. A certificate that only proves one child empty remains potentially useful for zero detection, but it is not a certificate for the full canonical comparison.
+
 ## Files
 
 - `canonical_halving.py` — canonical policy, exact component factorization, and finite audits;
@@ -103,7 +114,7 @@ The second outcome is a successful promotion result when it closes a formal cert
 - `HLYZ_RUNTIME_CALIBRATION.md` — literature parameter and barrier audit;
 - `IMPLICATION.json` — implication chain and first remaining bridge;
 - `verify.py` and `verify_independent.py` — primary and independent checks;
-- `V93_CORE_CONTEXT.md` — next constructive high-width/no-go gate.
+- `V93_CORE_CONTEXT.md` — next constructive high-width/no-go gate and mandatory affine comparison falsification test.
 
 ## Nonclaims
 
