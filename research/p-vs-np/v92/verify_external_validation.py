@@ -59,7 +59,9 @@ def verify_external_validation() -> bool:
     assert "authorship and contributor roles" in preprint
 
     email = (PROGRAM_ROOT / "v90" / "TARGETED_FOLLOWUP_EMAIL.md").read_text(encoding="utf-8")
-    assert "Does theorem X" in email
+    assert "Theorem X" in email
+    assert "stable preprint or public-note link" in email
+    assert "no request to review the entire project" in email
     assert "no mention of solving P versus NP" in email
 
     cadence = gate["v93_cadence"]
