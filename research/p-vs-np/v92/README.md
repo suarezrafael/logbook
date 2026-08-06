@@ -76,6 +76,25 @@ without enumerating an exponentially large traversed decision space.
 
 Improving constants in the low-width dynamic program does not solve this bridge.
 
+## High-width certificate discipline
+
+V92 distinguishes three notions that must not be conflated:
+
+```text
+proof that branchwidth is high,
+constructive certificate exposed by the input,
+certificate that determines a canonical single-valued output.
+```
+
+The V87 linear-branchwidth families provide the first notion through an existential/probabilistic obstruction based on pair shadows and the Lee–Lee–Oum width connection. They do not provide a deterministic local object that computes `N(p0)<=N(p1)` or the canonical avoided word. Consequently the V87 obstruction cannot serve as the positive high-width branch of an all-instance algorithm.
+
+The next laboratory must give equal budget to two outcomes:
+
+1. a constructive, efficiently verifiable high-width certificate that deterministically drives the canonical decision, with affine-syndrome structure in the spirit of V85 as one admissible direction;
+2. a rigorous no-go theorem showing that a precisely defined certificate class cannot determine the required single-valued output.
+
+The second outcome is a successful promotion result when it closes a formal certificate model; it is not merely fallback documentation.
+
 ## Files
 
 - `canonical_halving.py` — canonical policy, exact component factorization, and finite audits;
@@ -84,8 +103,8 @@ Improving constants in the low-width dynamic program does not solve this bridge.
 - `HLYZ_RUNTIME_CALIBRATION.md` — literature parameter and barrier audit;
 - `IMPLICATION.json` — implication chain and first remaining bridge;
 - `verify.py` and `verify_independent.py` — primary and independent checks;
-- `V93_CORE_CONTEXT.md` — next runtime-compression gate.
+- `V93_CORE_CONTEXT.md` — next constructive high-width/no-go gate.
 
 ## Nonclaims
 
-V92 does not give a polynomial-time all-instance algorithm, reproduce the optimized Huang–Li–Zhong implementation, prove a new circuit lower bound, evade relativization or algebrization barriers, establish novelty, supply peer review, or resolve P versus NP.
+V92 does not give a polynomial-time all-instance algorithm, reproduce the optimized Huang–Li–Zhong implementation, prove a new circuit lower bound, turn the existential V87 width obstruction into an output constructor, evade relativization or algebrization barriers, establish novelty, supply peer review, or resolve P versus NP.
