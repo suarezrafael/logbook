@@ -32,6 +32,32 @@ Prove that a precisely defined class of high-width certificates cannot determine
 
 Before expanding either track, V93 must spend one bounded milestone on each. Failure of Track A does not authorize indefinite positive experimentation, and an informal lack of construction does not count as Track B.
 
+## Mandatory affine-comparison falsification test
+
+Before developing any affine-syndrome theory, V93 must run the cheapest distinction test:
+
+```text
+certificate of non-surjectivity or evasion
+!= certificate of the comparison N(p0) <= N(p1).
+```
+
+For the proposed affine certificate model, search first for two circuit-prefix instances with the same certificate but opposite canonical decisions:
+
+```text
+instance A: N(p0) <= N(p1)
+instance B: N(p0) >  N(p1).
+```
+
+Such a collision proves immediately that the certificate cannot determine the canonical bit. It is a valid bounded Track-B milestone and should stop positive work on that certificate model unless additional constructible information is specified.
+
+The test must distinguish three outcomes:
+
+1. **comparison-sufficient:** a deterministic decoder from the certificate returns the canonical bit for every checked instance, followed by a symbolic proof target;
+2. **zero-detection only:** the certificate can prove one child empty but cannot compare two nonempty children, so it may support only the zero-detection promotion route;
+3. **comparison collision:** identical certificates admit opposite child orderings, yielding the seed of a formal no-go theorem.
+
+Finite evidence alone is not promotion. A collision must be lifted to an explicit quantified certificate-impossibility statement; absence of collisions must be followed by a proof rather than extrapolation. This test precedes component censuses, asymptotic experiments, or new affine optimization.
+
 ## Certificate admissibility gate
 
 A lower bound on width is not automatically an output-producing certificate.
@@ -71,7 +97,7 @@ It must also declare one certificate row:
 |---|---:|---:|---:|
 | precisely defined model | yes/no | yes/no | theorem target |
 
-No experiment is authorized until all cells in both rows are filled.
+No experiment beyond the mandatory affine-comparison falsification test is authorized until all cells in both rows are filled.
 
 ## Barrier gate
 
