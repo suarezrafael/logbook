@@ -1,0 +1,26 @@
+{
+  "checks": {
+    "canonical_missing_string_output": true,
+    "decoded_output_outside_original_range": true,
+    "lexicographic_preimages": true,
+    "nonimage_leaf_vector": true
+  },
+  "korten_ggm": {
+    "deterministic_sample_n2": {
+      "height": 2,
+      "maps_checked": 64,
+      "n": 2
+    },
+    "exhaustive_n1": {
+      "height": 2,
+      "maps_checked": 16,
+      "n": 1
+    }
+  },
+  "laboratory": "V91",
+  "missing_string": {
+    "max_n": 4,
+    "proper_subsets_checked": 65808
+  },
+  "reproduction_scope": "finite Korten/GGM decoding kernel, not the full CHR/Li FS2P algorithm"
+}
