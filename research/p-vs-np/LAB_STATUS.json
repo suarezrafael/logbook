@@ -1,16 +1,16 @@
 {
-  "schema_version": 36,
+  "schema_version": 37,
   "updated": "2026-08-05",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V91",
-  "candidate_version": "V92",
+  "promoted_version": "V92",
+  "candidate_version": null,
   "highest_directory": "V92",
-  "promotion_state": "candidate",
-  "completed_scope": "post-Li Range-Avoidance and Missing-String theorem calibration, a finite Korten/GGM decoding reproduction, the Vyas-Williams erratum gate, a relativization/algebrization barrier audit, and an explicit no-go verdict for the inherited width-promised engine",
+  "promotion_state": "promoted",
+  "completed_scope": "canonical single-valued halving, exact connected-component prefix factorization, semantic completion of the low-width and all-instance evaluators, calibrated exponential worst-case runtime, and an explicit constructive-versus-no-go certificate discipline",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V92",
-  "next_laboratory_focus": "define one canonical halving output shared by the inherited low-width exact prefix-count engine and the Huang-Li-Zhong all-instance greedy evaluator, then isolate the remaining high-width runtime barrier",
+  "next_laboratory_version": "V93",
+  "next_laboratory_focus": "run the mandatory affine-comparison falsification test before theory, then pursue with equal budget either a constructive high-width child-count certificate or a rigorous no-go theorem for a precisely defined certificate model",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -179,7 +179,9 @@
     "all_instance_nc0_k_avoid_polynomial_time": false,
     "hlz_claim_6_8_finitely_audited": true,
     "hlz_greedy_worst_case_exponential_audited": true,
-    "v92_published_lower_bound_transfer_triggered": false
-  },
-  "candidate_scope": "canonical single-valued halving, exact connected-component prefix factorization, semantic completion of the low-width and all-instance evaluators, and a calibrated exponential worst-case runtime barrier"
+    "v92_published_lower_bound_transfer_triggered": false,
+    "v87_existential_width_not_constructive_output_certificate": true,
+    "v93_constructive_and_no_go_budget_equal": true,
+    "v93_affine_comparison_falsification_gate_required": true
+  }
 }
