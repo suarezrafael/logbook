@@ -35,11 +35,17 @@
       "proved": false
     }
   ],
-  "current_gap": "The first missing bridge is runtime: high-width instances can force the traversed decision-space representation of the Huang-Li-Zhong greedy evaluator to size 2^Omega(n), while the inherited arithmetic DAG is polynomial only in the low-width regime.",
+  "current_gap": "The first missing bridge is runtime and constructivity: high-width instances can force the Huang-Li-Zhong traversed-space representation to size 2^Omega(n), while the inherited arithmetic DAG is polynomial only in the low-width regime. The existential V87 linear-width obstruction does not expose a deterministic certificate capable of deciding the canonical child or producing a single-valued output.",
   "result_obtained": "A canonical single-valued halving adapter that makes the inherited low-width prefix-count engine and the published all-instance greedy algorithm return the same avoided output, plus exact finite component-factorization and policy-separation audits.",
   "material_advance_rule_met": true,
-  "stop_rule": "Close the canonical-output interface after V92; V93 receives budget only for a quantified high-width prefix-count compression or a rigorously stated obstruction in a standard model.",
+  "research_budget_policy": {
+    "constructive_positive_track": "equal",
+    "certificate_no_go_track": "equal",
+    "negative_result_status": "first-class promotable outcome when stated for a precise certificate model"
+  },
+  "certificate_gate": "A high-width lower bound counts as a positive algorithmic branch only when it yields an input-constructible, efficiently verifiable object with a deterministic map to the canonical child comparison or to a checked transfer-accepted single-valued output. The existential/probabilistic V87 obstruction does not satisfy this gate.",
+  "stop_rule": "Close the canonical-output interface after V92. V93 receives equal bounded milestones for a constructive high-width certificate and for a rigorous no-go theorem. Continue only a track that produces a quantified formal lemma; otherwise close the high-width certificate front.",
   "stop_rule_fired": false,
-  "external_validation_target": "Huang-Li-Zhong ECCC TR25-049 revision 5, Algorithm 4, Theorem 6.2, Claim 6.8, and Theorem 6.11; repository V75 and V77 prefix-count contracts",
-  "next_front": "V93 high-width child-count comparison: compression, approximation with certified zero, or a standard-model obstruction"
+  "external_validation_target": "Huang-Li-Zhong ECCC TR25-049 revision 5, Algorithm 4, Theorem 6.2, Claim 6.8, and Theorem 6.11; repository V75, V77, V85, and V87 contracts",
+  "next_front": "V93 constructive high-width child-count comparison or an equally weighted impossibility theorem for a precise certificate model"
 }
