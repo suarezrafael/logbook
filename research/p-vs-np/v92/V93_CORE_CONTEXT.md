@@ -1,6 +1,17 @@
 # V93 core context — high-width child-count compression gate with equal no-go track
 
-## Mission
+## External-validation hold
+
+V93 is **reserved but frozen**. No V93 experiment, theorem-development branch, or candidate promotion may begin while `research/p-vs-np/EXTERNAL_VALIDATION_GATE.json` has status `blocking`.
+
+Release requires recorded external submission of both short packets:
+
+- `v90/EXTERNAL_REVIEW_V81.md`;
+- `v90/EXTERNAL_REVIEW_V87.md`.
+
+A favorable review is not required to start V93, but submission evidence is. CI, another model run, self-review, or review by someone already directing the laboratory does not satisfy the gate.
+
+## Mission after release
 
 V93 may study only the first open bridge left by V92:
 
@@ -11,6 +22,16 @@ the Huang–Li–Zhong traversed-space bound.
 ```
 
 The output policy is frozen by V92. Changing coordinate order, tie breaking, or suffix completion is not progress.
+
+## Cadence contract
+
+V93 is budgeted in weeks and milestones, not one laboratory per session.
+
+- **M0:** both external-review packets submitted and evidenced;
+- **M1:** exact transfer target and certificate rows filled, followed by the affine-comparison falsification test;
+- **M2:** symbolic no-go lift, constructive comparison decoder, certified zero-detection lemma, or another standard-model theorem satisfying the promotion contract.
+
+`M1 complete; question still open` is a valid state. Finite evidence, session boundaries, or elapsed hours do not require promotion. Same-day closure is not a target.
 
 ## Equal research budget
 
@@ -97,7 +118,7 @@ It must also declare one certificate row:
 |---|---:|---:|---:|
 | precisely defined model | yes/no | yes/no | theorem target |
 
-No experiment beyond the mandatory affine-comparison falsification test is authorized until all cells in both rows are filled.
+No experiment beyond the mandatory affine-comparison falsification test is authorized until all cells in both rows are filled, and that test itself remains blocked until M0 is complete.
 
 ## Barrier gate
 
