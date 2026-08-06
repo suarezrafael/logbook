@@ -30,6 +30,13 @@ Posting repository material without a question, CI review, another agent review,
 - Ask for one of: known reference, confirmation under the stated definitions, corrected statement, or counterexample.
 - Keep V81 and V87 as separate requests.
 
+## Prepared material
+
+- `v90/CSTHEORY_V81_DRAFT.md` — self-contained public question, suggested tags, and posting checklist;
+- `v90/TARGETED_FOLLOWUP_EMAIL.md` — theorem-specific follow-up templates for V81 and V87;
+- `v90/EXTERNAL_REVIEW_V81.md` and `v90/EXTERNAL_REVIEW_V87.md` — isolated review packets;
+- `v90/ARXIV_PREPRINT_READINESS.md` — readiness gate for a stable citable object.
+
 ## First action
 
-Publish the V81 public question from `outreach/V81_PUBLIC_QUESTION.md`. Record the resulting URL and date in `EXTERNAL_VALIDATION_GATE.json`. The V87 packet remains separately required before V93 is released.
+Publish the V81 public question from `v90/CSTHEORY_V81_DRAFT.md`. Record the resulting URL and date in `EXTERNAL_VALIDATION_GATE.json`. The V87 packet remains separately required before V93 is released.
