@@ -1,0 +1,45 @@
+{
+  "laboratory": "V92",
+  "classification": "infrastructure",
+  "target_problem": "an all-instance canonical Range-Avoidance algorithm whose exact runtime and circuit parameters trigger a checked circuit-lower-bound transfer",
+  "conditional_implication": "If the canonical child comparison N(p0)<=N(p1) can be implemented for every circuit in a checked target class within the transfer theorem's required complexity, then the V92 halving adapter gives a total single-valued avoided-string algorithm in one output model, allowing the remaining transfer parameters to be tested directly.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "V92 closes the semantic and single-valued output bridge, but the Huang-Li-Zhong all-instance evaluator remains exponential in the worst case and no published lower-bound transfer runtime is met.",
+  "bridge_lemmas": [
+    {
+      "name": "exact low-width prefix counting from V75/V77",
+      "proved": true
+    },
+    {
+      "name": "all-instance halving correctness",
+      "proved": true
+    },
+    {
+      "name": "one canonical output policy shared by low-width and all-instance evaluators",
+      "proved": true
+    },
+    {
+      "name": "connected-component prefix factorization",
+      "proved": true
+    },
+    {
+      "name": "all-instance child comparison in a transfer-sufficient complexity bound",
+      "proved": false
+    },
+    {
+      "name": "exact locality, stretch, size, and uniformity parameters of a still-open transfer",
+      "proved": false
+    },
+    {
+      "name": "nonalgebrizing ingredient when required by the selected route",
+      "proved": false
+    }
+  ],
+  "current_gap": "The first missing bridge is runtime: high-width instances can force the traversed decision-space representation of the Huang-Li-Zhong greedy evaluator to size 2^Omega(n), while the inherited arithmetic DAG is polynomial only in the low-width regime.",
+  "result_obtained": "A canonical single-valued halving adapter that makes the inherited low-width prefix-count engine and the published all-instance greedy algorithm return the same avoided output, plus exact finite component-factorization and policy-separation audits.",
+  "material_advance_rule_met": true,
+  "stop_rule": "Close the canonical-output interface after V92; V93 receives budget only for a quantified high-width prefix-count compression or a rigorously stated obstruction in a standard model.",
+  "stop_rule_fired": false,
+  "external_validation_target": "Huang-Li-Zhong ECCC TR25-049 revision 5, Algorithm 4, Theorem 6.2, Claim 6.8, and Theorem 6.11; repository V75 and V77 prefix-count contracts",
+  "next_front": "V93 high-width child-count comparison: compression, approximation with certified zero, or a standard-model obstruction"
+}
