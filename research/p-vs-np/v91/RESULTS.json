@@ -1,0 +1,69 @@
+{
+  "laboratory": "V91",
+  "classification": "reproduction_calibration_and_barrier",
+  "theorem_calibration": {
+    "CHR_2023": {
+      "range_avoidance_lengths": "infinitely_many",
+      "algorithmic_model": "randomized NP-oracle win-win algorithm with canonical output or failure symbol",
+      "frontier_role": "source of relativizing exponential circuit lower bounds",
+      "reproduced_here": "finite Korten/GGM decoding kernel only"
+    },
+    "Li_2023": {
+      "range_avoidance_lengths": "all",
+      "algorithmic_model": "single-valued FS2P, with an FZPP^NP formulation",
+      "missing_string_consequence": "uniform depth-3 AC0 circuits of quasipolynomial size in the explicit-list parameter",
+      "status_for_v91": "the natural depth-3 Missing-String target is already closed"
+    },
+    "Vyas_Williams_TR24_113": {
+      "source_gate": "use ECCC TR24-113 July 2024 revision, not the uncorrected ITCS 2023 statement",
+      "theorem_1_10": "false; erratum appended to TR24-113 proves its negation",
+      "usable_role": "parameterized equivalences and oracle barriers only after theorem-by-theorem checking"
+    },
+    "Chen_Hu_Ren_ITCS_2026": {
+      "barrier": "algebrization barriers for Missing-String communication-complexity routes",
+      "v91_effect": "no investment is authorized without identifying a nonalgebrizing ingredient or a theorem outside the barrier scope"
+    }
+  },
+  "reproduction": {
+    "checks": {
+      "canonical_missing_string_output": true,
+      "decoded_output_outside_original_range": true,
+      "lexicographic_preimages": true,
+      "nonimage_leaf_vector": true
+    },
+    "korten_ggm": {
+      "deterministic_sample_n2": {
+        "height": 2,
+        "maps_checked": 64,
+        "n": 2
+      },
+      "exhaustive_n1": {
+        "height": 2,
+        "maps_checked": 16,
+        "n": 1
+      }
+    },
+    "laboratory": "V91",
+    "missing_string": {
+      "max_n": 4,
+      "proper_subsets_checked": 65808
+    },
+    "reproduction_scope": "finite Korten/GGM decoding kernel, not the full CHR/Li FS2P algorithm"
+  },
+  "engine_verdict": {
+    "all_instance_coverage": false,
+    "standard_circuit_class_coverage": false,
+    "single_valued_search_guarantee": false,
+    "polynomial_time_regime": "support branchwidth O(sqrt(log m)) only",
+    "known_high_width_obstruction": "relevant inherited families have linear support branchwidth",
+    "published_transfer_triggered": false,
+    "first_required_improvement": "replace the width promise by a total win-win algorithm whose high-width branch also returns a canonical avoided string in the theorem-required model"
+  },
+  "nonclaims": [
+    "The full CHR or Li algorithm is not reimplemented.",
+    "No new circuit lower bound is proved.",
+    "The audit does not show that all Missing-String approaches are impossible.",
+    "The algebrization paper is a barrier to specified proof patterns, not a proof that P equals NP or that P differs from NP.",
+    "P versus NP remains unresolved."
+  ]
+}

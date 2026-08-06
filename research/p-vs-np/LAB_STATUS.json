@@ -1,16 +1,16 @@
 {
-  "schema_version": 33,
-  "updated": "2026-08-04",
+  "schema_version": 34,
+  "updated": "2026-08-05",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V90",
-  "candidate_version": null,
-  "highest_directory": "V90",
-  "promotion_state": "promoted",
+  "candidate_version": "V91",
+  "highest_directory": "V91",
+  "promotion_state": "candidate",
   "completed_scope": "finite seven-state entropy contraction near the uniform overlap, implication-ratio governance, a natural-proofs barrier audit, formal closure of the Eval_H constructor front, and the V91 algorithmic-method handoff",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V91",
-  "next_laboratory_focus": "instantiate or rule out a published Williams-style SAT/#SAT or Missing-String transfer with an exact circuit class, closure hypotheses, size regime, and runtime saving",
+  "next_laboratory_focus": "reproduce and calibrate the post-Li Range-Avoidance/Missing-String chain, enforce the TR24-113 erratum, audit relativization and algebrization barriers, and decide whether the inherited width engine satisfies any remaining published transfer theorem",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V90",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V91",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -155,6 +155,20 @@
     "deterministic_FP_NP_target_solved": false,
     "all_orders_obstruction_proved": false,
     "peer_reviewed": false,
-    "novelty_confirmed": false
-  }
+    "novelty_confirmed": false,
+    "chr_li_range_avoidance_chain_calibrated": true,
+    "korten_ggm_decoding_kernel_reproduced_finitely": true,
+    "full_chr_li_single_valued_algorithm_reproduced": false,
+    "missing_string_depth3_transfer_target_open": false,
+    "missing_string_depth3_transfer_target_closed_by_li": true,
+    "vyas_williams_tr24_113_erratum_enforced": true,
+    "vyas_williams_conference_theorem_1_10_usable": false,
+    "missing_string_relativization_barrier_audited": true,
+    "missing_string_algebrization_barrier_audited": true,
+    "inherited_width_engine_all_instance": false,
+    "inherited_width_engine_single_valued": false,
+    "inherited_width_engine_triggers_published_transfer": false,
+    "v91_new_circuit_lower_bound": false
+  },
+  "candidate_scope": "post-Li Range-Avoidance and Missing-String theorem calibration, a finite Korten/GGM decoding reproduction, the Vyas-Williams erratum gate, a relativization/algebrization barrier audit, and an explicit no-go verdict for the inherited width-promised engine"
 }

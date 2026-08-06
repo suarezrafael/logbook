@@ -1,0 +1,41 @@
+{
+  "laboratory": "V91",
+  "classification": "barrier_and_closure",
+  "target_problem": "instantiate a published algorithm-to-circuit-lower-bound transfer using the inherited Range-Avoidance engine after the CHR/Li advances",
+  "conditional_implication": "If the inherited engine were extended from low-support-branchwidth promises to a total, all-instance, single-valued Range-Avoidance algorithm in the exact circuit representation required by a checked transfer theorem, with the theorem-required size and running-time parameters, then the cited transfer could yield its stated circuit lower bound.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "Li already closes the natural depth-3 Missing-String target, while the inherited engine is polynomial only under a severe width promise and supplies no total high-width branch.",
+  "bridge_lemmas": [
+    {
+      "name": "finite Korten/GGM decoding invariant",
+      "proved": true
+    },
+    {
+      "name": "full CHR/Li single-valued win-win reproduction",
+      "proved": false
+    },
+    {
+      "name": "all-instance coverage for a standard circuit class",
+      "proved": false
+    },
+    {
+      "name": "single-valued canonical output in the transfer model",
+      "proved": false
+    },
+    {
+      "name": "runtime and size parameters required by a checked open transfer",
+      "proved": false
+    },
+    {
+      "name": "nonalgebrizing ingredient outside the Chen-Hu-Ren barrier scope",
+      "proved": false
+    }
+  ],
+  "current_gap": "The first missing bridge is all-instance coverage: the current algorithm is polynomial only for support branchwidth O(sqrt(log m)), and its high-width branch has no canonical avoided-string output.",
+  "result_obtained": "A theorem-by-theorem post-Li calibration, executable finite reproduction of the Korten/GGM decoding kernel, erratum enforcement, barrier audit, and a parameter-level no-go for the inherited width engine.",
+  "material_advance_rule_met": false,
+  "stop_rule": "Close the Williams/Missing-String transfer branch for the inherited width-promised engine unless an all-instance completion, a checked still-open transfer target, or an explicit nonalgebrizing ingredient is supplied.",
+  "stop_rule_fired": true,
+  "external_validation_target": "CHR arXiv:2309.12912; Li arXiv:2310.17762 / ECCC TR23-156; Vyas-Williams ECCC TR24-113 July 2024 with erratum; Chen-Hu-Ren ITCS 2026",
+  "next_front": "V92 all-instance completion gate: a genuine high-width win branch or a different nonalgebrizing target"
+}
