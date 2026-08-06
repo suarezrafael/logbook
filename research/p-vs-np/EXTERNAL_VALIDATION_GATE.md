@@ -2,30 +2,41 @@
 
 ## Decision
 
-V93 is **reserved but frozen**. No V93 experiment, theorem-development branch, or candidate promotion may begin until both short external-review packets below have been sent to independent researchers and the submission evidence has been recorded in `EXTERNAL_VALIDATION_GATE.json`:
+V93 is **reserved but frozen**. No V93 experiment, theorem-development branch, or candidate promotion may begin until both short external-review packets below have been submitted to an independent external audience and the evidence has been recorded in `EXTERNAL_VALIDATION_GATE.json`:
 
 1. `v90/EXTERNAL_REVIEW_V81.md` — deficiency conservation and balanced width/deficiency consequence;
 2. `v90/EXTERNAL_REVIEW_V87.md` — rank-three primal-treewidth/hyperedge-branchwidth transfer.
 
-The gate requires submission, not a favorable answer. Responses may take time; waiting for them must not be disguised as another internal laboratory. Every received confirmation, counterexample, convention correction, or prior-art citation must later be logged.
+The preferred first move is not a generic email. For V81 it is a public, self-contained technical question asking for a standard name, reference, correction, or counterexample. A stable public permalink counts as submission evidence. A favorable answer is not required to release V93, but every later response must be logged.
 
 ## Why the gate exists
 
 The project has produced internally verified mathematical modules faster than it has exposed them to independent checking. That creates a systematic-risk asymmetry: internal volume grows while correlated proof or novelty errors can remain invisible.
 
-The V81 and V87 packets are already small enough for first-pass expert review. Each isolates definitions, one narrow claim, a supplied proof, scope limitations, finite evidence, and explicit reviewer questions. Preparing another laboratory has lower expected information value than sending these packets.
+The V81 and V87 packets are already small enough for first-pass expert review. Each isolates definitions, one narrow claim, a supplied proof, scope limitations, finite evidence, and explicit reviewer questions. Preparing another laboratory has lower expected information value than submitting these packets.
+
+## Outreach order
+
+The authoritative sequence is `EXTERNAL_OUTREACH_SEQUENCE.md`:
+
+1. public narrow technical question;
+2. citable preprint when genuinely ready;
+3. Brazilian or regional academic contact;
+4. targeted author email tied to a named theorem or convention.
+
+The title, subject, and opening must not mention P versus NP, the forty-seven-laboratory history, a breakthrough, or an unverified novelty claim. Direct email must never ask for review of the entire program.
 
 ## Submission evidence
 
 For each packet, record all of the following:
 
-- date and time sent;
-- recipient description sufficient to establish independence and relevant expertise, without publishing private contact information;
-- channel used, such as direct email, research-forum request, or formal review service;
-- a stable private or public evidence reference;
+- date and time submitted;
+- channel used;
+- audience or recipient description sufficient to establish independence and relevant expertise, without publishing private contact information;
+- a stable public URL or other auditable evidence reference;
 - later response state: no response, acknowledged, proof confirmed, correction requested, counterexample, or prior-art citation.
 
-A self-review, another model run, repository CI, or review by a person already directing the laboratory does not satisfy the external-submission condition.
+A public technical question qualifies. A prepared draft, repository post without a question, self-review, another model run, CI, or review by a person already directing the laboratory does not.
 
 ## V93 cadence after release
 
