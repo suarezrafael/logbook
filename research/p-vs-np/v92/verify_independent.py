@@ -5,6 +5,8 @@ import json
 from itertools import product
 from pathlib import Path
 
+from verify_external_validation import verify_external_validation
+
 ROOT = Path(__file__).resolve().parent
 
 
@@ -62,26 +64,34 @@ def main() -> None:
 
     next_context = (ROOT / "V93_CORE_CONTEXT.md").read_text(encoding="utf-8")
     assert "high-width child-count compression gate" in next_context
+    assert "External-validation hold" in next_context
+    assert "reserved but frozen" in next_context
+    assert "budgeted in weeks and milestones" in next_context
+    assert "M1 complete; question still open" in next_context
     assert "Mandatory affine-comparison falsification test" in next_context
     assert "certificate of non-surjectivity or evasion" in next_context
     assert "comparison-sufficient" in next_context
     assert "zero-detection only" in next_context
     assert "comparison collision" in next_context
-    assert "No experiment beyond the mandatory affine-comparison falsification test is authorized" in next_context
     assert "Chen–Hu–Ren" in next_context
+
+    all_submitted = verify_external_validation()
 
     status = json.loads((ROOT.parent / "LAB_STATUS.json").read_text(encoding="utf-8"))
     assert status["promoted_version"] in {"V91", "V92"} or int(status["promoted_version"][1:]) > 92
     if status["candidate_version"] == "V92":
         assert status["highest_directory"] == "V92"
         assert status["promotion_state"] == "candidate"
+    assert status["validation_gate"]["v93_frozen"] == (not all_submitted)
+    assert status["validation_gate"]["release_requires"] == ["V81_external_submission", "V87_external_submission"]
     assert not status["scientific_status"]["v92_published_lower_bound_transfer_triggered"]
     assert not status["scientific_status"]["p_vs_np_resolved"]
 
     print(
         "V92 independent verification passed: exhaustive unary halving, closed-form "
-        "ledger checks, explicit runtime gap, affine comparison falsification gate, "
-        "and conservative nonclaims."
+        "ledger checks, explicit runtime gap, affine comparison gate, transition-safe "
+        "external-validation hold, narrow outreach sequence, weekly V93 cadence, and "
+        "conservative nonclaims."
     )
 
 

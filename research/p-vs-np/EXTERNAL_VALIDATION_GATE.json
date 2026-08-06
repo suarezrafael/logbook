@@ -1,0 +1,89 @@
+{
+  "schema_version": 2,
+  "updated": "2026-08-06",
+  "status": "blocking",
+  "blocks": "V93 execution",
+  "reason": "The current information bottleneck is external validation, not production of another internal laboratory. V81 and the rank-three transfer isolated from V87 already have short review packets but no recorded external submission.",
+  "release_condition": "Both required_submissions must have submission_status=\"submitted\" with non-null submitted_at, recipient_description, and evidence_reference. A reviewer response is not required to begin V93, but every response must be logged when received.",
+  "outreach_sequence": [
+    "public_narrow_technical_question",
+    "preprint_readiness_and_optional_submission",
+    "brazilian_academic_contact",
+    "targeted_author_email_tied_to_specific_theorem"
+  ],
+  "tone_firewall": {
+    "forbidden_in_title_subject_or_opening": [
+      "P versus NP",
+      "breakthrough",
+      "solution",
+      "47 laboratories",
+      "unqualified novelty claim"
+    ],
+    "required_opening": "definitions, one isolated lemma, and one precise literature or correctness question"
+  },
+  "required_submissions": [
+    {
+      "laboratory": "V81",
+      "packet": "v90/EXTERNAL_REVIEW_V81.md",
+      "public_question_draft": "v90/CSTHEORY_V81_DRAFT.md",
+      "claim": "deficiency conservation and balanced width/deficiency consequence",
+      "qualifying_evidence": [
+        "public permalink to a self-contained technical question",
+        "documented request to an independent expert"
+      ],
+      "submission_status": "not_submitted",
+      "submitted_at": null,
+      "recipient_description": null,
+      "evidence_reference": null,
+      "review_status": "awaiting_submission"
+    },
+    {
+      "laboratory": "V87",
+      "packet": "v90/EXTERNAL_REVIEW_V87.md",
+      "email_template": "v90/TARGETED_FOLLOWUP_EMAIL.md",
+      "claim": "rank-three primal-treewidth/hyperedge-branchwidth transfer",
+      "qualifying_evidence": [
+        "documented request to an independent expert",
+        "public permalink to a self-contained technical question",
+        "targeted author email tied to a specific theorem or convention"
+      ],
+      "submission_status": "not_submitted",
+      "submitted_at": null,
+      "recipient_description": null,
+      "evidence_reference": null,
+      "review_status": "awaiting_submission"
+    }
+  ],
+  "preprint_policy": {
+    "readiness_file": "v90/ARXIV_PREPRINT_READINESS.md",
+    "upload_required_for_v93_release": false,
+    "upload_must_not_be_used_only_to_satisfy_gate": true,
+    "stable_preprint_preferred_before_targeted_author_email": true
+  },
+  "v93_cadence": {
+    "planning_unit": "week",
+    "minimum_initial_horizon_weeks": 2,
+    "same_day_promotion_from_finite_evidence": false,
+    "open_after_milestone_one_is_valid": true,
+    "milestones": [
+      {
+        "name": "M0 external validation release",
+        "completion": "Both V81 and V87 packets have recorded external submissions."
+      },
+      {
+        "name": "M1 affine comparison falsification",
+        "completion": "The exact target row and certificate row are filled, and the affine model is classified as comparison-sufficient, zero-detection-only, or comparison-colliding. Remaining open is an acceptable state."
+      },
+      {
+        "name": "M2 symbolic lift or constructive lemma",
+        "completion": "Either lift a collision to a quantified certificate no-go theorem, or prove a constructive decoder/zero-detection lemma with explicit complexity and output interface."
+      }
+    ]
+  },
+  "nonclaims": [
+    "Submission does not establish correctness or novelty.",
+    "Silence from reviewers is not positive validation.",
+    "A public question is an external query, not peer review.",
+    "The hold does not retract V92 or close Range Avoidance as an area."
+  ]
+}
