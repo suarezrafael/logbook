@@ -62,7 +62,12 @@ def main() -> None:
 
     next_context = (ROOT / "V93_CORE_CONTEXT.md").read_text(encoding="utf-8")
     assert "high-width child-count compression gate" in next_context
-    assert "No experiment is authorized" in next_context
+    assert "Mandatory affine-comparison falsification test" in next_context
+    assert "certificate of non-surjectivity or evasion" in next_context
+    assert "comparison-sufficient" in next_context
+    assert "zero-detection only" in next_context
+    assert "comparison collision" in next_context
+    assert "No experiment beyond the mandatory affine-comparison falsification test is authorized" in next_context
     assert "Chen–Hu–Ren" in next_context
 
     status = json.loads((ROOT.parent / "LAB_STATUS.json").read_text(encoding="utf-8"))
@@ -75,7 +80,8 @@ def main() -> None:
 
     print(
         "V92 independent verification passed: exhaustive unary halving, closed-form "
-        "ledger checks, explicit runtime gap, and conservative nonclaims."
+        "ledger checks, explicit runtime gap, affine comparison falsification gate, "
+        "and conservative nonclaims."
     )
 
 
