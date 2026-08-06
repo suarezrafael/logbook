@@ -1,4 +1,4 @@
-# V93 core context — constructive high-width child-count gate
+# V93 core context — high-width child-count compression gate with equal no-go track
 
 ## Mission
 
