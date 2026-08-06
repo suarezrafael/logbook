@@ -1,16 +1,16 @@
 {
-  "schema_version": 34,
+  "schema_version": 35,
   "updated": "2026-08-05",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V90",
-  "candidate_version": "V91",
+  "promoted_version": "V91",
+  "candidate_version": null,
   "highest_directory": "V91",
-  "promotion_state": "candidate",
-  "completed_scope": "finite seven-state entropy contraction near the uniform overlap, implication-ratio governance, a natural-proofs barrier audit, formal closure of the Eval_H constructor front, and the V91 algorithmic-method handoff",
+  "promotion_state": "promoted",
+  "completed_scope": "post-Li Range-Avoidance and Missing-String theorem calibration, a finite Korten/GGM decoding reproduction, the Vyas-Williams erratum gate, a relativization/algebrization barrier audit, and an explicit no-go verdict for the inherited width-promised engine",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V91",
-  "next_laboratory_focus": "reproduce and calibrate the post-Li Range-Avoidance/Missing-String chain, enforce the TR24-113 erratum, audit relativization and algebrization barriers, and decide whether the inherited width engine satisfies any remaining published transfer theorem",
+  "next_laboratory_version": "V92",
+  "next_laboratory_focus": "complete the inherited low-width engine into one all-instance canonical NC0_k-Avoid procedure by matching its prefix-count semantics to the Huang-Li-Zhong greedy algorithm, then isolate the remaining worst-case runtime barrier",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -169,6 +169,5 @@
     "inherited_width_engine_single_valued": false,
     "inherited_width_engine_triggers_published_transfer": false,
     "v91_new_circuit_lower_bound": false
-  },
-  "candidate_scope": "post-Li Range-Avoidance and Missing-String theorem calibration, a finite Korten/GGM decoding reproduction, the Vyas-Williams erratum gate, a relativization/algebrization barrier audit, and an explicit no-go verdict for the inherited width-promised engine"
+  }
 }
