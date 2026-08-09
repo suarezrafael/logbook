@@ -10,4 +10,6 @@
 - [x] Kept the Huang-Li-Zhong runtime baseline explicit.
 - [x] Added primary and independent executable audits.
 - [x] Registered V93 in focused regression coverage.
+- [x] Draft quick verification passed before ready-for-review transition.
+- [ ] Ready-for-review compatibility gate must pass before promotion.
 - [x] Marked novelty, peer review, runtime improvement, and P-vs-NP resolution as false.
