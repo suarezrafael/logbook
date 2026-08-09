@@ -1,0 +1,63 @@
+{
+  "certificate_row": {
+    "constructible_from_input": true,
+    "determines_canonical_decision": false,
+    "model": "AS(C)=(essential supports, full constant-output-parity syndrome relation Sigma(C))",
+    "verifiable": true
+  },
+  "mandatory_affine_comparison_census": {
+    "affine_functions": 16,
+    "complementary_image_functions": 256,
+    "decision_mismatches_on_unbalanced_nonaffine": 0,
+    "nonaffine_balanced_functions": 56,
+    "nonaffine_functions": 240,
+    "nonaffine_no_common_avoider_pairs": 120,
+    "nonaffine_unbalanced_functions": 184,
+    "opposite_canonical_decision_functions": 184,
+    "opposite_canonical_decision_pairs": 92,
+    "range_partition_mismatches": 0,
+    "same_certificate_nonaffine_functions": 240,
+    "support_mismatches": 0,
+    "syndrome_mismatches_on_nonaffine": 0,
+    "ternary_functions": 256
+  },
+  "representative_and_vs_nand": {
+    "canonical_bit_f": 1,
+    "canonical_bit_not_f": 0,
+    "child_counts_f": [7, 1],
+    "child_counts_not_f": [1, 7],
+    "complement_truth_table_hex": "0x7f",
+    "f_truth_table_hex": "0x80",
+    "image_intersection_size": 0,
+    "image_size_f": 8,
+    "image_size_not_f": 8,
+    "image_union_size": 16,
+    "supports": [[0, 1, 2], [0], [1], [2]],
+    "syndrome_relation": [[0, 0]]
+  },
+  "target_row": {
+    "class": "high-support-branchwidth NC0_3",
+    "named_baseline": "Huang-Li-Zhong ITCS 2026 Theorem 1.14",
+    "required_complexity": "strict improvement over O(n*2^(n/2)) for k=3, or a polynomial-time certificate branch",
+    "stretch": "m=n+1"
+  },
+  "theorem_status": {
+    "all_instance_polynomial_time": false,
+    "certificate_only_single_valued_avoider_closed": true,
+    "global_affine_syndrome_comparison_oracle_closed": true,
+    "high_width_lift_symbolic": true,
+    "new_circuit_lower_bound": false,
+    "novelty_confirmed": false,
+    "p_vs_np_resolved": false,
+    "peer_reviewed": false,
+    "zero_detection_subroutine_survives": true
+  },
+  "track_a_zero_detection": {
+    "certificate_can_certify_empty_child_here": true,
+    "circuit": "(x0,x1,x0 xor x1)",
+    "count_child_0": 0,
+    "count_child_1": 2,
+    "forced_next_bit": 1,
+    "prefix": [0, 1]
+  }
+}
