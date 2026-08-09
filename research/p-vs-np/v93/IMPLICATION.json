@@ -1,0 +1,38 @@
+{
+  "laboratory": "V93",
+  "classification": "barrier_and_closure",
+  "target_problem": "canonical child-count comparison for high-support-branchwidth NC0_3-Avoid at minimal stretch",
+  "conditional_implication": "If a polynomial-time constructible certificate determined the V92 canonical child decision on every high-width NC0_3-Avoid[n,n+1] instance, then the canonical halving adapter could use that certificate branch to bypass the O(n*2^(n/2)) Huang-Li-Zhong evaluator on that regime. V93 proves that supports plus the complete global constant-syndrome relation do not have this property.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "V93 closes a precise certificate model rather than improving the all-instance runtime or proving a circuit-lower-bound transfer consequence.",
+  "target_row": {
+    "class": "high-support-branchwidth NC0_3",
+    "stretch": "m=n+1",
+    "required_complexity": "strict improvement over O(n*2^(n/2)) for k=3, or a polynomial-time certificate branch",
+    "named_baseline": "Huang-Li-Zhong ITCS 2026 Theorem 1.14"
+  },
+  "certificate_model": "AS(C)=(essential supports, full global constant-output-parity syndrome relation Sigma(C))",
+  "certificate_constructible": true,
+  "certificate_verifiable": true,
+  "mandatory_affine_gate_outcome": "comparison_collision",
+  "bridge_lemmas": [
+    {"name": "global affine-syndrome certificate computable by ANF plus Gaussian elimination", "proved": true},
+    {"name": "prefix-supported syndrome gives exact zero detection when it forces the next output", "proved": true},
+    {"name": "same AS certificate can have opposite canonical first decisions", "proved": true},
+    {"name": "same AS certificate can have no common avoided output", "proved": true},
+    {"name": "comparison collision persists after high-width zero-stretch direct-sum lift", "proved": true},
+    {"name": "all-instance child comparison faster than Huang-Li-Zhong Theorem 1.14", "proved": false}
+  ],
+  "current_gap": "Global affine syndromes can certify some empty children but cannot compare two nonempty children in general. Any surviving high-width algorithm must use additional prefix-conditioned, counting, spectral, tensor, or other information beyond supports and global constant output parities.",
+  "result_obtained": "A quantified no-go theorem for the complete global affine-syndrome certificate model, an exhaustive 256-function falsification gate with 92 opposite-decision complement pairs, a no-common-avoider pair theorem, and a high-width minimal-stretch lift.",
+  "material_advance_rule_met": true,
+  "closed_route": "global affine syndromes plus supports as a complete canonical child-comparison oracle",
+  "surviving_route": "syndrome-based zero detection on forced prefixes, plus certificate models containing additional prefix-conditioned/counting information",
+  "stop_rule": "Close the global affine-syndrome comparison-certificate front after the formal collision theorem. V94 must study the child-count sign in a standard fixed-language counting/comparison model or prove that canonical prefixes avoid such hardness; it may not resume global affine optimization without new prefix-conditioned information.",
+  "stop_rule_fired": true,
+  "external_validation_target": "Huang-Li-Zhong ITCS 2026 Theorem 1.14 and repository V85 constant-syndrome theorem, V87 linear-branchwidth theorem, and V92 canonical-halving contract",
+  "next_front": "fixed-language child-count comparison and its #CSP/PP or compressed-evaluator formulations",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
