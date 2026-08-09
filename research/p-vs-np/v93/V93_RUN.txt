@@ -1,0 +1,14 @@
+V93 symbolic/exhaustive gate summary
+
+Primary verifier expected terminal line:
+V93 verification passed: 256-function affine-comparison gate, 92 opposite-decision complement pairs, no-common-avoider theorem controls, high-width lift contract, and Track-A zero detection.
+
+Independent verifier expected terminal line:
+V93 independent verification passed: direct truth-vector enumeration reproduces 16/240/56/184 and all certificate/range/decision collisions.
+
+Frozen representative:
+AND3 child counts  = (7,1), canonical first bit = 1
+NAND3 child counts = (1,7), canonical first bit = 0
+Certificate relation for both gadgets: trivial global constant syndrome.
+
+This file is a human-readable snapshot only. RESULTS.json and the verifier recomputation are authoritative for the finite audit.
