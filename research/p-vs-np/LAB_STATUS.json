@@ -1,17 +1,17 @@
 {
-  "schema_version": 38,
+  "schema_version": 39,
   "updated": "2026-08-09",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V92",
-  "candidate_version": "V93",
+  "promoted_version": "V93",
+  "candidate_version": null,
   "highest_directory": "V93",
-  "promotion_state": "candidate",
-  "completed_scope": "canonical single-valued halving, exact connected-component prefix factorization, semantic completion of the low-width and all-instance evaluators, calibrated exponential worst-case runtime, and an explicit constructive-versus-no-go certificate discipline",
+  "promotion_state": "promoted",
+  "completed_scope": "global affine-syndrome comparison no-go theorem, no-common-avoider collision, high-width minimal-stretch lift, retained forced-prefix zero detection, and exhaustive primary/independent affine-comparison audits",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V93",
-  "next_laboratory_focus": "execute the affine-syndrome comparison no-go theorem and close the global affine certificate model while retaining the forced-prefix zero-detection subroutine",
-  "next_front": "algorithmic_method_and_meta_complexity",
+  "next_laboratory_version": "V94",
+  "next_laboratory_focus": "study the canonical child-count sign N(p0)-N(p1) as a fixed-language counting/comparison problem, separating arbitrary prefixes, canonical prefixes, and avoidance without exact comparison",
+  "next_front": "fixed_language_counting_comparison",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
     "required_material_advance": [
@@ -189,6 +189,5 @@
     "v93_high_width_affine_comparison_collision": true,
     "v93_syndrome_zero_detection_survives": true,
     "v93_hlz_runtime_improved": false
-  },
-  "candidate_scope": "global affine-syndrome comparison no-go theorem, no-common-avoider collision, high-width minimal-stretch lift, and retained forced-prefix zero-detection subroutine"
+  }
 }
