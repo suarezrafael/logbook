@@ -1,0 +1,93 @@
+{
+  "exhaustive_one_clause_audit": {
+    "balanced_loader_decisions": 16384,
+    "canonical_one_comparisons": 1104,
+    "canonical_outputs_in_range": 0,
+    "canonical_zero_comparisons": 2992,
+    "comparison_bit_mismatches": 0,
+    "equal_source_count_pairs": 1888,
+    "final_child_count_mismatches": 0,
+    "loader_balance_failures": 0,
+    "loader_prefix_failures": 0,
+    "ordered_clause_pairs": 4096,
+    "signed_literals": 4,
+    "signed_three_literal_clauses": 64,
+    "source_variables": 2,
+    "stretch_one_mismatches": 0,
+    "strict_source_count_pairs": 2208
+  },
+  "fixed_gate_language": {
+    "and_balanced_definition_variants": 1,
+    "maximum_locality": 3,
+    "projection_variants": 1,
+    "selector_comparison_variants": 1,
+    "signed_or_balanced_definition_variants": 4,
+    "total_gate_types": 7
+  },
+  "laboratory": "V95",
+  "representative_case": {
+    "canonical_output": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "canonical_output_in_range": false,
+    "comparison_bit": 0,
+    "comparison_child_counts": [
+      3,
+      5
+    ],
+    "expected_comparison_bit": 0,
+    "expected_comparison_child_counts": [
+      3,
+      5
+    ],
+    "final_fiber_size": 0,
+    "input_count": 7,
+    "loader_child_counts": [
+      [
+        64,
+        64
+      ],
+      [
+        32,
+        32
+      ],
+      [
+        16,
+        16
+      ],
+      [
+        8,
+        8
+      ]
+    ],
+    "output_count": 8,
+    "prefix_length": 4,
+    "source_counts": [
+      2,
+      3
+    ]
+  },
+  "structural_size_audit": {
+    "maximum_locality": 3,
+    "parameter_cases": 100,
+    "size_or_stretch_mismatches": 0
+  },
+  "theorem_status": {
+    "arbitrary_avoidance_PP_hard": false,
+    "balanced_definition_exact_tie_lemma": true,
+    "balanced_loader_composable": true,
+    "canonical_next_bit_PP_hard": true,
+    "canonical_prefix_all_zero": true,
+    "exact_canonical_word_PP_hard": true,
+    "hlz_runtime_improved": false,
+    "p_vs_np_resolved": false,
+    "unrestricted_NC0_3_avoid_polynomial_time": false
+  }
+}
