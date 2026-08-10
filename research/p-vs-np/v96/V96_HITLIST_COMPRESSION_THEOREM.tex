@@ -1,0 +1,152 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newcommand{\bits}{\{0,1\}}
+
+\title{Laboratory V96: Universal Hitlist Compression and Uniformization}
+\author{NC0\_k-Avoid Laboratory}
+\date{2026-08-10}
+
+\begin{document}
+\maketitle
+
+Let $C:\bits^N\to\bits^{N+1}$ be a circuit in which each output depends on at
+most three input coordinates.  A set $H\subseteq\bits^{N+1}$ is universal for a
+circuit family $\mathcal F$ when, for every $C\in\mathcal F$, at least one
+$y\in H$ is absent from $\operatorname{Range}(C)$.
+
+\begin{lemma}[Half-range bound]
+For every such stretch-one circuit,
+\[
+ |\operatorname{Range}(C)|\le 2^N=\frac12\,2^{N+1}.
+\]
+Hence a uniform random word belongs to the range with probability at most
+$1/2$.
+\end{lemma}
+
+\begin{theorem}[Support-conditioned linear hitlist]
+Fix ordered supports $S=(S_0,\ldots,S_N)$ with $|S_i|\le3$, and let
+$\mathcal F(S)$ contain every choice of Boolean truth tables on those supports.
+Put
+\[
+ B(S)=\sum_{i=0}^{N}2^{|S_i|}.
+\]
+Then a universal list for $\mathcal F(S)$ exists with size at most
+\[
+ B(S)+1\le 8(N+1)+1.
+\]
+\end{theorem}
+
+\begin{proof}
+The number of represented circuits is at most
+\[
+ \prod_i 2^{2^{|S_i|}}=2^{B(S)}.
+\]
+Sample $L=B(S)+1$ output words independently.  For fixed $C$, the probability
+that all $L$ words are in its range is at most $2^{-L}$.  A union bound over all
+represented circuits gives failure probability at most
+$2^{B(S)}2^{-(B(S)+1)}=1/2$.  Thus a successful list exists.
+\end{proof}
+
+For a circuit-oblivious count define
+\[
+ Q_N=\sum_{j=0}^{3}\binom Nj 2^{2^j}.
+\]
+This overcounts the possible representations of one local output.
+
+\begin{theorem}[Circuit-oblivious $O(N\log N)$ hitlist]
+There exists one list $H_N$, depending only on $N$ and universal for all
+stretch-one locality-three circuits, of size at most
+\[
+ (N+1)\lceil\log_2 Q_N\rceil+1=O(N\log N).
+\]
+\end{theorem}
+
+\begin{proof}
+There are at most $Q_N^{N+1}$ circuit representations.  Sample
+$L=(N+1)\lceil\log_2Q_N\rceil+1$ words.  The union-bound failure probability is
+at most
+\[
+ Q_N^{N+1}2^{-L}\le\frac12.
+\]
+\end{proof}
+
+The two upper bounds are existential; neither proof gives a polynomial-time
+constructor for the successful list.
+
+\begin{theorem}[Explicit logarithmic lower bound]
+Assume $N\ge6$, put
+\[
+ r=\left\lfloor\log_2(N/3)\right\rfloor,
+ \qquad t=3r.
+\]
+Every collection of at most $t$ target words in $\bits^{N+1}$ is contained in
+the range of a circuit whose outputs are monotone ORs of three input
+coordinates.  Consequently every circuit-oblivious universal list has size at
+least
+\[
+ 3\left\lfloor\log_2(N/3)\right\rfloor+1.
+\]
+\end{theorem}
+
+\begin{proof}
+Pad to exactly $t$ target rows and divide them into three blocks of $r$ rows.
+For each block $b\in\{1,2,3\}$ and pattern $u\in\bits^r$, allocate an input
+$x_{b,u}$; this needs $3\cdot2^r\le N$ inputs.  For output coordinate $i$, let
+$u_{i,b}\in\bits^r$ be its target-column restriction to block $b$ and define
+\[
+ C_i=x_{1,u_{i,1}}\vee x_{2,u_{i,2}}\vee x_{3,u_{i,3}}.
+\]
+For target row $(b,p)$ set all inputs outside block $b$ to zero and set
+$x_{b,u}=u_p$ inside that block.  Then the value of $C_i$ is exactly the target
+bit $(u_{i,b})_p$ for every coordinate $i$.  Hence all target rows lie in the
+range.
+\end{proof}
+
+\begin{theorem}[Common-triple exact control]
+If every output uses the same fixed three input coordinates, the minimum size
+of a universal list is exactly nine.
+\end{theorem}
+
+\begin{proof}
+The range has size at most eight, so nine distinct words suffice.  Conversely,
+for any at most eight target words, assign the distinct targets to distinct
+three-bit inputs and define each output truth table to reproduce its target
+column on those inputs.
+\end{proof}
+
+\begin{theorem}[Uniformization transfer]
+If an $\mathrm{FP}^{\mathrm{NP}}$ algorithm, given an arbitrary locality-three
+support pattern $S$, constructs a polynomial-size universal list for
+$\mathcal F(S)$, then
+\[
+ \mathrm{NC}^0_3\text{-Avoid}[N,N+1]\in\mathrm{FP}^{\mathrm{NP}}.
+\]
+\end{theorem}
+
+\begin{proof}
+For the given circuit, construct the list from its supports.  For each candidate
+$y$ query the NP predicate $\exists x\ C(x)=y$.  Universality guarantees a
+candidate for which the answer is no, and that candidate is an avoided output.
+\end{proof}
+
+\begin{lemma}[Stretch transfer by truncation]
+A solver at output length $N+1$ solves every larger output length $M>N$.
+\end{lemma}
+
+\begin{proof}
+Keep any $N+1$ output coordinates, find a missing projected word, and extend it
+arbitrarily on the discarded coordinates.  A preimage of the extension would
+contradict absence of its projection.
+\end{proof}
+
+Thus polynomial list cardinality is not the unresolved issue.  Efficient
+uniform selection of the list, or a different certificate-driven avoided-word
+policy, remains open.  No polynomial-time all-instance avoider, runtime
+improvement, circuit lower bound, or P-versus-NP resolution is claimed.
+
+\end{document}
