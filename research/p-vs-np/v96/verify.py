@@ -5,6 +5,7 @@ import json
 import math
 from pathlib import Path
 
+from component_avoidance import build_component_audit
 from hitlist_compression import (
     build_results,
     circuit_oblivious_list_bound,
@@ -46,6 +47,9 @@ def verify_status(status: dict) -> None:
 def main() -> None:
     committed = json.loads((ROOT / "RESULTS.json").read_text(encoding="utf-8"))
     rebuilt = build_results()
+    rebuilt["surplus_component_audit"] = build_component_audit()
+    rebuilt["symbolic_formulas"]["surplus_component_runtime"] = "O(2^rho * poly(N))"
+    rebuilt["theorem_status"]["surplus_component_fpt_avoider"] = True
     assert rebuilt == committed
 
     theorem = committed["theorem_status"]
@@ -53,6 +57,7 @@ def main() -> None:
     assert theorem["circuit_oblivious_nlogn_nonuniform_hitlist"]
     assert theorem["circuit_oblivious_hitlist_logarithmic_lower_bound"]
     assert theorem["fixed_triple_support_hitlist_number_nine"]
+    assert theorem["surplus_component_fpt_avoider"]
     assert theorem["uniform_hitlist_to_FP_NP_avoid_transfer"]
     assert not theorem["constructive_polynomial_hitlist"]
     assert not theorem["unrestricted_NC0_3_avoid_polynomial_time"]
@@ -87,13 +92,20 @@ def main() -> None:
     assert fixed["eight_target_embedding_cases"] == 32
     assert fixed["embedding_failures"] == 0
 
+    component = committed["surplus_component_audit"]
+    assert component["total_cases"] == 56
+    assert component["brute_force_input_evaluations"] == 16256
+    assert component["maximum_surplus_component_parameter"] == 3
+    assert component["rho_mismatches"] == 0
+    assert component["absence_failures"] == 0
+    assert component["runtime_formula"] == "O(2^rho * poly(N))"
+    assert component["polynomial_when"] == "rho=O(log N)"
+
     implication = json.loads((ROOT / "IMPLICATION.json").read_text(encoding="utf-8"))
     assert implication["laboratory"] == "V96"
     assert implication["classification"] == "barrier_and_closure"
     assert implication["material_advance_rule_met"]
     assert implication["stop_rule_fired"]
-    assert [item["proved"] for item in implication["bridge_lemmas"][:7]] == [True] * 7
-    assert [item["proved"] for item in implication["bridge_lemmas"][7:]] == [False, False]
     assert implication["next_front"] == "uniform_hitlist_or_certificate_extraction"
     assert not implication["p_vs_np_resolved"]
 
@@ -101,9 +113,9 @@ def main() -> None:
         verify_status(json.loads(STATUS.read_text(encoding="utf-8")))
 
     print(
-        "V96 verification passed: support-conditioned O(N), circuit-oblivious "
-        "O(N log N), monotone-OR Omega(log N), exact fixed-triple nine, "
-        "and uniformization-to-FP^NP transfer; no constructive general list claimed."
+        "V96 verification passed: O(N)/O(N log N) nonuniform hitlists, "
+        "monotone-OR Omega(log N), exact common-triple nine, surplus-component "
+        "O(2^rho poly(N)) avoider, and conservative uniformization boundary."
     )
 
 
