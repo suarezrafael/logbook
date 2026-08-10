@@ -1,16 +1,16 @@
 {
-  "schema_version": 44,
+  "schema_version": 45,
   "updated": "2026-08-10",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V95",
-  "candidate_version": null,
-  "highest_directory": "V95",
-  "promotion_state": "promoted",
-  "completed_scope": "V95 promoted: composable balanced-definition canonical loader, fixed seven-type locality-three stretch-one compiler with PP-hard genuinely canonical next bit, exact canonical-word PP-hardness consequence, formal theorem module, and exhaustive primary/independent audits",
+  "candidate_version": "V96",
+  "highest_directory": "V96",
+  "promotion_state": "candidate",
+  "completed_scope": "V96 candidate: support-conditioned O(N) and circuit-oblivious O(N log N) nonuniform universal-hitlist compression, explicit monotone-OR Omega(log N) lower bound, exact common-triple hitlist number nine, constructive O(2^rho poly(N)) surplus-component avoider, formal modules, and independent audits",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V96",
-  "next_laboratory_focus": "comparison-free range avoidance: construct a different absent output using information strictly weaker than exact child comparison or exact reproduction of the V92 canonical word",
+  "next_laboratory_focus": "validate the V96 universal-hitlist compression/uniformization barrier and surplus-component comparison-free avoider; after promotion move to V97 large positive-surplus component uniform extraction",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V95",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V96",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -201,6 +201,13 @@
     "v95_genuine_canonical_next_bit_PP_hard": true,
     "v95_exact_canonical_word_PP_hard": true,
     "v95_arbitrary_avoidance_PP_hard": false,
-    "v95_hlz_runtime_improved": false
+    "v95_hlz_runtime_improved": false,
+    "v96_support_conditioned_linear_nonuniform_hitlist": true,
+    "v96_circuit_oblivious_nlogn_nonuniform_hitlist": true,
+    "v96_circuit_oblivious_hitlist_logarithmic_lower_bound": true,
+    "v96_fixed_triple_support_hitlist_number_nine": true,
+    "v96_surplus_component_fpt_avoider": true,
+    "v96_uniform_general_hitlist_constructed": false,
+    "v96_hlz_runtime_improved": false
   }
 }
