@@ -1,0 +1,103 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newcommand{\bits}{\{0,1\}}
+
+\title{Laboratory V95: Balanced Canonical Loaders and a PP-Hard Next Bit}
+\author{NC0\_k-Avoid Laboratory}
+\date{2026-08-10}
+
+\begin{document}
+\maketitle
+
+Let $C:\bits^N\to\bits^M$.  The canonical rule maintains a fiber $S_j$ and
+chooses output zero at position $j$ exactly when the zero-child is no larger
+than the one-child, breaking ties toward zero.
+
+\begin{lemma}[Balanced definition]
+Let $z$ be an input coordinate absent from all previous output functions and
+let
+\[
+ D_f(z,a,b)=z\oplus f(a,b)
+\]
+for any binary Boolean function $f$.  Under every prior prefix, the zero and
+one children of $D_f$ have exactly equal size.  Hence the canonical bit is zero,
+and conditioning on it uniquely imposes $z=f(a,b)$.
+\end{lemma}
+
+\begin{proof}
+Toggling only $z$ preserves all previous outputs and flips $D_f$.  This is a
+fixed-point-free involution between the two children.  The tie-zero rule chooses
+zero, where $z=f(a,b)$ holds uniquely.
+\end{proof}
+
+\begin{corollary}[Composable loader]
+Any acyclic fan-in-two Boolean computation can be installed by introducing one
+fresh input coordinate per internal wire and listing the corresponding balanced
+definition outputs in topological order.  The entire loader prefix is
+canonically all zero, and every source assignment has one extension encoding
+all correct wire values.
+\end{corollary}
+
+Now take nonempty 3-CNFs $F_0,F_1$ over the same $n$ variables.  Compute each
+clause using two balanced signed-OR definitions and combine clauses by balanced
+AND definitions.  Let the resulting truth coordinates be $t_0,t_1$, let $s$ be
+one free selector coordinate, and let $q$ be the number of definition outputs.
+After the genuine canonical prefix $0^q$, there is one extension for each
+$(x,s)$.
+
+Place next the ternary output
+\[
+ H(s,t_0,t_1)=
+ \begin{cases}
+  \neg t_0,&s=0,\\
+  t_1,&s=1.
+ \end{cases}
+\]
+If $A=\#\mathrm{sat}(F_0)$ and $B=\#\mathrm{sat}(F_1)$, then
+\[
+ N_C(0^q0)=A+(2^n-B),\qquad
+ N_C(0^q1)=(2^n-A)+B.
+\]
+Consequently
+\[
+ N_C(0^q0)\le N_C(0^q1)
+ \quad\Longleftrightarrow\quad
+ A\le B.
+\]
+
+\begin{theorem}[PP-hard genuine canonical next bit]
+There is a fixed seven-type output language of locality at most three such that
+computing a specified next bit of the canonical halving sequence is PP-hard for
+$\mathrm{NC}^0_3$ circuits of exact stretch $M=N+1$, even when every preceding
+canonical decision is an exact tie and the preceding canonical prefix is
+syntactically $0^q$.
+\end{theorem}
+
+\begin{proof}
+V94 establishes PP-completeness of comparing the numbers of satisfying
+assignments of two 3-CNFs.  The balanced loader above makes the prefix genuinely
+canonical, and the displayed child-count identity makes the next canonical bit
+zero exactly for the non-strict source comparison.  The compiler uses four
+signed-OR balanced-definition tables, one AND balanced-definition table, $H$,
+and projection padding.  If the formulas use $r_0,r_1$ clauses, then
+$q=3(r_0+r_1)-2$ and $N=n+1+q$.  Appending exactly $n+1$ projection outputs
+gives $M=N+1$.
+\end{proof}
+
+\begin{corollary}
+Exact computation of the complete canonical halving word for all such circuits
+is PP-hard.  A deterministic polynomial-time algorithm for that specific word
+would imply $P=PP$ and hence $P=NP$.
+\end{corollary}
+
+\paragraph{Nonclaim.}
+This does not prove that finding an arbitrary avoided output is PP-hard.  Range
+avoidance is a total search problem with many possible correct outputs; V95 only
+closes the strategy of reproducing this exact canonical word.
+
+\end{document}
