@@ -1,0 +1,123 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newcommand{\bits}{\{0,1\}}
+\newcommand{\sat}{\#\mathrm{SAT}}
+
+\title{Laboratory V94: Fixed-Language Child-Count Comparison}
+\author{NC0\_k-Avoid Laboratory}
+\date{2026-08-10}
+
+\begin{document}
+\maketitle
+
+\paragraph{Prefix counts.}
+For $C:\bits^N\to\bits^M$ and $p\in\bits^j$, write
+\[
+ N_C(pb)=\bigl|\{x:C_{<j}(x)=p,\ C_j(x)=b\}\bigr|.
+\]
+The canonical V92 bit is zero exactly when $N_C(p0)\le N_C(p1)$.
+
+\paragraph{Fixed language.}
+For $\alpha,\beta,c\in\bits$, let
+\[
+ D_{\alpha,\beta}(z,a,b)=1
+ \Longleftrightarrow
+ z=((a\oplus\alpha)\lor(b\oplus\beta)),
+\]
+and
+\[
+ Q_{c,\alpha}(s,u,z)=1
+ \Longleftrightarrow
+ (s\ne c)\lor(u\oplus\alpha)\lor z.
+\]
+Together with the projection $P(s)=s$, these are nine fixed gate types of
+maximum arity three; call the language $\Gamma_{94}$.
+
+\begin{theorem}[Arbitrary-prefix comparison]
+The problem of deciding $N_C(p0)\le N_C(p1)$ for an arbitrary supplied prefix
+$p$ is PP-complete for $\Gamma_{94}$ circuits even under the exact stretch
+restriction $M=N+1$.
+\end{theorem}
+
+\begin{proof}
+Membership follows because the two child counts are \#P functions and
+$N_C(p1)-N_C(p0)+1$ is a GapP function whose strict positivity is exactly the
+non-strict comparison.
+
+For hardness, start from a pair of 3-CNF formulas $F_0,F_1$ over a common set
+of $n$ variables.  Comparison of their numbers of satisfying assignments is
+PP-complete: the standard GapP sign characterization gives \#P functions
+$a,b$ with membership equivalent to $a>b$; compare instead the \#P functions
+$2b+1$ and $2a$, and use a parsimonious, unique-extension Cook--Levin/Tseitin
+encoding into width-three CNF.
+
+Let $r$ be the total number of clauses in $F_0,F_1$.  Introduce a selector $s$,
+one auxiliary $z_A$ for every source clause $A=(\ell_1\lor\ell_2\lor\ell_3)$,
+and
+\[
+ D=\max\{0,r-n-1\}
+\]
+free dummy variables.  Thus
+\[
+ N=n+1+r+D.
+\]
+For every clause of $F_c$, place two prefix outputs: first a suitable signed
+$D_{\alpha,\beta}$ gate enforcing
+$z_A=\ell_2\lor\ell_3$, then a suitable $Q_{c,\alpha}$ gate enforcing
+$(s\ne c)\lor\ell_1\lor z_A$.  Fix all $2r$ such outputs to one.  The next
+output is $P(s)$, and harmless projections pad the circuit to $M=N+1$; this is
+possible because $2r\le N$ by the definition of $D$.
+
+For every assignment of the source variables, the definition gates determine
+all auxiliaries uniquely.  On branch $s=c$, conditional gates from the other
+formula are tautologies and those from $F_c$ enforce exactly its source
+clauses.  The $D$ dummies remain free.  Consequently
+\[
+ N_C(p0)=2^D\sat(F_0),\qquad
+ N_C(p1)=2^D\sat(F_1).
+\]
+The common factor preserves the comparison, proving PP-hardness.
+\end{proof}
+
+\begin{proposition}[Canonical-prefix separation]
+For the explicit ordering above, the hard prefix is not the V92 canonical
+prefix already at its first definition gate.
+\end{proposition}
+
+\begin{proof}
+Every definition truth table has four accepting and four rejecting assignments
+on its three local arguments.  With all other inputs free, the two first-child
+counts are equal, so the V92 tie rule chooses zero.  The reduction fixes that
+prefix output to one.
+\end{proof}
+
+\begin{theorem}[Affine control]
+If every output of $C$ is affine over $\mathbb F_2$, exact child comparison is
+polynomial-time for every prefix, and the V92 canonical avoided output for
+$M=N+1$ is computable in polynomial time.
+\end{theorem}
+
+\begin{proof}
+Every fixed output bit is one linear equation.  Gaussian elimination gives
+consistency and rank, hence each child count is either zero or
+$2^{N-\operatorname{rank}}$.  Incrementally, if the next coefficient row is
+independent then the children have equal size and the canonical bit is zero.
+If it is dependent, exactly one output bit is forced on the current nonempty
+fiber, so the canonical rule selects the opposite empty child.  Once empty,
+all remaining comparisons tie at zero.  With $N+1$ outputs an empty prefix is
+therefore obtained, yielding a word outside the range.
+\end{proof}
+
+\paragraph{Nonclaims.}
+The PP-completeness theorem concerns arbitrary supplied prefixes only.  It does
+not prove PP-hardness of V92-generated canonical prefixes, does not prove that
+range avoidance requires exact comparison, does not improve the
+$O(n2^{n/2})$ all-instance $\mathrm{NC}^0_3$ range-avoidance baseline, and does
+not resolve P versus NP.
+
+\end{document}

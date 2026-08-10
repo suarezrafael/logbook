@@ -1,16 +1,16 @@
 {
-  "schema_version": 40,
-  "updated": "2026-08-09",
+  "schema_version": 41,
+  "updated": "2026-08-10",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V93",
-  "candidate_version": null,
-  "highest_directory": "V93",
-  "promotion_state": "promoted",
-  "completed_scope": "global affine-syndrome comparison no-go theorem, no-common-avoider collision, high-width minimal-stretch lift, retained forced-prefix zero detection, and exhaustive primary/independent affine-comparison audits",
+  "candidate_version": "V94",
+  "highest_directory": "V94",
+  "promotion_state": "candidate",
+  "completed_scope": "V94 candidate: fixed-language arbitrary-prefix child-comparison PP-completeness at exact stretch one, explicit noncanonical-prefix separation, polynomial affine comparator/canonical avoider, and exhaustive primary/independent audits",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V94",
-  "next_laboratory_focus": "study the canonical child-count sign N(p0)-N(p1) as a fixed-language counting/comparison problem, separating arbitrary prefixes, canonical prefixes, and avoidance without exact comparison",
+  "next_laboratory_focus": "validate the V94 arbitrary-prefix PP-completeness barrier and affine tractable control; after promotion move to canonical-prefix escape or comparison-free avoidance",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V93",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V94",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -188,6 +188,13 @@
     "v93_affine_certificate_no_common_avoider_pair": true,
     "v93_high_width_affine_comparison_collision": true,
     "v93_syndrome_zero_detection_survives": true,
-    "v93_hlz_runtime_improved": false
+    "v93_hlz_runtime_improved": false,
+    "v94_arbitrary_prefix_child_comparison_PP_complete": true,
+    "v94_fixed_language_nine_gate_max_arity_three": true,
+    "v94_stretch_one_comparison_reduction": true,
+    "v94_canonical_prefix_hardness_proved": false,
+    "v94_affine_all_prefix_comparison_in_P": true,
+    "v94_affine_canonical_avoider_in_P": true,
+    "v94_hlz_runtime_improved": false
   }
 }

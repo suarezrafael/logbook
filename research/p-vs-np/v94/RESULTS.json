@@ -1,0 +1,65 @@
+{
+  "affine_comparator_audit": {
+    "affine_circuits": 65536,
+    "affine_functions": 16,
+    "canonical_outputs_in_range": 0,
+    "child_count_mismatches": 0,
+    "child_decisions": 262144,
+    "incremental_output_mismatches": 0,
+    "outputs": 4,
+    "variables": 3
+  },
+  "arbitrary_prefix_reduction_audit": {
+    "count_mismatches": 0,
+    "equal_source_count_pairs": 1888,
+    "ordered_single_clause_pairs": 4096,
+    "signed_literals": 4,
+    "signed_three_literal_clauses": 64,
+    "stretch_one_mismatches": 0,
+    "strict_source_count_pairs": 2208,
+    "variables": 2
+  },
+  "canonical_separation_control": {
+    "def_truth_table_ones": 4,
+    "def_truth_table_zeros": 4,
+    "hardness_prefix_first_bit": 1,
+    "reduction_prefix_is_canonical_in_this_order": false,
+    "v92_first_bit_on_def_first_order": 0
+  },
+  "fixed_gate_language": {
+    "conditional_clause_variants": 4,
+    "definition_variants": 4,
+    "maximum_arity": 3,
+    "projection_variants": 1,
+    "total_gate_types": 9
+  },
+  "laboratory": "V94",
+  "representative_compiler_case": {
+    "comparison_preserved": true,
+    "compiled_child_counts": [
+      4,
+      7
+    ],
+    "dummy_count": 0,
+    "input_count": 6,
+    "output_count": 7,
+    "prefix_length": 4,
+    "source_counts": [
+      4,
+      7
+    ]
+  },
+  "theorem_status": {
+    "affine_all_prefix_comparison_in_P": true,
+    "affine_canonical_avoider_in_P": true,
+    "arbitrary_prefix_comparison_PP_complete": true,
+    "arbitrary_prefix_comparison_PP_hard_via_exact_scaled_reduction": true,
+    "arbitrary_prefix_comparison_in_PP": true,
+    "canonical_prefix_PP_hardness_proved": false,
+    "fixed_arity_at_most_three_language": true,
+    "hlz_runtime_improved": false,
+    "p_vs_np_resolved": false,
+    "stretch_one_preserved": true,
+    "unrestricted_NC0_3_avoid_polynomial_time": false
+  }
+}
