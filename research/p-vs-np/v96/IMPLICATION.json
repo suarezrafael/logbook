@@ -1,0 +1,64 @@
+{
+  "laboratory": "V96",
+  "classification": "barrier_and_closure",
+  "target_problem": "comparison-free polynomial candidate lists for NC0_3-Avoid[N,N+1] and the gap between nonuniform list existence and uniform explicit extraction",
+  "conditional_implication": "Polynomial candidate-list cardinality is not the stretch-one bottleneck: support-conditioned lists of size at most 8(N+1)+1 and circuit-oblivious lists of size O(N log N) exist nonuniformly. If such a support-conditioned list were uniformly constructible in FP^NP, NP range-membership queries would give NC0_3-Avoid[N,N+1] in FP^NP; truncation would extend this to larger stretch, reaching the published Gajulapalli-Golovnev-Nagargoje-Saraogi lower-bound-transfer regime. V96 does not obtain the uniform constructor and therefore does not trigger that consequence.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "The result is an internal compression/uniformization barrier. The published rigidity/circuit-lower-bound consequence is only conditional on a uniform FP^NP constructor that V96 does not provide.",
+  "target_row": {
+    "class": "NC0_3-Avoid",
+    "stretch": "M=N+1",
+    "required_complexity": "a polynomial-time or FP^NP constructive universal list, or a different comparison-free avoided-output policy",
+    "named_baseline": "Huang-Li-Zhong ITCS 2026 local algorithm O(N*2^(N/2)) for k=3"
+  },
+  "bridge_lemmas": [
+    {
+      "name": "a fixed ordered support pattern S represents at most 2^{sum_i 2^{|S_i|}} locality-three circuits",
+      "proved": true
+    },
+    {
+      "name": "every support pattern has a nonuniform universal candidate list of size at most 1+sum_i 2^{|S_i|} <= 8(N+1)+1",
+      "proved": true
+    },
+    {
+      "name": "all stretch-one NC0_3 circuits admit one N-only nonuniform universal list of size O(N log N)",
+      "proved": true
+    },
+    {
+      "name": "every list of at most 3 floor(log2(N/3)) targets can be embedded in a monotone three-local OR circuit",
+      "proved": true
+    },
+    {
+      "name": "the common-fixed-triple support family has exact universal-list number nine",
+      "proved": true
+    },
+    {
+      "name": "an FP^NP support-conditioned universal-list constructor yields FP^NP stretch-one range avoidance via NP range-membership queries",
+      "proved": true
+    },
+    {
+      "name": "stretch-one range avoidance transfers to every larger output length by truncating to N+1 coordinates and extending an absent prefix",
+      "proved": true
+    },
+    {
+      "name": "a polynomial-time or FP^NP general support-conditioned universal-list constructor is obtained",
+      "proved": false
+    },
+    {
+      "name": "the Huang-Li-Zhong O(N*2^(N/2)) all-instance runtime is improved",
+      "proved": false
+    }
+  ],
+  "current_gap": "Universal candidate lists are provably polynomial in cardinality, but the successful candidates are selected only nonuniformly. The open bridge is to construct them uniformly from arbitrary support patterns, or abandon universal lists for locally checkable empty-fiber certificates.",
+  "result_obtained": "Support-conditioned O(N) and circuit-oblivious O(N log N) nonuniform universal-list existence theorems, an explicit Omega(log N) lower bound against monotone 3-local OR circuits, an exact nine-candidate fixed-triple control, and a uniformization-to-FP^NP transfer theorem.",
+  "material_advance_rule_met": true,
+  "closed_route": "treating polynomial candidate-list cardinality itself as the main obstruction at minimal stretch",
+  "surviving_route": "uniform support-conditioned hitlist construction, restricted-support explicit constructions, or certificate-triggered absence without a universal list",
+  "stop_rule": "Do not spend V97 optimizing the nonuniform O(N log N) list size. Require a uniform constructor on a nontrivial support family, a provable obstruction to such uniformization, or an end-to-end certificate policy. Nonuniform existence alone is no longer promotion-worthy.",
+  "stop_rule_fired": true,
+  "external_validation_target": "Guruswami-Lyu-Wang APPROX/RANDOM 2022 explicit range-avoidance hitting sets; Huang-Li-Zhong ITCS 2026 stretch-one algorithm; Gajulapalli-Golovnev-Nagargoje-Saraogi APPROX/RANDOM 2023 NC0_3-Avoid lower-bound transfer; prior-art review for universal-list/shattering formulations",
+  "next_front": "uniform_hitlist_or_certificate_extraction",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
