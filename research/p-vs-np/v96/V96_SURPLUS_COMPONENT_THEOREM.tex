@@ -1,0 +1,74 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newcommand{\bits}{\{0,1\}}
+
+\title{Laboratory V96: A Surplus-Component Avoider}
+\author{NC0\_k-Avoid Laboratory}
+\date{2026-08-10}
+
+\begin{document}
+\maketitle
+
+Let $C:\bits^N\to\bits^{N+1}$ be an explicit local circuit.  Form the bipartite
+incidence graph between input coordinates and output gates.  For a connected
+component $K$, write $n_K$ and $m_K$ for its numbers of inputs and outputs.
+
+\begin{lemma}[Positive-surplus component]
+At least one component satisfies $m_K>n_K$.
+\end{lemma}
+
+\begin{proof}
+The components partition the $N$ input vertices and the $N+1$ output vertices,
+including isolated unused inputs and constant outputs.  Therefore
+\[
+ \sum_K(m_K-n_K)=(N+1)-N=1,
+\]
+so at least one summand is positive.
+\end{proof}
+
+Define
+\[
+ \rho(C)=\min\{n_K:m_K>n_K\}.
+\]
+
+\begin{theorem}[Comparison-free surplus-component avoidance]
+There is a deterministic algorithm producing a word outside
+$\operatorname{Range}(C)$ in time
+\[
+ O\!\left(2^{\rho(C)}\operatorname{poly}(N)\right).
+\]
+Consequently the algorithm is polynomial whenever $\rho(C)=O(\log N)$.
+\end{theorem}
+
+\begin{proof}
+Choose a positive-surplus component $K$ with $n_K=\rho$.  Enumerate all
+$2^\rho$ assignments to its input coordinates and evaluate the $m_K$ local
+outputs.  The resulting local range $R_K$ satisfies
+\[
+ |R_K|\le2^\rho<2^{m_K}
+\]
+because $m_K>\rho$.
+
+It is unnecessary to enumerate the full local output space.  Consider the
+first $2^\rho+1$ distinct $m_K$-bit strings in lexicographic order.  Since
+$R_K$ has at most $2^\rho$ members, one candidate $y_K$ is not in $R_K$.
+Find such a candidate by lookup in the enumerated local range.
+
+Construct a global output word whose restriction to the output vertices of
+$K$ is $y_K$, filling all other output coordinates arbitrarily.  A preimage of
+this global word would restrict to an input assignment of $K$ realizing
+$y_K$, contradicting $y_K\notin R_K$.
+
+The local enumeration and lookup cost $2^\rho\operatorname{poly}(N)$.
+\end{proof}
+
+The theorem uses neither exact child comparison nor the V92 canonical word.  It
+is a constructive restricted control only: $\rho(C)$ can be linear for a large
+connected support component, so no all-instance polynomial-time conclusion or
+worst-case runtime improvement is claimed.
+
+\end{document}
