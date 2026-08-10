@@ -1,0 +1,60 @@
+{
+  "laboratory": "V95",
+  "classification": "barrier_and_closure",
+  "target_problem": "exact polynomial-time evaluation of the V92 canonical halving trajectory for NC0_3-Avoid[N,N+1]",
+  "conditional_implication": "If the exact V92 canonical halving word were computable in deterministic polynomial time for every stretch-one NC0_3 circuit, then the PP-complete comparison COMPARE-#3SAT_<= would be in P, so P=PP and therefore P=NP. V95 proves this implication by a genuinely canonical balanced-definition compiler. No such implication is proved for finding an arbitrary avoided output.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "The result closes the exact canonical-halving strategy as a plausible generic polynomial route unless P=PP, but does not improve the all-instance avoidance runtime or trigger a published lower-bound transfer from arbitrary range avoidance.",
+  "target_row": {
+    "class": "NC0_3-Avoid",
+    "stretch": "M=N+1",
+    "required_complexity": "polynomial-time exact canonical word, or an end-to-end avoidance algorithm not reproducing that word",
+    "named_baseline": "Huang-Li-Zhong ITCS 2026 local algorithm O(N*2^(N/2)) for k=3"
+  },
+  "bridge_lemmas": [
+    {
+      "name": "fresh BALDEF_f(z,a,b)=z XOR f(a,b) has exactly equal zero/one children under every prior prefix independent of z",
+      "proved": true
+    },
+    {
+      "name": "topologically ordered balanced definitions compose into a genuinely canonical all-zero loader with unique source extensions",
+      "proved": true
+    },
+    {
+      "name": "two 3-CNF truth values can be loaded using only four signed-OR definition types and one AND definition type",
+      "proved": true
+    },
+    {
+      "name": "the ternary selector gate has child counts A+2^n-B and 2^n-A+B after the canonical loader",
+      "proved": true
+    },
+    {
+      "name": "the specified next canonical bit equals the PP-complete comparison #sat(F0)<=#sat(F1)",
+      "proved": true
+    },
+    {
+      "name": "the compiler preserves maximum locality three and exact stretch M=N+1",
+      "proved": true
+    },
+    {
+      "name": "computing an arbitrary avoided output requires reproducing the V92 canonical word",
+      "proved": false
+    },
+    {
+      "name": "NC0_3-Avoid[N,N+1] is PP-hard as a total search problem",
+      "proved": false
+    }
+  ],
+  "current_gap": "The exact canonical path is now blocked by a PP-hardness theorem, but range avoidance is a total search problem with many valid outputs. The surviving route is to find a different absent word using information strictly weaker than exact child comparison/canonical reproduction.",
+  "result_obtained": "A composable balanced-definition canonicalization lemma and a fixed seven-gate locality-three, stretch-one compiler whose genuinely canonical next bit is PP-hard; exhaustive primary/independent finite audits support the implementation.",
+  "material_advance_rule_met": true,
+  "closed_route": "generic polynomial-time acceleration of the exact V92 minority/tie-zero canonical halving word",
+  "surviving_route": "comparison-free range avoidance: zero detection, one-sided certificates, coarse estimates, target lists, or a different deterministic output policy",
+  "stop_rule": "Do not spend V96 trying to compute the same exact V92 canonical word faster. Any V96 candidate must construct a different avoided output or prove a theorem about weaker-than-comparison information sufficient for avoidance.",
+  "stop_rule_fired": true,
+  "external_validation_target": "Huang-Li-Zhong ITCS 2026 range-avoidance algorithms; Fenner-Fortnow-Kurtz JCSS 1994 GapP/PP framework; Gajulapalli-Golovnev-Nagargoje-Saraogi APPROX/RANDOM 2023 NC0_3-Avoid boundary; external prior-art review of the balanced-definition canonical-next-bit reduction",
+  "next_front": "comparison_free_range_avoidance",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}

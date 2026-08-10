@@ -1,16 +1,16 @@
 {
-  "schema_version": 42,
+  "schema_version": 43,
   "updated": "2026-08-10",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V94",
-  "candidate_version": null,
-  "highest_directory": "V94",
-  "promotion_state": "promoted",
-  "completed_scope": "V94 promoted: fixed-language arbitrary-prefix child-comparison PP-completeness at exact stretch one, explicit noncanonical-prefix separation, polynomial affine comparator/canonical avoider, formal theorem module, and exhaustive primary/independent audits",
+  "candidate_version": "V95",
+  "highest_directory": "V95",
+  "promotion_state": "candidate",
+  "completed_scope": "V95 candidate: composable balanced-definition canonical loader, fixed seven-type locality-three stretch-one compiler with PP-hard genuinely canonical next bit, exact canonical-word PP-hardness consequence, and exhaustive primary/independent audits",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V95",
-  "next_laboratory_focus": "canonical-prefix escape versus comparison-free avoidance: either canonicalize the V94 hardness/tractability boundary or construct an end-to-end avoided output using information weaker than exact child comparison",
+  "next_laboratory_focus": "validate the V95 genuine-canonical PP-hardness theorem; after promotion abandon exact canonical-word acceleration and move to comparison-free range avoidance",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V94",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V95",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -195,6 +195,12 @@
     "v94_canonical_prefix_hardness_proved": false,
     "v94_affine_all_prefix_comparison_in_P": true,
     "v94_affine_canonical_avoider_in_P": true,
-    "v94_hlz_runtime_improved": false
+    "v94_hlz_runtime_improved": false,
+    "v95_balanced_definition_exact_tie": true,
+    "v95_balanced_loader_composable": true,
+    "v95_genuine_canonical_next_bit_PP_hard": true,
+    "v95_exact_canonical_word_PP_hard": true,
+    "v95_arbitrary_avoidance_PP_hard": false,
+    "v95_hlz_runtime_improved": false
   }
 }
