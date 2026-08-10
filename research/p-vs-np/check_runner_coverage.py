@@ -11,7 +11,7 @@ POLICY_VERSION = 63
 IMPLICATION_POLICY_VERSION = 90
 STATUS_PATH = ROOT / "LAB_STATUS.json"
 EXPECTED_FOCUSED = (
-    "V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79", "V80", "V81", "V82", "V83", "V84", "V85", "V86", "V87", "V88", "V89", "V90", "V91", "V92", "V93"
+    "V53", "V54", "V55", "V56", "V57", "V58", "V59", "V78", "V79", "V80", "V81", "V82", "V83", "V84", "V85", "V86", "V87", "V88", "V89", "V90", "V91", "V92", "V93", "V94"
 )
 
 
