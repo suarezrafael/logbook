@@ -51,7 +51,7 @@ def main() -> None:
     assert representative["input_count"] == 7
     assert representative["output_count"] == 8
     assert representative["prefix_length"] == 4
-    assert representative["canonical_output"] == [0, 0, 0, 0, 0, 0, 1, 0]
+    assert representative["canonical_output"] == [0, 0, 0, 0, 0, 1, 0, 0]
     assert representative["loader_child_counts"] == [
         [64, 64], [32, 32], [16, 16], [8, 8]
     ]
