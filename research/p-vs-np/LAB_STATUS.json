@@ -11,7 +11,7 @@
   "infrastructure_frozen": true,
   "next_laboratory_version": "V94",
   "next_laboratory_focus": "validate the V94 arbitrary-prefix PP-completeness barrier and affine tractable control; after promotion move to canonical-prefix escape or comparison-free avoidance",
-  "next_front": "canonical_prefix_or_comparison_free_avoidance",
+  "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
     "required_material_advance": [
