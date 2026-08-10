@@ -1,0 +1,122 @@
+{
+  "embedding_audit": {
+    "cases_per_size": 16,
+    "embedding_failures": 0,
+    "input_budget_failures": 0,
+    "input_sizes": [
+      6,
+      12,
+      24,
+      48,
+      96
+    ],
+    "total_cases": 80,
+    "total_embedded_target_rows": 720
+  },
+  "fixed_triple_control": {
+    "common_support_size": 3,
+    "eight_target_embedding_cases": 32,
+    "embedding_failures": 0,
+    "exact_universal_list_number": 9,
+    "maximum_range_size": 8
+  },
+  "laboratory": "V96",
+  "literature_calibration": {
+    "ggnss_2023_FP_NP_transfer_stretch": "M=N+N^(2/3)",
+    "glw_2022_explicit_hitset_k3_stretch_threshold": "M >= 8192*N^2 + N",
+    "glw_threshold_reaches_stretch_one": false,
+    "hlz_k3_stretch_one_runtime": "O(N*2^(N/2))",
+    "uniform_minimal_stretch_solver_would_reach_transfer_by_truncation": true
+  },
+  "representative_bounds": [
+    {
+      "all_ternary_support_conditioned_upper": 57,
+      "ceil_log2_single_output_bound": 13,
+      "circuit_oblivious_nonuniform_upper": 92,
+      "input_count": 6,
+      "or_block_lower_embeddable_targets": 3,
+      "or_block_universal_lower_bound": 4,
+      "output_count": 7,
+      "single_output_representation_bound": 5386
+    },
+    {
+      "all_ternary_support_conditioned_upper": 105,
+      "ceil_log2_single_output_bound": 16,
+      "circuit_oblivious_nonuniform_upper": 209,
+      "input_count": 12,
+      "or_block_lower_embeddable_targets": 6,
+      "or_block_universal_lower_bound": 7,
+      "output_count": 13,
+      "single_output_representation_bound": 57426
+    },
+    {
+      "all_ternary_support_conditioned_upper": 201,
+      "ceil_log2_single_output_bound": 19,
+      "circuit_oblivious_nonuniform_upper": 476,
+      "input_count": 24,
+      "or_block_lower_embeddable_targets": 9,
+      "or_block_universal_lower_bound": 10,
+      "output_count": 25,
+      "single_output_representation_bound": 522658
+    },
+    {
+      "all_ternary_support_conditioned_upper": 393,
+      "ceil_log2_single_output_bound": 23,
+      "circuit_oblivious_nonuniform_upper": 1128,
+      "input_count": 48,
+      "or_block_lower_embeddable_targets": 12,
+      "or_block_universal_lower_bound": 13,
+      "output_count": 49,
+      "single_output_representation_bound": 4446018
+    },
+    {
+      "all_ternary_support_conditioned_upper": 777,
+      "ceil_log2_single_output_bound": 26,
+      "circuit_oblivious_nonuniform_upper": 2523,
+      "input_count": 96,
+      "or_block_lower_embeddable_targets": 15,
+      "or_block_universal_lower_bound": 16,
+      "output_count": 97,
+      "single_output_representation_bound": 36650626
+    }
+  ],
+  "surplus_component_audit": {
+    "absence_failures": 0,
+    "brute_force_input_evaluations": 16256,
+    "cases_per_size": 8,
+    "input_sizes": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "maximum_surplus_component_parameter": 3,
+    "polynomial_when": "rho=O(log N)",
+    "rho_mismatches": 0,
+    "runtime_formula": "O(2^rho * poly(N))",
+    "total_cases": 56
+  },
+  "symbolic_formulas": {
+    "circuit_oblivious_universal_lower": "3*floor(log2(N/3))+1",
+    "circuit_oblivious_upper": "(N+1)*ceil(log2(sum_{j=0}^3 binom(N,j) 2^{2^j}))+1 = O(N log N)",
+    "fixed_common_triple_exact_number": 9,
+    "monotone_or_embeddable_targets": "3*floor(log2(N/3))",
+    "support_conditioned_upper": "1 + sum_i 2^{|S_i|} <= 8(N+1)+1",
+    "surplus_component_runtime": "O(2^rho * poly(N))"
+  },
+  "theorem_status": {
+    "circuit_oblivious_hitlist_logarithmic_lower_bound": true,
+    "circuit_oblivious_nlogn_nonuniform_hitlist": true,
+    "constructive_polynomial_hitlist": false,
+    "fixed_triple_support_hitlist_number_nine": true,
+    "hlz_runtime_improved": false,
+    "p_vs_np_resolved": false,
+    "support_conditioned_linear_nonuniform_hitlist": true,
+    "surplus_component_fpt_avoider": true,
+    "uniform_hitlist_to_FP_NP_avoid_transfer": true,
+    "unrestricted_NC0_3_avoid_polynomial_time": false
+  }
+}
