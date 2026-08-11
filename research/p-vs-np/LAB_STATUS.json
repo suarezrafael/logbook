@@ -1,16 +1,16 @@
 {
-  "schema_version": 46,
+  "schema_version": 47,
   "updated": "2026-08-10",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V96",
-  "candidate_version": null,
-  "highest_directory": "V96",
-  "promotion_state": "promoted",
-  "completed_scope": "V96 promoted: support-conditioned O(N) and circuit-oblivious O(N log N) nonuniform universal-hitlist compression, explicit monotone-OR Omega(log N) lower bound, exact common-triple hitlist number nine, constructive O(2^rho poly(N)) surplus-component comparison-free avoider, uniformization transfer, formal modules, and primary/independent audits",
+  "candidate_version": "V97",
+  "highest_directory": "V97",
+  "promotion_state": "candidate",
+  "completed_scope": "V97 candidate: essential-support normalization, safe leaf-pair and unary-forcing reductions, deterministic O(2^lambda poly(N)) comparison-free peeling-kernel avoider with lambda<=rho, strict connected nonmonotone ternary rho=N/lambda=ceil(log2 N) separation family, formal theorem module, and primary/independent audits",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V97",
-  "next_laboratory_focus": "large positive-surplus component uniform extraction: use separators or restricted support structure to construct a missing word without exact canonical child comparison, or prove an obstruction for weaker certificate generators",
+  "next_laboratory_focus": "validate the V97 peeling-kernel constructor; after promotion move to V98 irreducible nonmonotone loose-X/Turan gate-label certificates",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V96",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V97",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -208,6 +208,15 @@
     "v96_fixed_triple_support_hitlist_number_nine": true,
     "v96_surplus_component_fpt_avoider": true,
     "v96_uniform_general_hitlist_constructed": false,
-    "v96_hlz_runtime_improved": false
+    "v96_hlz_runtime_improved": false,
+    "v97_essential_support_normalization": true,
+    "v97_safe_leaf_pair_reduction": true,
+    "v97_safe_unary_forcing_reduction": true,
+    "v97_peeling_kernel_fpt_avoider": true,
+    "v97_lambda_le_rho": true,
+    "v97_strict_nonmonotone_rho_n_lambda_log_n": true,
+    "v97_kuntewar_sarma_monotone_boundary_calibrated": true,
+    "v97_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v97_hlz_worst_case_runtime_improved": false
   }
 }
