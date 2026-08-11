@@ -1,0 +1,60 @@
+{
+  "laboratory": "V97",
+  "literature_calibration": {
+    "kuntewar_sarma_2025_monotone_nc03_m_gt_n_in_P": true,
+    "strict_family_is_monotone": false,
+    "strict_family_is_nc02": false,
+    "v84_small_hall_witness_FP_NP_preprocessor_preexists": true,
+    "v97_does_not_claim_general_hall_extraction": true
+  },
+  "random_small_audit": {
+    "absence_failures": 0,
+    "brute_force_input_evaluations": 76384,
+    "cases_per_size": 40,
+    "input_sizes": [2,3,4,5,6,7],
+    "lambda_gt_rho_failures": 0,
+    "reduction_counters": {
+      "constant_terminations": 235,
+      "leaf_pair_deletions": 3,
+      "unary_forcings": 12,
+      "unused_input_deletions": 0
+    },
+    "total_cases": 240
+  },
+  "runtime": {
+    "formula": "O(2^lambda * poly(N))",
+    "hlz_k3_baseline": "O(N*2^(N/2))",
+    "instancewise_beats_hlz_when": "lambda <= (1/2-epsilon)N - O(log N)",
+    "polynomial_regime": "lambda=O(log N)"
+  },
+  "strict_extension_family": {
+    "absence_failures": 0,
+    "brute_force_cases": 2,
+    "description": "single connected positive-surplus component; parity-3 core plus parity-3 leaf attachments",
+    "rows": [
+      {"ceil_log2_input":3,"gate_family":"ternary parity","input_count":8,"lambda":3,"leaf_pair_deletions":5,"locality":3,"output_count":9,"rho":8},
+      {"ceil_log2_input":4,"gate_family":"ternary parity","input_count":16,"lambda":4,"leaf_pair_deletions":12,"locality":3,"output_count":17,"rho":16},
+      {"ceil_log2_input":5,"gate_family":"ternary parity","input_count":32,"lambda":5,"leaf_pair_deletions":27,"locality":3,"output_count":33,"rho":32},
+      {"ceil_log2_input":6,"gate_family":"ternary parity","input_count":64,"lambda":6,"leaf_pair_deletions":58,"locality":3,"output_count":65,"rho":64},
+      {"ceil_log2_input":7,"gate_family":"ternary parity","input_count":128,"lambda":7,"leaf_pair_deletions":121,"locality":3,"output_count":129,"rho":128}
+    ]
+  },
+  "theorem_status": {
+    "essential_support_normalization": true,
+    "hlz_worst_case_runtime_improved": false,
+    "lambda_never_exceeds_rho": true,
+    "nonmonotone_ternary_strict_family": true,
+    "p_vs_np_resolved": false,
+    "peeling_kernel_comparison_free_avoider": true,
+    "polynomial_when_lambda_logarithmic": true,
+    "safe_leaf_input_output_pair_rule": true,
+    "safe_unary_output_forcing_rule": true,
+    "strict_extension_of_v96_parameter": true,
+    "unrestricted_NC0_3_avoid_polynomial_time": false
+  },
+  "unary_cascade_audit": {
+    "absence_failures": 0,
+    "total_cases": 32,
+    "total_unary_forcing_steps": 128
+  }
+}
