@@ -1,0 +1,37 @@
+{
+  "laboratory": "V97",
+  "classification": "frontier_progress",
+  "target_problem": "comparison-free range avoidance inside large positive-surplus components after deterministic support/truth-table reductions",
+  "conditional_implication": "V97 gives an unconditional deterministic O(2^lambda poly(N)) avoider, where lambda is the residual input count after a fixed safe peeling calculus on the best positive-surplus component. This strictly dominates the V96 component-size parameter rho because lambda<=rho, and an explicit nonmonotone ternary family has rho=N but lambda=ceil(log2 N). The result does not extend to arbitrary large irreducible kernels and therefore does not trigger a published lower-bound transfer.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "The result enlarges the deterministic comparison-free tractable regime but remains parameterized; no all-instance polynomial or FP^NP algorithm is obtained.",
+  "target_row": {
+    "class": "NC0_3-Avoid",
+    "stretch": "M=N+1",
+    "required_complexity": "deterministic comparison-free construction",
+    "named_baseline": "Huang-Li-Zhong ITCS 2026 O(N*2^(N/2)) all-instance algorithm"
+  },
+  "bridge_lemmas": [
+    {"name": "inessential support coordinates can be removed exactly in constant local work", "proved": true},
+    {"name": "deleting a degree-one input together with its unique output preserves liftability of every reduced missing word", "proved": true},
+    {"name": "an essential unary output can be fixed to target zero, forcing its unique input value and allowing safe substitution", "proved": true},
+    {"name": "positive surplus survives every nonterminating peeling step", "proved": true},
+    {"name": "enumerating the residual lambda-input kernel yields an avoided output in O(2^lambda poly(N))", "proved": true},
+    {"name": "lambda(C)<=rho(C) for the V96 positive-component parameter", "proved": true},
+    {"name": "there is a connected nonmonotone ternary stretch-one family with rho=N and lambda=ceil(log2 N)", "proved": true},
+    {"name": "every irreducible large peeling kernel admits polynomial-time range avoidance", "proved": false},
+    {"name": "the Huang-Li-Zhong worst-case exponent is improved", "proved": false}
+  ],
+  "current_gap": "After safe peeling, the remaining hard regime has a positive-surplus kernel with superlogarithmically many inputs, no input of degree at most one, and no constant or essential-unary output. The promising next restriction is a 3-uniform linear/nonmonotone kernel where current Turan theory guarantees structural cycles but the gate-label surjectivity obstruction is not yet classified.",
+  "result_obtained": "A deterministic support/truth-table peeling calculus and an O(2^lambda poly(N)) comparison-free avoider that strictly dominates V96's O(2^rho poly(N)) parameter on an explicit nonmonotone ternary family.",
+  "material_advance_rule_met": true,
+  "closed_route": "treating the raw size of the smallest positive-surplus connected component as the final structural parameter",
+  "surviving_route": "irreducible large-kernel extraction, especially Turan loose-X certificates with general ternary gate labels or another local nonsurjectivity certificate",
+  "stop_rule": "Do not spend V98 only adding more leaf-style reductions. Promotion requires a polynomial constructor on a genuinely large irreducible kernel class, a symbolic gate-label theorem for a Turan certificate, or a formal obstruction showing why the monotone loose-X method cannot extend to a specified nonmonotone gate class.",
+  "stop_rule_fired": true,
+  "external_validation_target": "Kuntewar-Sarma APPROX/RANDOM 2025 Turan-type range avoidance; Huang-Li-Zhong ITCS 2026 all-instance benchmark; external prior-art review of the peeling-kernel parameter",
+  "next_front": "irreducible_nonmonotone_turan_certificates",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
