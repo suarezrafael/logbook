@@ -1,0 +1,99 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newcommand{\bits}{\{0,1\}}
+\begin{document}
+\title{Laboratory V97: Comparison-Free Peeling Kernels}
+\author{NC0\_k-Avoid Laboratory}
+\date{2026-08-10}
+\maketitle
+
+Let $C:\bits^N\to\bits^{N+1}$ be an explicit locality-three circuit.  Replace
+every listed support by its essential support.  In the bipartite incidence graph,
+a connected component $K$ has $n_K$ inputs and $m_K$ outputs.  Since
+$\sum_K(m_K-n_K)=1$, some component has positive surplus.
+
+\begin{lemma}[Leaf-pair reduction]
+If an input $x$ occurs in exactly one active output $g$, delete both $x$ and
+$g$.  Every missing word of the reduced output map lifts to a missing word of
+the original map after assigning an arbitrary target bit to $g$.
+\end{lemma}
+\begin{proof}
+No surviving output depends on $x$.  Hence any original assignment realizing
+the lifted target would realize the reduced missing word on the surviving
+outputs, a contradiction.  One input and one output are deleted, so surplus is
+preserved.
+\end{proof}
+
+\begin{lemma}[Unary forcing]
+If an active output $g$ has essential support $\{x\}$, choose target $g=0$.
+There is a unique $a\in\bits$ with $g(a)=0$.  Delete $g$ and $x$, substitute
+$x=a$ into all surviving gates, and normalize again.  Every missing word of the
+restricted circuit lifts to a missing word of the pre-restriction circuit.
+\end{lemma}
+\begin{proof}
+Any assignment realizing target $g=0$ must have $x=a$, so its other outputs are
+exactly outputs of the restricted circuit.  Surplus is again preserved.
+\end{proof}
+
+Also delete unused inputs, and if a constant output appears choose the opposite
+target bit and terminate.  Apply these operations in a fixed deterministic
+order.  For a positive-surplus component $K$, let $\lambda(K)$ be the number of
+inputs remaining in the nonterminated kernel, or zero after constant
+termination, and put
+\[
+ \lambda(C)=\min_{m_K>n_K}\lambda(K).
+\]
+
+\begin{theorem}[Peeling-kernel avoider]
+There is a deterministic comparison-free algorithm producing a word outside
+$\mathrm{Range}(C)$ in time
+\[
+ O\!\left(2^{\lambda(C)}\operatorname{poly}(N)\right).
+\]
+In particular the algorithm is polynomial when $\lambda(C)=O(\log N)$.
+\end{theorem}
+\begin{proof}
+Every nonterminating reduction preserves or increases positive surplus, so a
+final kernel with $\lambda$ inputs has more than $\lambda$ outputs.  Enumerate
+its $2^\lambda$ input assignments and hence its local range.  Among any
+$2^\lambda+1$ distinct kernel-output words one is absent.  Reverse all recorded
+leaf and unary reductions; the two lemmas preserve absence at each step.  Fill
+outputs outside the selected component arbitrarily.
+\end{proof}
+
+Let $\rho(C)$ be the V96 parameter: the minimum $n_K$ over positive-surplus
+components.
+
+\begin{corollary}
+For every circuit, $\lambda(C)\leq\rho(C)$.
+\end{corollary}
+\begin{proof}
+The reducer only deletes inputs from each candidate component.
+\end{proof}
+
+\begin{theorem}[Strict separation]
+For every $N\ge8$ there is a connected, exact-stretch, nonmonotone circuit with
+genuinely ternary gates satisfying
+\[
+ \rho(C_N)=N,
+ \qquad
+ \lambda(C_N)=\lceil\log_2 N\rceil.
+\]
+\end{theorem}
+\begin{proof}
+Let $h=\max\{3,\lceil\log_2N\rceil\}$.  Put $h+1$ parity-of-three outputs on
+cyclic triples of $h$ core inputs.  For every remaining input $z$, add one
+parity-of-three output on $(x_0,x_1,z)$.  The full incidence graph is connected,
+so $\rho=N$.  Every attachment $z$ has input degree one and is peeled with its
+unique output, leaving exactly the $h$-input, $h+1$-output parity core.  That
+core has no applicable reduction, hence $\lambda=h$.
+\end{proof}
+
+The result is parameterized and does not improve the known worst-case
+$O(N2^{N/2})$ locality-three bound, does not solve unrestricted range avoidance,
+and does not resolve P versus NP.
+\end{document}
