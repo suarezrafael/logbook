@@ -1,0 +1,123 @@
+{
+  "laboratory": "V98",
+  "literature_calibration": {
+    "kuntewar_sarma_2025_monotone_nc03_m_gt_n_in_P": true,
+    "novelty_confirmed": false,
+    "v98_reduction_uses_published_monotone_algorithm_as_black_box": true
+  },
+  "loose_x_parity_audit": {
+    "rows": [
+      {
+        "all_x_targets_verified": 64,
+        "ell": 3,
+        "host_inputs": 11,
+        "host_outputs": 12,
+        "host_range_size_if_bruteforced": 1024,
+        "min_host_input_degree": 2,
+        "x_edges": 6
+      },
+      {
+        "all_x_targets_verified": 256,
+        "ell": 4,
+        "host_inputs": 15,
+        "host_outputs": 16,
+        "host_range_size_if_bruteforced": null,
+        "min_host_input_degree": 2,
+        "x_edges": 8
+      },
+      {
+        "all_x_targets_verified": 1024,
+        "ell": 5,
+        "host_inputs": 19,
+        "host_outputs": 20,
+        "host_range_size_if_bruteforced": null,
+        "min_host_input_degree": 2,
+        "x_edges": 10
+      },
+      {
+        "all_x_targets_verified": 4096,
+        "ell": 6,
+        "host_inputs": 23,
+        "host_outputs": 24,
+        "host_range_size_if_bruteforced": null,
+        "min_host_input_degree": 2,
+        "x_edges": 12
+      }
+    ]
+  },
+  "result_type": "switching-balanced unate extension plus loose-X support-only obstruction",
+  "strict_family_audit": {
+    "rows": [
+      {
+        "all_essential_ternary": true,
+        "balanced": true,
+        "m": 6,
+        "min_input_degree": 3,
+        "n": 5,
+        "range_size": 22,
+        "raw_nonmonotone": true
+      },
+      {
+        "all_essential_ternary": true,
+        "balanced": true,
+        "m": 7,
+        "min_input_degree": 3,
+        "n": 6,
+        "range_size": 34,
+        "raw_nonmonotone": true
+      },
+      {
+        "all_essential_ternary": true,
+        "balanced": true,
+        "m": 8,
+        "min_input_degree": 3,
+        "n": 7,
+        "range_size": 58,
+        "raw_nonmonotone": true
+      },
+      {
+        "all_essential_ternary": true,
+        "balanced": true,
+        "m": 9,
+        "min_input_degree": 3,
+        "n": 8,
+        "range_size": 96,
+        "raw_nonmonotone": true
+      },
+      {
+        "all_essential_ternary": true,
+        "balanced": true,
+        "m": 10,
+        "min_input_degree": 3,
+        "n": 9,
+        "range_size": 182,
+        "raw_nonmonotone": true
+      },
+      {
+        "all_essential_ternary": true,
+        "balanced": true,
+        "m": 11,
+        "min_input_degree": 3,
+        "n": 10,
+        "range_size": 334,
+        "raw_nonmonotone": true
+      }
+    ]
+  },
+  "ternary_truth_table_audit": {
+    "all_masks": 256,
+    "essential_ternary_masks": 218,
+    "essential_ternary_unate_masks": 72
+  },
+  "theorem_status": {
+    "balanced_unate_positive_surplus_component_avoidance_in_P_via_kuntewar_sarma": true,
+    "balanced_unate_recognizable_linear_incidence_time": true,
+    "balanced_unate_switches_to_monotone": true,
+    "hlz_worst_case_runtime_improved": false,
+    "loose_x_support_alone_insufficient_for_arbitrary_ternary_labels": true,
+    "p_vs_np_resolved": false,
+    "parity_labeled_loose_x_surjective": true,
+    "strict_nonmonotone_irreducible_large_kernel_family": true,
+    "unrestricted_NC0_3_avoid_polynomial_time": false
+  }
+}
