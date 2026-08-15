@@ -1,16 +1,16 @@
 {
-  "schema_version": 50,
+  "schema_version": 51,
   "updated": "2026-08-15",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V98",
-  "candidate_version": null,
-  "highest_directory": "V98",
-  "promotion_state": "promoted",
-  "completed_scope": "V98 promoted: linear-time recognition of switching-balanced essential-unate components, exact input/output switching to monotone NC0_3, deterministic polynomial avoidance via the published Kuntewar-Sarma monotone algorithm, strict connected nonmonotone essential-ternary V97-lambda=N family, scalable parity-labeled loose-X surjectivity obstruction embedded in a V97-irreducible exact-stretch host, formal theorem module, and primary/independent audits",
+  "candidate_version": "V99",
+  "highest_directory": "V99",
+  "promotion_state": "candidate",
+  "completed_scope": "V99 candidate: exact 16/48/8 NPN partition of essential ternary unate tables; deterministic polynomial avoidance for every positive-surplus singleton-core component including a V97-irreducible lambda=N family outside V98 switching balance; exact all-length signed-MAJ3 simple-X dichotomy with two missing words in the balanced class and surjectivity in all three nonzero switching classes; transfer-matrix proof, formal theorem module, and primary/independent audits",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V99",
-  "next_laboratory_focus": "unbalanced singleton-core avoidance and exact signed-MAJ3 simple-X switching-class dichotomy; then the remaining 48-table unate NPN orbit represented by x AND (y OR z)",
+  "next_laboratory_focus": "validate and promote V99; after promotion attack the remaining 48-table essential-unate NPN orbit represented by x AND (y OR z) using target-selectable 2-SAT implication/transfer certificates",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V98",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V99",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -225,6 +225,16 @@
     "v98_loose_x_support_alone_insufficient_arbitrary_labels": true,
     "v98_parity_labeled_loose_x_surjective": true,
     "v98_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v98_hlz_worst_case_runtime_improved": false
+    "v98_hlz_worst_case_runtime_improved": false,
+    "v99_essential_unate_partition_three_npn_orbits": true,
+    "v99_singleton_core_positive_surplus_in_P": true,
+    "v99_strict_unbalanced_singleton_lambda_n_family": true,
+    "v99_signed_majority_simple_x_four_switching_classes": true,
+    "v99_signed_majority_balanced_exactly_two_missing": true,
+    "v99_signed_majority_nonzero_classes_surjective": true,
+    "v99_middle_unate_orbit_solved": false,
+    "v99_all_unate_nc03_avoid_polynomial_time": false,
+    "v99_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v99_hlz_worst_case_runtime_improved": false
   }
 }
