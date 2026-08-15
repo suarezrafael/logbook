@@ -1,0 +1,33 @@
+{
+  "laboratory": "V99",
+  "classification": "frontier_progress",
+  "target_problem": "unbalanced unate labels and exact gate-label behavior of Kuntewar-Sarma simple X certificates",
+  "conditional_implication": "V99 gives deterministic polynomial-time range avoidance for every positive-surplus component whose essential gates lie in the singleton ternary NPN orbit, including explicit V97-irreducible families outside the V98 switching-balanced class. It also exactly classifies signed-MAJ3 simple X maps: the balanced switching class has exactly two missing edge words, while every nonzero switching class is surjective. This closes the simple-X forbidden-coloring route for unbalanced signed-majority labels but does not solve the surrounding circuit class.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "The singleton-core theorem is a genuine new tractable laboratory class beyond V98 balance, while the majority result is an exact local obstruction. The 48-table middle unate orbit and all non-unate labels remain open, so no published lower-bound-transfer threshold is crossed.",
+  "bridge_lemmas": [
+    {"name": "the 72 essential ternary unate tables split into NPN orbit sizes 16,48,8", "proved": true},
+    {"name": "every singleton-core gate can be output-oriented to a conjunction with one demanded local assignment", "proved": true},
+    {"name": "opposite singleton demands on a shared input give an immediate missing output", "proved": true},
+    {"name": "conflict-free singleton demands switch globally to positive AND gates", "proved": true},
+    {"name": "Kuntewar-Sarma monotone NC0_3 avoidance transfers to every conflict-free singleton positive-surplus component", "proved": true},
+    {"name": "there is a connected exact-stretch lambda=N singleton family outside V98 balance with an immediate conflict certificate", "proved": true},
+    {"name": "the simple signed-majority X incidence graph has four switching classes", "proved": true},
+    {"name": "private majority paths collapse to J/P01/P10 by a constant Boolean transfer system", "proved": true},
+    {"name": "the balanced majority X class has exactly the two alternating missing words", "proved": true},
+    {"name": "all three nonzero majority X switching classes are surjective", "proved": true},
+    {"name": "the 48-table x AND (y OR z) unate orbit has a polynomial missing-word constructor", "proved": false},
+    {"name": "all unate NC0_3-Avoid is polynomial time", "proved": false},
+    {"name": "unrestricted NC0_3-Avoid is polynomial time", "proved": false}
+  ],
+  "material_advance_rule_met": true,
+  "closed_route": "extending the Kuntewar-Sarma simple-X MAJ forbidden-coloring certificate to unbalanced majority-of-literals labels merely by changing the target edge coloring",
+  "surviving_route": "solve the 48-table unate NPN orbit represented by x AND (y OR z), then move to genuinely non-unate NPN classes using symbolic transfer systems or larger Turan substructures",
+  "current_gap": "The middle essential-unate NPN orbit has fixed-output fibers expressible by 2-CNF, but range membership in P does not by itself construct a globally missing output. Signed-majority circuits in nonzero switching classes also require a certificate larger than the simple X because that local map is surjective.",
+  "stop_rule": "Do not promote V100 from a finite truth-table or finite-cycle census. Require a symbolic constructor/classification for the 48-table middle unate orbit or a genuinely non-unate infinite family.",
+  "external_validation_target": "Kuntewar-Sarma APPROX/RANDOM 2025 Lemma 26/Corollary 27 and Theorem 8; classical Harary/Zaslavsky signed-graph switching for terminology; targeted author review of the signed-MAJ simple-X dichotomy and singleton-core extension",
+  "next_front": "middle_unate_bijunctive_transfer",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
