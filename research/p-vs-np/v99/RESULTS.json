@@ -1,0 +1,61 @@
+{
+  "laboratory": "V99",
+  "signed_majority_x": {
+    "abstract_bad_boundary_types": {
+      "00": [["P01", "P10", 1, 0], ["P10", "P01", 0, 1]],
+      "01": [],
+      "10": [],
+      "11": []
+    },
+    "brute_length_6": [
+      {"class": "00", "missing": 2, "range_size": 62},
+      {"class": "01", "missing": 0, "range_size": 64},
+      {"class": "10", "missing": 0, "range_size": 64},
+      {"class": "11", "missing": 0, "range_size": 64}
+    ],
+    "length_6_cohomology_class_counts": {"00": 65536, "01": 65536, "10": 65536, "11": 65536},
+    "length_audit": [
+      {"length": 6, "missing_by_class": {"00": 2, "01": 0, "10": 0, "11": 0}},
+      {"length": 8, "missing_by_class": {"00": 2, "01": 0, "10": 0, "11": 0}},
+      {"length": 10, "missing_by_class": {"00": 2, "01": 0, "10": 0, "11": 0}},
+      {"length": 12, "missing_by_class": {"00": 2, "01": 0, "10": 0, "11": 0}},
+      {"length": 14, "missing_by_class": {"00": 2, "01": 0, "10": 0, "11": 0}}
+    ]
+  },
+  "singleton_strict_family": {
+    "rows": [
+      {"conflict": [4, 5, 0], "m": 6, "min_input_degree": 3, "missing_word_absent": true, "n": 5, "range_size": 13, "switching_balanced": false},
+      {"conflict": [5, 6, 0], "m": 7, "min_input_degree": 3, "missing_word_absent": true, "n": 6, "range_size": 21, "switching_balanced": false},
+      {"conflict": [6, 7, 0], "m": 8, "min_input_degree": 3, "missing_word_absent": true, "n": 7, "range_size": 32, "switching_balanced": false},
+      {"conflict": [7, 8, 0], "m": 9, "min_input_degree": 3, "missing_word_absent": true, "n": 8, "range_size": 50, "switching_balanced": false},
+      {"conflict": [8, 9, 0], "m": 10, "min_input_degree": 3, "missing_word_absent": true, "n": 9, "range_size": 81, "switching_balanced": false},
+      {"conflict": [9, 10, 0], "m": 11, "min_input_degree": 3, "missing_word_absent": true, "n": 10, "range_size": 133, "switching_balanced": false}
+    ]
+  },
+  "ternary_unate_partition": {
+    "all_masks": 256,
+    "essential_ternary": 218,
+    "essential_unate": 72,
+    "npn_orbits": [
+      {"canonical_mask": "0x17", "size": 8},
+      {"canonical_mask": "0x01", "size": 16},
+      {"canonical_mask": "0x07", "size": 48}
+    ]
+  },
+  "theorem_status": {
+    "all_unate_nc03_avoid_polynomial_time": false,
+    "essential_unate_partition_three_npn_orbits": true,
+    "hlz_worst_case_runtime_improved": false,
+    "middle_unate_orbit_solved": false,
+    "p_vs_np_resolved": false,
+    "signed_majority_balanced_class_exactly_two_missing": true,
+    "signed_majority_simple_x_cycle_rank_two": true,
+    "signed_majority_simple_x_local_certificate_closed_on_unbalanced_classes": true,
+    "signed_majority_three_nonzero_classes_surjective": true,
+    "singleton_core_conflict_constructor": true,
+    "singleton_core_conflict_free_switches_to_monotone_AND": true,
+    "singleton_core_positive_surplus_avoidance_in_P": true,
+    "strict_unbalanced_singleton_lambda_n_family": true,
+    "unrestricted_nc03_avoid_polynomial_time": false
+  }
+}
