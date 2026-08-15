@@ -1,0 +1,33 @@
+{
+  "laboratory": "V101",
+  "classification": "frontier_progress",
+  "target_problem": "global functional dependencies from local output fibers after V100 without locality-four substitution",
+  "conditional_implication": "If a selected output fiber functionally determines one input from the other support variables, V101 replaces the fiber by a total functional graph relaxation. Selecting outputs with distinct head variables and an acyclic dependency graph leaves mu=n-s root variables, so the relaxed domain has exactly 2^mu assignments while m-s>mu output coordinates remain. Enumeration constructs a missing word in O(2^mu poly(N)). Exactly 186 of 218 essential ternary truth tables have such a functional anchor; only NPN orbits 0x17 and 0x1b are anchor-free.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "V101 gives a new parameterized constructive regime, treats an infinite balanced-nonaffine 0x1e family that survives V97/V100, and narrows the local functional-anchor-free frontier to 32 truth tables. High-root systems and the two residual NPN orbits remain unsolved.",
+  "bridge_lemmas": [
+    {"name": "a functional selected fiber is safely relaxed to a total graph relation", "proved": true},
+    {"name": "distinct-head acyclic functional anchors are parametrized uniquely by their root variables", "proved": true},
+    {"name": "s selected heads leave exactly mu=n-s roots and preserve the output-vs-domain surplus", "proved": true},
+    {"name": "enumerating 2^mu relaxed root assignments constructs a missing output", "proved": true},
+    {"name": "every unbalanced essential ternary predicate has a functional fiber", "proved": true},
+    {"name": "every balanced essential functional predicate is affine or in the graph-of-AND 0x1e orbit", "proved": true},
+    {"name": "exactly 186 essential ternary truth tables have a functional anchor", "proved": true},
+    {"name": "the only functional-anchor-free ternary NPN orbits are 0x17 and 0x1b", "proved": true},
+    {"name": "after V100 the new functional residual orbit 0x1e is exposed alongside 0x16 and 0x69", "proved": true},
+    {"name": "the cyclic 0x1e plus MAJ family has V97 lambda=N, V100 zero peels, and V101 mu=2", "proved": true},
+    {"name": "all high-mu functional-anchor systems are polynomial-time avoidable", "proved": false},
+    {"name": "arbitrary signed-majority and mux/bijunctive mixtures are polynomial-time avoidable", "proved": false},
+    {"name": "unrestricted NC0_3-Avoid is polynomial time", "proved": false}
+  ],
+  "material_advance_rule_met": true,
+  "closed_route": "treating the balanced-nonaffine 0x1e orbit as inaccessible unless its two-input functional substitution can be composed locally without raising neighboring gates to locality four",
+  "surviving_route": "attack the two exact functional-anchor-free NPN orbits 0x17 and 0x1b, and combine functional DAGs with affine-cycle constraints when the selected dependencies are cyclic",
+  "current_gap": "The deterministic functional-DAG parameter mu can remain superlogarithmic. Moreover signed majority and the mux/bijunctive 0x1b orbit have no output fiber that functionally determines any one input from the other two.",
+  "stop_rule": "Do not promote V102 from another raw truth-table census. Require a symbolic constructor, FPT parameter with strict separation, or scalable obstruction for signed majority, mux/bijunctive gates, or cyclic functional dependencies.",
+  "external_validation_target": "prior-art review of functional-fiber DAG relaxation; Kuntewar-Sarma signed-majority/loose-X boundary; earlier V56-V62 bijunctive 0x1b/0x07-style implication analyses",
+  "next_front": "majority_mux_and_cyclic_functional_dependencies",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
