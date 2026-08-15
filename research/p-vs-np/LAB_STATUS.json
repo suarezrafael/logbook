@@ -1,16 +1,16 @@
 {
-  "schema_version": 48,
-  "updated": "2026-08-10",
+  "schema_version": 49,
+  "updated": "2026-08-15",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V97",
-  "candidate_version": null,
-  "highest_directory": "V97",
-  "promotion_state": "promoted",
-  "completed_scope": "V97 promoted: essential-support normalization, safe leaf-pair and unary-forcing reductions, deterministic O(2^lambda poly(N)) comparison-free peeling-kernel avoider with lambda<=rho, strict connected nonmonotone ternary rho=N/lambda=ceil(log2 N) separation family, formal theorem module, and primary/independent audits",
+  "candidate_version": "V98",
+  "highest_directory": "V98",
+  "promotion_state": "candidate",
+  "completed_scope": "V98 candidate: linear-time recognition of switching-balanced essential-unate components, exact input/output switching to monotone NC0_3, deterministic polynomial avoidance via the published Kuntewar-Sarma monotone algorithm, strict connected nonmonotone essential-ternary V97-lambda=N family, scalable parity-labeled loose-X surjectivity obstruction embedded in a V97-irreducible exact-stretch host, formal theorem module, and primary/independent audits",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V98",
-  "next_laboratory_focus": "irreducible nonmonotone loose-X/Turan gate-label certificates: classify or construct a missing output on large peeling kernels without exact canonical child comparison",
+  "next_laboratory_focus": "validate and promote V98; after promotion move to V99 signed-majority loose-X cohomology classification and genuinely non-unate transfer systems",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V97",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V98",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -217,6 +217,14 @@
     "v97_strict_nonmonotone_rho_n_lambda_log_n": true,
     "v97_kuntewar_sarma_monotone_boundary_calibrated": true,
     "v97_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v97_hlz_worst_case_runtime_improved": false
+    "v97_hlz_worst_case_runtime_improved": false,
+    "v98_switching_balanced_unate_recognizable_linear_time": true,
+    "v98_switching_balanced_unate_to_monotone": true,
+    "v98_switching_balanced_positive_surplus_in_P": true,
+    "v98_strict_nonmonotone_irreducible_lambda_n_family": true,
+    "v98_loose_x_support_alone_insufficient_arbitrary_labels": true,
+    "v98_parity_labeled_loose_x_surjective": true,
+    "v98_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v98_hlz_worst_case_runtime_improved": false
   }
 }
