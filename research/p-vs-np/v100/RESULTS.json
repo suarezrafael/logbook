@@ -1,0 +1,48 @@
+{
+  "laboratory": "V100",
+  "random_small_audit": {
+    "absence_failures": 0,
+    "cases": 100
+  },
+  "strict_0x19_family": {
+    "rows": [
+      {"canonical_mask":"0x19","constant_forcing_option_exists":false,"lifted_word_absent":true,"m":6,"min_input_degree":3,"n":5,"peel_steps":3,"representative_is_unate":false,"residual_inputs":2,"residual_max_locality":2,"residual_outputs":3},
+      {"canonical_mask":"0x19","constant_forcing_option_exists":false,"lifted_word_absent":true,"m":7,"min_input_degree":3,"n":6,"peel_steps":4,"representative_is_unate":false,"residual_inputs":2,"residual_max_locality":2,"residual_outputs":3},
+      {"canonical_mask":"0x19","constant_forcing_option_exists":false,"lifted_word_absent":true,"m":8,"min_input_degree":3,"n":7,"peel_steps":5,"representative_is_unate":false,"residual_inputs":2,"residual_max_locality":2,"residual_outputs":3},
+      {"canonical_mask":"0x19","constant_forcing_option_exists":false,"lifted_word_absent":true,"m":9,"min_input_degree":3,"n":8,"peel_steps":6,"representative_is_unate":false,"residual_inputs":2,"residual_max_locality":2,"residual_outputs":3},
+      {"canonical_mask":"0x19","constant_forcing_option_exists":false,"lifted_word_absent":true,"m":10,"min_input_degree":3,"n":9,"peel_steps":7,"representative_is_unate":false,"residual_inputs":2,"residual_max_locality":2,"residual_outputs":3}
+    ]
+  },
+  "ternary_classification": {
+    "essential_ternary_masks": 218,
+    "hard_orbits": ["0x16","0x17","0x1b","0x1e","0x69"],
+    "literal_graph_peelable_masks": 144,
+    "orbit_rows": [
+      {"canonical_mask":"0x01","literal_graph_peelable":true,"representative_option":["const",1,0,0],"size":16},
+      {"canonical_mask":"0x06","literal_graph_peelable":true,"representative_option":["const",1,2,0],"size":24},
+      {"canonical_mask":"0x07","literal_graph_peelable":true,"representative_option":["const",1,2,0],"size":48},
+      {"canonical_mask":"0x16","literal_graph_peelable":false,"representative_option":null,"size":16},
+      {"canonical_mask":"0x17","literal_graph_peelable":false,"representative_option":null,"size":8},
+      {"canonical_mask":"0x18","literal_graph_peelable":true,"representative_option":["xor",1,0,1,0],"size":8},
+      {"canonical_mask":"0x19","literal_graph_peelable":true,"representative_option":["xor",1,0,1,0],"size":48},
+      {"canonical_mask":"0x1b","literal_graph_peelable":false,"representative_option":null,"size":24},
+      {"canonical_mask":"0x1e","literal_graph_peelable":false,"representative_option":null,"size":24},
+      {"canonical_mask":"0x69","literal_graph_peelable":false,"representative_option":null,"size":2}
+    ],
+    "peelable_orbits": ["0x01","0x06","0x07","0x18","0x19"],
+    "residual_hard_masks": 74
+  },
+  "theorem_status": {
+    "all_literal_graph_peelable_ternary_circuits_in_P_via_glw_nc02": true,
+    "all_literal_graph_peelable_ternary_circuits_reduce_to_nc02": true,
+    "general_nc03_preprocesses_to_five_hard_ternary_npn_orbits": true,
+    "hlz_worst_case_runtime_improved": false,
+    "literal_graph_fiber_safe_elimination": true,
+    "literal_substitution_preserves_locality_three": true,
+    "middle_unate_orbit_0x07_solved": true,
+    "p_vs_np_resolved": false,
+    "positive_surplus_preserved_exactly": true,
+    "strict_nonunate_pair_only_0x19_lambda_n_family_solved": true,
+    "unrestricted_nc03_avoid_polynomial_time": false
+  }
+}
