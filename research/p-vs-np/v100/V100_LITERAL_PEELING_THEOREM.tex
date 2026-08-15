@@ -1,0 +1,111 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\title{V100: Literal-Substitution Peeling for Local Range Avoidance}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+\begin{document}
+\maketitle
+
+\begin{definition}
+An essential ternary gate $g$ has a \emph{literal-graph fiber} if for some
+target $b$ its fiber is contained either in $x_v=a$ or in
+$x_v=x_u\oplus c$ for distinct inputs $u,v$.
+\end{definition}
+
+\begin{lemma}[Safe elimination]
+If $g_e=b$ implies one of the literal relations above, delete output $e$ and
+eliminate one input by the corresponding constant or copy/negation
+substitution. Any word outside the residual range lifts, by inserting $b$, to a
+word outside the original range.
+\end{lemma}
+\begin{proof}
+Every realization of the lifted target satisfies the chosen relation and hence
+induces an input of the substituted residual circuit with the surviving target
+word. The residual circuit deliberately forgets all other constraints of
+$g_e=b$, so it is a relaxation; absence from the larger residual range implies
+absence before relaxation.
+\end{proof}
+
+\begin{lemma}[Invariant]
+Each elimination removes one input and one output, preserves $m-n$, and keeps
+locality at most three.
+\end{lemma}
+\begin{proof}
+Constant substitution cannot increase support. Replacing $x_v$ by
+$x_u\oplus c$ only renames/complements that occurrence; a support of size at
+most three remains of size at most three and shrinks when $u$ was already
+present.
+\end{proof}
+
+\begin{theorem}[Literal-substitution preprocessing]
+Arbitrary $NC^0_3$ range avoidance polynomially reduces, with a direct lifting
+map and unchanged positive surplus, to an instance having no essential ternary
+literal-graph fiber.
+\end{theorem}
+\begin{proof}
+Repeatedly apply safe elimination to the first peelable ternary gate. Each step
+removes one active input, so at most $n$ steps occur. Compose the lifting maps.
+\end{proof}
+
+\begin{theorem}[Exact ternary classification]
+Among the $218$ essential ternary Boolean tables, exactly $144$ are
+literal-graph peelable. They are the five NPN orbits
+\[
+0x01,\ 0x06,\ 0x07,\ 0x18,\ 0x19
+\]
+of sizes $16,24,48,8,48$. The residual NPN orbits are
+\[
+0x16,\ 0x17,\ 0x1b,\ 0x1e,\ 0x69
+\]
+of total size $74$.
+\end{theorem}
+\begin{proof}
+Literal-graph peelability is invariant under input permutation, input
+complement, and output complement. Direct evaluation of one representative of
+each of the ten essential ternary NPN orbits gives the stated list; the check is
+on a fixed $256$-table universe.
+\end{proof}
+
+\begin{theorem}[Five-orbit polynomial class]
+If every essential arity-three gate of the initial circuit belongs to one of
+$0x01,0x06,0x07,0x18,0x19$ up to NPN equivalence, deterministic range avoidance
+is polynomial time for every $m>n$.
+\end{theorem}
+\begin{proof}
+Exhaustive literal peeling removes all essential ternary gates. A substitution
+that leaves another gate ternary acts on it only by input rename/complement, so
+its peelable NPN class is preserved; otherwise its arity drops. The residual
+positive-surplus circuit is therefore $NC^0_2$. Apply the deterministic
+polynomial-time $NC^0_2$ range-avoidance algorithm of
+Guruswami--Lyu--Wang and lift the resulting missing word through the peel
+records.
+\end{proof}
+
+\begin{corollary}
+The entire $48$-table $0x07$ NPN orbit left open after V99 is polynomial-time
+avoidable at $m>n$.
+\end{corollary}
+
+\begin{theorem}[Strict non-unate pair-substitution family]
+For every $N\ge5$ there is a connected exact-stretch, non-unate, essential
+ternary family with V97 peeling parameter $\lambda=N$ that has no
+constant-coordinate forcing fiber but is solved by literal substitution.
+\end{theorem}
+\begin{proof}
+Put the canonical $0x19$ gate on cyclic triples and duplicate one support. The
+target-one fiber of $0x19$ forces equality of its first two inputs but fixes no
+individual coordinate. Every input has support degree at least three, so V97
+does not peel, while the literal-substitution theorem applies.
+\end{proof}
+
+\paragraph{Boundary.}
+The reduction abstracts a pattern already present in the monotone gate
+elimination of Kuntewar--Sarma and uses published $NC^0_2$ avoidance as its
+base case. No novelty, unrestricted $NC^0_3$, lower-bound, or P-versus-NP claim
+is made.
+\end{document}

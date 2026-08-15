@@ -1,0 +1,33 @@
+{
+  "laboratory": "V100",
+  "classification": "frontier_progress",
+  "target_problem": "deterministic elimination of the V99 middle unate orbit and reduction of the unrestricted ternary gate-label universe",
+  "conditional_implication": "Any ternary output with a target fiber contained in x_v=a or x_v=x_u XOR c can be deleted while eliminating one input by constant or literal substitution; the residual circuit is a relaxation, positive surplus is preserved exactly, and locality never exceeds three. Exhaustive preprocessing removes 144 of the 218 essential ternary truth tables, leaving five NPN orbits (74 tables). If all ternary gates are among the five peelable orbits, the residual circuit is NC0_2 and the published Guruswami-Lyu-Wang polynomial algorithm completes avoidance.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "V100 closes the 48-table unate orbit and three non-unate orbits and gives a general preprocessing reduction, but five essential ternary NPN orbits remain and unrestricted NC0_3-Avoid is not solved.",
+  "bridge_lemmas": [
+    {"name": "a fiber forcing x_v=a admits safe one-output/one-input relaxation", "proved": true},
+    {"name": "a fiber forcing x_v=x_u XOR c admits safe literal-substitution relaxation", "proved": true},
+    {"name": "constant/literal substitution preserves locality at most three", "proved": true},
+    {"name": "each peel preserves positive surplus exactly", "proved": true},
+    {"name": "exhaustive peeling gives a polynomial lifting reduction to a residual circuit with no literal-graph ternary fiber", "proved": true},
+    {"name": "exactly 144 essential ternary tables in NPN orbits 0x01,0x06,0x07,0x18,0x19 are literal-graph peelable", "proved": true},
+    {"name": "the residual hard ternary universe is exactly 74 tables in orbits 0x16,0x17,0x1b,0x1e,0x69", "proved": true},
+    {"name": "circuits using only peelable ternary orbits reduce to positive-surplus NC0_2", "proved": true},
+    {"name": "published NC0_2-Avoid yields deterministic polynomial avoidance for the five-orbit peelable class", "proved": true},
+    {"name": "the 48-table V99 middle unate orbit is polynomial-time avoidable", "proved": true},
+    {"name": "there is a connected exact-stretch non-unate 0x19 family with V97 lambda=N and no constant-forcing fiber solved by pair substitution", "proved": true},
+    {"name": "all five residual ternary NPN orbits are polynomial-time avoidable in arbitrary mixtures", "proved": false},
+    {"name": "unrestricted NC0_3-Avoid is polynomial time", "proved": false}
+  ],
+  "material_advance_rule_met": true,
+  "closed_route": "treating the 48-table 0x07 bijunctive orbit as requiring a new deterministic 2-SAT boundary-localization theorem before any polynomial algorithm is possible",
+  "surviving_route": "study the five residual NPN orbits after literal-substitution peeling, with special attention to signed-majority 0x17, affine-parity 0x69, and the 0x16/0x1b/0x1e nonaffine classes",
+  "current_gap": "After V100 preprocessing, an arbitrary NC0_3 instance may retain essential ternary outputs only in NPN orbits 0x16,0x17,0x1b,0x1e,0x69. Literal relations no longer eliminate one input without locality growth, so a new certificate or controlled higher-arity substitution argument is required.",
+  "stop_rule": "Do not promote V101 from another raw ternary census. Require a symbolic constructor, safe elimination rule, or scalable obstruction for at least one of the five residual NPN orbits.",
+  "external_validation_target": "Guruswami-Lyu-Wang APPROX/RANDOM 2022 NC0_2-Avoid algorithm; Kuntewar-Sarma APPROX/RANDOM 2025 Theorem 22 monotone gate-elimination reduction; external prior-art review of the literal-graph nonmonotone abstraction",
+  "next_front": "five_residual_ternary_npn_orbits",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}

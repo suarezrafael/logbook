@@ -1,16 +1,16 @@
 {
-  "schema_version": 52,
+  "schema_version": 53,
   "updated": "2026-08-15",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V99",
-  "candidate_version": null,
-  "highest_directory": "V99",
-  "promotion_state": "promoted",
-  "completed_scope": "V99 promoted: exact 16/48/8 NPN partition of essential ternary unate tables; deterministic polynomial avoidance for every positive-surplus singleton-core component including a V97-irreducible lambda=N family outside V98 switching balance; exact all-length signed-MAJ3 simple-X dichotomy with two missing words in the balanced class and surjectivity in all three nonzero switching classes; transfer-matrix proof, formal theorem module, and primary/independent audits",
+  "candidate_version": "V100",
+  "highest_directory": "V100",
+  "promotion_state": "candidate",
+  "completed_scope": "V100 candidate: literal-graph fiber safe elimination by constant or copy/negation substitution, exact preservation of positive surplus and locality at most three, deterministic preprocessing of arbitrary NC0_3 to five residual hard ternary NPN orbits, exact 144/74 truth-table split, deterministic polynomial avoidance for the five peelable orbits via published NC0_2-Avoid, closure of the 0x07 middle unate orbit, strict non-unate 0x19 lambda=N pair-substitution family, formal theorem module, and primary/independent audits",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V100",
-  "next_laboratory_focus": "literal-substitution peeling: eliminate ternary fibers forcing constants or copy/negation relations, close the 0x07 middle unate orbit, and reduce the unrestricted ternary NPN universe before attacking the residual hard classes",
+  "next_laboratory_focus": "validate and promote V100; after promotion attack the five residual essential ternary NPN orbits 0x16,0x17,0x1b,0x1e,0x69 without raw finite-census promotion",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V99",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V100",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -235,6 +235,17 @@
     "v99_middle_unate_orbit_solved": false,
     "v99_all_unate_nc03_avoid_polynomial_time": false,
     "v99_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v99_hlz_worst_case_runtime_improved": false
+    "v99_hlz_worst_case_runtime_improved": false,
+    "v100_literal_graph_fiber_safe_elimination": true,
+    "v100_literal_substitution_preserves_locality_three": true,
+    "v100_positive_surplus_preserved_exactly": true,
+    "v100_general_nc03_preprocesses_to_five_hard_npn_orbits": true,
+    "v100_literal_graph_peelable_masks_144": true,
+    "v100_residual_hard_masks_74": true,
+    "v100_five_orbit_class_in_P": true,
+    "v100_middle_unate_0x07_solved": true,
+    "v100_strict_nonunate_0x19_lambda_n_family": true,
+    "v100_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v100_hlz_worst_case_runtime_improved": false
   }
 }
