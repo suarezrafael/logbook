@@ -1,0 +1,173 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\title{V99: Unbalanced Singleton Cores and the Signed-Majority $X$ Dichotomy}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+\begin{document}
+\maketitle
+
+\section{Singleton-core gates}
+Let a local essential ternary gate lie in the NPN orbit of $\mathrm{AND}_3$.
+Choose an output orientation so that the oriented gate $h_e$ has exactly one
+satisfying local assignment $\alpha_e$. Then
+\[
+ h_e(x)=1 \iff x_v=\alpha_e(v)\quad\text{for every }v\in\operatorname{supp}(e).
+\]
+
+\begin{lemma}[Conflict certificate]
+If two oriented singleton-core gates share an input $v$ and demand opposite
+values there, then requesting both oriented outputs to be $1$ gives a missing
+output word.
+\end{lemma}
+\begin{proof}
+A realizing input would have to assign $v$ both Boolean values. Undoing the
+chosen output complements transports the certificate to the original circuit.
+\end{proof}
+
+\begin{lemma}[Conflict-free switching]
+If no shared input receives contradictory singleton demands, then an input
+switching transforms every oriented gate into the positive conjunction of its
+essential inputs.
+\end{lemma}
+\begin{proof}
+For each active input $v$, let $r_v$ be its common demanded bit and put
+$z_v=1$ iff $x_v=r_v$. Every oriented singleton gate becomes
+$\bigwedge_{v\in\operatorname{supp}(e)} z_v$.
+\end{proof}
+
+\begin{theorem}[Singleton-core polynomial avoidance]
+Every positive-surplus $NC^0_3$ component whose essential gates all lie in the
+singleton NPN orbit admits deterministic polynomial-time range avoidance.
+\end{theorem}
+\begin{proof}
+If a singleton-demand conflict exists, use the first lemma. Otherwise use the
+second lemma and apply the deterministic polynomial-time monotone-$NC^0_3$
+avoider of Kuntewar--Sarma for $m>n$, then undo the output orientations.
+\end{proof}
+
+\begin{theorem}[Strict extension beyond V98]
+For every $N\ge5$ there is a connected exact-stretch singleton-core circuit
+with V97 peeling parameter $\lambda=N$ that is not switching-balanced in the
+V98 sense but has an immediate singleton conflict certificate.
+\end{theorem}
+\begin{proof}
+Use cyclic supports $S_i=\{i,i+1,i+2\}\pmod N$ with positive $\mathrm{AND}_3$
+and one duplicate of $S_0$ labeled
+$(\neg x_0)\wedge x_1\wedge x_2$. Every input has incidence degree at least
+three, so V97 does not peel. The two copies of $S_0$ demand opposite values of
+$x_0$ when their oriented outputs are $1$. The V98 incidence-sign equations are
+inconsistent because the positive copy forces equal switching potentials on
+$x_0,x_1,x_2$, whereas the duplicate requires the sign pattern $(1,0,0)$.
+\end{proof}
+
+\section{Signed-majority simple $X$}
+Let $L=2\ell\ge6$. The simple $X_L$ has cycle vertices
+$v_0,\dots,v_{L-1}$, special edges
+\[
+ e_0=\{v_0,v_1,w\},\qquad e_3=\{v_3,v_4,w\},
+\]
+and every other edge $e_i=\{v_i,v_{i+1},p_i\}$ with private third vertex
+$p_i$. Each edge is labeled by majority of three signed literals.
+
+Because
+\[
+ \neg\operatorname{MAJ}(a,b,c)=\operatorname{MAJ}(\neg a,\neg b,\neg c),
+\]
+input and output complements act as vertex switching on the signed bipartite
+incidence graph.
+
+\begin{lemma}[Four switching classes]
+The signed incidence graph of $X_L$ has exactly four switching classes.
+They are indexed by two independent cycle parities $(B,A)\in\mathbb F_2^2$ and
+have canonical representatives with all incidence signs positive except
+possibly $(e_0,v_0)=B$ and $(e_0,w)=A$.
+\end{lemma}
+\begin{proof}
+The connected incidence graph has $3L-1$ vertices and $3L$ incidences, hence
+cycle rank two. Switching classes of binary edge signs are therefore indexed by
+the two cycle parities. A spanning-tree switching normal form leaves exactly the
+two stated cotree signs.
+\end{proof}
+
+For a positive private majority edge with cycle endpoints $a,b$ and existential
+private input $p$, target $0$ is feasible except at $(a,b)=(1,1)$ and target
+$1$ is feasible except at $(a,b)=(0,0)$. Hence the endpoint relations are
+\[
+ R_0=\begin{pmatrix}1&1\\1&0\end{pmatrix},\qquad
+ R_1=\begin{pmatrix}0&1\\1&1\end{pmatrix}
+\]
+over the Boolean semiring.
+
+\begin{lemma}[Path collapse]
+If a private-edge target path contains equal adjacent target bits, its endpoint
+relation is universal. If it is alternating and has positive even length, its
+relation is
+\[
+ P_{01}=\begin{pmatrix}1&1\\0&1\end{pmatrix}
+ \quad\text{or}\quad
+ P_{10}=\begin{pmatrix}1&0\\1&1\end{pmatrix}
+\]
+according to its first target bit.
+\end{lemma}
+\begin{proof}
+Boolean matrix multiplication gives
+$R_0R_0=R_1R_1=J$, $JR_b=R_bJ=J$,
+$R_0R_1=P_{01}$, $R_1R_0=P_{10}$, and
+$P_{01}^2=P_{01}$, $P_{10}^2=P_{10}$.
+\end{proof}
+
+\begin{lemma}[Constant boundary table]
+After collapsing the two even private paths, the only infeasible boundary
+configurations are, in switching class $(B,A)=(0,0)$,
+\[
+ (P_{01},P_{10},y_0,y_3)=(P_{01},P_{10},1,0)
+\]
+and
+\[
+ (P_{10},P_{01},y_0,y_3)=(P_{10},P_{01},0,1).
+\]
+The three nonzero switching classes have no infeasible boundary configuration;
+if either path relation is universal, every boundary configuration is feasible.
+\end{lemma}
+\begin{proof}
+Only the five variables $v_0,v_1,v_3,v_4,w$ remain. Substitution into
+\[
+ \operatorname{MAJ}(v_0\oplus B,v_1,w\oplus A)=y_0,\qquad
+ \operatorname{MAJ}(v_3,v_4,w)=y_3
+\]
+together with the two $2\times2$ endpoint relations gives a constant
+$32$-assignment Boolean check, independent of $L$.
+\end{proof}
+
+\begin{theorem}[Signed-majority $X$ dichotomy]
+For every even $L\ge6$, a signed-majority simple $X_L$ satisfies:
+\[
+\begin{array}{c|c}
+\text{switching class}&\text{missing edge words}\\\hline
+(0,0)&2\\
+(0,1),(1,0),(1,1)&0.
+\end{array}
+\]
+In the all-positive representative the two missing words are the two alternating
+edge words. Every nonzero switching class is surjective.
+\end{theorem}
+\begin{proof}
+Both private paths have even length. The path-collapse lemma reduces every
+target to the constant boundary table. The two failures in the balanced class
+are exactly the two globally alternating targets; all other targets are
+realizable. The three nonzero classes have no failing boundary type. Switching
+is a bijection on the input cube followed by output-coordinate complements, so
+it preserves range cardinality and surjectivity.
+\end{proof}
+
+\paragraph{Boundary.}
+This theorem classifies a local loose-$X$ certificate, not the full
+signed-majority circuit class. The remaining essential ternary unate NPN orbit
+of size $48$, represented by $x\wedge(y\vee z)$, is left open. No unrestricted
+$NC^0_3$ algorithm, lower-bound transfer, novelty, or P-versus-NP claim is made.
+\end{document}
