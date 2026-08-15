@@ -1,0 +1,51 @@
+{
+  "laboratory": "V101",
+  "random_small_audit": {
+    "absence_failures": 0,
+    "cases": 100,
+    "max_roots": 5
+  },
+  "strict_cyclic_0x1e_majority": {
+    "rows": [
+      {"lifted_word_absent": true, "m": 6, "min_input_degree": 3, "n": 5, "relaxed_assignments": 4, "roots": 2, "selected_outputs": 3, "v100_steps": 0},
+      {"lifted_word_absent": true, "m": 7, "min_input_degree": 3, "n": 6, "relaxed_assignments": 4, "roots": 2, "selected_outputs": 4, "v100_steps": 0},
+      {"lifted_word_absent": true, "m": 8, "min_input_degree": 3, "n": 7, "relaxed_assignments": 4, "roots": 2, "selected_outputs": 5, "v100_steps": 0},
+      {"lifted_word_absent": true, "m": 9, "min_input_degree": 3, "n": 8, "relaxed_assignments": 4, "roots": 2, "selected_outputs": 6, "v100_steps": 0},
+      {"lifted_word_absent": true, "m": 10, "min_input_degree": 3, "n": 9, "relaxed_assignments": 4, "roots": 2, "selected_outputs": 7, "v100_steps": 0},
+      {"lifted_word_absent": true, "m": 11, "min_input_degree": 3, "n": 10, "relaxed_assignments": 4, "roots": 2, "selected_outputs": 8, "v100_steps": 0},
+      {"lifted_word_absent": true, "m": 12, "min_input_degree": 3, "n": 11, "relaxed_assignments": 4, "roots": 2, "selected_outputs": 9, "v100_steps": 0},
+      {"lifted_word_absent": true, "m": 13, "min_input_degree": 3, "n": 12, "relaxed_assignments": 4, "roots": 2, "selected_outputs": 10, "v100_steps": 0}
+    ]
+  },
+  "ternary_functional_classification": {
+    "anchor_free_masks": 32,
+    "anchor_free_orbits": ["0x17", "0x1b"],
+    "essential_ternary_masks": 218,
+    "functional_anchor_masks": 186,
+    "orbit_rows": [
+      {"canonical_mask": "0x01", "functional_anchor_available": true, "size": 16},
+      {"canonical_mask": "0x06", "functional_anchor_available": true, "size": 24},
+      {"canonical_mask": "0x07", "functional_anchor_available": true, "size": 48},
+      {"canonical_mask": "0x16", "functional_anchor_available": true, "size": 16},
+      {"canonical_mask": "0x17", "functional_anchor_available": false, "size": 8},
+      {"canonical_mask": "0x18", "functional_anchor_available": true, "size": 8},
+      {"canonical_mask": "0x19", "functional_anchor_available": true, "size": 48},
+      {"canonical_mask": "0x1b", "functional_anchor_available": false, "size": 24},
+      {"canonical_mask": "0x1e", "functional_anchor_available": true, "size": 24},
+      {"canonical_mask": "0x69", "functional_anchor_available": true, "size": 2}
+    ]
+  },
+  "theorem_status": {
+    "acyclic_distinct_head_domain_size_2roots": true,
+    "essential_ternary_functional_anchor_masks_186": true,
+    "functional_anchor_avoider_O2mu": true,
+    "functional_anchor_free_exactly_32": true,
+    "functional_anchor_free_orbits_0x17_0x1b": true,
+    "functional_fiber_safe_relaxation": true,
+    "hlz_worst_case_runtime_improved": false,
+    "p_vs_np_resolved": false,
+    "post_v100_new_functional_orbit_0x1e": true,
+    "strict_balanced_nonaffine_0x1e_lambda_n_roots_two": true,
+    "unrestricted_nc03_avoid_polynomial_time": false
+  }
+}

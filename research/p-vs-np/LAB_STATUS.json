@@ -1,16 +1,16 @@
 {
-  "schema_version": 54,
+  "schema_version": 55,
   "updated": "2026-08-15",
   "program": "NC0_k-Avoid Laboratory",
   "promoted_version": "V100",
-  "candidate_version": null,
-  "highest_directory": "V100",
-  "promotion_state": "promoted",
-  "completed_scope": "V100 promoted: literal-graph fiber safe elimination by constant or copy/negation substitution, exact preservation of positive surplus and locality at most three, deterministic preprocessing of arbitrary NC0_3 to five residual hard ternary NPN orbits, exact 144/74 truth-table split, deterministic polynomial avoidance for the five peelable orbits via published NC0_2-Avoid, closure of the 0x07 middle unate orbit, strict non-unate 0x19 lambda=N pair-substitution family, formal theorem module, and primary/independent audits",
+  "candidate_version": "V101",
+  "highest_directory": "V101",
+  "promotion_state": "candidate",
+  "completed_scope": "V101 candidate: safe relaxation of functional output fibers to total graph relations, deterministic O(2^mu poly(N)) avoidance from distinct-head acyclic functional-anchor DAGs, exact 186/32 essential ternary functional-anchor split leaving only NPN orbits 0x17 and 0x1b anchor-free, strict connected balanced-nonaffine 0x1e family with V97 lambda=N/V100 zero peels/V101 mu=2, formal theorem module, and primary/independent audits",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
   "next_laboratory_version": "V101",
-  "next_laboratory_focus": "functional-anchor DAG compression after V100: exploit output fibers that determine one variable from the others without locality-four substitution, classify the remaining ternary NPN frontier, and require an infinite-family strict separation",
+  "next_laboratory_focus": "validate and promote V101; after promotion attack signed majority 0x17, mux/bijunctive 0x1b, or cyclic functional dependencies with a symbolic infinite-family result",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V100",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V101",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -246,6 +246,15 @@
     "v100_middle_unate_0x07_solved": true,
     "v100_strict_nonunate_0x19_lambda_n_family": true,
     "v100_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v100_hlz_worst_case_runtime_improved": false
+    "v100_hlz_worst_case_runtime_improved": false,
+    "v101_functional_fiber_safe_relaxation": true,
+    "v101_acyclic_distinct_head_root_parametrization": true,
+    "v101_functional_anchor_avoider_O2mu": true,
+    "v101_functional_anchor_masks_186": true,
+    "v101_functional_anchor_free_masks_32": true,
+    "v101_functional_anchor_free_orbits_0x17_0x1b": true,
+    "v101_strict_balanced_nonaffine_0x1e_lambda_n_mu_two": true,
+    "v101_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v101_hlz_worst_case_runtime_improved": false
   }
 }
