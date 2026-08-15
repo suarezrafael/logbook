@@ -5,7 +5,7 @@ export PYTHONDONTWRITEBYTECODE=1
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODE="quick"
-FOCUSED_VERSIONS=(V53 V54 V55 V56 V57 V58 V59 V78 V79 V80 V81 V82 V83 V84 V85 V86 V87 V88 V89 V90 V91 V92 V93 V94 V95 V96 V97)
+FOCUSED_VERSIONS=(V53 V54 V55 V56 V57 V58 V59 V78 V79 V80 V81 V82 V83 V84 V85 V86 V87 V88 V89 V90 V91 V92 V93 V94 V95 V96 V97 V98)
 
 case "${1:-}" in
   "") ;;
@@ -16,7 +16,7 @@ case "${1:-}" in
     cat <<'HELP'
 Usage: ./verify_all.sh [--compat|--full|--list]
 
-  default   Run the focused regression gate for V53-V59 and V78-V97.
+  default   Run the focused regression gate for V53-V59 and V78-V98.
   --compat  Run every ordinary historical verifier, excluding exact replay tier.
   --full    Run the complete historical suite including exact replay tier.
   --list    Print every registered check without executing it.
@@ -149,6 +149,8 @@ CHECKS=(
   "V96|independent|v96/verify_independent.py|quick|"
   "V97|primary|v97/verify.py|quick|"
   "V97|independent|v97/verify_independent.py|quick|"
+  "V98|primary|v98/verify.py|quick|"
+  "V98|independent|v98/verify_independent.py|quick|"
 )
 
 printf '%-6s | %-24s | %-6s | %s\n' "LAB" "CHECK" "STATUS" "DETAIL"

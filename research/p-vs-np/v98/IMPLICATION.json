@@ -1,0 +1,31 @@
+{
+  "laboratory": "V98",
+  "classification": "frontier_progress",
+  "target_problem": "irreducible nonmonotone NC0_3-Avoid kernels after V97 peeling",
+  "conditional_implication": "A positive-surplus component whose essential local gates are unate and whose incidence directions satisfy d(e,v)=r_v XOR q_e is switch-equivalent to a monotone NC0_3 component. Kuntewar-Sarma then gives deterministic polynomial-time avoidance. Separately, parity labels make an explicit loose-X submap surjective, so loose-X support alone cannot certify avoidance for arbitrary labels.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "The balanced-unate subclass is polynomial and strictly contains raw monotone labels on irreducible large kernels, but unrestricted non-unate labels remain open and no published lower-bound-transfer threshold is crossed.",
+  "bridge_lemmas": [
+    {"name": "essential unate direction is uniquely defined per incidence", "proved": true},
+    {"name": "switching-balance is an XOR-consistency problem on the incidence graph and is recognizable in linear time", "proved": true},
+    {"name": "a consistent input/output switching makes every local gate monotone", "proved": true},
+    {"name": "input/output switching preserves range membership up to a codomain XOR", "proved": true},
+    {"name": "Kuntewar-Sarma monotone NC0_3 m>n algorithm transfers to every balanced-unate positive-surplus component", "proved": true},
+    {"name": "there is an exact-stretch connected nonmonotone essential-ternary family with V97 lambda=N that is balanced-unate", "proved": true},
+    {"name": "an explicit parity-labeled loose X is surjective for every length in the family", "proved": true},
+    {"name": "the loose-X obstruction embeds in an exact-stretch V97-irreducible parity host", "proved": true},
+    {"name": "every unate irreducible kernel is switching-balanced", "proved": false},
+    {"name": "all non-unate loose-X labels admit a polynomial forbidden-coloring constructor", "proved": false},
+    {"name": "unrestricted NC0_3-Avoid is polynomial time", "proved": false}
+  ],
+  "material_advance_rule_met": true,
+  "closed_route": "support-only claim that loose-X existence forces a missing edge coloring for arbitrary ternary labels",
+  "surviving_route": "classify the incidence-sign obstruction for unate labels beyond balance, then attack genuinely non-unate ternary NPN classes by transfer automata or larger Turan substructures",
+  "current_gap": "Large V97 kernels may contain non-unate gates or unate direction cycles with nonzero XOR. Those instances cannot be globally switched to the published monotone class by the V98 criterion.",
+  "stop_rule": "Do not spend V99 enlarging finite truth-table censuses. Promote only a symbolic classification/constructor for an unbalanced-unate or genuinely non-unate family, or an asymptotic obstruction that closes such a class.",
+  "external_validation_target": "Kuntewar-Sarma APPROX/RANDOM 2025 monotone NC0_3-Avoid and loose-X framework; targeted prior-art review of switching-balanced unate reduction; Brakensiek 12 Aug 2026 correspondence for arity-4 non-redundancy and polynomial-dependence folklore calibration",
+  "next_front": "label_cohomology_and_nonunate_transfer",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}

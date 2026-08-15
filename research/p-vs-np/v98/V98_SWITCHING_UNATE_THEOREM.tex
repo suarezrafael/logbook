@@ -1,0 +1,120 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+
+\title{V98: Switching-Balanced Unate Kernels and a Loose-X Label Obstruction}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+
+\begin{document}
+\maketitle
+
+\paragraph{Setup.}
+After essential-support normalization, let a connected local component be
+$C:\{0,1\}^n\to\{0,1\}^m$ with $m>n$ and locality at most three.
+For every essential unate incidence $(e,v)$ define
+$d_{e,v}=0$ when output $e$ is nondecreasing in input $v$, and $d_{e,v}=1$
+when it is nonincreasing.
+
+\begin{definition}
+The labeled incidence graph is \emph{switching-balanced} when there are
+$r_v,q_e\in\{0,1\}$ satisfying
+\[
+d_{e,v}=r_v\oplus q_e
+\]
+on every incidence.
+\end{definition}
+
+\begin{lemma}
+Switching-balance is decidable in linear time in the incidence size.
+\end{lemma}
+
+\begin{proof}
+The equations are parity constraints on the bipartite input--output incidence
+graph. Assign one potential in each connected component and propagate by BFS.
+A conflict is exactly a parity-inconsistent incidence cycle. Locality three
+makes the incidence size linear in the circuit description.
+\end{proof}
+
+\begin{theorem}[Switching theorem]
+If the component is switching-balanced, then the coordinate changes
+\[
+z_v=x_v\oplus r_v,\qquad C'_e(z)=C_e(x)\oplus q_e
+\]
+make every local gate of $C'$ monotone.
+Moreover,
+\[
+y\in \operatorname{Range}(C)
+\quad\Longleftrightarrow\quad
+y\oplus q\in\operatorname{Range}(C').
+\]
+\end{theorem}
+
+\begin{proof}
+Input complementation toggles the unate direction by $r_v$ and output
+complementation toggles it by $q_e$. Hence the transformed direction is
+$d_{e,v}\oplus r_v\oplus q_e=0$. Both coordinate maps are bijections, giving
+the range equivalence.
+\end{proof}
+
+\begin{corollary}
+Every positive-surplus switching-balanced unate $NC^0_3$ component admits
+deterministic polynomial-time range avoidance.
+\end{corollary}
+
+\begin{proof}
+Apply the switching theorem and then the deterministic polynomial-time
+monotone-$NC^0_3$ avoider of Kuntewar--Sarma (APPROX/RANDOM 2025) for $m>n$.
+Map the missing word back by XOR with $q$.
+\end{proof}
+
+\begin{theorem}[Strict V97-kernel family]
+For every $N\ge 5$ there is a connected exact-stretch, essential-ternary,
+nonmonotone circuit with V97 peeling parameter $\lambda=N$ that is
+switching-balanced.
+\end{theorem}
+
+\begin{proof}
+Use cyclic triple supports $\{i,i+1,i+2\}$, one extra copy of the first support,
+and gates
+\[
+g_e(x)=\operatorname{MAJ}_3(x_v\oplus r_v:v\in S_e),
+\qquad r_0=1,\ r_i=0\ (i>0).
+\]
+Every input has support degree at least three, so no V97 leaf/unary reduction
+applies. Gates incident to input zero are decreasing there, so the raw circuit
+is nonmonotone. Taking $q_e=0$ satisfies the switching equations.
+\end{proof}
+
+\begin{theorem}[Parity loose-X obstruction]
+For every $\ell\ge3$ there is a parity-labeled simple loose $X_{2\ell}$ whose
+induced edge map is surjective.
+\end{theorem}
+
+\begin{proof}
+Let the even Berge cycle have vertices $v_0,\ldots,v_{2\ell-1}$. Give edges
+$e_0$ and $e_3$ an extra common vertex $w$, and every other edge $e_i$ a private
+third vertex $p_i$. For an arbitrary target $y$, set
+\[
+w=0,\quad v_0=y_0,\quad v_3=y_3,\quad v_i=0\text{ otherwise},
+\]
+and for $i\notin\{0,3\}$ set
+\[
+p_i=y_i\oplus v_i\oplus v_{i+1}.
+\]
+Every parity edge then evaluates to its prescribed target bit.
+\end{proof}
+
+\paragraph{Boundary.}
+The parity obstruction can be embedded into an exact-stretch connected host
+with minimum input degree at least two, so the support-only failure persists
+inside the V97 irreducible regime. The host is affine and globally easy; this
+is only a falsifier for arbitrary-label loose-X certification. No unrestricted
+$NC^0_3$ algorithm, lower-bound transfer, novelty, or P-versus-NP claim is made.
+
+\end{document}
