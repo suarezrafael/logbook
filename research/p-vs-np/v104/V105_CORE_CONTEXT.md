@@ -1,70 +1,97 @@
-# V105 core context — hybrid certificate detection
+# V105 core context — canonical hybrid worst case
 
 ## Starting point
 
-V104 gives a deterministic `O(2^eta poly(N))` avoider from a supplied,
-polynomially checkable certificate combining:
-
-- `f` distinct-head acyclic functional graph relaxations;
-- rank `R` of additional affine-hull equations supported only on the remaining
-  functional roots;
-- `eta=n-f-R`.
-
-An explicit connected exact-stretch family has `eta=3` while V97 `lambda`, V101
-`mu`, V102 `beta`, and V103 `nu` are all linear.
-
-The missing piece is **certificate discovery**. V104 must not be interpreted as
-an FPT algorithm parameterized only by the optimum `eta` until such a detector
-is proved.
-
-## Track A — action-selection search tree
-
-Each local output can contribute one of three actions:
+V104 no longer requires a supplied hybrid certificate. Its deterministic
+affine-first preprocessing computes:
 
 ```text
-functional-head action,
-affine-root-rank action,
-leave residual.
+R = rank of a greedy canonical affine-hull block basis,
+f = number of subsequent unprotected acyclic functional heads,
+eta_AF = n-R-f.
 ```
 
-Seek an FPT branching rule whose measure is the remaining hybrid dimension,
-not the number of selected blocks. Any claimed branch must preserve distinct
-heads, acyclicity, and root support of all affine equations.
-
-A positive target is
+It then constructs an avoided output in
 
 ```text
-f(eta) poly(N)
+O(2^eta_AF poly(N)).
 ```
 
-certificate detection, which would convert V104 into a genuine FPT avoider.
+An explicit connected exact-stretch family has `eta_AF=3` while V97 `lambda`,
+V101 `mu`, V102 `beta`, and V103 `nu` are all linear. The new open problem is
+therefore not certificate discovery but the **worst-case behavior and ordering
+quality of the computable canonical parameter**.
 
-## Track B — matroid/intersection formulation
+## Track A — high-eta_AF obstruction
 
-The affine actions form a linear matroid on equation rows. Functional actions
-consume distinct head variables and obey an acyclicity constraint. Investigate
-whether the feasible union can be expressed as matroid intersection,
-gammoid/branching structure, or a submodular rank maximization problem with an
-exact or approximation guarantee.
+Construct an explicit exact-stretch family for which the canonical affine-first
+rule satisfies
 
-The obstruction is that choosing functional heads changes the root set and can
-invalidate affine actions whose equations touch newly consumed heads.
+```text
+eta_AF = Theta(n).
+```
 
-## Track C — hardness barrier
+Prefer balanced non-affine gates, because they contribute no direct canonical
+affine rank. The family should also resist V97/V101/V102/V103 so that it exposes
+a genuine residual obstruction rather than a weakness already solved by an
+older parameter.
 
-If exact certificate maximization is NP-hard or W[1]-hard even for a fixed small
-ternary language, prove that barrier cleanly. A hardness result would redirect
-the laboratory toward approximation, kernelization, or a different canonical
-selection rule rather than silently assuming optimal certificates are easy.
+Once such a family exists, inspect exactly why the affine-first protection rule
+loses functional heads or why the functional scan fails to reduce the remaining
+root dimension.
+
+## Track B — ordering/intersection improvement
+
+The affine-first rule is intentionally conservative: every variable occurring
+in the retained affine basis is protected. Explore whether a different
+polynomially computable choice can improve `R+f` while keeping all retained
+linear equations root-supported.
+
+Candidate formulations include:
+
+- choosing an equivalent sparse affine row basis before protecting variables;
+- matroid/intersection formulations coupling affine block rank and distinct
+  functional heads;
+- submodular or exchange arguments proving that one canonical ordering gives a
+  constant-factor approximation to the maximum safe compression;
+- alternating affine and functional phases with a monotone invariant that never
+  invalidates earlier equations.
+
+A successful theorem must preserve polynomial-time discoverability.
+
+## Track C — comparison with optimum hybrid compression
+
+Define `eta_*` as the minimum residual dimension over all valid hybrid
+functional/root-affine certificates. V104 computes one specific `eta_AF`.
+Investigate either
+
+```text
+eta_AF <= g(eta_*)
+```
+
+for a useful function `g`, or prove a scalable separation showing that the
+canonical rule can be far from optimum. Either outcome gives a principled V105
+frontier.
+
+## Track D — external consequence
+
+Even a much smaller structural parameter matters for P versus NP only if it
+connects to a recognized range-avoidance/circuit-lower-bound transfer. If V105
+obtains a broad worst-case bound, immediately test whether it crosses the
+parameters required by the calibrated Huang--Li--Zhong / Missing-String route;
+do not infer a lower bound merely from a faster special-family algorithm.
 
 ## Required promotion criterion
 
-V105 must provide one of:
+V105 must provide at least one of:
 
-1. an FPT/polytime detector with a proved guarantee tied to `eta`;
-2. a polynomial approximation that still yields a new asymptotic avoidance
-   regime on an infinite family;
-3. a rigorous hardness/obstruction theorem for hybrid certificate discovery,
-   together with a justified next route.
+1. a proved worst-case sublinear bound on `eta_AF` for a meaningful residual
+   class;
+2. a polynomially computable hybrid rule with a strict infinite-family
+   separation from V104;
+3. an approximation theorem relating `eta_AF` to optimal hybrid compression;
+4. a rigorous high-`eta_AF` obstruction/hardness theorem that closes this
+   canonical route and identifies the next invariant.
 
-Another supplied-certificate theorem or truth-table census is not sufficient.
+Another truth-table census or another supplied-certificate theorem is not
+sufficient.
