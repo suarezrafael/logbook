@@ -1,0 +1,26 @@
+{
+  "laboratory": "V103",
+  "method": "canonical affine-hull rank compression",
+  "essential_ternary_truth_tables": 218,
+  "proper_canonical_affine_hull": 162,
+  "full_canonical_affine_hull": 56,
+  "primary_random_bruteforce_cases": 1080,
+  "independent_random_cases": 360,
+  "strict_family": {
+    "n": "4k",
+    "m": "4k+1",
+    "lambda_V97": "4k",
+    "mu_V101": "k+1",
+    "beta_V102": "3k",
+    "nu_V103": 1,
+    "primary_bruteforce_k_through": 4,
+    "primary_rank_k_through": 20,
+    "independent_rank_k_through": 40,
+    "independent_direct_solution_k_through": 4
+  },
+  "primary_failures": 0,
+  "independent_failures": 0,
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
