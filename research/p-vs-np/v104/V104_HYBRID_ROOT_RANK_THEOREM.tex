@@ -4,89 +4,93 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem{definition}{Definition}
-\title{V104: Hybrid Functional-Root Rank Compression}
+\title{V104: Canonical Affine-First Hybrid Compression}
 \author{NC0\_k-Avoid Laboratory}
 \date{}
 \begin{document}
 \maketitle
 
-\begin{definition}
-A hybrid certificate selects $f$ output fibers with distinct functional heads
-whose tail-to-head graph is acyclic. Let $Q$ be the $n-f$ non-head variables.
-It also selects output fibers whose affine-hull equations are supported entirely
-on $Q$. Let $R$ be the rank of a rank-increasing basis of those root equations
-and define
+\begin{definition}[Canonical affine-first preprocessing]
+For every output choose the minority target value, breaking ties toward zero.
+Scan output blocks and retain a block iff its canonical affine-hull equations
+increase the current rank. Let the resulting rank be $R$ and protect every
+input variable occurring in a retained equation. Then scan the remaining
+outputs and greedily select the first canonical functional anchor whose head is
+unprotected, unused, and preserves acyclicity. Let $f$ be the number of selected
+heads and define
 \[
-\eta=n-f-R.
+\eta_{AF}=n-R-f.
 \]
 \end{definition}
 
-\begin{lemma}[Safe hybrid relaxation]
-Replacing selected functional fibers by total graph relations and selected
-root-supported fibers by their affine hulls is safe for range avoidance.
+\begin{lemma}[Protected rank remains on roots]
+Every retained affine equation is supported on the final root variables of the
+functional DAG.
 \end{lemma}
 \begin{proof}
-Each exact selected fiber is contained in its corresponding relaxed relation, so
-simultaneously imposing all relaxed relations only enlarges the set of inputs
-that could realize the selected target bits.
+Every variable occurring in a retained affine equation is protected before the
+functional phase, and protected variables are forbidden as functional heads.
 \end{proof}
 
-\begin{theorem}[Hybrid root-rank avoider]
-Given a valid hybrid certificate for
-$C:\{0,1\}^n\to\{0,1\}^m$, $m>n$, a word outside
-$\operatorname{Range}(C)$ is constructible deterministically in
+\begin{theorem}[Canonical affine-first avoider]
+For $C:\{0,1\}^n\to\{0,1\}^m$ with $m>n$, the canonical preprocessing is
+polynomial time and constructs a word outside $\operatorname{Range}(C)$ in
 \[
-O(2^\eta\operatorname{poly}(N)).
+O(2^{\eta_{AF}}\operatorname{poly}(N)).
 \]
-The supplied certificate is verifiable in polynomial time.
 \end{theorem}
 \begin{proof}
-Every assignment to the roots $Q$ extends uniquely through the functional DAG.
-The root affine system has rank $R$, so exactly
-$2^{|Q|-R}=2^\eta$ root assignments survive. If $s_A$ affine output blocks are
-retained, then $s_A\le R$. Therefore the number of unselected output
-coordinates is
+The functional phase leaves $n-f$ roots. By the lemma, the retained affine
+system still has rank $R$ on those roots, so exactly
+$2^{n-f-R}=2^{\eta_{AF}}$ root assignments survive. Each extends uniquely
+through the total functional graph relations.
+
+If $s_A$ affine output blocks were retained, then $s_A\le R$ because each
+retained block increases rank. Hence
 \[
-m-f-s_A\ge m-f-R>n-f-R=\eta.
+m-s_A-f\ge m-R-f>n-R-f=\eta_{AF}.
 \]
-Evaluate all residual original gates on the $2^\eta$ relaxed assignments and
-choose a residual word not observed. Reinserting all selected target bits gives
-a missing original output by the safe-relaxation lemma. Functionality, distinct
-heads, acyclicity, root support, affine consistency, and rank are all
-polynomial-time checkable.
+Evaluate the remaining original gates on every relaxed assignment and choose a
+residual output word not observed. Restoring the selected canonical target bits
+gives a missing original output because every exact selected fiber is contained
+in its affine-hull or functional-graph relaxation. Empty canonical fibers or an
+inconsistent canonical affine system give immediate missing target patterns.
 \end{proof}
 
 \begin{theorem}[Strict infinite-family separation]
 For every $k\ge1$ there is a connected exact-stretch circuit with $n=8k$ and
-$m=n+1$ satisfying
+$m=n+1$ for which the canonical algorithm itself obtains
+\[
+\eta_{AF}=3,
+\]
+while
 \[
 \lambda=8k,\qquad
 \mu=k+3,\qquad
-\beta=\Theta(k),\quad \beta\ge3k,\qquad
-\nu=4k+1,\qquad
-\eta=3.
+3k\le\beta\le7k,\qquad
+\nu=4k+1.
 \]
 \end{theorem}
 \begin{proof}
-Use $4k$ variables for a cyclic $0x1e$ block. Select the first $4k-2$ target-zero
-functional graph fibers, leaving two roots. On another $4k$ variables use the
-V103 $0x16$ block of $4k-1$ parity-one affine-hull equations, whose rank is
-$4k-1$. Add one $0x17$ output inside the second block and one $0x17$ output
-crossing the blocks. The affine equations use only roots, hence
+Use a cyclic $0x1e$ block on the first $4k$ variables and the V103 $0x16$
+rank block on the second $4k$ variables, plus one internal and one cross-block
+$0x17$ majority output. The affine-first phase retains exactly the $4k-1$
+independent $0x16$ parity-hull blocks, so $R=4k-1$ and the second variable group
+is protected. The $0x1e$ and $0x17$ canonical fibers have full affine hull.
+The functional scan therefore accepts the first $4k-2$ cyclic $0x1e$ graph
+relations and rejects the final two by acyclicity; majority has no functional
+anchor. Thus $f=4k-2$ and
 \[
-\eta=(4k+2)-(4k-1)=3.
+\eta_{AF}=8k-(4k-1)-(4k-2)=3.
 \]
-The support is connected with minimum degree at least two, giving $\lambda=8k$.
-The functional block contributes at most $4k-2$ heads and the $0x16$ block
-exactly $3k-1$, with both bounds simultaneously attainable, so $\mu=k+3$.
-The three internal $0x16$ supports per second-block gadget force at least three
-strong-backdoor variables, hence $\beta\ge3k$, while a linear-size backdoor is
-immediate. Finally only the $0x16$ block contributes canonical affine-hull rank,
-so $\nu=8k-(4k-1)=4k+1$.
+The previous-parameter identities follow from the V97 no-peel support,
+V101 maximum-head count, V102 strong-backdoor lower/upper bounds, and V103
+canonical-hull rank calculation established for the same family.
 \end{proof}
 
 \paragraph{Boundary.}
-No efficient optimal-certificate detector, unrestricted polynomial-time
-$NC^0_3$ avoidance algorithm, new circuit lower bound, novelty, peer review, or
+The computable parameter $\eta_{AF}$ can still be linear in the worst case. No
+unrestricted polynomial-time $NC^0_3$ avoidance algorithm, improved general
+worst-case exponent, new circuit lower bound, novelty, peer review, or
 P-versus-NP resolution is claimed.
 \end{document}
