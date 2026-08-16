@@ -1,0 +1,92 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\title{V104: Hybrid Functional-Root Rank Compression}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+\begin{document}
+\maketitle
+
+\begin{definition}
+A hybrid certificate selects $f$ output fibers with distinct functional heads
+whose tail-to-head graph is acyclic. Let $Q$ be the $n-f$ non-head variables.
+It also selects output fibers whose affine-hull equations are supported entirely
+on $Q$. Let $R$ be the rank of a rank-increasing basis of those root equations
+and define
+\[
+\eta=n-f-R.
+\]
+\end{definition}
+
+\begin{lemma}[Safe hybrid relaxation]
+Replacing selected functional fibers by total graph relations and selected
+root-supported fibers by their affine hulls is safe for range avoidance.
+\end{lemma}
+\begin{proof}
+Each exact selected fiber is contained in its corresponding relaxed relation, so
+simultaneously imposing all relaxed relations only enlarges the set of inputs
+that could realize the selected target bits.
+\end{proof}
+
+\begin{theorem}[Hybrid root-rank avoider]
+Given a valid hybrid certificate for
+$C:\{0,1\}^n\to\{0,1\}^m$, $m>n$, a word outside
+$\operatorname{Range}(C)$ is constructible deterministically in
+\[
+O(2^\eta\operatorname{poly}(N)).
+\]
+The supplied certificate is verifiable in polynomial time.
+\end{theorem}
+\begin{proof}
+Every assignment to the roots $Q$ extends uniquely through the functional DAG.
+The root affine system has rank $R$, so exactly
+$2^{|Q|-R}=2^\eta$ root assignments survive. If $s_A$ affine output blocks are
+retained, then $s_A\le R$. Therefore the number of unselected output
+coordinates is
+\[
+m-f-s_A\ge m-f-R>n-f-R=\eta.
+\]
+Evaluate all residual original gates on the $2^\eta$ relaxed assignments and
+choose a residual word not observed. Reinserting all selected target bits gives
+a missing original output by the safe-relaxation lemma. Functionality, distinct
+heads, acyclicity, root support, affine consistency, and rank are all
+polynomial-time checkable.
+\end{proof}
+
+\begin{theorem}[Strict infinite-family separation]
+For every $k\ge1$ there is a connected exact-stretch circuit with $n=8k$ and
+$m=n+1$ satisfying
+\[
+\lambda=8k,\qquad
+\mu=k+3,\qquad
+\beta=\Theta(k),\quad \beta\ge3k,\qquad
+\nu=4k+1,\qquad
+\eta=3.
+\]
+\end{theorem}
+\begin{proof}
+Use $4k$ variables for a cyclic $0x1e$ block. Select the first $4k-2$ target-zero
+functional graph fibers, leaving two roots. On another $4k$ variables use the
+V103 $0x16$ block of $4k-1$ parity-one affine-hull equations, whose rank is
+$4k-1$. Add one $0x17$ output inside the second block and one $0x17$ output
+crossing the blocks. The affine equations use only roots, hence
+\[
+\eta=(4k+2)-(4k-1)=3.
+\]
+The support is connected with minimum degree at least two, giving $\lambda=8k$.
+The functional block contributes at most $4k-2$ heads and the $0x16$ block
+exactly $3k-1$, with both bounds simultaneously attainable, so $\mu=k+3$.
+The three internal $0x16$ supports per second-block gadget force at least three
+strong-backdoor variables, hence $\beta\ge3k$, while a linear-size backdoor is
+immediate. Finally only the $0x16$ block contributes canonical affine-hull rank,
+so $\nu=8k-(4k-1)=4k+1$.
+\end{proof}
+
+\paragraph{Boundary.}
+No efficient optimal-certificate detector, unrestricted polynomial-time
+$NC^0_3$ avoidance algorithm, new circuit lower bound, novelty, peer review, or
+P-versus-NP resolution is claimed.
+\end{document}
