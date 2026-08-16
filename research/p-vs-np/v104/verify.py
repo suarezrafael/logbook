@@ -28,6 +28,15 @@ def support_connected_and_min_degree(n: int, gates: list[Gate]) -> tuple[bool, i
     return len(seen) == n, min(degree)
 
 
+def inconsistent_hull_regression() -> dict:
+    gates = [Gate((0,), 0x2), Gate((0,), 0x1)]
+    y, meta = canonical_affine_first_avoid(1, gates)
+    assert meta["case"] == "inconsistent_canonical_hulls"
+    assert y == (0, 0)
+    assert not in_range(1, gates, y)
+    return {"n": 1, "m": 2, "canonical_witness": "00"}
+
+
 def random_exact_stretch_checks() -> int:
     rng = random.Random(1042026)
     cases = 0
@@ -72,11 +81,10 @@ def strict_family_checks() -> dict:
         assert meta["residual_outputs"] == 4
         connected, min_degree = support_connected_and_min_degree(n, gates)
         assert connected and min_degree >= 2
-        # Previous structural scales on the same family.
-        assert n == 8 * k                       # V97 lambda
-        assert k + 3 == n - (7 * k - 3)        # V101 mu
-        assert 3 * k <= 7 * k                  # V102 beta lower/upper witnesses
-        assert 4 * k + 1 == n - (4 * k - 1)    # V103 nu
+        assert n == 8 * k
+        assert k + 3 == n - (7 * k - 3)
+        assert 3 * k <= 7 * k
+        assert 4 * k + 1 == n - (4 * k - 1)
     return {"complete_range_k": brute, "canonical_eta_three_k_through": 20}
 
 
@@ -100,6 +108,7 @@ def mutated_residual_checks() -> int:
 
 def main() -> None:
     result = {
+        "inconsistent_hull_regression": inconsistent_hull_regression(),
         "canonical_random_exact_stretch_cases": random_exact_stretch_checks(),
         "strict_family": strict_family_checks(),
         "canonical_mutated_residual_cases": mutated_residual_checks(),
