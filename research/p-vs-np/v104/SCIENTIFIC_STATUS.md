@@ -1,6 +1,6 @@
 # V104 scientific status
 
-**Classification:** experimental frontier progress; not an official candidate.
+**Classification:** frontier progress; official V104 candidate pending repository promotion gates.
 
 Internally established symbolically:
 
@@ -22,11 +22,21 @@ Falsification completed before candidate registration:
 - canonical strict-family `eta_AF=3` checked for `k=1..7`;
 - 712 additional random residual-output mutations checked against complete
   original ranges: zero failures;
-- structural rank/connectivity identities through `k=20`.
+- structural rank/connectivity identities through `k=20`;
+- explicit canonical inconsistent-hull witness regression in both primary and
+  independent implementations.
 
-Not yet established:
+Operational state:
 
-- repository-CI passage of V104 verifiers aligned to the canonical routine;
+- V103 is promoted and merged on `main`;
+- V104 is the current candidate registered in `LAB_STATUS.json`;
+- primary and independent verifiers plus the standalone theorem module are
+  registered in the repository runner/LaTeX contracts;
+- promotion requires the normal draft quick/LaTeX gates, then ready-PR
+  compatibility/full gates and a clean final review state.
+
+Not established:
+
 - any worst-case sublinear bound on `eta_AF` for arbitrary circuits;
 - unrestricted polynomial-time `NC0_3-Avoid` or an improved unrestricted
   published worst-case exponent;
