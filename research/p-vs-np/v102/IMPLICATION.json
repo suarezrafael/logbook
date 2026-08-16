@@ -1,0 +1,27 @@
+{
+  "laboratory": "V102",
+  "classification": "frontier_progress",
+  "target_problem": "constructive avoidance on the exact V101 residual signed-majority and mux/bijunctive frontier",
+  "conditional_implication": "If a locality-three circuit has a strong affine backdoor B of size beta, exact output-prefix preimage counts are computable by enumerating 2^beta backdoor assignments and applying Gaussian elimination on each affine restriction. Greedy child minimization constructs a missing output in O(2^beta poly(N)). A size-k backdoor is detectable in O(3^k poly(N)) for arity at most three.",
+  "recognized_frontier_implication": false,
+  "material_advance_rule_met": true,
+  "bridge_lemmas": [
+    {"name": "strong affine backdoor makes every restricted output-prefix fiber an affine linear system", "proved": true},
+    {"name": "prefix preimage counts are exact sums over disjoint backdoor assignments", "proved": true},
+    {"name": "minimum-child prefix construction reaches zero preimages when m>n", "proved": true},
+    {"name": "locality-three strong affine backdoor detection is FPT by a <=3-way bounded search tree", "proved": true},
+    {"name": "every 0x1b mask has a unique one-variable selector backdoor", "proved": true},
+    {"name": "0x1b local strong-affine condition is selector-or-both-data", "proved": true},
+    {"name": "0x17 local strong-affine condition is two-of-three", "proved": true},
+    {"name": "exact-stretch pure-0x1b family has beta=1 while V97 lambda=n, V100 zero peels, V101 mu=n", "proved": true},
+    {"name": "all residual 0x17/0x1b circuits have beta=O(log N)", "proved": false},
+    {"name": "unrestricted NC0_3-Avoid is polynomial time", "proved": false}
+  ],
+  "current_gap": "The strong affine backdoor number beta can be Theta(n). V102 gives no worst-case upper bound for arbitrary signed-majority/mux mixtures and therefore no unrestricted runtime improvement.",
+  "stop_rule": "Do not promote V103 from another backdoor census. Require a structural beta upper bound/approximation with consequences, a hybrid functional-anchor plus affine-backdoor compression theorem, or an explicit lambda=mu=beta=Theta(n) obstruction followed by a new shrinking invariant.",
+  "external_validation_target": "prior-art review of strong affine CSP backdoors specialized to range avoidance; comparison with Kuntewar-Sarma majority algorithms and Huang-Li-Zhong local algorithms",
+  "next_front": "hybrid_functional_affine_compression_or_high_beta_obstruction",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
