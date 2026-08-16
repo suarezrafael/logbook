@@ -1,0 +1,31 @@
+{
+  "laboratory": "V104",
+  "status": "experimental_pre_ci",
+  "method": "hybrid functional-DAG plus root-supported affine-hull rank",
+  "strict_family": {
+    "n": "8k",
+    "m": "8k+1",
+    "lambda_V97": "8k",
+    "mu_V101": "k+3",
+    "beta_V102_lower_bound": "3k",
+    "beta_V102_upper_bound": "7k",
+    "nu_V103": "4k+1",
+    "eta_V104": 3,
+    "relaxed_assignments": 8,
+    "residual_outputs": 4
+  },
+  "completed_before_registration": {
+    "full_original_range_checks_k": [1, 2],
+    "structural_rank_connectivity_k_through": 20,
+    "failures": 0
+  },
+  "pending_before_candidate_status": [
+    "execute committed primary verifier suite",
+    "execute committed independent verifier suite",
+    "repository quick and LaTeX gates",
+    "version-order promotion of V102 and V103"
+  ],
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
