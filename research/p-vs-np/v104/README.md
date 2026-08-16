@@ -8,7 +8,7 @@ and peer review are not established.
 
 ## Main result
 
-V104 now removes the supplied-certificate caveat. It defines a deterministic,
+V104 removes the supplied-certificate caveat. It defines a deterministic,
 polynomial-time preprocessing rule:
 
 1. choose every output's canonical target bit (minority value, tie to zero);
@@ -59,8 +59,8 @@ Evaluating the original residual gates on the relaxed domain and choosing a
 missing residual word therefore produces an avoided output.
 
 If the canonical affine-hull system is inconsistent, the canonical target
-pattern already gives an immediate missing word; if a canonical fiber is empty,
-its target coordinate is immediately absent.
+pattern gives an immediate missing word; if a canonical fiber is empty, its
+target coordinate is immediately absent.
 
 ## Strict exact-stretch family
 
@@ -101,7 +101,7 @@ eta_AF(V104) = 3.
 ```
 
 This is a strict asymptotic separation from all four preceding structural
-parameters using a parameter that is now discovered by the algorithm itself.
+parameters using a parameter that is discovered by the algorithm itself.
 
 ## Falsification completed so far
 
@@ -112,15 +112,17 @@ Before candidate registration:
 - structural rank/connectivity identities checked through `k=20`;
 - 712 random mutations of the four residual outputs checked against the complete
   original range, with zero counterexamples;
-- the new canonical affine-first algorithm itself checked on **1,800** random
-  circuits with `2<=n<=7`, `m=n+1`, against complete brute-force ranges, with
-  zero counterexamples;
+- the canonical affine-first algorithm checked on **1,800** random circuits with
+  `2<=n<=7`, `m=n+1`, against complete brute-force ranges, with zero
+  counterexamples;
 - the canonical procedure returned `eta_AF=3` on the strict family for
   `k=1,...,7`.
 
-The committed V104 verifier programs still need to be aligned to the new
-canonical routine and pass repository CI before V104 can become an official
-candidate.
+The committed primary verifier now calls the canonical implementation directly,
+and the independent verifier reimplements the affine basis, protection rule,
+functional scan, rank reduction, and missing-word construction without importing
+the V104 canonical engine. Repository CI is still required before V104 can
+become an official candidate.
 
 ## Literature boundary
 
