@@ -167,11 +167,11 @@ def avoid_by_affine_hulls(n: int, gates: list[Gate]) -> tuple[tuple[int, ...], d
         try:
             gain = trial.add_many(equations)
         except ValueError:
-            y = [0] * m
-            for j in selected:
-                y[j] = targets[j]
-            y[i] = target
-            return tuple(y), {
+            # The retained canonical hulls together with gate i are already
+            # inconsistent. Returning the complete canonical target vector is
+            # the simplest auditable witness: any preimage would satisfy every
+            # one of those inconsistent relaxed constraints.
+            return tuple(targets), {
                 "case": "inconsistent_hulls",
                 "rank": system.rank,
                 "nu": n - system.rank,
