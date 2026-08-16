@@ -1,6 +1,6 @@
 {
   "laboratory": "V104",
-  "status": "experimental_pre_ci",
+  "status": "experimental_ready_for_ci_after_v103",
   "method": "canonical affine-first hybrid compression",
   "strict_family": {
     "n": "8k",
@@ -25,12 +25,22 @@
     "random_residual_mutations_n16": 12,
     "random_residual_mutations_total": 712,
     "structural_rank_connectivity_k_through": 20,
+    "inconsistent_canonical_witness_regression": true,
     "failures": 0
   },
+  "committed_verifier_contract": {
+    "primary_calls_canonical_engine": true,
+    "primary_random_exact_stretch_cases": 1800,
+    "primary_mutated_residual_cases": 212,
+    "independent_reimplementation": true,
+    "independent_random_cases": 480,
+    "independent_strict_eta_three_k_through": 12,
+    "both_include_inconsistent_witness_regression": true
+  },
   "pending_before_candidate_status": [
-    "align committed primary and independent verifiers to canonical_affine_first",
-    "repository quick and LaTeX gates",
-    "version-order promotion of V103"
+    "version-order promotion of V103",
+    "register V104 in LAB_STATUS/runner/LaTeX manifest",
+    "repository quick and LaTeX gates"
   ],
   "p_vs_np_resolved": false,
   "novelty_confirmed": false,
