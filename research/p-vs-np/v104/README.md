@@ -1,109 +1,137 @@
-# Laboratory V104 — hybrid functional-root rank compression
+# Laboratory V104 — canonical affine-first hybrid compression
 
 ## Status
 
-Experimental theorem package. The symbolic theorem and strict family are
-recorded on an isolated branch while V102/V103 proceed through repository
-promotion in order. V104 is not the official candidate. Novelty, priority, and
-peer review are not established.
+Experimental theorem package on an isolated branch while V103 proceeds through
+repository promotion. V104 is not the official candidate. Novelty, priority,
+and peer review are not established.
 
 ## Main result
 
-V104 composes the two safe relaxations that survived the previous laboratories
-without substituting nonlinear functions into neighboring gates:
+V104 now removes the supplied-certificate caveat. It defines a deterministic,
+polynomial-time preprocessing rule:
 
-1. V101-style functional target fibers are relaxed to total graph relations and
-   organized as a distinct-head DAG.
-2. After the DAG is fixed, selected V103-style affine-hull equations are allowed
-   only when they involve the remaining DAG roots.
+1. choose every output's canonical target bit (minority value, tie to zero);
+2. greedily build a rank-increasing basis of the canonical affine-hull blocks;
+3. **protect** every input variable appearing in the retained affine equations;
+4. scan the remaining outputs in order and greedily add a canonical functional
+   anchor only when its head is unprotected, unused, and preserves acyclicity.
 
-If the functional set has `f` heads and the independent affine root equations
-have rank `R`, define
+Let `R` be the affine basis rank and `f` the number of functional heads chosen by
+this canonical rule. Define
 
 ```text
-eta = n - f - R.
+eta_AF(C) = n - R - f.
 ```
 
-Given such a hybrid certificate, V104 deterministically constructs a word
+The preprocessing is polynomial. V104 then deterministically constructs a word
 outside the range in
 
 ```text
-O(2^eta poly(N)).
+O(2^eta_AF(C) poly(N)).
 ```
 
-The certificate itself is polynomially checkable. Finding an optimal certificate
-for an arbitrary circuit is explicitly left open.
+Thus `eta_AF=O(log N)` is a fully algorithmic polynomial-time regime; no
+structural certificate needs to be supplied by the caller.
 
-## Why the counting is exact
+## Why affine-first is safe
 
-The functional DAG leaves `n-f` root variables, and every root assignment has a
-unique total-graph extension. The affine system has rank `R` entirely on those
-roots, so exactly `2^(n-f-R)=2^eta` root assignments survive. Each retained
-affine output block increases rank, so at most `R` affine output coordinates are
-consumed. Since `m>n`, more than `eta` output coordinates remain. Enumerating the
-hybrid relaxed domain and choosing a missing residual output therefore gives a
-missing full output after restoring selected target bits.
+Every variable occurring in a retained affine equation is protected from
+becoming a functional head. Therefore all retained affine equations remain
+supported entirely on the eventual functional roots. Their rank is still `R`.
+
+The functional DAG leaves `n-f` roots and every root assignment extends uniquely
+through the total functional graph relaxations. The protected affine system
+cuts the root cube to exactly
+
+```text
+2^(n-f-R) = 2^eta_AF
+```
+
+assignments. If `s_A` affine output blocks were retained, then `s_A<=R`, so the
+number of unselected outputs satisfies
+
+```text
+m - f - s_A >= m - f - R > n - f - R = eta_AF.
+```
+
+Evaluating the original residual gates on the relaxed domain and choosing a
+missing residual word therefore produces an avoided output.
+
+If the canonical affine-hull system is inconsistent, the canonical target
+pattern already gives an immediate missing word; if a canonical fiber is empty,
+its target coordinate is immediately absent.
 
 ## Strict exact-stretch family
 
-For each `k>=1`, take `n=8k` inputs and `m=n+1` outputs.
+For every `k>=1`, take `n=8k` inputs and `m=n+1` outputs.
 
-The first `4k` variables carry a cyclic `0x1e` graph-of-OR block. Selecting
-`4k-2` functional outputs leaves two roots. The second `4k` variables carry the
-V103 `0x16` parity-hull block of rank `4k-1`. Add one majority output inside the
-second block and one majority output crossing the blocks to make the support
-connected and the stretch exactly one.
+The first `4k` variables carry a cyclic `0x1e` graph-of-OR block. The second
+`4k` variables carry the V103 `0x16` parity-hull block of rank `4k-1`. Add one
+majority output inside the second block and one majority output crossing the
+blocks.
 
-The explicit hybrid certificate has
+The canonical affine-first procedure automatically behaves as desired:
+
+- the affine basis consists of the `4k-1` `0x16` blocks and protects the second
+  group of variables;
+- the `0x1e` outputs have full canonical affine hull, so they do not consume
+  affine rank;
+- the functional scan then selects the first `4k-2` `0x1e` graph relations;
+- the two majority outputs have no functional anchor.
+
+Hence
 
 ```text
-f   = 4k-2,
-R   = 4k-1,
-eta = 3.
+R       = 4k-1,
+f       = 4k-2,
+eta_AF  = 3,
 ```
 
-Thus the relaxed domain always has eight assignments and four residual output
-bits.
+so the relaxed domain always has eight assignments and four residual outputs.
 
-On this same family the preceding parameters remain large:
+On the same connected family:
 
 ```text
 lambda(V97) = 8k,
 mu(V101)     = k+3,
-beta(V102)   = Theta(k) with beta >= 3k,
+beta(V102)   = Theta(k), with 3k <= beta <= 7k,
 nu(V103)     = 4k+1,
-eta(V104)    = 3.
+eta_AF(V104) = 3.
 ```
 
-This is the intended material advance: a constant hybrid exponent on a connected
-infinite family where each previous structural exponent is linear.
+This is a strict asymptotic separation from all four preceding structural
+parameters using a parameter that is now discovered by the algorithm itself.
 
-## Current verification state
+## Falsification completed so far
 
-The theorem was independently sanity-checked before registration on the first
-two exact family instances:
+Before candidate registration:
 
-- `k=1`: `n=8,m=9`, eight relaxed assignments, candidate checked against the
-  complete original range;
-- `k=2`: `n=16,m=17`, eight relaxed assignments, candidate checked against the
-  complete original range;
-- structural rank/connectivity identities checked through `k=20`.
+- strict family checked against the complete original range for `k=1` (`n=8`)
+  and `k=2` (`n=16`);
+- structural rank/connectivity identities checked through `k=20`;
+- 712 random mutations of the four residual outputs checked against the complete
+  original range, with zero counterexamples;
+- the new canonical affine-first algorithm itself checked on **1,800** random
+  circuits with `2<=n<=7`, `m=n+1`, against complete brute-force ranges, with
+  zero counterexamples;
+- the canonical procedure returned `eta_AF=3` on the strict family for
+  `k=1,...,7`.
 
-The branch also contains primary and independent verifier programs with larger
-randomized and structural gates. Those programs must pass repository CI before
-V104 can become a candidate.
+The committed V104 verifier programs still need to be aligned to the new
+canonical routine and pass repository CI before V104 can become an official
+candidate.
 
 ## Literature boundary
 
-Current primary range-avoidance literature includes polynomial algorithms for
-`NC0_2`, special monotone `NC0_3` regimes, general/local exponential algorithms,
-and reductions connecting avoidance to explicit constructions and circuit lower
-bounds. The targeted search performed for V103/V104 did not locate this exact
-functional-DAG-plus-root-affine-rank certificate theorem. That is not evidence of
-novelty, and no novelty claim is made.
+Affine hulls, Gaussian elimination, functional dependencies, and greedy
+acyclicity checks are standard ingredients. The targeted primary-source search
+did not locate this exact affine-first protection rule for Range Avoidance, but
+that absence is not evidence of novelty. No novelty claim is made.
 
 ## Nonclaims
 
-V104 does not find the best hybrid certificate in polynomial time, does not put
-unrestricted `NC0_3-Avoid` in P, does not improve the published unrestricted
-worst-case exponent, and does not resolve P versus NP.
+`eta_AF(C)` can still be linear in the worst case. V104 does not prove
+unrestricted `NC0_3-Avoid` is in P, does not improve the unrestricted published
+worst-case exponent, does not establish a new circuit lower bound, and does not
+resolve P versus NP.
