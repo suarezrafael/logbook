@@ -1,154 +1,183 @@
-# V104 theorem ledger — functional DAG plus affine root rank
+# V104 theorem ledger — canonical affine-first hybrid compression
 
-## Definition — hybrid certificate
+## Definition — canonical affine-first parameter
 
-For `C:{0,1}^n->{0,1}^m`, `m>n`, a hybrid certificate consists of two disjoint
-sets of output coordinates.
+For `C:{0,1}^n->{0,1}^m`, `m>n`, choose the canonical target bit of each output
+as its minority value, breaking ties toward zero.
 
-The functional set `F` carries V101-style target/head certificates. Heads are
-distinct and the tail-to-head dependency graph is acyclic. Let `f=|F|` and let
-`Q` be the non-head variables, so `|Q|=n-f`. Each assignment to `Q` extends
-uniquely through the total functional graph relaxations.
+**Affine phase.** Replace each canonical target fiber by its affine hull and scan
+output blocks in order. Retain a block exactly when its equations increase the
+current GF(2) rank. Let the final rank be `R`. Protect every input variable
+occurring with nonzero coefficient in any retained affine equation.
 
-The affine set `A` carries canonical target fibers whose affine-hull equations
-are supported entirely on the root variables `Q`. Greedily retain an affine
-output block only when its root equations increase rank. Let the resulting root
-rank be `R` and the number of retained affine blocks be `s_A`.
+**Functional phase.** Scan outputs not retained by the affine phase. For each
+output, scan its support variables in increasing index order. Add the first
+canonical functional anchor whose head is unprotected, has not already been used
+as a head, and keeps the tail-to-head dependency graph acyclic. Let the final
+number of functional heads be `f`.
 
-Define
+Define the deterministic parameter
 
 ```text
-eta = |Q| - R = n - f - R.
+eta_AF(C) = n - R - f.
 ```
 
-The certificate is polynomially checkable: functionality, distinct heads,
-acyclicity, local affine hulls, root support, consistency, and GF(2) rank are all
-polynomial-time tests.
+All local fiber tests, rank updates, variable protection, and cycle tests take
+polynomial time for bounded-locality gates.
 
-## Theorem 1 — safe hybrid relaxation
+## Theorem 1 — safe affine-first relaxation
 
-Every exact selected functional fiber is contained in its total functional graph
-relaxation, and every exact selected affine fiber is contained in its affine
-hull. Therefore imposing all selected relaxed relations only enlarges the set of
-inputs that could realize the selected target bits. A word missing from the
-relaxed image lifts to a word missing from the original image.
+Every original input realizing all selected target bits also satisfies the
+selected affine-hull equations and selected total functional graph relations.
+Thus the combined relation is a safe relaxation: a residual word absent from the
+relaxed image is absent from the original image after selected target bits are
+restored.
 
-## Theorem 2 — root-rank avoider
+## Theorem 2 — protected rank remains on functional roots
 
-Given a valid hybrid certificate, a missing output can be constructed
-deterministically in
+Every variable occurring in a retained affine equation is protected before the
+functional phase. Protected variables are forbidden as functional heads.
+Therefore every retained affine equation is supported entirely on the final root
+set of the functional DAG, and its rank remains exactly `R` when the system is
+viewed on those roots.
+
+## Theorem 3 — canonical affine-first avoider
+
+V104 constructs a missing output deterministically in
 
 ```text
-O(2^eta poly(N)).
+O(2^eta_AF(C) poly(N)).
 ```
 
 ### Proof
 
-The functional DAG leaves exactly `|Q|=n-f` roots. The consistent rank-`R`
-affine system on those roots has exactly `2^(|Q|-R)=2^eta` solutions. Every root
-solution extends uniquely through the functional DAG, so the entire hybrid
-relaxed domain also has exactly `2^eta` assignments.
-
-Every retained affine output block increases rank, hence `s_A<=R`. After
-deleting the selected functional and affine output coordinates, the number of
-remaining outputs is
+The functional phase selects `f` distinct heads and keeps the dependency graph
+acyclic, so the final root set `Q` has
 
 ```text
-m - f - s_A >= m - f - R > n - f - R = eta.
+|Q| = n-f.
 ```
 
-Evaluate the original remaining output gates on all `2^eta` relaxed assignments.
-At most `2^eta` residual words occur, while the residual output cube contains
-strictly more. Hash the observed residual words, choose one not observed, and
-reinsert all selected target bits. Any original input producing this full word
-would satisfy all selected exact fibers and therefore all relaxed constraints,
-contradicting the missing residual word.
+Every root assignment extends uniquely through the total functional graph
+relations. By Theorem 2, the retained affine equations form a rank-`R` system on
+`Q`. When consistent, they leave exactly
 
-If a selected affine target fiber is empty, or the selected root affine hulls
-are inconsistent, the corresponding selected target pattern already certifies
-an absent full output after arbitrary completion of the remaining coordinates.
+```text
+2^(|Q|-R) = 2^(n-f-R) = 2^eta_AF
+```
 
-## Theorem 3 — strict infinite-family separation
+root assignments and therefore the same number of full relaxed assignments.
 
-For every `k>=1`, construct two blocks, each on `4k` variables.
+Let `s_A` be the number of retained affine output blocks. Every retained block
+increased rank by at least one, hence `s_A<=R`. The number of unselected output
+coordinates is therefore
 
-### Functional block A
+```text
+m-s_A-f >= m-R-f > n-R-f = eta_AF.
+```
 
-On variables `A_0,...,A_(4k-1)`, put canonical `0x1e` gates on every cyclic
-triple
+Evaluate every unselected original output gate on the relaxed assignments. At
+most `2^eta_AF` residual words occur in a cube of dimension strictly greater
+than `eta_AF`, so a missing residual word is found by hashing the observed words
+and testing a fixed list of distinct candidates. Restore the canonical target
+bits on all selected affine and functional coordinates. Any original preimage of
+the resulting word would lie in the relaxed domain and produce the missing
+residual word, contradiction.
+
+If a canonical target fiber is empty, its target bit is immediately absent. If
+the affine phase detects inconsistency when adding a block, the selected target
+pattern through that block is unrealizable and arbitrary completion of the other
+outputs gives a missing word.
+
+## Theorem 4 — strict infinite-family separation
+
+For every `k>=1`, build a circuit with `n=8k` and `m=n+1`.
+
+### Block A — balanced functional cycle
+
+On variables `A_0,...,A_(4k-1)`, put canonical `0x1e` gates on all cyclic
+triples
 
 ```text
 (A_i,A_(i+1),A_(i+2)) mod 4k.
 ```
 
-There are `4k` outputs. Select the first `4k-2` with target zero. Canonical
-`0x1e` target zero is the graph
+Canonical `0x1e` is balanced non-affine, so its canonical fiber has full affine
+hull and contributes no rank in the affine phase. Its target-zero fiber is the
+total graph
 
 ```text
 A_(i+2) = A_i OR A_(i+1).
 ```
 
-Thus only roots `A_0,A_1` remain.
+In output order the functional phase accepts the first `4k-2` such relations;
+the final two would create cycles and are rejected. Hence Block A contributes
+`f=4k-2` functional heads.
 
-### Affine-rank block B
+### Block B — affine-hull rank chain
 
-On variables `(a_j,b_j,c_j,d_j)` for `j=0,...,k-1`, put canonical `0x16`
-EXACT-ONE gates on `abc`, `abd`, `acd`, plus bridges
-`(d_(j-1),b_j,c_j)` for `j>=1`. There are `4k-1` such outputs. Their canonical
-target-one affine hulls are parity-one equations and have rank `4k-1`.
+On another `4k` variables grouped as `(a_j,b_j,c_j,d_j)`, put `0x16`
+EXACT-ONE gates on `abc`, `abd`, and `acd` for every gadget, plus bridge gates
+`(d_(j-1),b_j,c_j)` for `j>=1`. There are `4k-1` gates. Their canonical
+target-one hulls are parity-one equations and have rank exactly `4k-1`.
+Therefore the affine phase retains all of them and protects every Block B
+variable.
 
-Add one `0x17` majority output inside B and one `0x17` cross-block output on
-`(A_0,a_0,b_0)`. Total input size is `n=8k` and total output size is
-`m=n+1`.
+Add one `0x17` majority output inside B and one cross-block `0x17` output on
+`(A_0,a_0,b_0)`. Majority canonical fibers have full affine hull and no
+functional anchor.
 
-The functional heads live only in A, so every B variable remains a root. The
-B affine equations are therefore root-supported. We have
-
-```text
-f = 4k-2,
-|Q| = 4k+2,
-R = 4k-1,
-eta = 3.
-```
-
-Exactly eight relaxed assignments remain and four output coordinates are
-unselected, so the hybrid avoider searches a constant-size domain for every
-`k`.
-
-## Theorem 4 — previous parameters stay large
-
-On the same family:
+The canonical algorithm itself therefore obtains
 
 ```text
-V97:  lambda = 8k.
-V101: mu     = k+3.
-V102: beta   = Theta(k), in particular beta >= 3k.
-V103: nu     = 4k+1.
-V104: eta    = 3.
+R       = 4k-1,
+f       = 4k-2,
+eta_AF  = 8k-(4k-1)-(4k-2) = 3.
 ```
 
-For V97, the support is connected and every input has degree at least two, while
-all gates are essential ternary, so the unused/leaf/unary reducer leaves every
-input.
+The relaxed domain always has eight assignments, and exactly four output
+coordinates remain unselected.
 
-For V101, the A cycle admits at most `4k-2` acyclic distinct heads and attains
-that bound. The B `0x16` block admits exactly `3k-1` heads as proved in V103;
-majority outputs admit none. The blocks have disjoint possible heads, yielding
-`(4k-2)+(3k-1)=7k-3` selected heads and exactly `k+3` roots.
+## Theorem 5 — preceding parameters remain linear
 
-For V102, the three internal `0x16` supports in every B gadget force at least
-three conditioned B variables, hence `beta>=3k`. Conditioning all A variables
-and `b_j,c_j,d_j` in every B gadget gives a linear-size backdoor, so
-`beta=Theta(k)`.
+On the same connected exact-stretch family:
 
-For V103, all `0x1e` and `0x17` canonical fibers have full affine hull; only the
-B `0x16` block contributes rank, exactly `4k-1`. Thus
-`nu=8k-(4k-1)=4k+1`.
+```text
+V97:  lambda = 8k,
+V101: mu     = k+3,
+V102: 3k <= beta <= 7k,
+V103: nu     = 4k+1,
+V104: eta_AF = 3.
+```
 
-## Boundary
+The support is connected and every input has degree at least two, so V97 has no
+unused/leaf/unary peel and `lambda=n`.
 
-V104 does not provide a polynomial-time algorithm for finding an optimal hybrid
-certificate. The theorem is constructive given a polynomially checkable
-certificate, and the strict family has an explicit certificate. No unrestricted
-polynomial-time `NC0_3-Avoid` algorithm, published worst-case improvement,
-novelty claim, circuit lower bound, or P-versus-NP resolution follows.
+For V101, Block A contributes at most and exactly `4k-2` acyclic distinct heads.
+Block B contributes at most and exactly `3k-1` heads by the V103 gadget theorem;
+majority contributes none. The two head sets are disjoint, so the total maximum
+is `7k-3` and `mu=8k-(7k-3)=k+3`.
+
+For V102, every Block B gadget's three internal `0x16` triples require at least
+three backdoor variables, giving `beta>=3k`. Fixing all `4k` Block A variables
+plus `{b_j,c_j,d_j}` in every B gadget gives a strong affine backdoor of size
+`7k`, so `beta=Theta(k)`.
+
+For V103, `0x1e` and `0x17` canonical fibers have full affine hull. Only Block B
+contributes rank `4k-1`, hence `nu=8k-(4k-1)=4k+1`.
+
+## Falsification status
+
+Before official candidate registration, the canonical implementation was checked
+against complete original ranges on 1,800 random exact-stretch circuits with
+`2<=n<=7`, with zero failures. The strict family was checked completely at
+`k=1,2`, the canonical parameter identity `eta_AF=3` through `k=7`, and 712
+additional random mutations of its residual outputs against complete original
+ranges, again with zero failures.
+
+## Nonclaims
+
+No worst-case sublinear bound on `eta_AF` is proved. V104 does not put
+unrestricted `NC0_3-Avoid` in P, improve the unrestricted published worst-case
+exponent, establish a new circuit lower bound, confirm novelty or peer review,
+or resolve P versus NP.
