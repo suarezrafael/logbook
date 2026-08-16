@@ -11,7 +11,7 @@
   "infrastructure_frozen": true,
   "next_laboratory_version": "V102",
   "next_laboratory_focus": "validate and promote V102; after promotion attack affine-hull rank compression and hybrid functional/affine relaxations with a symbolic infinite-family separation from lambda, mu, and beta",
-  "next_front": "affine_hull_rank_and_hybrid_relaxations",
+  "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
     "required_material_advance": [
