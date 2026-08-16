@@ -24,7 +24,7 @@ def fiber(gate, bit):
 
 
 def local_hull_rows(gate, bit):
-    mask, support = gate
+    _mask, support = gate
     points = fiber(gate, bit)
     if not points:
         return None
@@ -166,11 +166,7 @@ def canonical_avoider(n, gates):
         try:
             gain = trial.add_many(rows)
         except ValueError:
-            y = [0] * m
-            for j in affine:
-                y[j] = bits[j]
-            y[i] = bits[i]
-            return tuple(y), {"case": "inconsistent", "eta": n - system.rank}
+            return tuple(bits), {"case": "inconsistent", "eta": n - system.rank}
         if gain:
             system = trial
             affine.append(i)
@@ -247,6 +243,15 @@ def in_range(n, gates, y):
     return False
 
 
+def inconsistent_regression():
+    gates = [(0x2, (0,)), (0x1, (0,))]
+    y, meta = canonical_avoider(1, gates)
+    assert meta["case"] == "inconsistent"
+    assert y == (0, 0)
+    assert not in_range(1, gates, y)
+    return {"canonical_witness": "00"}
+
+
 def family(k):
     a = b = 4 * k
     n = a + b
@@ -295,6 +300,7 @@ def strict_checks():
 
 def main():
     result = {
+        "independent_inconsistent_regression": inconsistent_regression(),
         "independent_canonical_random_cases": random_checks(),
         "independent_strict_eta_three_k_through": strict_checks(),
         "failures": 0,
