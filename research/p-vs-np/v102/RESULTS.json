@@ -1,0 +1,29 @@
+{
+  "laboratory": "V102",
+  "primary": {
+    "mux_orbit_masks": 24,
+    "majority_orbit_masks": 8,
+    "local_backdoor_classifications_exact": true,
+    "random_mux_circuits": 600,
+    "strict_mux_family_n_min": 5,
+    "strict_mux_family_n_max": 10,
+    "majority_control_n_min": 4,
+    "majority_control_n_max": 9,
+    "failures": 0
+  },
+  "independent": {
+    "method": "ANF Mobius degree plus direct branch enumeration",
+    "random_mux_circuits": 240,
+    "strict_mux_family_n_min": 5,
+    "strict_mux_family_n_max": 9,
+    "failures": 0
+  },
+  "strict_family": {
+    "orbit": "0x1b",
+    "stretch": "m=n+1",
+    "beta": 1,
+    "v97_lambda": "n",
+    "v100_peels": 0,
+    "v101_mu": "n"
+  }
+}
