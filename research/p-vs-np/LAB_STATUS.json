@@ -1,16 +1,16 @@
 {
-  "schema_version": 56,
+  "schema_version": 57,
   "updated": "2026-08-16",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V101",
-  "candidate_version": "V102",
-  "highest_directory": "V102",
+  "promoted_version": "V102",
+  "candidate_version": "V103",
+  "highest_directory": "V103",
   "promotion_state": "candidate",
-  "completed_scope": "V102 candidate: strong affine backdoor beta(C), deterministic O(2^beta poly(N)) avoidance by exact affine prefix counting, O(3^k poly(N)) locality-three backdoor detection, exact residual rules for all 24 mux/bijunctive 0x1b masks and all 8 signed-majority 0x17 masks, and an infinite exact-stretch pure-MUX family with beta=1 while V97 lambda=n, V100 zero peels, and V101 mu=n; primary and independent audits included",
+  "completed_scope": "V103 candidate: safe canonical affine-hull relaxation, deterministic O(2^nu poly(N)) avoidance with nu=n-R from global GF(2) hull rank, exact 162/56 essential ternary proper/full canonical-hull split, cyclic affine constraints handled without DAG orientation, and an infinite exact-stretch 0x16/0x17 family with V97 lambda=4k, V101 mu=k+1, V102 beta=3k, and V103 nu=1; primary and independent audits included",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V102",
-  "next_laboratory_focus": "validate and promote V102; after promotion attack affine-hull rank compression and hybrid functional/affine relaxations with a symbolic infinite-family separation from lambda, mu, and beta",
+  "next_laboratory_version": "V103",
+  "next_laboratory_focus": "validate and promote V103; after promotion combine functional DAG compression with root-supported affine-hull rank and require a strict infinite-family separation beyond lambda, mu, beta, and nu",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V102",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V103",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -262,6 +262,14 @@
     "v102_signed_majority_exact_two_of_three_rule": true,
     "v102_strict_mux_family_beta_one_lambda_n_mu_n": true,
     "v102_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v102_hlz_worst_case_runtime_improved": false
+    "v102_hlz_worst_case_runtime_improved": false,
+    "v103_affine_hull_safe_relaxation": true,
+    "v103_affine_hull_rank_avoider_O2nu": true,
+    "v103_essential_ternary_proper_full_162_56": true,
+    "v103_balanced_nonaffine_full_hull_56": true,
+    "v103_affine_cycles_solved_by_global_rank": true,
+    "v103_strict_family_lambda_4k_mu_kplus1_beta_3k_nu_one": true,
+    "v103_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v103_hlz_worst_case_runtime_improved": false
   }
 }

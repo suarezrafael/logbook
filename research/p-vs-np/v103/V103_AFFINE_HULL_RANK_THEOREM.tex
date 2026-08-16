@@ -1,0 +1,93 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\title{V103: Affine-Hull Rank Compression for Range Avoidance}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+\begin{document}
+\maketitle
+
+\begin{definition}
+For every output gate $g_i$, choose the minority output value, breaking a tie
+toward zero, and let $F_i$ be that fiber. Replace $F_i$ by its affine hull over
+$\mathbb F_2$. When the combined hull system is consistent, let $R$ be its
+coefficient rank and put $\nu=n-R$.
+\end{definition}
+
+\begin{lemma}[Safe hull relaxation]
+Replacing a target fiber $F_i$ by $\operatorname{aff}(F_i)$ is safe for range
+avoidance.
+\end{lemma}
+\begin{proof}
+Every exact realization of the target bit lies in $F_i$, and
+$F_i\subseteq\operatorname{aff}(F_i)$. Thus relaxation only enlarges the set of
+allowed inputs.
+\end{proof}
+
+\begin{theorem}[Affine-hull rank avoider]
+Let $C:\{0,1\}^n\to\{0,1\}^m$ with $m>n$. If a canonical fiber is empty or the
+combined canonical affine-hull system is inconsistent, a missing output is found
+in polynomial time. Otherwise a missing output is constructible in
+\[
+O(2^\nu\operatorname{poly}(N)).
+\]
+\end{theorem}
+\begin{proof}
+Greedily retain an output block only when its hull equations increase rank. If
+$s$ blocks are retained, then $s\le R$, and the retained system has rank $R$
+and exactly $2^{n-R}=2^\nu$ solutions. The number of remaining outputs is
+\[
+m-s\ge m-R>n-R=\nu.
+\]
+Evaluate the remaining original gates on all relaxed solutions. At most
+$2^\nu$ residual words are observed, fewer than the $2^{m-s}$ possible words.
+Choose a missing residual word and reinsert the retained target bits. Any input
+producing the resulting full word would satisfy every retained exact fiber,
+hence the retained hull system, and would therefore have produced the missing
+residual word, a contradiction.
+\end{proof}
+
+\begin{theorem}[Exact ternary hull boundary]
+Among the $218$ essential ternary truth tables, exactly $162$ have a proper
+canonical affine hull. The remaining $56$ are precisely the balanced non-affine
+predicates.
+\end{theorem}
+\begin{proof}
+An unbalanced minority fiber has at most three vertices of the three-cube, so
+its affine dimension is at most two. A balanced fiber has four points. If its
+hull is proper, those four points form an affine plane; the complement is the
+other coset, so the predicate is affine. Conversely an affine balanced
+predicate has affine-plane fibers. The exact $162/56$ count is exhaustively
+verified.
+\end{proof}
+
+\begin{theorem}[Strict four-parameter separation]
+For every $k\ge1$ there is an exact-stretch circuit with $n=4k$, $m=n+1$, and
+\[
+\lambda=4k,\qquad \mu=k+1,\qquad \beta=3k,\qquad \nu=1.
+\]
+\end{theorem}
+\begin{proof}
+Group variables as $(a_j,b_j,c_j,d_j)$. Put $0x16$ gates on $abc$, $abd$,
+$acd$ in each gadget and on $(d_{j-1},b_j,c_j)$ between consecutive gadgets;
+add two $0x17$ outputs. The canonical $0x16$ hull equation is parity one. The
+three internal equations force $a_j=1$ and $b_j=c_j=d_j=t_j$. Each bridge then
+forces $t_{j-1}=1$, leaving only $t_{k-1}$ free, hence rank $n-1$ and $\nu=1$.
+The support is connected with minimum degree at least two, so $\lambda=n$. In
+any topological order the three internal triples have at most two distinct
+maxima, while an explicit acyclic orientation attains $3k-1$ heads, so
+$\mu=k+1$. Finally every internal $0x16$ gate requires two conditioned support
+variables for a strong affine backdoor; the three internal triples require at
+least three variables per gadget, and choosing $b_j,c_j,d_j$ attains
+$\beta=3k$.
+\end{proof}
+
+\paragraph{Boundary.}
+No worst-case bound on $\nu$, unrestricted polynomial-time $NC^0_3$ avoidance,
+new circuit lower bound, novelty, peer review, or P-versus-NP resolution is
+claimed.
+\end{document}
