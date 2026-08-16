@@ -1,0 +1,32 @@
+{
+  "laboratory": "V103",
+  "classification": "frontier_progress",
+  "target_problem": "compress locality-three range avoidance by safely replacing canonical output fibers with affine hulls and measuring the remaining global affine dimension",
+  "conditional_implication": "For a consistent canonical affine-hull system of coefficient rank R, let nu=n-R. A block basis uses at most R selected output coordinates, leaves more than nu unselected coordinates, and its relaxed domain has exactly 2^nu assignments. Enumerating those assignments constructs a missing word in O(2^nu poly(N)); inconsistent hulls give an immediate missing canonical target word.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "V103 gives a new parameterized constructive regime, exactly exposes the 56 balanced-nonaffine essential ternary full-hull predicates as its local blind spot, and gives an infinite exact-stretch family with nu=1 while V97 lambda=4k, V101 mu=k+1, and V102 beta=3k.",
+  "bridge_lemmas": [
+    {"name": "each exact target fiber is contained in its affine hull, so hull replacement is a safe relaxation", "proved": true},
+    {"name": "an inconsistent canonical affine-hull system makes the canonical target word absent", "proved": true},
+    {"name": "a greedy gate-block basis uses s<=R output coordinates and spans rank R", "proved": true},
+    {"name": "the selected relaxed domain has exactly 2^(n-R) assignments", "proved": true},
+    {"name": "m-s>n-R guarantees a missing residual output constructible from the enumerated relaxed domain", "proved": true},
+    {"name": "exactly 162 of 218 essential ternary masks have a proper canonical affine hull and the remaining 56 are balanced non-affine", "proved": true},
+    {"name": "the explicit 0x16 bridge family has rank n-1 and nu=1", "proved": true},
+    {"name": "the same family has exact V101 mu=k+1", "proved": true},
+    {"name": "the same family has exact V102 beta=3k", "proved": true},
+    {"name": "the same family has V97 lambda=4k and V100 zero peels", "proved": true},
+    {"name": "all high-nu balanced-nonaffine residual systems are polynomial-time avoidable", "proved": false},
+    {"name": "unrestricted NC0_3-Avoid is polynomial time", "proved": false}
+  ],
+  "material_advance_rule_met": true,
+  "closed_route": "requiring V101 acyclicity for every useful local relaxation; affine-hull equations allow cyclic constraints to be compressed globally by rank",
+  "surviving_route": "combine functional graph relaxations, strong affine backdoors, and affine-hull rank on the 56 balanced-nonaffine full-hull predicates, or construct a family where all four parameters lambda, mu, beta, and nu remain linear",
+  "current_gap": "Balanced non-affine ternary fibers have full affine hull, and nu(C) can remain linear. V103 does not provide a worst-case upper bound on nu or a general compression for the 56 full-hull essential predicates.",
+  "stop_rule": "Do not promote V104 from another truth-table census. Require a symbolic hybrid constructor, an FPT parameter with strict infinite-family separation beyond nu, or a scalable obstruction for high-nu balanced-nonaffine systems.",
+  "external_validation_target": "prior-art review of affine-hull relaxation for range avoidance; comparison with exact affine-fiber V56, ECCC TR22-102, TR23-072, TR23-193, TR25-034, and TR25-049",
+  "next_front": "hybrid_functional_backdoor_affine_hull_or_high_nu_obstruction",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
