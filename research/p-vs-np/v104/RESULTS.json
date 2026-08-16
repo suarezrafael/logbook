@@ -1,7 +1,7 @@
 {
   "laboratory": "V104",
   "status": "experimental_pre_ci",
-  "method": "hybrid functional-DAG plus root-supported affine-hull rank",
+  "method": "canonical affine-first hybrid compression",
   "strict_family": {
     "n": "8k",
     "m": "8k+1",
@@ -10,11 +10,16 @@
     "beta_V102_lower_bound": "3k",
     "beta_V102_upper_bound": "7k",
     "nu_V103": "4k+1",
-    "eta_V104": 3,
+    "eta_AF_V104": 3,
+    "affine_rank": "4k-1",
+    "functional_heads": "4k-2",
     "relaxed_assignments": 8,
     "residual_outputs": 4
   },
   "completed_before_registration": {
+    "canonical_random_exact_stretch_circuits": 1800,
+    "canonical_random_n_range": [2, 7],
+    "canonical_strict_eta_three_k_through": 7,
     "full_original_range_checks_k": [1, 2],
     "random_residual_mutations_n8": 700,
     "random_residual_mutations_n16": 12,
@@ -23,8 +28,7 @@
     "failures": 0
   },
   "pending_before_candidate_status": [
-    "execute committed primary verifier suite",
-    "execute committed independent verifier suite",
+    "align committed primary and independent verifiers to canonical_affine_first",
     "repository quick and LaTeX gates",
     "version-order promotion of V103"
   ],
