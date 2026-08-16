@@ -1,6 +1,6 @@
 {
   "laboratory": "V104",
-  "status": "experimental_ready_for_ci_after_v103",
+  "status": "candidate_pending_ci",
   "method": "canonical affine-first hybrid compression",
   "strict_family": {
     "n": "8k",
@@ -37,10 +37,12 @@
     "independent_strict_eta_three_k_through": 12,
     "both_include_inconsistent_witness_regression": true
   },
-  "pending_before_candidate_status": [
-    "version-order promotion of V103",
-    "register V104 in LAB_STATUS/runner/LaTeX manifest",
-    "repository quick and LaTeX gates"
+  "pending_promotion_gates": [
+    "draft quick",
+    "draft LaTeX",
+    "ready compatibility",
+    "ready full replay when CI-sensitive",
+    "clean final review state"
   ],
   "p_vs_np_resolved": false,
   "novelty_confirmed": false,
