@@ -1,6 +1,6 @@
 # V103 scientific status
 
-**Classification:** frontier progress; experimental branch pending V102 promotion and repository CI integration.
+**Classification:** frontier progress; official V103 candidate pending final promotion gates.
 
 Internally established:
 
@@ -10,6 +10,13 @@ Internally established:
 - infinite exact-stretch family with `lambda=4k`, `mu=k+1`, `beta=3k`, and `nu=1`;
 - primary and independent finite audits with zero failures.
 
+Operational state:
+
+- V102 is promoted and merged on `main`;
+- V103 is the current candidate registered in `LAB_STATUS.json`;
+- draft quick and LaTeX gates passed before ready-for-review;
+- promotion still requires the final ready-PR compatibility/full gates and a clean final review state.
+
 Not established:
 
 - any worst-case sublinear bound on `nu`;
@@ -18,6 +25,3 @@ Not established:
 - a new circuit lower bound;
 - novelty, priority, or peer review;
 - P versus NP.
-
-V103 must not become the official candidate until V102 itself has passed the
-required repository gates and is promoted.
