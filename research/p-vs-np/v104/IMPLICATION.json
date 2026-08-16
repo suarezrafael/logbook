@@ -1,0 +1,29 @@
+{
+  "laboratory": "V104",
+  "classification": "frontier_progress",
+  "target_problem": "combine functional graph compression and affine-hull rank without nonlinear substitution into neighboring gates",
+  "conditional_implication": "Given a polynomially checkable certificate with f distinct acyclic functional heads and rank R of additional root-supported affine-hull equations, eta=n-f-R variables of freedom remain. The hybrid relaxed domain has exactly 2^eta assignments, at most R affine output blocks are consumed, and m>n leaves more than eta residual outputs, yielding deterministic O(2^eta poly(N)) avoidance.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "The explicit connected exact-stretch family has eta=3 while V97 lambda=8k, V101 mu=k+3, V102 beta=Theta(k) with beta>=3k, and V103 nu=4k+1. The detector for an optimal hybrid certificate remains open.",
+  "bridge_lemmas": [
+    {"name": "functional graph and affine-hull relaxations can be imposed simultaneously when affine equations are root-supported", "proved": true},
+    {"name": "a rank-R root system below an f-head functional DAG leaves exactly 2^(n-f-R) relaxed assignments", "proved": true},
+    {"name": "the number of retained affine output blocks is at most R", "proved": true},
+    {"name": "m>n leaves more than eta=n-f-R residual output coordinates", "proved": true},
+    {"name": "a supplied hybrid certificate is polynomially verifiable", "proved": true},
+    {"name": "the explicit 0x1e plus 0x16 family has eta=3", "proved": true},
+    {"name": "the same family has lambda=8k, mu=k+3, beta>=3k, and nu=4k+1", "proved": true},
+    {"name": "an optimal or eta-FPT hybrid certificate can be found on arbitrary circuits", "proved": false},
+    {"name": "unrestricted NC0_3-Avoid is polynomial time", "proved": false}
+  ],
+  "material_advance_rule_met": true,
+  "closed_route": "treating functional-DAG compression and affine-hull rank as mutually exclusive preprocessing stages",
+  "surviving_route": "detect or approximate hybrid certificates, or identify a stronger normal form for balanced-nonaffine high-eta residual systems",
+  "current_gap": "The algorithm is constructive given a certificate, but V104 does not provide a polynomial-time or FPT procedure parameterized only by eta for finding an optimal certificate on an arbitrary circuit.",
+  "stop_rule": "Do not promote V105 for another supplied-certificate restatement. Require a detector/approximation theorem, a strictly stronger polynomially discoverable invariant, or a scalable obstruction showing hybrid-certificate detection is itself hard.",
+  "external_validation_target": "prior-art review of combined functional-dependency and affine-rank relaxations in range avoidance, CSP backdoors, algebraic CSPs, proof-complexity generators, and remote-point constructions",
+  "next_front": "hybrid_certificate_detection_or_obstruction",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
