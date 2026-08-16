@@ -4,23 +4,30 @@
 
 Internally established symbolically:
 
-- safe composition of a V101 distinct-head functional DAG with root-supported
-  V103 affine-hull equations;
-- deterministic `O(2^eta poly(N))` avoidance given a valid hybrid certificate,
-  where `eta=n-f-R`;
-- polynomial-time verification of a supplied certificate;
-- explicit connected exact-stretch family with `eta=3` while `lambda`, `mu`,
-  `beta`, and `nu` are all linear in the family parameter.
+- safe deterministic composition of canonical affine-hull rank with functional
+  graph compression by protecting every variable used by the affine basis;
+- polynomial-time affine-first preprocessing that computes rank `R`, then
+  greedily chooses `f` unprotected distinct functional heads while preserving
+  acyclicity;
+- deterministic `O(2^eta_AF poly(N))` avoidance with the computable parameter
+  `eta_AF=n-R-f`;
+- explicit connected exact-stretch family with `eta_AF=3` while V97 `lambda`,
+  V101 `mu`, V102 `beta`, and V103 `nu` are all linear.
 
-Sanity checks completed before registration:
+Falsification completed before candidate registration:
 
-- complete original-range checks for the strict family at `k=1` and `k=2`;
+- 1,800 random exact-stretch circuits with `2<=n<=7` checked against complete
+  original ranges under the canonical algorithm: zero failures;
+- complete strict-family original-range checks for `k=1` and `k=2`;
+- canonical strict-family `eta_AF=3` checked for `k=1..7`;
+- 712 additional random residual-output mutations checked against complete
+  original ranges: zero failures;
 - structural rank/connectivity identities through `k=20`.
 
 Not yet established:
 
-- repository-CI passage of the larger V104 primary/independent verifier suites;
-- a polynomial/FPT detector for an optimal hybrid certificate;
-- any worst-case sublinear bound on `eta` for arbitrary circuits;
-- unrestricted polynomial-time `NC0_3-Avoid`;
+- repository-CI passage of V104 verifiers aligned to the canonical routine;
+- any worst-case sublinear bound on `eta_AF` for arbitrary circuits;
+- unrestricted polynomial-time `NC0_3-Avoid` or an improved unrestricted
+  published worst-case exponent;
 - novelty, priority, peer review, a new circuit lower bound, or P versus NP.
