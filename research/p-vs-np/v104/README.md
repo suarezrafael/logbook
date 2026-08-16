@@ -2,9 +2,9 @@
 
 ## Status
 
-Experimental theorem package on an isolated branch while V103 proceeds through
-repository promotion. V104 is not the official candidate. Novelty, priority,
-and peer review are not established.
+Official V104 candidate theorem package. Internally proved and adversarially
+audited; repository promotion gates are pending. Novelty, priority, and peer
+review are not established. V103 is promoted and merged on `main`.
 
 ## Main result
 
@@ -58,9 +58,9 @@ m - f - s_A >= m - f - R > n - f - R = eta_AF.
 Evaluating the original residual gates on the relaxed domain and choosing a
 missing residual word therefore produces an avoided output.
 
-If the canonical affine-hull system is inconsistent, the canonical target
-pattern gives an immediate missing word; if a canonical fiber is empty, its
-target coordinate is immediately absent.
+If the canonical affine-hull system is inconsistent, the complete canonical
+target vector gives an immediate missing word; if a canonical fiber is empty,
+its target coordinate is immediately absent.
 
 ## Strict exact-stretch family
 
@@ -103,9 +103,7 @@ eta_AF(V104) = 3.
 This is a strict asymptotic separation from all four preceding structural
 parameters using a parameter that is discovered by the algorithm itself.
 
-## Falsification completed so far
-
-Before candidate registration:
+## Falsification completed before candidate registration
 
 - strict family checked against the complete original range for `k=1` (`n=8`)
   and `k=2` (`n=16`);
@@ -116,13 +114,33 @@ Before candidate registration:
   `2<=n<=7`, `m=n+1`, against complete brute-force ranges, with zero
   counterexamples;
 - the canonical procedure returned `eta_AF=3` on the strict family for
-  `k=1,...,7`.
+  `k=1,...,7`;
+- primary and independent implementations include an explicit inconsistent-hull
+  canonical-witness regression.
 
-The committed primary verifier now calls the canonical implementation directly,
-and the independent verifier reimplements the affine basis, protection rule,
-functional scan, rank reduction, and missing-word construction without importing
-the V104 canonical engine. Repository CI is still required before V104 can
-become an official candidate.
+The committed primary verifier calls the canonical implementation directly. The
+independent verifier reimplements the affine basis, protection rule, functional
+scan, rank reduction, and missing-word construction without importing the V104
+canonical engine. These are now registered in the official focused runner, and
+the standalone theorem module is registered in the LaTeX manifest.
+
+## Next obstruction
+
+The frozen V105 handoff gives a switching-unbalanced cyclic signed-majority
+family for which affine hulls and functional anchors are both blind:
+
+```text
+lambda = n,
+mu = n,
+beta = ceil(2n/3),
+nu = n,
+eta_AF = n.
+```
+
+The next useful question is therefore not another ordering heuristic. It is
+whether one-hit conditioning of majority can be composed into one globally
+missing output, or whether that branch-composition primitive has a rigorous
+hardness barrier.
 
 ## Literature boundary
 
