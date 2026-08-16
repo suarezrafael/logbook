@@ -1,0 +1,44 @@
+\section*{V102: Strong affine backdoors for range avoidance}
+
+Let $C:\{0,1\}^n\to\{0,1\}^m$ with $m>n$.  A set $B$ of input
+variables is a \emph{strong affine backdoor} if, for every assignment
+$\sigma\in\{0,1\}^B$, every restricted output coordinate of $C|_\sigma$
+is affine over $\mathbb F_2$.  Write $\beta(C)$ for the minimum size of such
+a set.
+
+\paragraph{Theorem.}
+Given a strong affine backdoor $B$, one can construct deterministically a word
+outside $\operatorname{Range}(C)$ in time
+\[
+  O\!\left(2^{|B|}\operatorname{poly}(|C|)\right).
+\]
+If every output has arity at most three, a backdoor of size at most $k$ can be
+detected in $O(3^k\operatorname{poly}(|C|))$ time.
+
+\paragraph{Proof.}
+For an output prefix $p$, let
+\[
+ M(p)=|\{x:C(x)\text{ begins with }p\}|.
+\]
+Fix $\sigma$ on $B$.  The prefix equations of $C|_\sigma$ form an affine
+linear system, so Gaussian elimination gives its exact number of solutions.
+Summing over all $2^{|B|}$ assignments gives $M(p)$ exactly.  Starting from the
+empty prefix, append the bit $b$ minimizing $M(pb)$.  Since
+$M(p0)+M(p1)=M(p)$, each step halves the count.  Thus after $m$ bits,
+\[
+ M(y)\le 2^{n-m}<1,
+\]
+and integrality gives $M(y)=0$.
+
+For detection at locality three, choose a gate that is not strongly affine
+under the currently conditioned local coordinates.  Strong-affine goodness is
+upward closed.  The inclusion-minimal good local supersets form an antichain
+in a three-element support, hence there are at most three.  Branch on those
+supersets.  Every branch adds a variable, giving a depth-$k$, at-most-three-way
+search tree. \qed
+
+\paragraph{Residual ternary frontier.}
+For the $0x1b$ NPN orbit there is a unique selector coordinate; a local set is
+strong-affine iff it contains the selector or both data coordinates.  For the
+signed-majority $0x17$ orbit, a local set is strong-affine iff it contains at
+least two support coordinates.
