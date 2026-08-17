@@ -157,7 +157,40 @@ switches equal and simultaneously force the negated-third variable opposite,
 which is impossible. Hence the positive-surplus component is not
 switching-balanced.
 
-## Theorem 5 — separation from preceding structural parameters
+## Theorem 5 — exact V102 backdoor size on the strict family
+
+Let `B` be a V102 strong affine backdoor and `U=V\B`. For a signed-majority gate,
+`B` must meet its three-variable support in at least two variables, so every gate
+support contains at most one vertex of `U`.
+
+Write the connecting path vertices as
+
+```text
+s_0=a_0, s_1, ..., s_r, s_(r+1)=b_0.
+```
+
+The path-gate supports contain every consecutive triple of this sequence up to
+`{s_(r-1),s_r,b_0}`, followed by `{s_r,b_0,b_1}`. Hence selected vertices of
+`U` on the path sequence must have spacing at least three.
+
+The left triangle contributes at most one of `{a_0,a_1,a_2}` and the right
+triangle at most one of `{b_0,b_1,b_2}`. Equivalently, after accounting for the
+endpoint choices, maximizing `U` reduces to a distance-three packing on the `r`
+internal path vertices plus at most one free choice at each triangle end. Thus
+
+```text
+|U| <= ceil(r/3)+2 = ceil((r+6)/3) = ceil(n/3).
+```
+
+The bound is attained by taking every third internal path vertex and one
+compatible vertex from each end triangle. Therefore
+
+```text
+alpha = |U| = ceil(n/3),
+beta = n-ceil(n/3) = floor(2n/3).
+```
+
+## Theorem 6 — separation from preceding laboratory routes
 
 On the strict family:
 
@@ -170,20 +203,25 @@ On the strict family:
    ternary, and every input has incidence degree at least two, so `lambda=n`.
 3. **V98 switching.** The literal-sign conflict in Theorem 4 makes the component
    switching-unbalanced.
-4. **V101 functional anchors.** Signed majority has no exact functional target
+4. **V99 simple-X route.** The strict support family is not a simple linear
+   loose-X instance: the end triangles repeat the same three-variable support and
+   consecutive path gates overlap in two variables. V99's simple-X majority
+   certificate therefore does not directly apply.
+5. **V100 literal graph peeling.** Signed majority is in the V100 residual hard
+   orbit, so these gates provide no literal-graph fiber peel.
+6. **V101 functional anchors.** Signed majority has no exact functional target
    fiber, so `mu=n`.
-5. **V102 strong affine backdoor.** Every majority support must be hit in at
-   least two variables. The path contains linearly many disjoint support triples,
-   giving `beta=Omega(n)`; the full input set gives `beta=O(n)`. Thus
-   `beta=Theta(n)`. Finite exact checks match `floor(2n/3)`.
-6. **V103 affine hull.** Both target fibers of signed majority have full affine
+7. **V102 strong affine backdoor.** By Theorem 5,
+   `beta=floor(2n/3)` exactly.
+8. **V103 affine hull.** Both target fibers of signed majority have full affine
    hull, so `nu=n`.
-7. **V104 affine-first hybrid.** With zero affine rank and zero functional heads,
+9. **V104 affine-first hybrid.** With zero affine rank and zero functional heads,
    `eta_AF=n`.
 
 Thus V105 gives a polynomial-time regime on an infinite exact-stretch family
 where the preceding V97/V101/V102/V103/V104 structural exponents remain linear,
-and where the V98 switching reduction does not apply.
+where the V98 switching reduction fails, and where the V99 simple-X certificate
+is not the operative structure.
 
 ## Boundary
 
