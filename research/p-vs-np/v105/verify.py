@@ -12,6 +12,7 @@ from signed_majority_dumbbell import (
     Gate,
     SIGNED_MAJORITY_POLARITIES,
     avoid_by_odd_triangle_dumbbell,
+    canonical_pair_edges,
     in_range,
     majority_polarity,
     mask_from_polarity,
@@ -106,6 +107,18 @@ def no_proper_positive_surplus(n: int, gates: list[Gate]) -> bool:
                 used.update(gate.support)
         if count > len(used):
             return False
+    return True
+
+
+def malformed_support_rejected() -> bool:
+    mask = mask_from_polarity((0, 0, 0))
+    for support in ((0, 1, 0), (0, 0, 1), (0, 1, 1)):
+        try:
+            canonical_pair_edges([Gate(support, mask)])
+        except ValueError as exc:
+            assert "three distinct variables" in str(exc)
+        else:
+            raise AssertionError(("repeated signed-majority support accepted", support))
     return True
 
 
@@ -243,6 +256,7 @@ def main() -> None:
     assert len(SIGNED_MAJORITY_POLARITIES) == 8
     result = {
         "signed_majority_masks": 8,
+        "malformed_support_rejected": malformed_support_rejected(),
         "strict_family": strict_checks(),
         "general_bicyclic": general_bicyclic_checks(),
         "random_polarity_complete_range_cases": randomized_polarity_checks(),
