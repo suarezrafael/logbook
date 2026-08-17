@@ -1,0 +1,29 @@
+{
+  "laboratory": "V104",
+  "classification": "frontier_progress",
+  "target_problem": "combine affine-hull rank and functional graph compression by a deterministic rule that keeps all affine basis variables as functional roots",
+  "conditional_implication": "The canonical affine-first preprocessing greedily builds a rank-R basis of canonical affine-hull output blocks, protects all variables used by those equations, and then greedily selects f canonical functional anchors with unprotected distinct heads while preserving acyclicity. Because protected variables remain roots, the relaxed domain has exactly 2^(n-R-f) assignments. At most R affine outputs and f functional outputs are consumed, so m>n leaves more than eta_AF=n-R-f residual outputs. This yields deterministic O(2^eta_AF poly(N)) avoidance with eta_AF computable in polynomial time.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "The explicit connected exact-stretch family is handled automatically with eta_AF=3 while V97 lambda=8k, V101 mu=k+3, V102 beta=Theta(k) with beta>=3k, and V103 nu=4k+1. No supplied certificate is required.",
+  "bridge_lemmas": [
+    {"name": "a greedy canonical affine-hull block basis has at most R selected outputs and polynomially computable rank R", "proved": true},
+    {"name": "protecting every variable occurring in retained affine rows keeps all rank-R equations supported on the final functional roots", "proved": true},
+    {"name": "greedy unprotected distinct-head functional anchors can be selected with polynomial-time cycle tests", "proved": true},
+    {"name": "the protected rank-R root system below f functional heads leaves exactly 2^(n-R-f) relaxed assignments", "proved": true},
+    {"name": "m>n leaves more than eta_AF=n-R-f residual output coordinates", "proved": true},
+    {"name": "the explicit 0x1e plus 0x16 family is mapped canonically to R=4k-1, f=4k-2, eta_AF=3", "proved": true},
+    {"name": "the same family has lambda=8k, mu=k+3, beta>=3k, and nu=4k+1", "proved": true},
+    {"name": "eta_AF is sublinear on every NC0_3 circuit", "proved": false},
+    {"name": "unrestricted NC0_3-Avoid is polynomial time", "proved": false}
+  ],
+  "material_advance_rule_met": true,
+  "closed_route": "requiring an externally supplied optimal hybrid certificate before functional and affine relaxations can be combined",
+  "surviving_route": "analyze the worst-case size of the canonical eta_AF parameter, improve the affine-first ordering rule, or construct an explicit high-eta_AF obstruction family and isolate a new invariant",
+  "current_gap": "The canonical parameter eta_AF(C) is polynomially computable but can still be linear; V104 does not prove a worst-case sublinear bound or improve the unrestricted published exponent.",
+  "stop_rule": "Do not promote V105 for another ordering heuristic without a theorem. Require a worst-case bound, a strict infinite-family separation from eta_AF, an approximation/optimization theorem for hybrid selection, or a scalable high-eta_AF obstruction with a justified new route.",
+  "external_validation_target": "prior-art review of affine-first protected-variable decompositions combining linear rank and functional dependencies in range avoidance, algebraic CSPs, backdoors, proof-complexity generators, and remote-point constructions",
+  "next_front": "canonical_hybrid_worst_case_and_high_eta_obstruction",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}

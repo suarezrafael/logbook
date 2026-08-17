@@ -1,16 +1,16 @@
 {
-  "schema_version": 57,
+  "schema_version": 58,
   "updated": "2026-08-16",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V102",
-  "candidate_version": "V103",
-  "highest_directory": "V103",
+  "promoted_version": "V103",
+  "candidate_version": "V104",
+  "highest_directory": "V104",
   "promotion_state": "candidate",
-  "completed_scope": "V103 candidate: safe canonical affine-hull relaxation, deterministic O(2^nu poly(N)) avoidance with nu=n-R from global GF(2) hull rank, exact 162/56 essential ternary proper/full canonical-hull split, cyclic affine constraints handled without DAG orientation, and an infinite exact-stretch 0x16/0x17 family with V97 lambda=4k, V101 mu=k+1, V102 beta=3k, and V103 nu=1; primary and independent audits included",
+  "completed_scope": "V104 candidate: deterministic canonical affine-first preprocessing, rank-R basis of canonical affine-hull blocks with protected variables, subsequent greedy unprotected acyclic functional anchors f, deterministic O(2^eta_AF poly(N)) avoidance for eta_AF=n-R-f, and an infinite connected exact-stretch family with V97 lambda=8k, V101 mu=k+3, V102 beta=Theta(k), V103 nu=4k+1, and V104 eta_AF=3; primary and independent verifier suites and majority obstruction handoff included",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V103",
-  "next_laboratory_focus": "validate and promote V103; after promotion combine functional DAG compression with root-supported affine-hull rank and require a strict infinite-family separation beyond lambda, mu, beta, and nu",
+  "next_laboratory_version": "V104",
+  "next_laboratory_focus": "validate and promote V104; after promotion attack the switching-unbalanced signed-majority high-eta family via a rigorous global branch-composition theorem, hardness barrier, or majority-native non-affine certificate",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V103",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V104",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -195,7 +195,7 @@
     "v94_canonical_prefix_hardness_proved": false,
     "v94_affine_all_prefix_comparison_in_P": true,
     "v94_affine_canonical_avoider_in_P": true,
-    "v94_hlz_runtime_improved": false,
+    "v94_hlz_worst_case_runtime_improved": false,
     "v95_balanced_definition_exact_tie": true,
     "v95_balanced_loader_composable": true,
     "v95_genuine_canonical_next_bit_PP_hard": true,
@@ -270,6 +270,12 @@
     "v103_affine_cycles_solved_by_global_rank": true,
     "v103_strict_family_lambda_4k_mu_kplus1_beta_3k_nu_one": true,
     "v103_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v103_hlz_worst_case_runtime_improved": false
+    "v103_hlz_worst_case_runtime_improved": false,
+    "v104_canonical_affine_first_preprocessing": true,
+    "v104_protected_affine_rows_stay_on_roots": true,
+    "v104_affine_first_avoider_O2eta": true,
+    "v104_strict_family_lambda_8k_mu_kplus3_beta_linear_nu_4kplus1_eta_three": true,
+    "v104_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v104_hlz_worst_case_runtime_improved": false
   }
 }
