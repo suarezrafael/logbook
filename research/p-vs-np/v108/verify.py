@@ -170,9 +170,9 @@ def main():
         "exact_beta_small": exact_beta_small(),
         "global_switching_k3": exhaustive_global_switching_k3(),
         "random_soundness": random_certificate_soundness(),
-        "parameter": "kappa_scc_deleted_outputs",
-        "kappa_zero_runtime": "poly(N)",
-        "fixed_k_runtime": "O(m^k poly(N))",
+        "parameter": "kappa_SCC_deleted_outputs",
+        "runtime_kappa_zero": "poly(N)",
+        "runtime_fixed_k": "O(m^k poly(N))",
         "failures": 0,
     }
     print(json.dumps(result, sort_keys=True))
