@@ -96,17 +96,26 @@ apply the flow dichotomy.  Scanning the polynomial number of gate pairs and
 branch choices remains polynomial.
 \end{proof}
 
-\paragraph{Strict separation.}
-For each $k\ge2$, take variables $v,A_1,\ldots,A_k,B_1,\ldots,B_k$, two central
-outputs $\operatorname{MUX}(v,A_1,B_1)$, and on each lobe outputs
-$\operatorname{MUX}(X_i,X_{i+1},v)$ for $i<k$ and
-$\operatorname{MUX}(X_k,v,X_1)$.  Then $n=2k+1$, $m=n+1$.  The branch graph is
-strongly connected and two gate-disjoint opposite-phase cycles are immediate.
-The support family is Hall-minimal.  No ignored-output set exposes the V108
-SCC-separated certificate.  Its V102 backdoor is exactly
+\paragraph{Nondegenerate strict separation.}
+For each $k\ge2$, take variables $v,A_1,\ldots,A_k,B_1,\ldots,B_k$ and two
+central outputs with distinct supports
+\[
+ \operatorname{MUX}(v,A_1,B_1),\qquad
+ \operatorname{MUX}(v,A_2,B_2).
+\]
+On each lobe use $\operatorname{MUX}(X_i,X_{i+1},v)$ for $i<k$ and
+$\operatorname{MUX}(X_k,v,X_1)$.  Then $n=2k+1$, $m=n+1$, and there is no
+identical-central-output shortcut.  The branch graph is strongly connected.
+Branch zero of the first central gate followed by the $A$ return lobe and branch
+one of the second central gate followed from $B_2$ to $v$ give two gate-disjoint
+cycles with opposite initial phases.  The support family is Hall-minimal.  No
+ignored-output set exposes the V108 SCC-separated certificate.  Its V102
+backdoor is exactly
 \[
  \beta=1+2\lceil k/2\rceil=\Theta(n).
 \]
+The primary and independent verifiers audit the strengthened family, including
+all ignored-output subsets for the first nontrivial members.
 
 \paragraph{Boundary.}
 The one-gate bottleneck alternative is not yet converted into a missing-output
