@@ -16,15 +16,52 @@ signed-majority result.
   Hardness* (ECCC TR25-049 and revisions), is the current general algorithmic
   and transfer calibration used by the laboratory.
 
-Targeted searches for combinations of
+Targeted searches for combinations of signed majority, range avoidance, 2-SAT,
+implication graphs and signed bicycles did not locate the exact target-selection
+specialization used by V105. Search absence is not evidence of novelty.
+
+## Direct 2-SAT structural prior art
+
+Karve--Hirani, *The complete set of minimal simple graphs that support
+unsatisfiable 2-CNFs* (Discrete Applied Mathematics 283, 2020; arXiv:1812.10849),
+gives a complete forbidden-topological-minor characterization of simple support
+graphs on which **some** reduced unsatisfiable 2-CNF can live. Their four fixed
+obstructions are
 
 ```text
-signed majority + range avoidance + 2-SAT,
-majority + implication graph + range avoidance,
-dumbbell/bicycle + range avoidance
+K4,
+Butterfly,
+Bowtie,
+K_{1,1,3}.
 ```
 
-did not locate the exact V105 construction.
+This is directly relevant. In particular, V105's original dumbbell is a Bowtie
+subdivision, and a figure-eight is a Butterfly subdivision. Those support shapes
+must not be described as novel V105 structures.
+
+Karve--Hirani allow arbitrary literal choices on 2-CNF edges. V105 has a stricter
+compatibility constraint inherited from the majority gate: for a canonical pair
+edge, the local literal polarities fix one XOR transport sign, and the output
+target selects only one of two complementary pair clauses.
+
+The independent V105 census enumerates every transport-sign assignment and every
+target choice on the four fixed obstruction skeletons. It obtains:
+
+```text
+K4:        compatible iff all four triangles are odd,
+Butterfly: compatible iff both triangles are odd,
+Bowtie:    compatible iff both triangles are odd,
+K1,1,3:    compatible iff exactly two of the three triangles are odd.
+```
+
+Thus the laboratory-specific question is **signed target compatibility on known
+2GraphSAT obstructions**, not the existence of those obstructions themselves.
+
+A useful negative control is `K4` minus one edge: it has five edges on four
+vertices but contains none of the four forbidden topological minors. Exact
+enumeration confirms that no choice of the restricted canonical pair clauses is
+unsatisfiable. This matches the GraphSAT boundary and disproves the tempting
+claim that pair-edge surplus alone suffices.
 
 ## What V105 does and does not overlap
 
@@ -33,34 +70,34 @@ inside the Kuntewar--Sarma monotone theorem at exact stretch.
 
 The strict V105 family deliberately inserts a literal-sign inconsistency so the
 whole positive-surplus component is not switching-equivalent to monotone under
-the V98 incidence equations. The new certificate then uses a different fact:
-a fixed signed-majority output target contains three exact binary clauses, and a
-selected pair clause can transport a literal through a signed graph path.
+the V98 incidence equations. Its certificate uses the exact 2-CNF clauses inside
+a fixed signed-majority target and transports literals along the canonical pair
+graph.
 
-The resulting odd-triangle-dumbbell contradiction is therefore best understood
-as a 2-SAT implication certificate inside a restricted signed-majority regime,
-not as a new Turan theorem for monotone circuits.
+The current polynomial detector handles simple bicyclic canonical-pair
+components whose 2-core is a signed barbell or figure-eight with both cycles
+odd. It identifies the core by leaf pruning and degree/path tracing, rather than
+claiming a new general topological-minor algorithm.
 
 ## Novelty discipline
 
-Search absence is not evidence of novelty. The ingredients—2-SAT implication
-graphs, signed graph parity, majority's binary-clause characterization, and
-dumbbell/bicycle obstructions—are standard or classical in adjacent areas.
+The ingredients—2-SAT implication graphs, signed graph parity, majority's
+binary-clause characterization, and barbell/bicycle obstructions—are standard or
+have direct prior art. The exact composition with signed-majority target choices
+for range avoidance may also be known; this has not been ruled out.
 
-The laboratory has not established whether their exact composition for
-exact-stretch signed-majority range avoidance is known. V105 must not be
-presented as novel, priority-establishing, or peer reviewed without external
-specialist review.
+V105 must not be presented as novel, priority-establishing, or peer reviewed
+without external specialist review.
 
 ## External validation target
 
 Before any novelty claim, ask experts in range avoidance / Boolean CSPs whether
-the following exact statement is known:
+the following specialization is known:
 
-> A signed-majority `NC0_3` circuit whose canonical pair graph contains two
-> vertex-disjoint odd-transport triangles connected by a disjoint path admits a
-> deterministic polynomial-time missing-output construction via a contradictory
-> 2-SAT implication SCC.
+> Given a signed-majority `NC0_3` circuit, use the two target-selectable
+> complementary clauses on each canonical input pair.  A simple bicyclic pair
+> component whose barbell/figure-eight cycles both have odd transport yields a
+> contradictory implication SCC and therefore a deterministic missing output.
 
-A useful prior-art search should also include signed 2-SAT bicycles, implication
-minors, switching classes of majority constraints, and oriented Boolean CSPs.
+Also ask whether the exact compatibility conditions for the four Karve--Hirani
+obstructions have appeared under another signed-CSP or switching formulation.
