@@ -103,7 +103,7 @@ choices.  It returns a double cycle whenever one is found; otherwise it returns
 an explicit bottleneck.  **The bottleneck alternative is structural progress, not
 yet a range-avoidance algorithm.**
 
-## Theorem 5 — strict family beyond the entire V108 hierarchy
+## Theorem 5 — nondegenerate strict family beyond the entire V108 hierarchy
 
 For every `k>=2`, use variables
 
@@ -113,11 +113,11 @@ A_1,...,A_k,
 B_1,...,B_k,
 ```
 
-so `n=2k+1`.  Add two central outputs
+so `n=2k+1`.  Add two central outputs with **distinct supports**
 
 ```text
 h_0 = MUX(v,A_1,B_1),
-h_1 = MUX(v,A_1,B_1),
+h_1 = MUX(v,A_2,B_2),
 ```
 
 and, for each lobe `X in {A,B}`, add
@@ -127,28 +127,24 @@ MUX(X_i, X_{i+1}, v)       for i<k,
 MUX(X_k, v, X_1).
 ```
 
-There are
-
-```text
-m = 2+2k = n+1
-```
-
-outputs.
+There are `m=2+2k=n+1` outputs.  In particular, the family has no trivial
+identical-central-output shortcut.
 
 ### V109 certificate
 
 Use branch zero of `h_0`, followed by branch-zero gates along the `A` return
-lobe.  Its initial source phase is zero.  Use branch one of `h_1`, followed by
-branch-zero gates along the `B` lobe.  Its initial source phase is one.  The two
-cycles are output-gate-disjoint and therefore satisfy Lemma 1.  The explicit
-canonical target is all zeros except the final `A`-lobe output, which is one.
+lobe from `A_1` to `v`.  Its initial source phase is zero.  Use branch one of
+`h_1`, which enters `B_2`, followed by branch-zero gates `B_2,...,B_k` back to
+`v`.  Its initial source phase is one.  The two cycles are output-gate-disjoint
+and therefore satisfy Lemma 1.  The explicit canonical target is again all zeros
+except the final `A`-lobe output, which is one; unused outputs receive zero.
 
 ### One strongly connected SCC
 
-With both central outputs present, `v` reaches both lobe entries.  Every lobe
-vertex reaches `v` (directly by its second branch for `i<k`, and directly by the
-final branch-zero edge for `i=k`).  Hence the full branch graph is strongly
-connected.
+The central outputs let `v` reach lobe vertices, while every lobe selector has a
+direct branch to `v`.  Branch-zero lobe arcs move forward around each lobe.  Thus
+every vertex reaches `v` and `v` reaches every lobe vertex, so the full branch
+graph is strongly connected.
 
 ### No V108 certificate under any ignored-output set
 
@@ -157,33 +153,34 @@ Consider any ignored set and any candidate V108 bridge output that remains.
 - If the bridge is a lobe output, it is the unique output whose selector is that
   lobe variable.  V108 removes the bridge before computing SCCs, leaving its
   selector with no outgoing arcs; its left SCC is acyclic.
-- If the bridge is `h_0` or `h_1` and the other central output is absent, `v` has
-  no outgoing arc and is acyclic.
-- If the other central output remains, it points directly from `v` to both
-  `A_1` and `B_1`.  For either possible bridge terminal `X_1`, if its unique
-  selector output remains then `X_1` has a direct branch back to `v`, so they
-  lie in the same SCC.  If that selector output is ignored, `X_1` has no outgoing
-  arcs and its SCC is acyclic.
+- If the bridge is one central output and the other central output is absent,
+  `v` has no outgoing arc and is acyclic.
+- If the other central output remains, `v` enters the corresponding lobe at
+  `X_1` or `X_2`.  Every possible terminal of the removed central gate has a
+  unique selector output with a direct branch to `v`.  If all branch-zero gates
+  needed to reach that terminal from the surviving central entry remain, the
+  terminal and `v` lie in the same SCC.  If one is ignored, that break destroys
+  the only forward lobe chain to the terminal; any terminal separated from `v`
+  is therefore in an acyclic fragment.  If the terminal's own selector output
+  is ignored, it has no outgoing arcs and is acyclic immediately.
 
-Thus V108 can never obtain two distinct cyclic SCCs, no matter how many outputs
-are ignored.  This family is outside the entire `kappa_SCC` certificate hierarchy.
+Hence V108 never obtains two distinct cyclic SCCs, no matter how many outputs
+are ignored.  Exhaustive independent checks cover every ignored set for
+`k=2,3,4`, and the structural contract is audited through `k=100`.
 
 ### Hall minimality
 
 Delete one central output: match the other central output to `v` and every lobe
 output to its selector.
 
-Delete lobe output `g_j` in lobe `A`: match `h_0` to `v`, `h_1` to `A_1`; if
-`j>1`, shift
-
-```text
-g_1 -> A_2, ..., g_{j-1} -> A_j,
-```
-
-and match all later `A` outputs and all `B` outputs to their selectors.  For
-`j=1`, simply match the remaining `A` outputs to their selectors.  The `B`
-case is symmetric.  Hence deletion of any one output leaves a perfect support
-matching.
+For an `A`-lobe deletion, use one central output for `v` and the other for a
+nearby uncovered `A` variable (`A_1` when the first lobe output is deleted, or
+`A_2` for later deletions), then shift the preceding branch-zero lobe outputs
+forward by one variable until the deleted position; match all later lobe outputs
+and all `B` outputs to their selectors.  The `B` case is symmetric.  This gives
+a perfect support matching after deletion of every output.  The primary verifier
+audits all deletions through `k=30`; the independent verifier does so through
+`k=80`.
 
 ### Exact V102 backdoor
 
@@ -197,7 +194,7 @@ X_i in B OR X_{i+1} in B
 ```
 
 cyclically.  Thus each lobe requires a minimum vertex cover of a `k`-cycle,
-namely `ceil(k/2)` variables.  The central gates are already satisfied by `v`.
+namely `ceil(k/2)` variables.  Both central gates are already satisfied by `v`.
 Therefore
 
 ```text
@@ -206,8 +203,9 @@ beta_V102 = 1 + 2 ceil(k/2) = Theta(n).
 
 For even `k`, `beta=(n+1)/2`; for odd `k`, `beta=(n+3)/2`.
 
-So the same Hall-minimal exact-stretch family has a linear V102 backdoor, no V108
-certificate for any deletion budget, yet is solved directly by V109.
+So the same nondegenerate Hall-minimal exact-stretch family has a linear V102
+backdoor, no V108 certificate for any deletion budget, yet is solved directly
+by V109.
 
 ## Boundary
 
