@@ -1,0 +1,15 @@
+{
+  "laboratory": "V109",
+  "classification": "frontier_progress",
+  "target_problem": "one-SCC essential ternary MUX/bijunctive 0x1b range avoidance",
+  "conditional_implication": "gate-capacitated return flow two gives a deterministic polynomial-time missing output; flow one exposes a single output gate dominating both return cones",
+  "current_gap": "the one-gate bottleneck alternative is structural only and is not yet converted into a polynomial missing-output construction",
+  "stop_rule": "do not claim all-MUX or unrestricted NC0_3 avoidance until the gate-bottleneck branch is constructively closed or replaced by a provably terminating decomposition",
+  "external_validation_target": "verify the gate-split max-flow/Menger correspondence, opposite-phase double-cycle target construction, and strict-family separation from every V108 deletion budget",
+  "bridge_lemmas": [
+    "gate-disjoint opposite-phase MUX cycles force opposite values on one selector",
+    "strong connectivity gives independent return reachability after selector-output removal",
+    "value-one gate-capacitated min-cut yields a single gate dominating both return cones",
+    "strict family is Hall-minimal and outside the entire V108 kappa_SCC certificate hierarchy"
+  ]
+}
