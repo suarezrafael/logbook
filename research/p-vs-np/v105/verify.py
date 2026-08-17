@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import json
-import math
 import random
 from itertools import combinations
 
+from signed_bicyclic_barbell import (
+    avoid_by_bicyclic_odd_barbell,
+    find_bicyclic_odd_barbell,
+)
 from signed_majority_dumbbell import (
     Gate,
     SIGNED_MAJORITY_POLARITIES,
@@ -106,6 +109,52 @@ def no_proper_positive_surplus(n: int, gates: list[Gate]) -> bool:
     return True
 
 
+def _gate_for_pair(n: int, u: int, v: int) -> Gate:
+    third = next(w for w in range(n) if w not in (u, v))
+    return Gate((u, v, third), mask_from_polarity((0, 0, 0)))
+
+
+def long_barbell_family(left_len: int, right_len: int, internal: int):
+    assert left_len >= 3 and right_len >= 3
+    assert left_len % 2 == 1 and right_len % 2 == 1
+    assert internal >= 0
+    left = list(range(left_len))
+    middle = list(range(left_len, left_len + internal))
+    right = list(range(left_len + internal, left_len + internal + right_len))
+    n = len(left) + len(middle) + len(right)
+    pairs = []
+    for cycle in (left, right):
+        for i, u in enumerate(cycle):
+            pairs.append((u, cycle[(i + 1) % len(cycle)]))
+    path = [left[0]] + middle + [right[0]]
+    for u, v in zip(path, path[1:]):
+        pairs.append((u, v))
+    assert len(pairs) == n + 1
+    return n, [_gate_for_pair(n, u, v) for u, v in pairs]
+
+
+def figure_eight_family(left_len: int, right_len: int):
+    assert left_len >= 3 and right_len >= 3
+    assert left_len % 2 == 1 and right_len % 2 == 1
+    center = 0
+    left = [center] + list(range(1, left_len))
+    right = [center] + list(range(left_len, left_len + right_len - 1))
+    n = left_len + right_len - 1
+    pairs = []
+    for cycle in (left, right):
+        for i, u in enumerate(cycle):
+            pairs.append((u, cycle[(i + 1) % len(cycle)]))
+    assert len(pairs) == n + 1
+    return n, [_gate_for_pair(n, u, v) for u, v in pairs]
+
+
+def theta_family():
+    n = 5
+    pairs = [(0, 2), (2, 1), (0, 3), (3, 1), (0, 4), (4, 1)]
+    assert len(pairs) == n + 1
+    return n, [_gate_for_pair(n, u, v) for u, v in pairs]
+
+
 def strict_checks() -> dict:
     brute = []
     for r in range(2, 10):
@@ -118,6 +167,9 @@ def strict_checks() -> dict:
         assert meta["case"] == "odd_triangle_dumbbell"
         assert tuple(y) == tuple(1 if i % 2 == 0 else 0 for i in range(n + 1))
         assert not in_range(n, gates, y), (r, y, meta)
+        y2, meta2 = avoid_by_bicyclic_odd_barbell(n, gates)
+        assert meta2["kind"] == "barbell"
+        assert not in_range(n, gates, y2), (r, y2, meta2)
         brute.append(n)
 
     exact_beta_cases = {}
@@ -141,6 +193,30 @@ def strict_checks() -> dict:
     }
 
 
+def general_bicyclic_checks() -> dict:
+    tested = []
+    for left, right, internal in ((5, 3, 0), (5, 3, 1), (5, 5, 1), (7, 3, 0)):
+        n, gates = long_barbell_family(left, right, internal)
+        y, meta = avoid_by_bicyclic_odd_barbell(n, gates)
+        assert meta["kind"] == "barbell"
+        assert meta["left_cycle_length"] in (left, right)
+        assert meta["right_cycle_length"] in (left, right)
+        assert not in_range(n, gates, y), (n, y, meta)
+        tested.append((n, left, right, internal))
+
+    figures = []
+    for left, right in ((3, 3), (5, 3), (5, 5)):
+        n, gates = figure_eight_family(left, right)
+        y, meta = avoid_by_bicyclic_odd_barbell(n, gates)
+        assert meta["kind"] == "figure_eight"
+        assert not in_range(n, gates, y), (n, y, meta)
+        figures.append((n, left, right))
+
+    n, theta = theta_family()
+    assert find_bicyclic_odd_barbell(n, theta) is None
+    return {"barbells": tested, "figure_eights": figures, "theta_rejected": True}
+
+
 def randomized_polarity_checks() -> int:
     rng = random.Random(105105)
     cases = 0
@@ -156,6 +232,8 @@ def randomized_polarity_checks() -> int:
                 gates.append(Gate(gate.support, mask_from_polarity((q, q, p2))))
             y, meta = avoid_by_odd_triangle_dumbbell(n, gates)
             assert not in_range(n, gates, y), (n, y, meta)
+            y2, meta2 = avoid_by_bicyclic_odd_barbell(n, gates)
+            assert not in_range(n, gates, y2), (n, y2, meta2)
             cases += 1
     assert cases == 500
     return cases
@@ -166,6 +244,7 @@ def main() -> None:
     result = {
         "signed_majority_masks": 8,
         "strict_family": strict_checks(),
+        "general_bicyclic": general_bicyclic_checks(),
         "random_polarity_complete_range_cases": randomized_polarity_checks(),
         "failures": 0,
     }
