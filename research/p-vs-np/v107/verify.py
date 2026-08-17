@@ -57,9 +57,12 @@ def randomized_complete_range():
 def unused_input_and_local_surplus_checks():
     rng = random.Random(170107)
     cases = []
+    # Keep global positive stretch m=n+1 while forcing every gate to use only
+    # five active coordinates.  The Hall-circuit extractor should localize the
+    # obstruction instead of paying for the unused global inputs.
     for n in (7, 8, 9):
         pool = list(range(5))
-        gates = [random_gate(rng, n, pool) for _ in range(7)]
+        gates = [random_gate(rng, n, pool) for _ in range(n + 1)]
         y, meta = avoid_essential_signed_majority(n, gates)
         assert meta["hall_circuit_inputs"] <= 5
         assert meta["hall_circuit_outputs"] == meta["hall_circuit_inputs"] + 1
@@ -71,7 +74,7 @@ def unused_input_and_local_surplus_checks():
 def nonmonotone_surplus_regression():
     # The old delete-while-the-current-set-stays-deficient heuristic gets stuck
     # on all six outputs: deleting either support type can expose new variables
-    # fast enough to kill the current surplus.  Nevertheless four A-support
+    # fast enough to kill the current surplus. Nevertheless four A-support
     # outputs already form a Hall circuit on only three variables.
     supports = [
         (1, 2, 4),
