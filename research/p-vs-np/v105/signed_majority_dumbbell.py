@@ -59,9 +59,11 @@ def canonical_pair_edges(gates: list[Gate]) -> list[PairEdge]:
         p = majority_polarity(g)
         if p is None:
             raise ValueError("V105 dumbbell detector requires signed-majority gates")
+        if len(set(g.support)) != 3:
+            raise ValueError(
+                "essential signed-majority support must use three distinct variables"
+            )
         u, v = g.support[0], g.support[1]
-        if u == v:
-            raise ValueError("essential signed-majority support must use distinct variables")
         # If the selected target is chosen so that x_u=a is the bad endpoint
         # value, the induced pair clause implies x_v=a XOR delta.
         delta = 1 ^ p[0] ^ p[1]
