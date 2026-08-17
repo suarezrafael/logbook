@@ -4,130 +4,139 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem{definition}{Definition}
-\title{V105: Signed-Majority Implication Dumbbells}
+\title{V105: Signed-Majority Implication Barbells}
 \author{NC0\_k-Avoid Laboratory}
 \date{}
 \begin{document}
 \maketitle
 
-\begin{definition}[Signed-majority pair transport]
+\begin{definition}[Pair transport]
 Let
 \[
  g_e(x_u,x_v,x_w)=\operatorname{MAJ}(x_u\oplus p_u,
  x_v\oplus p_v,x_w\oplus p_w).
 \]
-For the canonical pair $(u,v)$ define
+For a chosen pair $(u,v)$ define
 \[
  \delta_e=1\oplus p_u\oplus p_v.
 \]
 \end{definition}
 
 \begin{lemma}[Exact pair implication]
-For either value $a\in\{0,1\}$ there is a target bit $t_e$ such that the exact
-constraint $g_e=t_e$ contains the implication
+For either $a\in\{0,1\}$ there is an output target $t_e$ such that the exact
+constraint $g_e=t_e$ contains
 \[
  x_u=a\Longrightarrow x_v=a\oplus\delta_e
 \]
 and its contrapositive.
 \end{lemma}
 \begin{proof}
-Choose $t_e=1\oplus p_u\oplus a$.  The relation
-$\operatorname{MAJ}(z_u,z_v,z_w)=t_e$ is the conjunction of the three binary
-clauses forbidding two local literals from simultaneously disagreeing with
-$t_e$.  The $(u,v)$ clause gives the stated implication; every Boolean
-implication clause also gives its reverse contrapositive.
+Choose $t_e=1\oplus p_u\oplus a$.  A ternary majority target is exactly the
+conjunction of the three binary clauses forbidding two local literals from
+simultaneously disagreeing with the target.  The $(u,v)$ clause gives the stated
+implication and its contrapositive.
 \end{proof}
 
-\begin{definition}[Odd-triangle dumbbell]
-Build a signed multigraph with one canonical pair edge per output and edge label
-$\delta_e$.  A triangle is \emph{odd} when the xor of its three edge labels is
-one.  An odd-triangle dumbbell consists of two vertex-disjoint odd triangles
-and a path between one vertex of each triangle, using no triangle edge and no
-triangle vertex internally.
-\end{definition}
-
 \begin{lemma}[Path transport]
-Along any oriented canonical-pair path $P=e_1\cdots e_q$, targets can be chosen
-so that, for either starting value $a$,
+For an oriented path $P=e_1\cdots e_q$ in a graph using one chosen pair per
+output, targets can be chosen so that
 \[
  x_s=a\Longrightarrow x_t=a\oplus\bigoplus_{e\in P}\delta_e.
 \]
-The selected clauses also give the reverse contrapositive implication.
+The same path clauses give the reverse contrapositive.
 \end{lemma}
 \begin{proof}
-Apply the exact pair implication edge by edge, choosing each target for the
+Apply the exact pair implication successively, choosing each target for the
 currently propagated source value.
 \end{proof}
 
-\begin{theorem}[Signed-majority dumbbell avoider]
-Let $C:\{0,1\}^n\to\{0,1\}^m$, $m>n$, have signed-majority outputs.  If its
-canonical pair graph contains an odd-triangle dumbbell, then a word outside
-$\operatorname{Range}(C)$ can be constructed deterministically in polynomial
-time.
+\begin{definition}[Odd signed barbell]
+A simple bicyclic component of the chosen-pair graph is an \emph{odd signed
+barbell} if its $2$-core is either
+\begin{enumerate}
+\item two edge-disjoint cycles sharing one vertex (a figure-eight), or
+\item two vertex-disjoint cycles joined by a path,
+\end{enumerate}
+and the xor of the transport labels around each of the two cycles is one.
+\end{definition}
+
+\begin{theorem}[Signed-bicyclic barbell avoider]
+Let $C:\{0,1\}^n\to\{0,1\}^m$, $m>n$, have signed-majority outputs and use the
+first two support variables of each output as its canonical pair.  If one
+connected simple bicyclic canonical-pair component is an odd signed barbell,
+then a word outside $\operatorname{Range}(C)$ is constructible deterministically
+in polynomial time.
 \end{theorem}
 \begin{proof}
-Let the left triangle be based at $u$, the right at $v$, and let $P$ connect
-them.  Target the left odd triangle to obtain
+Leaf pruning preserves the cycle rank.  In a connected simple bicyclic graph the
+barbell/figure-eight core can be recognized from the degree pattern and traced
+as two edge-disjoint cycles plus a possibly empty connector.
+
+Choose a base literal $u:a$ on the first odd cycle.  By path transport around
+that cycle,
 \[
  u:a\Longrightarrow u:\neg a.
 \]
-Target $P$ starting from $u:\neg a$ and call the endpoint value $v:b$.  The
-same path clauses give $v:\neg b\Rightarrow u:a$ by contraposition.  Target the
-right odd triangle to obtain $v:b\Rightarrow v:\neg b$.  Since the two triangle
-edge sets and the path edge set are disjoint, the targets are compatible.  The
-2-SAT implication graph therefore contains
+If the cycles are vertex-disjoint, transport $u:\neg a$ along the connector to
+$v:b$.  The same connector clauses give the reverse contrapositive
+$v:\neg b\Rightarrow u:a$.  The second odd cycle gives
+$v:b\Rightarrow v:\neg b$.  Hence
 \[
  u:a\to u:\neg a\to v:b\to v:\neg b\to u:a.
 \]
-A variable and its negation lie in one strongly connected component, so the
-selected exact target constraints are inconsistent.  Complete unselected output
-bits arbitrarily.  Odd triangles can be enumerated and candidate pairs connected
-by breadth-first search in polynomial time.
+If the cycles share one vertex, the connector has length zero and the two odd
+cycles directly give the two opposite implications at that shared variable.
+In either case a variable and its negation lie in one SCC of the exact target
+2-SAT implication graph, so the selected target constraints are inconsistent.
+Complete all unselected output coordinates arbitrarily.
 \end{proof}
 
 \begin{theorem}[Strict exact-stretch separation]
-For every $r\ge2$ there is a signed-majority circuit with
+For every $r\ge2$ there is a switching-unbalanced signed-majority circuit with
 \[
  n=r+6,\qquad m=n+1,
 \]
-for which the V105 dumbbell avoider is polynomial time while
+whose canonical pair graph is an odd barbell and for which
 \[
  \lambda=n,\qquad \mu=n,\qquad
  \beta=\left\lfloor\frac{2n}{3}\right\rfloor,\qquad
  \nu=n,\qquad \eta_{AF}=n.
 \]
-The positive-surplus component is not switching-balanced and no proper output
-subset has positive surplus.
+No proper output subset has positive surplus, while the V105 barbell avoider is
+polynomial time.
 \end{theorem}
 \begin{proof}
-Use two canonical-pair triangles joined by a path with $r$ internal vertices,
-put transport label one on every pair edge, and realize every edge by an
-essential signed-majority gate.  Negate only the third literal of one left
-triangle gate; this leaves all canonical pair transports unchanged but conflicts
-with the positive incidence signs of the other two gates on the same triple, so
-no V98 switching exists.  Both pair triangles are odd, hence the preceding
-theorem applies.
+Use two triangles joined by a path with $r$ internal vertices and give every
+canonical pair transport label one.  Realize each pair edge by an essential
+signed-majority gate.  Negate only the third literal of one left-triangle gate;
+this leaves canonical pair transport unchanged but contradicts the switching
+equations forced by the two positive gates on the same three inputs, so the
+component is not switching-balanced.
 
-The pair graph has $n+1$ edges on $n$ vertices and deleting any edge leaves each
-component with cyclomatic rank at most one.  Therefore no proper edge subset has
-more edges than pair vertices, and circuit support is at least the pair-vertex
-set; hence no proper positive-surplus output subset exists.  Essential ternary
-support, connectivity, and minimum input incidence degree two leave
-$\lambda=n$.  Signed majority has no V101 functional target fiber and both
-canonical target fibers have full affine hull, giving $\mu=\nu=\eta_{AF}=n$.
+The pair graph has $n+1$ edges on $n$ vertices and every proper edge subset has
+at most as many edges as its pair vertices; circuit support is at least that pair
+vertex set, so no proper positive-surplus output subset occurs.  Essential
+ternary support, connectivity and minimum incidence degree at least two give
+$\lambda=n$.  Signed majority has no exact functional target fiber and both
+canonical target fibers have full affine hull, yielding $\mu=\nu=\eta_{AF}=n$.
 
-For V102, let $U$ be the complement of a strong affine backdoor.  Every majority
-support contains at most one vertex of $U$.  Consecutive path supports therefore
-force selected path vertices to have spacing at least three, and each end
-triangle contributes at most one free vertex.  The maximum is
-$\lceil n/3\rceil$, attained by a periodic distance-three packing with compatible
-end choices.  Thus
+For V102 let $U$ be the complement of a strong affine backdoor.  Every majority
+support contains at most one vertex of $U$.  Consecutive path supports force a
+distance-three packing, while each end triangle contributes at most one
+compatible free vertex.  The maximum is $\lceil n/3\rceil$, attained by a
+periodic distance-three packing.  Therefore
 \[
  \beta=n-\lceil n/3\rceil=\lfloor2n/3\rfloor.
 \]
 \end{proof}
 
-\paragraph{Boundary.}
+\paragraph{Prior-art boundary.}
+The support shapes underlying barbell/figure-eight witnesses have direct
+2GraphSAT forbidden-topological-minor prior art.  The laboratory claim is only
+the signed-majority target-compatibility specialization and its range-avoidance
+construction; novelty is not established.
+
+\paragraph{Nonclaims.}
 No algorithm for arbitrary signed-majority exact-stretch circuits, no
 unrestricted $NC^0_3$ avoidance algorithm, no new circuit lower bound, no
 novelty or peer-review claim, and no P-versus-NP resolution is asserted.
