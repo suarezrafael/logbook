@@ -36,7 +36,7 @@ def rooted_tree_shapes(offcycle_terminals):
         return [()]
     shapes = set()
     for steiners in range(k):
-        n = 1 + k + steiners  # root + labeled terminals + unlabeled branch vertices
+        n = 1 + k + steiners
         sequences = [()] if n == 2 else product(range(n), repeat=n - 2)
         for seq in sequences:
             edges = prufer_tree_edges(n, seq)
@@ -122,33 +122,85 @@ def generate_reduced_kernels():
     return kernels
 
 
-def clause_ok(bits, u, v, delta, phase):
-    if u == v:
-        # A compressed odd loop realizes x=phase -> x=not phase.
-        return bits[u] != phase
+def _add_implication(graph, var_from, value_from, var_to, value_to):
+    graph[2 * var_from + value_from].append(2 * var_to + value_to)
+
+
+def add_virtual_clause(graph, u, v, delta, phase):
+    # The path phase chooses the forbidden endpoint pair
+    #   x_u = phase, x_v = 1 XOR phase XOR delta.
+    # The corresponding 2-CNF clause supplies the two contraposed implications.
     bad_u = phase
     bad_v = 1 ^ phase ^ delta
-    return not (bits[u] == bad_u and bits[v] == bad_v)
+    _add_implication(graph, u, bad_u, v, 1 ^ bad_v)
+    _add_implication(graph, v, bad_v, u, 1 ^ bad_u)
 
 
-def majority_target_ok(bits, terminals, polarity, target):
-    transformed = [bits[terminals[i]] ^ polarity[i] for i in range(3)]
-    return int(sum(transformed) >= 2) == target
+def add_majority_target(graph, terminals, polarity, target):
+    good = [target ^ polarity[i] for i in range(3)]
+    bad = [1 ^ bit for bit in good]
+    for i, j in PAIR_POSITIONS:
+        u, v = terminals[i], terminals[j]
+        _add_implication(graph, u, bad[i], v, good[j])
+        _add_implication(graph, v, bad[j], u, good[i])
+
+
+def scc(graph):
+    n = len(graph)
+    reverse = [[] for _ in range(n)]
+    for u, outs in enumerate(graph):
+        for v in outs:
+            reverse[v].append(u)
+
+    seen = [False] * n
+    order = []
+    for start in range(n):
+        if seen[start]:
+            continue
+        seen[start] = True
+        stack = [(start, 0)]
+        while stack:
+            u, pos = stack[-1]
+            if pos < len(graph[u]):
+                v = graph[u][pos]
+                stack[-1] = (u, pos + 1)
+                if not seen[v]:
+                    seen[v] = True
+                    stack.append((v, 0))
+            else:
+                order.append(u)
+                stack.pop()
+
+    comp = [-1] * n
+    cid = 0
+    for start in reversed(order):
+        if comp[start] != -1:
+            continue
+        comp[start] = cid
+        stack = [start]
+        while stack:
+            u = stack.pop()
+            for v in reverse[u]:
+                if comp[v] == -1:
+                    comp[v] = cid
+                    stack.append(v)
+        cid += 1
+    return comp
+
+
+def unsat_2sat(n, terminals, edges, deltas, phases, polarity, target):
+    graph = [[] for _ in range(2 * n)]
+    for (u, v), delta, phase in zip(edges, deltas, phases):
+        add_virtual_clause(graph, u, v, delta, phase)
+    add_majority_target(graph, terminals, polarity, target)
+    comp = scc(graph)
+    return any(comp[2 * v] == comp[2 * v + 1] for v in range(n))
 
 
 def has_unsat_phase(n, terminals, edges, deltas, polarity):
-    assignments = list(product((0, 1), repeat=n))
     for phases in product((0, 1), repeat=len(edges)):
         for target in (0, 1):
-            satisfiable = False
-            for bits in assignments:
-                if all(
-                    clause_ok(bits, u, v, delta, phase)
-                    for (u, v), delta, phase in zip(edges, deltas, phases)
-                ) and majority_target_ok(bits, terminals, polarity, target):
-                    satisfiable = True
-                    break
-            if not satisfiable:
+            if unsat_2sat(n, terminals, edges, deltas, phases, polarity, target):
                 return True
     return False
 
@@ -182,6 +234,7 @@ def kernel_census():
         "signed_polarity_cases": cases,
         "max_kernel_vertices": max_vertices,
         "max_virtual_paths": max_paths,
+        "decision_engine": "independent_2sat_scc",
     }
 
 
@@ -248,12 +301,9 @@ def direct_unicyclic_census(n, all_polarities):
 
 def main():
     exact = kernel_census()
-    # A completely different enumeration on unreduced simple unicyclic graphs.
     direct = {
         "n3_all_polarities": direct_unicyclic_census(3, True),
         "n4_all_polarities": direct_unicyclic_census(4, True),
-        # Input switching normalizes the missing majority polarity at n=5; the
-        # kernel census above already covers all eight polarities exactly.
         "n5_normalized_polarity": direct_unicyclic_census(5, False),
     }
     assert direct == {
