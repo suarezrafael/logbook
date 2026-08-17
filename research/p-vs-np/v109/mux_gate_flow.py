@@ -127,7 +127,7 @@ class FlowNetwork:
 
     def positive_flow_paths(self, source: int, sink: int, count: int):
         # Remaining positive forward flow; capacities are tiny and we only need
-        # two source-to-sink paths.  Flow cycles, if any, are ignored.
+        # two source-to-sink paths. Flow cycles, if any, are ignored.
         remaining = {}
         metadata = {}
         for u, ei, original, meta in self.forward:
@@ -163,7 +163,7 @@ class FlowNetwork:
                 key = parent[cur]
                 assert key is not None
                 keys.append(key)
-                u, ei = key
+                u, _ei = key
                 cur = u
             keys.reverse()
             for key in keys:
@@ -224,8 +224,8 @@ def _single_reachable(n: int, gates: list[MuxGate], selector: int, start: int) -
 
 def _decode_flow_paths(
     raw_paths,
-    first_gate0: int,
-    first_gate1: int,
+    _first_gate0: int,
+    _first_gate1: int,
 ):
     decoded = {}
     for path in raw_paths:
@@ -343,9 +343,6 @@ def construct_missing_from_double_cycle(
     if alpha0 == alpha1:
         raise AssertionError("the two cycles must start at opposite selector phases")
 
-    # Cycle j contains selector implication alpha_j -> 1-alpha_j.  Therefore
-    # every satisfying assignment would need x_selector=1-alpha_j.  Opposite
-    # alpha values force both Boolean values on the same selector.
     return tuple(targets), {
         "case": "mux_gate_disjoint_opposite_cycles",
         "selector": cert.selector,
@@ -385,7 +382,6 @@ def branch_graph_strongly_connected(n: int, gates: list[MuxGate]) -> bool:
 
 
 def strict_single_scc_family(k: int):
-    """Hall-minimal exact-stretch family outside the entire V108 certificate hierarchy."""
     if k < 2:
         raise ValueError("each return lobe needs at least two internal variables")
     v = 0
