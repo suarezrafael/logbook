@@ -1,0 +1,53 @@
+{
+  "laboratory": "V105",
+  "status": "experimental_pre_ci",
+  "method": "signed-majority canonical-pair odd-triangle dumbbell",
+  "strict_family": {
+    "n": "r+6 for r>=2",
+    "m": "n+1",
+    "constructor_output": "alternating 1010...",
+    "proper_positive_surplus_subcircuit": false,
+    "lambda_V97": "n",
+    "switching_balanced_V98": false,
+    "v99_simple_x_directly_applicable": false,
+    "v100_literal_graph_peels": 0,
+    "mu_V101": "n",
+    "beta_V102": "floor(2n/3)",
+    "nu_V103": "n",
+    "eta_AF_V104": "n",
+    "v105_runtime": "polynomial"
+  },
+  "completed_before_registration": {
+    "complete_original_range_n_from": 8,
+    "complete_original_range_n_through": 15,
+    "independent_random_polarity_recheck_cases": 240,
+    "primary_equivalent_random_polarity_recheck_cases": 500,
+    "failures": 0
+  },
+  "committed_primary_contract": {
+    "signed_majority_masks": 8,
+    "strict_complete_range_n_from": 8,
+    "strict_complete_range_n_through": 15,
+    "random_polarity_complete_range_cases": 500,
+    "exact_beta_small_cases": true,
+    "proper_surplus_small_cases": true,
+    "switching_balance_check": true
+  },
+  "committed_independent_contract": {
+    "uses_primary_detector": false,
+    "direct_2sat_implication_graph": true,
+    "implication_scc_n_through": 106,
+    "complete_range_n_from": 8,
+    "complete_range_n_through": 15,
+    "random_polarity_complete_range_cases": 240
+  },
+  "pending_before_candidate_status": [
+    "V104 promotion",
+    "execute V105 primary and independent verifiers in repository CI",
+    "formal LaTeX module and governance integration",
+    "external prior-art review"
+  ],
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
