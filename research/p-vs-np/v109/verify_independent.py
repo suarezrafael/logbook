@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from itertools import combinations, product
+from itertools import product
 
 
 def strict_supports(k: int):
@@ -10,7 +10,7 @@ def strict_supports(k: int):
     right = list(range(k + 1, 2 * k + 1))
     supports = [
         (v, left[0], right[0]),
-        (v, left[0], right[0]),
+        (v, left[1], right[1]),
     ]
     for lobe in (left, right):
         for i, selector in enumerate(lobe):
@@ -22,9 +22,9 @@ def strict_supports(k: int):
 
 
 def explicit_target(k: int):
-    # Central gate 0 starts the phase-0 left cycle; central gate 1 starts the
-    # phase-1 right cycle. The left final edge flips 0->1, while the right
-    # final edge closes 1->0. All targets are zero except the final left gate.
+    # h0 branch 0 starts the A1 cycle with phase 0.  h1 branch 1 starts
+    # at B2 with phase 1.  Only the final A-lobe gate flips the phase;
+    # all other targets can be zero.
     return tuple([0, 0] + [0] * (k - 1) + [1] + [0] * k)
 
 
@@ -105,6 +105,7 @@ def target_checks():
         n, supports = strict_supports(k)
         target = explicit_target(k)
         assert len(supports) == n + 1 == len(target)
+        assert supports[0] != supports[1]
         assert unsat(n, supports, target), k
         if k <= 7:
             assert not in_range(n, supports, target), k
@@ -230,7 +231,11 @@ def v108_certificate_exists(n: int, supports, ignored):
         left = comp[s]
         if len(comps[left]) <= 1:
             continue
-        outgoing = [(d, alpha) for ss, d, _gi, _br, alpha in arcs if ss == s and comp[d] == left]
+        outgoing = [
+            (d, alpha)
+            for ss, d, _gi, _br, alpha in arcs
+            if ss == s and comp[d] == left
+        ]
         for _d, alpha in outgoing:
             forced = 1 ^ alpha
             terminal = a if forced == 0 else b
@@ -261,9 +266,14 @@ def structural_absence_contract():
             selector_count[s] += 1
         assert selector_count[0] == 2
         assert all(selector_count[v] == 1 for v in range(1, n))
-        assert supports[0] == supports[1] == (0, 1, k + 1)
-        assert supports[2][0] == 1 and 0 in supports[2][1:]
-        assert supports[2 + k][0] == k + 1 and 0 in supports[2 + k][1:]
+        assert supports[0] == (0, 1, k + 1)
+        assert supports[1] == (0, 2, k + 2)
+        # Every lobe selector has one direct branch to the central variable.
+        # Therefore if its unique selector gate survives, it can return to the
+        # center; if that gate is ignored, the selector has no outgoing arc.
+        for i in range(k):
+            assert 0 in supports[2 + i][1:]
+            assert 0 in supports[2 + k + i][1:]
     return 100
 
 
@@ -274,6 +284,7 @@ def main():
         "beta_exact": beta_checks(),
         "v108_exhaustive_absence": v108_exhaustive_absence(),
         "v108_structural_absence_k_through": structural_absence_contract(),
+        "nondegenerate_distinct_central_supports": True,
         "failures": 0,
     }
     print(json.dumps(result, sort_keys=True))
