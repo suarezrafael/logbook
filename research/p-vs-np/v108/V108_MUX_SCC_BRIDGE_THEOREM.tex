@@ -1,0 +1,89 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\begin{document}
+\title{V108: An SCC-Cycle Bridge for Essential Ternary MUX Avoidance}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+\maketitle
+
+A signed essential MUX output has the form
+\[
+ g=o\oplus \operatorname{MUX}(s\oplus p_s,a\oplus p_a,b\oplus p_b).
+\]
+Fixing its output to a target exposes two exact binary clauses.  For either
+branch one obtains an implication
+\[
+ x_s=\alpha\Longrightarrow x_d=\beta,
+\]
+where the source phase $\alpha$ is fixed by the selector polarity while the
+arrival phase $\beta$ can be chosen by choosing the output target.
+
+\begin{lemma}[Directed-cycle forcing]
+Suppose selected branch arcs from pairwise distinct MUX outputs form a directed
+simple cycle.  Targets can be chosen so that the induced implications transport
+the source phase of each arc to the source phase of the next arc, except that
+the final arc arrives at the complement of the initial phase.  Consequently
+one literal on the initial selector is impossible and the opposite literal is
+forced in every satisfying assignment.
+\end{lemma}
+
+\begin{theorem}[SCC-separated bridge]
+Omit one MUX output $h$ and build the directed graph containing both branch arcs
+of every remaining output.  Suppose the selector of $h$ lies on a directed
+cycle in a cyclic strongly connected component $L$, and the selector literal
+forced by that cycle activates a branch of $h$ whose data variable lies in a
+different cyclic strongly connected component $R$.  Then a word outside the
+range of the circuit can be constructed deterministically in polynomial time.
+\end{theorem}
+
+\begin{proof}
+Target a cycle in $L$ to force the selector value that activates the chosen
+branch of $h$.  Target a cycle through the arrival variable in $R$ so that this
+variable is forced to the complement of its initial source phase.  Finally
+target $h$ so its active branch forces the arrival variable to that initial
+source phase.  The fixed-output 2-CNF is contradictory.  The two cycles use
+disjoint outputs because every branch arc of one MUX has the same source
+selector and $L,R$ are distinct SCCs.  SCC decomposition, cycle reconstruction,
+and target assignment are polynomial-time operations.
+\end{proof}
+
+Let $\kappa_{\mathrm{SCC}}$ be the minimum number of outputs that must be ignored
+before such a certificate appears.  Enumerating all ignored sets of size at most
+$k$ gives runtime $O(m^k\operatorname{poly}(N))$; therefore constant
+$\kappa_{\mathrm{SCC}}$ is polynomial-time avoidable.
+
+\begin{theorem}[Strict separation]
+For every $k\ge3$ there is an exact-stretch family with $n=2k$ inputs and
+$m=2k+1$ essential canonical MUX outputs, consisting of two disjoint cyclic
+families
+\[
+ \operatorname{MUX}(X_i,X_{i+1},X_{i+2})
+\]
+and one bridge $\operatorname{MUX}(L_0,L_2,R_0)$, such that
+$\kappa_{\mathrm{SCC}}=0$.  The support family is Hall-minimal.  If $3\mid k$,
+then its V102 strong-affine backdoor has exact size
+\[
+ \beta=\frac{4k}{3}=\frac{2n}{3}.
+\]
+\end{theorem}
+
+\begin{proof}
+After omitting the bridge, branch-zero arcs contain two disjoint directed cycles,
+and the bridge joins the literal forced on the left to the right cycle.
+Hall-minimality follows by an explicit shifted matching after deletion of any
+cycle gate and the selector matching when the bridge is deleted.
+For the backdoor bound, on each cycle a position outside the backdoor forces the
+next two positions into it; hence at most $k/3$ positions are absent when
+$3\mid k$.  A periodic pattern with one absent position per three attains this
+bound while satisfying the bridge condition.
+\end{proof}
+
+\paragraph{Boundary.}
+The theorem does not cover the residual MUX regime in which the useful cycles
+remain in one cyclic SCC.  It does not solve unrestricted $NC^0_3$-Avoid or
+P versus NP, and novelty or priority is not established.
+
+\end{document}

@@ -1,0 +1,15 @@
+{
+  "laboratory": "V108",
+  "classification": "frontier_progress",
+  "target_problem": "essential ternary MUX/bijunctive 0x1b range avoidance at exact positive stretch",
+  "conditional_implication": "SCC-separated bridge certificates give deterministic polynomial-time avoidance; constant kappa_SCC gives O(m^k poly(N)) avoidance",
+  "current_gap": "the residual regime with relevant branch cycles trapped in one cyclic SCC remains open",
+  "stop_rule": "do not claim all-MUX or unrestricted NC0_3 avoidance without a polynomial treatment of the one-SCC residual",
+  "external_validation_target": "verify the fixed-target MUX implication semantics, SCC-cycle forcing lemma, and strict Hall-minimal beta=2n/3 separation",
+  "bridge_lemmas": [
+    "directed MUX branch cycle forces one selector literal",
+    "omitted bridge between distinct cyclic SCCs yields a 2-SAT contradiction",
+    "strict two-cycle family is Hall-minimal",
+    "strict family has beta_V102=2n/3 when cycle length is divisible by three"
+  ]
+}
