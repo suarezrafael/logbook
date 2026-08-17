@@ -1,0 +1,100 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\begin{document}
+
+\title{V106: Adaptive Pair Repair for Signed-Majority Range Avoidance}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+\maketitle
+
+\paragraph{Setting.}
+Each essential signed-majority output gate has support $(u,v,w)$ and literal
+polarities $(p_0,p_1,p_2)$.  Its three selectable pair transports are
+\[
+ d_{01}=1\oplus p_0\oplus p_1,\qquad
+ d_{02}=1\oplus p_0\oplus p_2,\qquad
+ d_{12}=1\oplus p_1\oplus p_2.
+\]
+Choice $0$ is the canonical V105 pair; a repair changes one output to either of
+the two remaining pairs.
+
+\begin{lemma}[Unbalanced majority triangle]
+For every signed-majority gate,
+\[
+ d_{01}\oplus d_{02}\oplus d_{12}=1.
+\]
+Hence its three candidate pair edges form an unbalanced signed triangle.
+\end{lemma}
+
+\begin{theorem}[Pair-repair FPT avoider]
+Let $C:\{0,1\}^n\to\{0,1\}^m$ be an essential signed-majority $NC^0_3$
+circuit with $m>n$.  Let $\sigma(C)$ be the minimum number of noncanonical pair
+choices needed so that the selected pair graph contains a V105-detectable
+barbell or figure-eight whose two edge-disjoint cycles have odd transport
+parity.  Then a missing output can be constructed in
+\[
+ O\!\left((2m)^{\sigma(C)}\operatorname{poly}(N)\right)
+\]
+time.  In particular, constant $\sigma$ is a deterministic polynomial-time
+regime.
+\end{theorem}
+
+\begin{proof}
+For a budget $k$, enumerate the repaired gate set and one of two alternative
+pairs for every repaired gate.  There are at most
+\[
+ \sum_{j=0}^k {m\choose j}2^j \le (2m)^k
+\]
+selections.  Run the V105 simple-bicyclic detector on each selected signed graph.
+For a detected odd barbell or figure-eight, V105's implication-walk
+construction chooses common output targets whose exact majority pair clauses put
+a literal and its negation in one 2-SAT implication SCC.  The resulting full
+output is outside the original circuit range.
+\end{proof}
+
+\begin{lemma}[Hall/frame-rank bridge]
+For any nonempty output subfamily $F$, let $\Sigma(F)$ contain all three
+candidate pair edges from every gate in $F$.  Every connected component of
+$\Sigma(F)$ is unbalanced, and therefore the signed-frame rank satisfies
+\[
+ r_F(E(\Sigma(F)))=|N(F)|.
+\]
+Consequently Rado's independent-transversal inequalities specialize to the
+ordinary Hall inequalities $|N(J)|\ge |J|$ for all $J\subseteq F$.
+\end{lemma}
+
+\begin{proof}
+Every component contains all three candidate edges of at least one gate, hence
+contains an unbalanced triangle.  The standard signed-frame rank formula is
+$|V|-b$, where $b$ is the number of balanced connected components; here $b=0$.
+Rado's theorem then gives the stated specialization.
+\end{proof}
+
+\begin{theorem}[Infinite strict one-repair family]
+For every $q\ge0$ there is a connected signed-majority circuit $C_q$ with
+\[
+ n=5+2q,\qquad m=n+1,
+\]
+whose canonical V105 selected graph is a theta with cycle-transport signature
+$(0,1,1)$, while exactly one one-gate repair changes the core into a figure-eight
+with two odd cycles.  Thus
+\[
+ \sigma(C_q)=1.
+\]
+Moreover
+\[
+ \beta(C_q)=q+4=\frac{n+3}{2},\qquad
+ \mu(C_q)=\nu(C_q)=\eta_{AF}(C_q)=n.
+\]
+The full output family is minimally positive-surplus.
+\end{theorem}
+
+\paragraph{Boundary.}
+No bound on worst-case $\sigma$ is proved.  In particular this module does not
+put unrestricted signed-majority $NC^0_3$-Avoid, unrestricted $NC^0_3$-Avoid,
+or P versus NP in polynomial time.
+
+\end{document}
