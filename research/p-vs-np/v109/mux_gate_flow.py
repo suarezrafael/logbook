@@ -126,8 +126,6 @@ class FlowNetwork:
         return seen
 
     def positive_flow_paths(self, source: int, sink: int, count: int):
-        # Remaining positive forward flow; capacities are tiny and we only need
-        # two source-to-sink paths. Flow cycles, if any, are ignored.
         remaining = {}
         metadata = {}
         for u, ei, original, meta in self.forward:
@@ -172,13 +170,7 @@ class FlowNetwork:
         return paths
 
 
-def _build_return_network(
-    n: int,
-    gates: list[MuxGate],
-    selector: int,
-    dest0: int,
-    dest1: int,
-):
+def _build_return_network(n: int, gates: list[MuxGate], selector: int, dest0: int, dest1: int):
     allowed = [i for i, gate in enumerate(gates) if gate.selector != selector]
     gate_pos = {gi: pos for pos, gi in enumerate(allowed)}
     base = n
@@ -186,7 +178,6 @@ def _build_return_network(
     size = source + 1
     net = FlowNetwork(size)
     INF = 2
-
     for gi in allowed:
         pos = gate_pos[gi]
         gin = base + 2 * pos
@@ -196,7 +187,6 @@ def _build_return_network(
         net.add_edge(gin, gout, 1, ("gate", gi))
         net.add_edge(gout, gate.data0, INF, ("branch", gi, 0))
         net.add_edge(gout, gate.data1, INF, ("branch", gi, 1))
-
     net.add_edge(source, dest0, 1, ("source", 0))
     net.add_edge(source, dest1, 1, ("source", 1))
     return net, source, selector, allowed, gate_pos
@@ -222,59 +212,35 @@ def _single_reachable(n: int, gates: list[MuxGate], selector: int, start: int) -
     return False
 
 
-def _decode_flow_paths(
-    raw_paths,
-    _first_gate0: int,
-    _first_gate1: int,
-):
+def _decode_flow_paths(raw_paths, _first_gate0: int, _first_gate1: int):
     decoded = {}
     for path in raw_paths:
         source_tags = [meta for meta in path if meta and meta[0] == "source"]
         if len(source_tags) != 1:
             raise AssertionError("flow path must use exactly one source tag")
         source_id = source_tags[0][1]
-        branches = [
-            (meta[1], meta[2])
-            for meta in path
-            if meta and meta[0] == "branch"
-        ]
+        branches = [(meta[1], meta[2]) for meta in path if meta and meta[0] == "branch"]
         decoded[source_id] = tuple(branches)
     if set(decoded) != {0, 1}:
         raise AssertionError("flow did not use both prescribed first arcs")
     return decoded[0], decoded[1]
 
 
-def _flow_or_bottleneck_for_pair(
-    n: int,
-    gates: list[MuxGate],
-    selector: int,
-    g0: int,
-    b0: int,
-    g1: int,
-    b1: int,
-):
+def _flow_or_bottleneck_for_pair(n: int, gates: list[MuxGate], selector: int, g0: int, b0: int, g1: int, b1: int):
     s0, d0, a0, _ = gates[g0].branch(b0)
     s1, d1, a1, _ = gates[g1].branch(b1)
     if s0 != selector or s1 != selector or a0 == a1:
         raise ValueError("first arcs must share a selector and have opposite source phases")
-    if not _single_reachable(n, gates, selector, d0):
+    if not _single_reachable(n, gates, selector, d0) or not _single_reachable(n, gates, selector, d1):
         return None
-    if not _single_reachable(n, gates, selector, d1):
-        return None
-
-    net, source, sink, allowed, gate_pos = _build_return_network(
-        n, gates, selector, d0, d1
-    )
+    net, source, sink, allowed, gate_pos = _build_return_network(n, gates, selector, d0, d1)
     value = net.max_flow(source, sink, 2)
     if value == 2:
         paths = net.positive_flow_paths(source, sink, 2)
         p0, p1 = _decode_flow_paths(paths, g0, g1)
-        return DoubleCycleCertificate(
-            selector, g0, b0, g1, b1, p0, p1
-        )
+        return DoubleCycleCertificate(selector, g0, b0, g1, b1, p0, p1)
     if value != 1:
         return None
-
     reachable = net.residual_reachable(source)
     cut_gates = []
     base = n
@@ -293,7 +259,6 @@ def find_double_cycle_or_bottleneck(n: int, gates: list[MuxGate]):
     by_selector: dict[int, list[int]] = {}
     for i, gate in enumerate(gates):
         by_selector.setdefault(gate.selector, []).append(i)
-
     first_bottleneck = None
     for selector, indices in sorted(by_selector.items()):
         if len(indices) < 2:
@@ -305,9 +270,7 @@ def find_double_cycle_or_bottleneck(n: int, gates: list[MuxGate]):
                     a1 = gates[g1].branch(b1)[2]
                     if a0 == a1:
                         continue
-                    result = _flow_or_bottleneck_for_pair(
-                        n, gates, selector, g0, b0, g1, b1
-                    )
+                    result = _flow_or_bottleneck_for_pair(n, gates, selector, g0, b0, g1, b1)
                     if isinstance(result, DoubleCycleCertificate):
                         return result
                     if isinstance(result, GateBottleneck) and first_bottleneck is None:
@@ -315,12 +278,7 @@ def find_double_cycle_or_bottleneck(n: int, gates: list[MuxGate]):
     return first_bottleneck
 
 
-def _assign_cycle_targets(
-    gates: list[MuxGate],
-    cycle: tuple[tuple[int, int], ...],
-    targets: list[int],
-    used: set[int],
-):
+def _assign_cycle_targets(gates: list[MuxGate], cycle: tuple[tuple[int, int], ...], targets: list[int], used: set[int]):
     alphas = [gates[gi].branch(branch)[2] for gi, branch in cycle]
     for pos, (gi, branch) in enumerate(cycle):
         if gi in used:
@@ -331,18 +289,13 @@ def _assign_cycle_targets(
     return alphas[0]
 
 
-def construct_missing_from_double_cycle(
-    n: int,
-    gates: list[MuxGate],
-    cert: DoubleCycleCertificate,
-):
+def construct_missing_from_double_cycle(n: int, gates: list[MuxGate], cert: DoubleCycleCertificate):
     targets = [0] * len(gates)
     used: set[int] = set()
     alpha0 = _assign_cycle_targets(gates, cert.cycle0, targets, used)
     alpha1 = _assign_cycle_targets(gates, cert.cycle1, targets, used)
     if alpha0 == alpha1:
         raise AssertionError("the two cycles must start at opposite selector phases")
-
     return tuple(targets), {
         "case": "mux_gate_disjoint_opposite_cycles",
         "selector": cert.selector,
@@ -366,7 +319,6 @@ def branch_graph_strongly_connected(n: int, gates: list[MuxGate]) -> bool:
         for d in (gate.data0, gate.data1):
             adjacency[gate.selector].append(d)
             reverse[d].append(gate.selector)
-
     def reach(graph):
         seen = {0}
         stack = [0]
@@ -377,11 +329,11 @@ def branch_graph_strongly_connected(n: int, gates: list[MuxGate]) -> bool:
                     seen.add(v)
                     stack.append(v)
         return len(seen) == n
-
     return n > 0 and reach(adjacency) and reach(reverse)
 
 
 def strict_single_scc_family(k: int):
+    """Nondegenerate Hall-minimal exact-stretch family beyond the full V108 hierarchy."""
     if k < 2:
         raise ValueError("each return lobe needs at least two internal variables")
     v = 0
@@ -389,7 +341,7 @@ def strict_single_scc_family(k: int):
     right = list(range(k + 1, 2 * k + 1))
     gates: list[MuxGate] = [
         MuxGate(v, left[0], right[0]),
-        MuxGate(v, left[0], right[0]),
+        MuxGate(v, left[1], right[1]),
     ]
     for lobe in (left, right):
         for i, selector in enumerate(lobe):
@@ -404,7 +356,4 @@ def strict_single_scc_family(k: int):
 
 
 def in_range(n: int, gates: list[MuxGate], y: tuple[int, ...]) -> bool:
-    return any(
-        tuple(g.value(x) for g in gates) == y
-        for x in product((0, 1), repeat=n)
-    )
+    return any(tuple(g.value(x) for g in gates) == y for x in product((0, 1), repeat=n))
