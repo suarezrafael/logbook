@@ -23,8 +23,8 @@ def strict_supports(k: int):
 
 def explicit_target(k: int):
     # Central gate 0 starts the phase-0 left cycle; central gate 1 starts the
-    # phase-1 right cycle.  The left final edge flips 0->1, while the right
-    # final edge closes 1->0.  All targets are zero except the final left gate.
+    # phase-1 right cycle. The left final edge flips 0->1, while the right
+    # final edge closes 1->0. All targets are zero except the final left gate.
     return tuple([0, 0] + [0] * (k - 1) + [1] + [0] * k)
 
 
@@ -36,7 +36,6 @@ def add_forbidden_pair(graph, u: int, bad_u: int, v: int, bad_v: int):
 def fixed_mux_formula(n: int, supports, target):
     graph = [[] for _ in range(2 * n)]
     for (s, a, b), y in zip(supports, target):
-        # canonical MUX(s,a,b)=a when s=0 and b when s=1
         add_forbidden_pair(graph, s, 0, a, 1 ^ y)
         add_forbidden_pair(graph, s, 1, b, 1 ^ y)
     return graph
@@ -138,11 +137,6 @@ def hall_minimality():
             assert maximum_matching(n, supports, remaining) == n, (k, deleted)
         rows.append(k)
     return rows
-
-
-def local_backdoor_ok(gate, chosen):
-    s, a, b = gate
-    return chosen[s] or (chosen[a] and chosen[b])
 
 
 def lobe_minimum(k: int, v_value: int):
@@ -260,8 +254,6 @@ def v108_exhaustive_absence():
 
 
 def structural_absence_contract():
-    # Encodes the arbitrary-k proof ingredients rather than relying only on
-    # the finite exhaustive controls above.
     for k in range(2, 101):
         n, supports = strict_supports(k)
         selector_count = [0] * n
@@ -269,11 +261,7 @@ def structural_absence_contract():
             selector_count[s] += 1
         assert selector_count[0] == 2
         assert all(selector_count[v] == 1 for v in range(1, n))
-        # Both central gates point directly to the first vertex of each lobe.
         assert supports[0] == supports[1] == (0, 1, k + 1)
-        # Every first-lobe vertex has a direct return branch to the center while
-        # its unique selector gate remains.  Thus a terminal separated from the
-        # center after deletions is necessarily acyclic.
         assert supports[2][0] == 1 and 0 in supports[2][1:]
         assert supports[2 + k][0] == k + 1 and 0 in supports[2 + k][1:]
     return 100
