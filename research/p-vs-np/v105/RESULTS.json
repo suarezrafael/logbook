@@ -1,0 +1,62 @@
+{
+  "laboratory": "V105",
+  "status": "candidate_pre_ci",
+  "method": "signed-majority target-selectable 2-SAT transport on simple bicyclic odd barbells and figure-eights",
+  "strict_family": {
+    "n": "r+6 for r>=2",
+    "m": "n+1",
+    "proper_positive_surplus_subcircuit": false,
+    "lambda_V97": "n",
+    "switching_balanced_V98": false,
+    "v99_simple_x_directly_applicable": false,
+    "v100_literal_graph_peels": 0,
+    "mu_V101": "n",
+    "beta_V102": "floor(2n/3)",
+    "nu_V103": "n",
+    "eta_AF_V104": "n",
+    "v105_runtime": "polynomial"
+  },
+  "primary_contract": {
+    "signed_majority_masks": 8,
+    "strict_complete_range_n_from": 8,
+    "strict_complete_range_n_through": 15,
+    "random_polarity_complete_range_cases": 500,
+    "long_odd_barbells_checked": true,
+    "odd_figure_eights_checked": true,
+    "canonical_theta_rejected": true,
+    "exact_beta_small_cases": true,
+    "proper_surplus_small_cases": true,
+    "switching_balance_check": true
+  },
+  "independent_contract": {
+    "uses_primary_detector": false,
+    "direct_2sat_implication_graph": true,
+    "implication_scc_n_through": 106,
+    "complete_range_n_from": 8,
+    "complete_range_n_through": 15,
+    "random_polarity_complete_range_cases": 240,
+    "karve_hirani_skeleton_signing_census": {
+      "K4": 8,
+      "Butterfly": 16,
+      "Bowtie": 32,
+      "K1,1,3": 48
+    }
+  },
+  "v106_preliminary_pair_selection": {
+    "proved": false,
+    "polynomial_selector_known": false,
+    "exhaustive_n3_nondegenerate_classes_without_counterexample": 16,
+    "random_n4_without_counterexample": 356,
+    "random_n5_without_counterexample_at_least": 277,
+    "random_n6_without_counterexample_at_least": 60
+  },
+  "pending_before_promotion": [
+    "repository quick and LaTeX gates",
+    "ready-PR compatibility and full replay",
+    "review-thread resolution",
+    "external prior-art review before any novelty claim"
+  ],
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
