@@ -1,16 +1,16 @@
 {
-  "schema_version": 61,
+  "schema_version": 62,
   "updated": "2026-08-17",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V106",
-  "candidate_version": "V107",
-  "highest_directory": "V107",
+  "promoted_version": "V107",
+  "candidate_version": "V108",
+  "highest_directory": "V108",
   "promotion_state": "candidate",
-  "completed_scope": "V107 candidate: deterministic polynomial-time avoidance for essential ternary signed-majority NC0_3 circuits at every positive stretch m>n, using inclusion-minimal support surplus, a Rado/frame-matroid one-pair transversal, rank-tight unbalanced-unicyclic components, cross-component handcuffs, and a computer-assisted same-component three-terminal kernel with at most six virtual paths; independent generator covers 164 reduced kernels and 16032 exact signed/polarity cases, while the primary verifier exercises the actual matroid-intersection/compression/lifting algorithm against complete original ranges",
+  "completed_scope": "V108 candidate: exact fixed-target 2-CNF semantics for essential signed MUX outputs, polynomial SCC-separated two-cycle bridge avoidance, XP O(m^k poly(N)) hierarchy parameterized by deleted-output distance kappa_SCC, and an infinite Hall-minimal exact-stretch family with kappa_SCC=0 and exact V102 beta=2n/3 when the cycle length is divisible by three; primary and independent verifier suites included",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V107",
-  "next_laboratory_focus": "validate and promote V107; after promotion attack the remaining essential ternary MUX/bijunctive 0x1b orbit at exact stretch, then recompute the post-V100/V101 residual frontier before testing any published lower-bound or meta-complexity transfer",
+  "next_laboratory_version": "V108",
+  "next_laboratory_focus": "validate and promote V108; after promotion attack the residual essential MUX/bijunctive regime in which useful branch cycles remain trapped in one cyclic SCC, seeking a polynomial same-SCC kernel or a scalable obstruction before recomputing the unrestricted NC0_3 frontier",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V107",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V108",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -301,6 +301,15 @@
     "v107_essential_signed_majority_exact_stretch_in_P": true,
     "v107_mux_bijunctive_0x1b_unrestricted_in_P": false,
     "v107_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v107_hlz_worst_case_runtime_improved": false
+    "v107_hlz_worst_case_runtime_improved": false,
+    "v108_mux_target_is_2cnf": true,
+    "v108_directed_cycle_literal_forcing": true,
+    "v108_scc_separated_bridge_avoider_in_P": true,
+    "v108_constant_kappa_scc_in_P": true,
+    "v108_strict_family_hall_minimal": true,
+    "v108_strict_family_beta_two_thirds_n": true,
+    "v108_all_mux_bijunctive_0x1b_in_P": false,
+    "v108_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v108_hlz_worst_case_runtime_improved": false
   }
 }
