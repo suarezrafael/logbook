@@ -1,16 +1,16 @@
 {
-  "schema_version": 59,
-  "updated": "2026-08-16",
+  "schema_version": 60,
+  "updated": "2026-08-17",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V104",
-  "candidate_version": "V105",
-  "highest_directory": "V105",
+  "promoted_version": "V105",
+  "candidate_version": "V106",
+  "highest_directory": "V106",
   "promotion_state": "candidate",
-  "completed_scope": "V105 candidate: signed-majority target constraints exposed as exact 2-CNF pair clauses, selectable XOR transport implications, deterministic polynomial-time avoidance for simple connected bicyclic canonical-pair components whose figure-eight/barbell core has two odd transport cycles, exact Karve-Hirani obstruction-sign compatibility census 8/16/32/48, and an infinite exact-stretch switching-unbalanced family with no proper positive-surplus subcircuit, V97 lambda=n, V101 mu=n, V102 beta=floor(2n/3), V103 nu=n, V104 eta_AF=n, while V105 is polynomial; primary and independent verifier suites included",
+  "completed_scope": "V106 candidate: adaptive one-of-three signed-majority pair repair with parameter sigma, deterministic O((2m)^sigma poly(N)) avoidance via V105 odd-handcuff detection, Hall/frame-matroid rank identity for candidate-pair unions, and an infinite minimally-positive-surplus exact-stretch family with canonical V105 theta signature (0,1,1), unique one-gate repair to an odd figure-eight, sigma=1, V102 beta=(n+3)/2, and V101 mu=V103 nu=V104 eta_AF=n; primary and independent verifier suites included",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V105",
-  "next_laboratory_focus": "validate and promote V105; after promotion attack adaptive one-of-three pair selection per signed-majority gate, seeking a polynomial selector or a smallest nondegenerate obstruction before attempting an all-signed-majority theorem",
+  "next_laboratory_version": "V106",
+  "next_laboratory_focus": "validate and promote V106; after promotion attack colorful frame-circuit selection at minimal surplus, seeking a polynomial odd-handcuff selector, an asymptotic sigma bound, or a scalable balanced-cycle obstruction",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V105",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V106",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -195,7 +195,7 @@
     "v94_canonical_prefix_hardness_proved": false,
     "v94_affine_all_prefix_comparison_in_P": true,
     "v94_affine_canonical_avoider_in_P": true,
-    "v94_hlz_runtime_improved": false,
+    "v94_hlz_worst_case_runtime_improved": false,
     "v95_balanced_definition_exact_tie": true,
     "v95_balanced_loader_composable": true,
     "v95_genuine_canonical_next_bit_PP_hard": true,
@@ -285,6 +285,15 @@
     "v105_adaptive_pair_selection_universal": false,
     "v105_all_signed_majority_nc03_avoid_polynomial_time": false,
     "v105_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v105_hlz_worst_case_runtime_improved": false
+    "v105_hlz_worst_case_runtime_improved": false,
+    "v106_pair_repair_avoider_O2msigma": true,
+    "v106_majority_candidate_triangle_unbalanced": true,
+    "v106_frame_rank_equals_support_neighborhood": true,
+    "v106_rado_condition_reduces_to_hall": true,
+    "v106_strict_family_sigma_one_beta_half_mu_nu_eta_n": true,
+    "v106_colorful_handcuff_forced_general": false,
+    "v106_all_signed_majority_nc03_avoid_polynomial_time": false,
+    "v106_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v106_hlz_worst_case_runtime_improved": false
   }
 }

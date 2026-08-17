@@ -1,0 +1,47 @@
+{
+  "laboratory": "V106",
+  "status": "experimental_pre_ci",
+  "method": "adaptive signed-majority pair repair",
+  "parameter": "sigma",
+  "runtime": "O((2m)^sigma poly(N))",
+  "strict_family": {
+    "n": "5+2q for q>=0",
+    "m": "n+1",
+    "canonical_v105_core": "theta",
+    "canonical_cycle_transport_signature": [0, 1, 1],
+    "sigma": 1,
+    "unique_one_repair": "gate 4, pair choice 2",
+    "repaired_core": "figure_eight",
+    "beta_V102": "(n+3)/2",
+    "mu_V101": "n",
+    "nu_V103": "n",
+    "eta_AF_V104": "n",
+    "switching_balanced_V98": false,
+    "proper_positive_surplus_subcircuit": false
+  },
+  "primary_contract": {
+    "complete_original_range_q_through": 4,
+    "structural_sigma_one_q_through": 30,
+    "unique_one_repair_q_through": 4,
+    "exact_beta_q_through": 5,
+    "proper_surplus_q_through": 3,
+    "single_deletion_hall_matching_q_through": 20
+  },
+  "independent_contract": {
+    "imports_primary_algorithm": false,
+    "direct_2sat_scc": true,
+    "complete_original_range_q_through": 4,
+    "implication_scc_q_through": 100,
+    "canonical_theta_signature": [0, 1, 1],
+    "frame_rank_neighborhood_subset_audit_q_through": 2
+  },
+  "bridge": {
+    "majority_candidate_triangle_unbalanced": true,
+    "frame_rank_equals_support_neighborhood": true,
+    "rado_condition_reduces_to_hall": true,
+    "colorful_handcuff_forced_in_general": false
+  },
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}

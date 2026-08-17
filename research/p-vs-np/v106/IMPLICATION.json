@@ -1,0 +1,29 @@
+{
+  "laboratory": "V106",
+  "classification": "frontier_progress",
+  "target_problem": "extend V105 signed-majority implication avoidance beyond the canonical pair choice by bounded adaptive pair repair",
+  "conditional_implication": "If an essential signed-majority NC0_3 circuit has pair-repair distance sigma at most k, then a missing output can be constructed deterministically in O((2m)^k poly(N)) time by enumerating repaired pair choices and invoking the V105 odd-handcuff implication constructor.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "V106 gives an infinite exact-stretch switching-unbalanced family whose canonical V105 pair graph is a theta and is rejected, while exactly one pair repair produces an odd figure-eight. On the same family beta=(n+3)/2 and the V101/V103/V104 parameters remain n.",
+  "bridge_lemmas": [
+    {"name": "the three signed-majority pair transports XOR to one", "proved": true},
+    {"name": "candidate-pair union of every nonempty gate subfamily has frame rank equal to its support-neighborhood size", "proved": true},
+    {"name": "Rado independent-transversal condition reduces to ordinary support Hall inequalities", "proved": true},
+    {"name": "bounded pair-repair distance gives O((2m)^sigma poly(N)) avoidance", "proved": true},
+    {"name": "strict family has canonical theta signature (0,1,1) and sigma exactly one", "proved": true},
+    {"name": "strict family has beta=(n+3)/2", "proved": true},
+    {"name": "all signed-majority exact-stretch circuits have polynomially bounded pair-repair distance", "proved": false},
+    {"name": "every minimal positive-surplus majority family admits a target-compatible odd handcuff", "proved": false},
+    {"name": "unrestricted NC0_3-Avoid is polynomial time", "proved": false}
+  ],
+  "material_advance_rule_met": true,
+  "closed_route": "canonical-pair-only signed-majority implication detection as a complete description of the useful 2-SAT witness space",
+  "surviving_route": "colorful frame-matroid circuit extraction: use the Hall/Rado identity to understand whether balanced fundamental cycles can always be repaired into target-compatible odd handcuffs",
+  "current_gap": "The repair search is exponential in sigma. V106 does not prove a small worst-case sigma or a polynomial algorithm for selecting pairs globally. The unresolved colorful dependence may be a balanced cycle rather than an odd handcuff.",
+  "stop_rule": "Do not promote V107 for a larger finite repair census. Require a polynomial colorful-circuit selector, a theorem bounding sigma on a meaningful infinite class, or a scalable obstruction/hardness result for balanced-cycle escape.",
+  "external_validation_target": "prior-art review of signed-graphic frame matroids, Rado matroid transversals, colorful/rainbow circuits, biased-graph handcuffs, and grouped pair selection for 2-SAT",
+  "next_front": "colorful_frame_circuit_selection",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
