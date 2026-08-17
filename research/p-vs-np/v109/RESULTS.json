@@ -9,6 +9,8 @@
   "strict_family": {
     "n": "2k+1",
     "m": "2k+2=n+1",
+    "distinct_central_supports": true,
+    "no_identical_output_shortcut": true,
     "branch_graph_strongly_connected": true,
     "hall_minimal": true,
     "outside_all_V108_kappa_SCC_certificates": true,
