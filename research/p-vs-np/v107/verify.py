@@ -4,7 +4,12 @@ import json
 import random
 from itertools import product
 
-from signed_majority_kernel import Gate, avoid_essential_signed_majority, in_range
+from signed_majority_avoider import (
+    Gate,
+    avoid_essential_signed_majority,
+    fundamental_hall_circuit,
+    in_range,
+)
 
 
 def exhaustive_n3():
@@ -15,6 +20,7 @@ def exhaustive_n3():
     for ps in product(polarities, repeat=4):
         gates = [Gate(support, p) for p in ps]
         y, meta = avoid_essential_signed_majority(3, gates)
+        assert meta["surplus_extraction"] == "transversal_fundamental_circuit"
         assert not in_range(3, gates, y), (ps, y, meta)
         modes[meta["case"]] = modes.get(meta["case"], 0) + 1
         cases += 1
@@ -39,6 +45,7 @@ def randomized_complete_range():
             extra = rng.randrange(1, 3)
             gates = [random_gate(rng, n) for _ in range(n + extra)]
             y, meta = avoid_essential_signed_majority(n, gates)
+            assert meta["surplus_extraction"] == "transversal_fundamental_circuit"
             assert not in_range(n, gates, y), (n, y, meta)
             modes[meta["case"]] = modes.get(meta["case"], 0) + 1
             by_n[n] = by_n.get(n, 0) + 1
@@ -50,23 +57,46 @@ def randomized_complete_range():
 def unused_input_and_local_surplus_checks():
     rng = random.Random(170107)
     cases = []
-    # Global n is larger than the support actually used.  The algorithm must
-    # localize an inclusion-minimal surplus block rather than pay for unused inputs.
     for n in (7, 8, 9):
         pool = list(range(5))
         gates = [random_gate(rng, n, pool) for _ in range(7)]
         y, meta = avoid_essential_signed_majority(n, gates)
-        assert meta["minimal_surplus_inputs"] <= 5
-        assert meta["minimal_surplus_outputs"] == meta["minimal_surplus_inputs"] + 1
+        assert meta["hall_circuit_inputs"] <= 5
+        assert meta["hall_circuit_outputs"] == meta["hall_circuit_inputs"] + 1
         assert not in_range(n, gates, y), (n, y, meta)
-        cases.append((n, meta["minimal_surplus_inputs"], meta["case"]))
+        cases.append((n, meta["hall_circuit_inputs"], meta["case"]))
     return cases
 
 
+def nonmonotone_surplus_regression():
+    # The old delete-while-the-current-set-stays-deficient heuristic gets stuck
+    # on all six outputs: deleting either support type can expose new variables
+    # fast enough to kill the current surplus.  Nevertheless four A-support
+    # outputs already form a Hall circuit on only three variables.
+    supports = [
+        (1, 2, 4),
+        (1, 2, 4),
+        (0, 3, 4),
+        (1, 2, 4),
+        (1, 2, 4),
+        (0, 2, 3),
+    ]
+    gates = [Gate(s, (0, 0, 0)) for s in supports]
+    circuit = fundamental_hall_circuit(5, gates)
+    neighborhood = set()
+    for i in circuit:
+        neighborhood.update(gates[i].support)
+    assert len(circuit) == 4
+    assert len(neighborhood) == 3
+    assert all(gates[i].support == (1, 2, 4) for i in circuit)
+    y, meta = avoid_essential_signed_majority(5, gates)
+    assert meta["hall_circuit_outputs"] == 4
+    assert meta["hall_circuit_inputs"] == 3
+    assert not in_range(5, gates, y), (y, meta)
+    return {"circuit": circuit, "neighborhood": sorted(neighborhood)}
+
+
 def structured_cross_component_case():
-    # Two disjoint unbalanced triangles form the frame basis after omitting the
-    # final gate.  The omitted support spans both components, so V107 must use
-    # the direct handcuff route.
     gates = [
         Gate((0, 1, 2), (0, 0, 0)),
         Gate((0, 1, 2), (0, 0, 1)),
@@ -78,9 +108,6 @@ def structured_cross_component_case():
     ]
     y, meta = avoid_essential_signed_majority(6, gates)
     assert not in_range(6, gates, y), (y, meta)
-    # Inclusion-minimal surplus extraction may select a smaller repeated-support
-    # block before the intended cross-component block; correctness is the main
-    # invariant, and random tests exercise both construction modes.
     return meta
 
 
@@ -89,6 +116,7 @@ def main():
         "exhaustive_n3": exhaustive_n3(),
         "random_complete_range": randomized_complete_range(),
         "unused_input_localization": unused_input_and_local_surplus_checks(),
+        "nonmonotone_surplus_regression": nonmonotone_surplus_regression(),
         "structured_control": structured_cross_component_case(),
         "failures": 0,
     }
