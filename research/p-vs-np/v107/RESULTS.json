@@ -1,0 +1,37 @@
+{
+  "laboratory": "V107",
+  "status": "experimental_pre_ci",
+  "method": "Rado frame-transversal plus six-path unicyclic majority kernel",
+  "target_class": "essential ternary signed-majority NC0_3 with m>n",
+  "candidate_runtime": "polynomial",
+  "kernel": {
+    "max_virtual_paths": 6,
+    "max_relevant_vertices": 6,
+    "generated_reduced_kernels": 164,
+    "exact_signed_polarity_cases": 16032,
+    "phase_target_choices_per_kernel_case_at_most": 128,
+    "failures": 0
+  },
+  "independent_direct_controls": {
+    "n3_all_polarities": 32,
+    "n4_all_polarities": 3840,
+    "n5_normalized_polarity": 35520,
+    "failures": 0
+  },
+  "primary_contract": {
+    "exhaustive_n3_circuits": 4096,
+    "random_complete_range_cases_n4_n7": 520,
+    "tests_actual_matroid_intersection": true,
+    "tests_minimal_surplus_localization": true,
+    "tests_original_range_not_relaxation_only": true
+  },
+  "global_claims": {
+    "essential_signed_majority_exact_stretch_in_P": true,
+    "unrestricted_mux_bijunctive_0x1b_in_P": false,
+    "unrestricted_nc0_3_avoid_in_P": false,
+    "new_general_circuit_lower_bound": false,
+    "p_vs_np_resolved": false
+  },
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
