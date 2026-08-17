@@ -57,7 +57,6 @@ def implication_graph(n, gates, targets):
             for j in range(i + 1, 3):
                 u, v = support[i], support[j]
                 # The target-majority condition forbids both endpoint bad values.
-                # Clause (x_u != bad_i) OR (x_v != bad_j).
                 graph[2 * u + bad[i]].append(2 * v + good[j])
                 graph[2 * v + bad[j]].append(2 * u + good[i])
     return graph
@@ -147,7 +146,6 @@ def randomized_checks():
     for r, trials in ((2, 120), (3, 90), (4, 30)):
         for _ in range(trials):
             n, gates = family(r, randomize=True, rng=rng)
-            # Reconstruct the target by chaining the first-two-variable clauses.
             targets = [0] * len(gates)
 
             def apply(edge_ids, vertices, start_value):
@@ -161,7 +159,6 @@ def randomized_checks():
                     value_now ^= 1 ^ p0 ^ p1
                 return value_now
 
-            # left triangle 0,1,2
             end_left = apply([0, 1, 2], [0, 1, 2, 0], 0)
             assert end_left == 1
             path_len = r + 1
@@ -180,10 +177,98 @@ def randomized_checks():
     return cases
 
 
+def pair_clause_unsat(n, edges, signs, choices):
+    # One canonical majority pair clause per edge.  `choices[i]=a` selects the
+    # source polarity in x_u=a -> x_v=a XOR delta_e.
+    graph = [[] for _ in range(2 * n)]
+    for (u, v), delta, a in zip(edges, signs, choices):
+        b = a ^ delta
+        graph[2 * u + a].append(2 * v + b)
+        graph[2 * v + (1 ^ b)].append(2 * u + (1 ^ a))
+    comp = strongly_connected_components(graph)
+    return any(comp[2 * x] == comp[2 * x + 1] for x in range(n))
+
+
+def pair_support_has_unsat(n, edges, signs):
+    for choices in product((0, 1), repeat=len(edges)):
+        if pair_clause_unsat(n, edges, signs, choices):
+            return True
+    return False
+
+
+def cycle_parity(edges, signs, cycle):
+    index = {tuple(sorted(edge)): i for i, edge in enumerate(edges)}
+    value = 0
+    for edge in cycle:
+        value ^= signs[index[tuple(sorted(edge))]]
+    return value
+
+
+def graphsat_obstruction_sign_census():
+    # The four simple support obstructions are the Karve--Hirani forbidden
+    # topological-minor skeletons.  Here we classify the stricter V105 setting
+    # where each edge permits only the two complementary majority pair clauses.
+    skeletons = {
+        "K4": (
+            4,
+            [(0,1),(0,2),(0,3),(1,2),(1,3),(2,3)],
+            [
+                [(0,1),(0,2),(1,2)],
+                [(0,1),(0,3),(1,3)],
+                [(0,2),(0,3),(2,3)],
+                [(1,2),(1,3),(2,3)],
+            ],
+        ),
+        "Butterfly": (
+            5,
+            [(0,1),(0,2),(0,3),(0,4),(1,2),(3,4)],
+            [
+                [(0,1),(0,2),(1,2)],
+                [(0,3),(0,4),(3,4)],
+            ],
+        ),
+        "Bowtie": (
+            6,
+            [(0,1),(0,2),(1,2),(2,3),(3,4),(3,5),(4,5)],
+            [
+                [(0,1),(0,2),(1,2)],
+                [(3,4),(3,5),(4,5)],
+            ],
+        ),
+        "K113": (
+            5,
+            [(0,1),(0,2),(0,3),(0,4),(1,2),(1,3),(1,4)],
+            [
+                [(0,1),(0,2),(1,2)],
+                [(0,1),(0,3),(1,3)],
+                [(0,1),(0,4),(1,4)],
+            ],
+        ),
+    }
+    counts = {}
+    for name, (n, edges, cycles) in skeletons.items():
+        good = 0
+        for signs in product((0, 1), repeat=len(edges)):
+            actual = pair_support_has_unsat(n, edges, signs)
+            parities = tuple(cycle_parity(edges, signs, cycle) for cycle in cycles)
+            if name == "K4":
+                expected = parities == (1, 1, 1, 1)
+            elif name in ("Butterfly", "Bowtie"):
+                expected = parities == (1, 1)
+            else:
+                expected = sum(parities) == 2
+            assert actual == expected, (name, signs, parities, actual)
+            good += int(actual)
+        counts[name] = good
+    assert counts == {"K4": 8, "Butterfly": 16, "Bowtie": 32, "K113": 48}
+    return counts
+
+
 def main():
     result = {
         "deterministic": deterministic_family_checks(),
         "independent_random_polarity_cases": randomized_checks(),
+        "signed_graphsat_obstruction_good_signings": graphsat_obstruction_sign_census(),
         "failures": 0,
     }
     print(json.dumps(result, sort_keys=True))
