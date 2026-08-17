@@ -1,37 +1,51 @@
 # V105 scientific status
 
-**Classification:** experimental frontier progress; not an official candidate.
+**Classification:** frontier progress; V104 is promoted and V105 is the official candidate pending repository gates.
 
-Internally established symbolically:
+Established symbolically in the candidate package:
 
-- exact signed-majority target constraints contain three 2-CNF pair clauses;
-- a canonical pair edge transports either chosen source polarity by a fixed XOR
-  label determined by the two local literal signs;
-- an odd canonical-pair triangle can be targeted to give `a -> not a`;
-- two vertex-disjoint odd triangles joined by a disjoint path can be targeted so
-  the implication graph contains a variable and its negation in one SCC;
-- the resulting missing output is polynomial-time constructible;
-- an explicit exact-stretch switching-unbalanced family has no proper
-  positive-surplus output subset and keeps V97/V101/V102/V103/V104 structural
-  scales linear while V105 is polynomial time.
+- a fixed signed-majority output target is exactly a conjunction of three binary
+  2-CNF clauses;
+- a chosen canonical pair transports either source polarity by the XOR label
+  `delta_e = 1 XOR p_u XOR p_v`;
+- odd transport around a pair cycle flips the propagated literal;
+- two edge-disjoint odd cycles in a simple bicyclic barbell or figure-eight can
+  be targeted to put a variable and its negation in one implication SCC;
+- such components are recognized constructively in polynomial time by leaf
+  pruning and 2-core degree/path tracing;
+- the strict exact-stretch switching-unbalanced family has no proper
+  positive-surplus output subset and satisfies
+  `lambda=mu=nu=eta_AF=n`, `beta=floor(2n/3)`, while V105 is polynomial time;
+- Karve--Hirani's four known simple 2GraphSAT obstruction skeletons were
+  independently classified under the stricter majority-induced complementary
+  pair clauses: `K4/Butterfly/Bowtie/K1,1,3` have respectively
+  `8/16/32/48` compatible transport signings.
 
-Pre-registration falsification:
+Candidate verification package:
 
-- complete original-range checks for the explicit family at `8<=n<=15` produced
-  zero counterexamples;
-- exact small-instance strong-affine-backdoor values matched `floor(2n/3)`;
-- switching imbalance and minimum support degree were checked directly.
+- primary complete-range checks for the strict family at `8<=n<=15`;
+- 500 additional random-polarity complete-range cases;
+- arbitrary-length odd barbell and figure-eight checks, plus explicit theta
+  rejection by the canonical-pair detector;
+- exact small-instance backdoor and proper-surplus audits;
+- independent 2-SAT SCC implementation with complete-range checks, 240 random
+  polarity cases, SCC checks through `n=106`, and exhaustive sign/target census
+  on all four Karve--Hirani skeletons.
 
-Committed but not yet repository-CI validated:
+Repository quick/LaTeX, compatibility and full replay gates have not yet been
+run on the V105 candidate head.
 
-- primary verifier with 500 additional random-polarity complete-range checks;
-- independent 2-SAT SCC implementation with implication checks through `n=106`,
-  small complete-range checks, and 240 additional random-polarity cases.
+Promising but **not proved** and not part of the V105 theorem:
+
+- adaptive selection of one of the three pair clauses per majority output. Small
+  nondegenerate searches found no counterexample so far, including exhaustive
+  `n=3` function classes and random `n=4..6` samples, but the current selector is
+  exponential and there is no universal theorem.
 
 Not established:
 
 - polynomial-time avoidance for arbitrary signed-majority exact-stretch circuits;
-- a structural theorem forcing an implication dumbbell from `m>n` alone;
+- a polynomial or structural theorem for adaptive pair selection;
 - unrestricted polynomial-time `NC0_3-Avoid`;
 - improvement of the published unrestricted worst-case exponent;
 - novelty, priority, peer review, a new circuit lower bound, or P versus NP.
