@@ -1,0 +1,30 @@
+{
+  "laboratory": "V107",
+  "classification": "frontier_progress",
+  "target_problem": "construct missing outputs in deterministic polynomial time for exact-stretch essential ternary signed-majority NC0_3 circuits",
+  "conditional_implication": "For every explicit circuit C:{0,1}^n->{0,1}^m with m>n whose outputs are essential ternary signed-majority gates on three distinct inputs, inclusion-minimal surplus extraction, a Rado/frame-matroid pair transversal, and a constant six-path unicyclic kernel yield a deterministic polynomial-time missing-output construction.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "V107 removes V106's repair-distance exponent for the full essential signed-majority orbit. The proof reduces a minimally positive-surplus block to rank-tight unbalanced-unicyclic frame components and handles the sole same-component case by a computer-assisted constant kernel with 16,032 exact signed/polarity instances.",
+  "bridge_lemmas": [
+    {"name": "inclusion-minimal positive surplus has exact surplus one and all proper subfamilies satisfy Hall", "proved": true},
+    {"name": "after deleting one gate, Rado plus V106 frame-rank identity gives a frame-independent one-pair transversal", "proved": true},
+    {"name": "rank-tight frame-independent components are unbalanced unicyclic", "proved": true},
+    {"name": "omitted majority support spanning multiple components gives a V105 handcuff", "proved": true},
+    {"name": "same-component three-terminal unicyclic structure compresses to at most six virtual paths", "proved": true},
+    {"name": "virtual path implication phases lift to exact original majority pair clauses", "proved": true},
+    {"name": "all 16032 reduced-kernel signed/polarity cases admit an unsatisfiable phase/target choice", "proved": true},
+    {"name": "essential ternary signed-majority NC0_3-Avoid with m>n is polynomial time", "proved": true},
+    {"name": "all anchor-free MUX/bijunctive 0x1b circuits are polynomial time", "proved": false},
+    {"name": "unrestricted NC0_3-Avoid is polynomial time", "proved": false}
+  ],
+  "material_advance_rule_met": true,
+  "closed_route": "bounded pair-repair distance as the necessary signed-majority parameter",
+  "surviving_route": "attack the remaining MUX/bijunctive 0x1b orbit and then recompute the post-V100/V101 residual frontier before testing any published lower-bound transfer",
+  "current_gap": "V107 covers only essential ternary signed-majority outputs. The MUX/bijunctive 0x1b orbit remains outside the unrestricted polynomial-time laboratory coverage, so general NC0_3-Avoid and P versus NP remain unresolved.",
+  "stop_rule": "Do not promote V108 for another signed-majority finite census. Require a scalable theorem for the remaining MUX/bijunctive orbit, a rigorous reduction of that orbit to solved structure, or a hardness/barrier result that changes the global range-avoidance frontier.",
+  "external_validation_target": "specialist review of the Rado/frame-matroid construction, the six-path computer-assisted kernel proof, exact-stretch signed-majority range avoidance prior art, and proof-assistant or independently implemented replay of the 16032 kernel cases",
+  "next_front": "mux_bijunctive_exact_stretch",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
