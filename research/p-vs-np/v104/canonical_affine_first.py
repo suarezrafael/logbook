@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from itertools import product
-
 from hybrid_root_rank import (
     Gate,
     LinearSystem,
@@ -102,9 +100,11 @@ def canonical_affine_first_avoid(n: int, gates: list[Gate]):
             full_system = trial
             affine_selected.append(i)
             for coeff, _rhs in rows:
-                for v in range(n):
-                    if (coeff >> v) & 1:
-                        protected.add(v)
+                remaining = coeff
+                while remaining:
+                    bit = remaining & -remaining
+                    protected.add(bit.bit_length() - 1)
+                    remaining ^= bit
     rank = full_system.rank
 
     # Functional-second phase. Canonical output order, then canonical head order.
@@ -139,12 +139,16 @@ def canonical_affine_first_avoid(n: int, gates: list[Gate]):
             if (coeff >> v) & 1:
                 root_coeff |= 1 << root_index[v]
         root_system.add(root_coeff, rhs)
-    assert root_system.rank == rank
+    root_rank = root_system.rank
+    if root_rank != rank:
+        raise RuntimeError(
+            f"protected-root rank changed unexpectedly: full={rank}, root={root_rank}"
+        )
 
-    eta = len(roots) - rank
+    eta = len(roots) - root_rank
     selected = affine_set | set(functional_selected)
     residual = [i for i in range(m) if i not in selected]
-    assert len(affine_selected) <= rank
+    assert len(affine_selected) <= root_rank
     assert len(residual) > eta
 
     topo = _topological_order(n, relations)
@@ -180,7 +184,7 @@ def canonical_affine_first_avoid(n: int, gates: list[Gate]):
         y[i] = b
     return tuple(y), {
         "case": "canonical_affine_first",
-        "affine_rank": rank,
+        "affine_rank": root_rank,
         "affine_blocks": len(affine_selected),
         "protected_variables": len(protected),
         "functional_blocks": len(functional_selected),
