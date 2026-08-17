@@ -61,6 +61,19 @@ def check_census() -> dict:
     return {"essential": 218, "proper_canonical_hull": 162, "full_canonical_hull": 56}
 
 
+def check_inconsistent_hull_witness() -> dict:
+    # n=1,m=2. Identity and negation both choose canonical target 0.
+    # Those target fibers impose x=0 and x=1, respectively, so the canonical
+    # hull system is inconsistent and the full canonical target word 00 is absent.
+    gates = [Gate((0,), 0x2), Gate((0,), 0x1)]
+    y, meta = avoid_by_affine_hulls(1, gates)
+    assert meta["case"] == "inconsistent_hulls"
+    assert y == (0, 0)
+    assert y == tuple(canonical_target(g) for g in gates)
+    assert not in_range(1, gates, y)
+    return {"n": 1, "m": 2, "witness": "00", "in_range": False}
+
+
 def check_random() -> int:
     rng = random.Random(103103)
     cases = 0
@@ -188,6 +201,7 @@ def check_v102_beta_bound() -> dict:
 def main() -> None:
     result = {
         "census": check_census(),
+        "inconsistent_hull_witness": check_inconsistent_hull_witness(),
         "random_bruteforce_cases": check_random(),
         "strict_family": check_strict_family(),
         "v101_mu": check_v101_mu_bound(),

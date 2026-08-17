@@ -60,6 +60,20 @@ def census():
     return len(ess), len(proper), len(full)
 
 
+def inconsistent_canonical_witness():
+    # Independent one-variable audit: identity and negation both have canonical
+    # target zero. Their target fibers are x=0 and x=1, so canonical word 00 is
+    # impossible. The actual image is exactly {01,10}.
+    image = set()
+    for x in (0, 1):
+        identity = x
+        negation = 1 ^ x
+        image.add((identity, negation))
+    assert image == {(0, 1), (1, 0)}
+    assert (0, 0) not in image
+    return {"canonical_witness": "00", "image_size": 2}
+
+
 def strict_rows(k):
     rows = []
 
@@ -187,6 +201,7 @@ def main():
         "essential": e,
         "proper": p,
         "full": f,
+        "inconsistent_canonical_witness": inconsistent_canonical_witness(),
         "strict_rank_k_through": strict_rank(),
         "strict_direct_solution_checks": direct_strict_solutions(),
         "independent_random_cases": brute_rank_avoider_random(),
