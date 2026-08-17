@@ -87,7 +87,9 @@ def strict_family_soundness():
         c0 = {gi for gi, _branch in result.cycle0}
         c1 = {gi for gi, _branch in result.cycle1}
         assert not (c0 & c1)
-        assert gates[result.cycle0[0][0]].branch(result.cycle0[0][1])[2] != gates[result.cycle1[0][0]].branch(result.cycle1[0][1])[2]
+        alpha0 = gates[result.cycle0[0][0]].branch(result.cycle0[0][1])[2]
+        alpha1 = gates[result.cycle1[0][0]].branch(result.cycle1[0][1])[2]
+        assert alpha0 != alpha1
         y, meta = avoid_mux_double_cycle(n, gates)
         if n <= 15:
             assert not in_range(n, gates, y), (k, y, meta)
@@ -171,6 +173,31 @@ def path_exists_without_gate(
     return False
 
 
+def deterministic_bottleneck_control():
+    # One repeated selector 0; both return cones can reach 0 only through gate 4.
+    gates = [
+        MuxGate(0, 1, 2),
+        MuxGate(0, 1, 2),
+        MuxGate(1, 3, 2),
+        MuxGate(2, 3, 1),
+        MuxGate(3, 0, 1),
+    ]
+    n = 4
+    assert branch_graph_strongly_connected(n, gates)
+    result = find_double_cycle_or_bottleneck(n, gates)
+    assert isinstance(result, GateBottleneck), result
+    assert result.bottleneck_gate == 4, result
+    d0 = gates[result.first_gate0].branch(result.first_branch0)[1]
+    d1 = gates[result.first_gate1].branch(result.first_branch1)[1]
+    assert not path_exists_without_gate(n, gates, result.selector, d0, result.bottleneck_gate)
+    assert not path_exists_without_gate(n, gates, result.selector, d1, result.bottleneck_gate)
+    return {
+        "selector": result.selector,
+        "bottleneck_gate": result.bottleneck_gate,
+        "first_gates": [result.first_gate0, result.first_gate1],
+    }
+
+
 def random_gate(rng: random.Random, n: int, selector: int) -> MuxGate:
     data = rng.sample([v for v in range(n) if v != selector], 2)
     return MuxGate(
@@ -223,7 +250,6 @@ def random_strong_dichotomy():
     assert strong == 280, (strong, attempts, by_n)
     assert doubles + bottlenecks == strong
     assert doubles >= 40, (doubles, bottlenecks)
-    assert bottlenecks >= 1, (doubles, bottlenecks)
     return {
         "strong_cases": strong,
         "double_cycle": doubles,
@@ -240,6 +266,7 @@ def main():
         "beta_small_exact": beta_checks(),
         "v108_no_certificate_all_ignored_subsets": v108_hierarchy_separation(),
         "signed_switchings_k2": exhaustive_switching_k2(),
+        "deterministic_bottleneck": deterministic_bottleneck_control(),
         "random_strong_dichotomy": random_strong_dichotomy(),
         "failures": 0,
     }
