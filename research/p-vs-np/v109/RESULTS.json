@@ -1,0 +1,28 @@
+{
+  "laboratory": "V109",
+  "candidate": true,
+  "class": "essential_signed_mux_0x1b_single_scc",
+  "certificate": "gate_disjoint_opposite_phase_double_cycle",
+  "structural_alternative": "one_gate_return_bottleneck",
+  "algorithmic_result": "polynomial-time missing-output construction when the gate-capacitated return flow has value two",
+  "strongly_connected_dichotomy": "flow_two_missing_output_or_flow_one_gate_bottleneck",
+  "strict_family": {
+    "n": "2k+1",
+    "m": "2k+2=n+1",
+    "distinct_central_supports": true,
+    "no_identical_output_shortcut": true,
+    "branch_graph_strongly_connected": true,
+    "hall_minimal": true,
+    "outside_all_V108_kappa_SCC_certificates": true,
+    "beta_V102": "1+2*ceil(k/2)=Theta(n)",
+    "V109_double_cycle_certificate": true
+  },
+  "nonclaims": {
+    "gate_bottleneck_alternative_solved": false,
+    "all_mux_in_P": false,
+    "unrestricted_NC0_3_avoid_in_P": false,
+    "p_vs_np_resolved": false,
+    "novelty_confirmed": false,
+    "peer_reviewed": false
+  }
+}
