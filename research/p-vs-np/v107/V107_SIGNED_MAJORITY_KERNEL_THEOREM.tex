@@ -1,0 +1,118 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\begin{document}
+\title{V107: Exact-Stretch Avoidance for Essential Ternary Signed Majority}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+\maketitle
+
+\paragraph{Setting.}
+Every output gate is
+\[
+ \operatorname{MAJ}(x_a\oplus p_a,x_b\oplus p_b,x_c\oplus p_c)
+\]
+on three distinct inputs.  Its three pair transports are
+$d_{ij}=1\oplus p_i\oplus p_j$ and satisfy
+$d_{01}\oplus d_{02}\oplus d_{12}=1$.
+
+\begin{lemma}[Minimal surplus]
+Every output family of positive support surplus contains an inclusion-minimal
+subfamily $F$ with
+\[
+ |F|=|N(F)|+1,
+\]
+and every proper $J\subset F$ satisfies $|N(J)|\ge |J|$.
+\end{lemma}
+
+\begin{lemma}[Frame transversal after one deletion]
+Delete any gate $g\in F$.  There is a polynomial-time constructible choice of
+one pair candidate from every gate of $F\setminus\{g\}$ that is independent in
+the signed-frame matroid.
+\end{lemma}
+
+\begin{proof}
+For every gate subfamily $J$, the union of its three pair candidates has frame
+rank $|N(J)|$, because every connected component contains an unbalanced majority
+triangle.  The minimal-surplus Hall inequalities therefore satisfy Rado's
+matroid-marriage condition.  Use ordinary polynomial-time matroid intersection
+between the partition matroid and the signed-frame matroid.
+\end{proof}
+
+\begin{lemma}[Rank-tight shape]
+The selected transversal has $r=|N(F)|$ edges on $r$ vertices.  Every connected
+component is an unbalanced unicyclic graph.
+\end{lemma}
+
+\begin{lemma}[Three-terminal compression]
+If the three variables of the omitted gate lie in one selected component, retain
+the unique unbalanced cycle and the minimal attachment forest for the three
+terminals, then suppress every nonterminal degree-two vertex.  The resulting
+signed virtual kernel has at most six vertices and at most six virtual paths.
+Each virtual path implication lifts to an implication path in the original
+selected gates by XOR-composing its transport labels.
+\end{lemma}
+
+\begin{proof}
+If $k$ terminals lie off the cycle in $c$ nonempty attachment trees, reduced
+attachment trees contribute at most $2k-c$ paths.  The suppressed cycle has at
+most $c+(3-k)$ marked arcs.  Thus the total is at most
+\[
+ (2k-c)+(c+3-k)=k+3\le6.
+\]
+Sequentially targeting the actual gates of a suppressed path realizes either
+chosen source phase and transports it by the XOR of the path labels, together
+with the contrapositive implication.
+\end{proof}
+
+\begin{lemma}[Computer-assisted kernel lemma]
+Every reduced three-terminal unbalanced-unicyclic kernel allowed by the previous
+lemma, for every signed edge-parity assignment and every one of the eight
+signed-majority polarities on the terminals, admits path phases and one omitted
+gate target whose virtual 2-CNF formula is unsatisfiable.
+\end{lemma}
+
+\begin{proof}[Finite exhaustive verification]
+A generator enumerates the one-, two-, and three-root cycle cases, all
+surjective assignments of the three labeled terminals to roots, all choices of
+terminals lying directly on roots, and all reduced rooted attachment trees via
+Pruefer sequences with the permitted degree-at-least-three Steiner vertices.
+It produces 164 kernel descriptions.  Enumerating every virtual-edge parity
+assignment with odd unique-cycle parity and all eight missing-gate polarities
+gives 16,032 exact cases.  Each case has at most six virtual paths, so at most
+$2^6\cdot2=128$ phase/target choices are exhausted.  Every case has an
+unsatisfiable choice.  A separate direct census on unreduced simple unicyclic
+graphs provides additional coverage controls.
+\end{proof}
+
+\begin{theorem}[Essential signed-majority exact-stretch avoidance]
+Let
+\[
+ C:\{0,1\}^n\to\{0,1\}^m,\qquad m>n,
+\]
+be an explicit circuit whose outputs are essential ternary signed-majority
+gates.  A word outside $\operatorname{Range}(C)$ can be constructed
+deterministically in polynomial time.
+\end{theorem}
+
+\begin{proof}
+Extract a minimal-surplus block and omit one gate.  Construct the frame-independent
+pair transversal.  If the omitted support meets multiple components, one of its
+pair clauses joins two unbalanced cycles and yields the V105 loose-handcuff
+contradiction.  Otherwise compress the common component to the constant kernel,
+find an unsatisfiable phase/target assignment by the finite lemma, and lift the
+virtual clauses to exact original majority clauses.  Extra clauses supplied by
+each fixed majority output only strengthen the resulting 2-CNF formula.  Thus
+the chosen block output has no preimage, and arbitrary values outside the block
+extend it to a missing full output.  All nonconstant steps are polynomial and
+the kernel search has constant size.
+\end{proof}
+
+\paragraph{Boundary.}
+This theorem concerns only the essential ternary signed-majority predicate
+orbit.  It does not solve the unrestricted MUX/bijunctive orbit, general
+$NC^0_3$-Avoid, or P versus NP.  Novelty and priority are not established.
+
+\end{document}
