@@ -1,0 +1,30 @@
+{
+  "laboratory": "V105",
+  "classification": "frontier_progress",
+  "target_problem": "construct exact-stretch missing outputs for switching-unbalanced signed-majority NC0_3 circuits beyond affine-hull and functional-anchor compression",
+  "conditional_implication": "If the canonical first-two-variable pair graph contains two vertex-disjoint odd-transport triangles connected by a path disjoint from the triangle edges and internally disjoint from their vertices, then output targets can be chosen so the exact majority constraints contain a contradictory 2-SAT implication SCC; a missing full output is constructible in deterministic polynomial time.",
+  "recognized_frontier_implication": false,
+  "frontier_reason": "The strict exact-stretch family has no proper positive-surplus subcircuit, fails V98 switching balance, and keeps lambda, mu, beta, nu, and eta_AF linear while the new implication dumbbell is polynomial-time constructive.",
+  "bridge_lemmas": [
+    {"name": "a fixed signed-majority target contains three exact binary 2-CNF clauses", "proved": true},
+    {"name": "canonical pair clauses realize a signed transport implication for either chosen source polarity", "proved": true},
+    {"name": "odd transport around a triangle realizes a -> not a", "proved": true},
+    {"name": "two vertex-disjoint odd triangles connected by a disjoint path create a contradictory implication SCC", "proved": true},
+    {"name": "odd-triangle dumbbells are polynomially detectable by triangle enumeration plus BFS", "proved": true},
+    {"name": "the strict family is exact stretch and switching-unbalanced", "proved": true},
+    {"name": "the strict family has no proper positive-surplus output subset", "proved": true},
+    {"name": "the strict family has beta=Theta(n), nu=n, and eta_AF=n", "proved": true},
+    {"name": "all signed-majority NC0_3-Avoid with m>n is polynomial time", "proved": false},
+    {"name": "unrestricted NC0_3-Avoid is polynomial time", "proved": false}
+  ],
+  "material_advance_rule_met": true,
+  "closed_route": "reordering functional-anchor and affine-hull primitives on signed majority",
+  "surviving_route": "generalize implication bicycles beyond triangle dumbbells or prove a structural theorem forcing a contradictory signed 2-SAT minor in broader exact-stretch majority supports",
+  "current_gap": "The current detector needs a canonical-pair odd-triangle dumbbell; arbitrary signed-majority exact-stretch circuits can avoid this structure.",
+  "stop_rule": "Do not promote V106 for another fixed dumbbell variant. Require a broader implication-minor theorem, a structural forcing theorem at exact stretch, or a hardness/barrier result for finding globally contradictory target orientations.",
+  "external_validation_target": "prior-art review of signed-majority range avoidance, selectable 2-SAT implication graphs, signed graph bicycles, and CSP orientation obstructions",
+  "next_front": "signed_majority_implication_minors",
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
