@@ -52,27 +52,26 @@ class MinCostFlowNetwork:
         size = len(self.adj)
         inf = 10**18
         while value < amount:
-            # Residual reverse arcs can have cost -1 after the first unit, so
-            # use SPFA/Bellman-Ford rather than Dijkstra.  Only two augmentations
-            # are ever required.
+            # Residual reverse arcs can have cost -1 after the first unit.  Use
+            # deterministic Bellman-Ford passes, not queue-based SPFA, so the
+            # implementation has an explicit worst-case polynomial bound.
             dist = [inf] * size
             parent: list[tuple[int, int] | None] = [None] * size
-            in_queue = [False] * size
             dist[source] = 0
-            queue = deque([source])
-            in_queue[source] = True
-            while queue:
-                u = queue.popleft()
-                in_queue[u] = False
-                for ei, edge in enumerate(self.adj[u]):
-                    v, cap, _rev, cost, _orig, _meta = edge
-                    if cap <= 0 or dist[v] <= dist[u] + cost:
+            for _ in range(size - 1):
+                changed = False
+                for u in range(size):
+                    if dist[u] == inf:
                         continue
-                    dist[v] = dist[u] + cost
-                    parent[v] = (u, ei)
-                    if not in_queue[v]:
-                        queue.append(v)
-                        in_queue[v] = True
+                    for ei, edge in enumerate(self.adj[u]):
+                        v, cap, _rev, cost, _orig, _meta = edge
+                        if cap <= 0 or dist[v] <= dist[u] + cost:
+                            continue
+                        dist[v] = dist[u] + cost
+                        parent[v] = (u, ei)
+                        changed = True
+                if not changed:
+                    break
             if parent[sink] is None:
                 break
             cur = sink
