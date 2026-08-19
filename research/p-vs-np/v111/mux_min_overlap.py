@@ -33,7 +33,7 @@ class MinOverlapCertificate:
 
 
 class MinCostFlowNetwork:
-    """Tiny integral min-cost-flow engine; V111 only sends two units."""
+    """Tiny integral min-cost-flow engine specialized to exactly two units."""
 
     def __init__(self, size: int):
         self.adj: list[list[list[object]]] = [[] for _ in range(size)]
@@ -46,7 +46,8 @@ class MinCostFlowNetwork:
         self.adj[v].append([u, 0, ui, -cost, 0, None])
         self.forward.append((u, ui, cap, cost, meta))
 
-    def min_cost_flow(self, source: int, sink: int, amount: int = 2) -> tuple[int, int]:
+    def min_cost_flow(self, source: int, sink: int) -> tuple[int, int]:
+        amount = 2
         value = 0
         total_cost = 0
         size = len(self.adj)
@@ -222,7 +223,7 @@ def _candidate_for_pair(
     if a0 == a1:
         return None
     net, source, sink = _build_min_overlap_network(n, gates, selector, d0, d1)
-    value, cost = net.min_cost_flow(source, sink, 2)
+    value, cost = net.min_cost_flow(source, sink)
     if value != 2:
         return None
     p0, p1 = _decode_paths(net, source, sink)
