@@ -1,0 +1,118 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\begin{document}
+\title{V110: Phase-Compatible Shared-Gate MUX Cycles}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+\maketitle
+
+A signed essential ternary MUX output has the form
+\[
+ g=o\oplus \operatorname{MUX}(s\oplus p_s,a\oplus p_a,b\oplus p_b).
+\]
+Fixing its output gives two binary clauses. Selecting branch $r$ yields an
+implication
+\[
+ x_s=\alpha_r\Longrightarrow x_d=\beta_r,
+\]
+where the two source phases are opposite and the output target selects the
+arrival phase.
+
+\begin{lemma}[Single-shared-output composition]
+Suppose two directed branch cycles start at the same selector $v$ with opposite
+source phases. Their output-gate sets intersect in exactly one gate $h$. If both
+cycles require the same target bit on $h$, then a missing output is constructible.
+\end{lemma}
+
+\begin{proof}
+On each cycle choose targets so every selected implication arrives at the source
+phase of the next selected branch, except that the last implication arrives at
+the complement of the first source phase. A cycle beginning at phase $\alpha$
+therefore contains
+\[
+ x_v=\alpha\Longrightarrow x_v=1\oplus\alpha,
+\]
+so every satisfying assignment must set $x_v=1\oplus\alpha$. The two initial
+phases are opposite, hence the two cycles force opposite Boolean values on $v$.
+All selected outputs are disjoint except $h$, and by hypothesis the two target
+assignments agree on $h$. Thus they combine into one fixed-output contradiction.
+Unused MUX clauses only strengthen the formula.
+\end{proof}
+
+Start with a V109 one-gate bottleneck for selector $v$, first branch
+destinations $d_0,d_1$, and bottleneck output $h$. In the V109 return network,
+give every output-gate edge capacity one except $h$, which receives capacity two.
+All non-gate internal arcs have capacity two and a super-source sends one unit to
+each destination.
+
+\begin{theorem}[V110 upgraded-flow avoider]
+If the upgraded network has flow value two, the two decomposed return routes
+share exactly $h$, and both lifted cycles require the same target bit on $h$,
+then a word outside the circuit range is constructible in deterministic
+polynomial time.
+\end{theorem}
+
+\begin{proof}
+Only $h$ has output-gate capacity two. Therefore an integral two-flow yields two
+return paths that are gate-disjoint outside $h$. Prepending the prescribed V109
+first branches creates two opposite-phase cycles. The preceding lemma applies.
+Max-flow, path decomposition, target comparison, and target lifting are all
+polynomial-time operations.
+\end{proof}
+
+If the upgraded flow remains one, V110 records a nested bottleneck. If flow two
+exists but the two traversals demand different target bits on $h$, V110 records
+a phase conflict. Neither case is solved here.
+
+\begin{theorem}[Strict exact-stretch family]
+For every $k\ge2$ there is an essential MUX circuit with
+\[
+ n=4k+2,\qquad m=n+1,
+\]
+that is Hall-minimal, has two distinct-support central MUX outputs, has no V108
+SCC-separated certificate under any ignored-output set, forces V109 into a
+single shared bottleneck, and is solved by the V110 shared-gate certificate.
+Its V102 strong-affine backdoor is exactly
+\[
+ \beta=2+4\lceil k/2\rceil=\Theta(n).
+\]
+\end{theorem}
+
+\begin{proof}[Construction and proof sketch]
+Use variables $v$, pre-lobes $A_1,\ldots,A_k$ and $B_1,\ldots,B_k$, hub $w$,
+and post-lobes $C_1,\ldots,C_k$ and $D_1,\ldots,D_k$. Add central gates
+$\operatorname{MUX}(v,A_1,B_1)$ and $\operatorname{MUX}(v,A_2,B_2)$. Each
+pre-lobe forms a directed local cycle and also exposes $w$ as its only exit.
+Add the shared gate $h=\operatorname{MUX}(w,C_1,D_1)$. Each post-lobe forms the
+analogous cycle with exit to $v$.
+
+There are $2+2k+1+2k=4k+3=n+1$ outputs. Since $v$ is the only repeated selector
+and every return from either central destination to $v$ must pass through $h$,
+V109 returns the bottleneck $h$. Raising only $h$ to capacity two allows one
+route through the $C$ post-lobe and one through the $D$ post-lobe; the two
+routes share only $h$ and require the same target there.
+
+For the backdoor upper bound, select both hubs $v,w$ and a minimum vertex cover
+of each of the four $k$-cycles, giving $2+4\lceil k/2\rceil$. If $v$ is omitted,
+all post-lobe selectors must be selected and the two distinct central supports
+force additional pre variables. If $w$ is omitted, all pre-lobe selectors must
+be selected and the shared output plus the post-lobe constraints impose no
+smaller solution. Hence the displayed value is exact.
+
+Hall minimality follows from explicit alternating-path repairs after deleting
+any one output. For V108 separation, deleting a unique-selector lobe output makes
+its selector acyclic, deleting $h$ makes $w$ acyclic, while deleting a central
+bridge either leaves the terminal in the same cyclic component or requires
+breaking a unique lobe output and thereby destroys that lobe cycle.
+\end{proof}
+
+\paragraph{Boundary.}
+V110 does not solve phase conflicts or nested bottlenecks. It therefore does not
+prove all essential MUX/bijunctive circuits are in P, unrestricted
+$NC^0_3$-Avoid, a new general circuit lower bound, or P versus NP. Novelty and
+priority are not established.
+
+\end{document}
