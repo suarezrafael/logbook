@@ -23,11 +23,11 @@ class SharedGateCertificate:
     shared_target: int
 
     @property
-    def cycle0(self):
+    def cycle0(self) -> tuple[tuple[int, int], ...]:
         return ((self.first_gate0, self.first_branch0),) + self.return_path0
 
     @property
-    def cycle1(self):
+    def cycle1(self) -> tuple[tuple[int, int], ...]:
         return ((self.first_gate1, self.first_branch1),) + self.return_path1
 
 
@@ -41,7 +41,14 @@ class NestedBottleneck:
     first_bottleneck: int
 
 
-def _build_upgraded_network(n, gates, selector, dest0, dest1, shared_gate):
+def _build_upgraded_network(
+    n: int,
+    gates: list[MuxGate],
+    selector: int,
+    dest0: int,
+    dest1: int,
+    shared_gate: int,
+) -> tuple[FlowNetwork, int, int]:
     allowed = [i for i, gate in enumerate(gates) if gate.selector != selector]
     gate_pos = {gi: pos for pos, gi in enumerate(allowed)}
     source = n + 2 * len(allowed)
@@ -60,7 +67,11 @@ def _build_upgraded_network(n, gates, selector, dest0, dest1, shared_gate):
     return net, source, selector
 
 
-def _decode_two_paths(net, source, sink):
+def _decode_two_paths(
+    net: FlowNetwork,
+    source: int,
+    sink: int,
+) -> tuple[tuple[tuple[int, int], ...], tuple[tuple[int, int], ...]]:
     raw = net.positive_flow_paths(source, sink, 2)
     decoded = {}
     for path in raw:
@@ -75,7 +86,11 @@ def _decode_two_paths(net, source, sink):
     return decoded[0], decoded[1]
 
 
-def _required_target_at_position(gates, cycle, pos):
+def _required_target_at_position(
+    gates: list[MuxGate],
+    cycle: tuple[tuple[int, int], ...],
+    pos: int,
+) -> int:
     first_alpha = gates[cycle[0][0]].branch(cycle[0][1])[2]
     gi, branch = cycle[pos]
     if pos + 1 < len(cycle):
@@ -86,7 +101,12 @@ def _required_target_at_position(gates, cycle, pos):
     return gates[gi].target_for_arrival(branch, desired)
 
 
-def _shared_target(gates, cycle0, cycle1, shared_gate):
+def _shared_target(
+    gates: list[MuxGate],
+    cycle0: tuple[tuple[int, int], ...],
+    cycle1: tuple[tuple[int, int], ...],
+    shared_gate: int,
+) -> int | None:
     positions = []
     for cycle in (cycle0, cycle1):
         loc = [i for i, (gi, _branch) in enumerate(cycle) if gi == shared_gate]
@@ -98,7 +118,11 @@ def _shared_target(gates, cycle0, cycle1, shared_gate):
     return y0 if y0 == y1 else None
 
 
-def _upgrade_bottleneck_pair(n, gates, bottleneck):
+def _upgrade_bottleneck_pair(
+    n: int,
+    gates: list[MuxGate],
+    bottleneck: GateBottleneck,
+) -> SharedGateCertificate | NestedBottleneck | None:
     selector = bottleneck.selector
     g0, b0 = bottleneck.first_gate0, bottleneck.first_branch0
     g1, b1 = bottleneck.first_gate1, bottleneck.first_branch1
@@ -122,8 +146,11 @@ def _upgrade_bottleneck_pair(n, gates, bottleneck):
     return SharedGateCertificate(selector, g0, b0, g1, b1, h, p0, p1, y)
 
 
-def find_shared_gate_certificate(n: int, gates: list[MuxGate]):
-    by_selector = {}
+def find_shared_gate_certificate(
+    n: int,
+    gates: list[MuxGate],
+) -> SharedGateCertificate | NestedBottleneck | None:
+    by_selector: dict[int, list[int]] = {}
     for i, gate in enumerate(gates):
         by_selector.setdefault(gate.selector, []).append(i)
     first_nested = None
@@ -148,7 +175,11 @@ def find_shared_gate_certificate(n: int, gates: list[MuxGate]):
     return first_nested
 
 
-def construct_missing_from_shared_gate(n, gates, cert):
+def construct_missing_from_shared_gate(
+    n: int,
+    gates: list[MuxGate],
+    cert: SharedGateCertificate,
+) -> tuple[tuple[int, ...], dict[str, object]]:
     targets = [0] * len(gates)
     assigned = {}
     for cycle in (cert.cycle0, cert.cycle1):
@@ -177,14 +208,17 @@ def construct_missing_from_shared_gate(n, gates, cert):
     }
 
 
-def avoid_mux_shared_gate(n, gates):
+def avoid_mux_shared_gate(
+    n: int,
+    gates: list[MuxGate],
+) -> tuple[tuple[int, ...], dict[str, object]]:
     cert = find_shared_gate_certificate(n, gates)
     if not isinstance(cert, SharedGateCertificate):
         raise ValueError("no V110 phase-compatible single-shared-gate certificate")
     return construct_missing_from_shared_gate(n, gates, cert)
 
 
-def strict_shared_bottleneck_family(k: int):
+def strict_shared_bottleneck_family(k: int) -> tuple[int, list[MuxGate], int]:
     if k < 2:
         raise ValueError("V110 strict family needs k>=2")
     v = 0
@@ -208,5 +242,5 @@ def strict_shared_bottleneck_family(k: int):
     return n, gates, shared_gate
 
 
-def in_range(n, gates, y):
+def in_range(n: int, gates: list[MuxGate], y: tuple[int, ...]) -> bool:
     return any(tuple(g.value(x) for g in gates) == y for x in product((0, 1), repeat=n))
