@@ -1,0 +1,160 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\begin{document}
+\title{V113: Common-Dominator Dynamic Programming for Minimum-Overlap MUX Return Flows}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+\maketitle
+
+Fix two signed essential ternary MUX outputs with common selector $v$, and choose first
+branches with opposite source phases.  Let their destinations be $d_0,d_1$.  Return
+routes end at $v$, and outputs whose selector is $v$ are excluded from the return graph.
+Each remaining output is treated as one gate resource.
+
+\paragraph{Common gate dominators.}
+A return gate $h$ is common if every $d_0\to v$ route and every $d_1\to v$ route uses
+$h$.  Let $H$ be the set of such gates.
+
+\begin{lemma}[Dominator chain]
+The gates of $H$ are linearly ordered from the two return sources to the sink.
+\end{lemma}
+
+\begin{proof}
+Add a super-source joined to $d_0$ and $d_1$.  A gate is in $H$ exactly when its split
+gate-node dominates the sink $v$.  Dominators of one vertex are the ancestors of that
+vertex in the dominator tree and hence form a chain.
+\end{proof}
+
+\begin{theorem}[Minimum overlap]
+For the fixed first-branch pair,
+\[
+ \min\{|P_0\cap P_1|:P_i\text{ is a }d_i\to v\text{ return route}\}=|H|,
+\]
+where intersection counts shared output-gate resources.
+\end{theorem}
+
+\begin{proof}
+Every route from either source uses every gate in $H$, giving the lower bound.
+
+For the upper bound, give each gate of $H$ capacity two and every other gate capacity
+one; transition arcs and variables have capacity two.  A super-source sends one unit to
+each $d_i$.  If a cut of capacity one existed, it could not be a common gate, whose
+capacity is two, and one source arc alone cannot separate the other source.  Thus the
+unit cut would be a noncommon gate whose deletion separates every super-source-to-$v$
+route.  That gate would lie on every route from both sources, contradicting its being
+noncommon.  Max-flow/min-cut and integrality therefore give a two-flow whose two paths
+share no noncommon gate.  They share exactly $H$.
+\end{proof}
+
+\begin{corollary}[Dominator intervals]
+Every minimum-overlap pair shares exactly $H$ and is gate-disjoint between consecutive
+common dominators.  Conversely, gate-disjoint route pieces in each interval stitch to a
+minimum-overlap pair.
+\end{corollary}
+
+At a common MUX gate $h_j$, the only shared branch state is
+\[
+ (b_0,b_1)\in\{0,1\}^2.
+\]
+Thus every dominator has four states.
+
+\begin{lemma}[Polynomial phase transition]
+For a fixed state at $h_j$ and fixed next state at $h_{j+1}$, feasibility of a
+minimum-overlap target-compatible transition is decidable in polynomial time.
+\end{lemma}
+
+\begin{proof}
+The target required at $h_j$ by one route depends only on its branch at $h_j$ and the
+source phase of the first selected output branch in the following interval.  Enumerate
+the first gate and branch for each route.  Reject pairs that reuse one noncommon gate or
+induce different target bits at $h_j$.  Once these first choices are fixed, complete
+the two tails to the next boundary with a gate-capacitated integral two-flow having
+capacity one on every noncommon gate.  There are only polynomially many first-choice
+pairs and an ordinary max-flow test for each.
+\end{proof}
+
+\begin{theorem}[Optimum-face completeness]
+For a fixed opposite-phase first-branch pair, there is a deterministic polynomial-time
+algorithm deciding whether some minimum-overlap return pair is target-compatible on all
+shared gates.  When one exists, the algorithm constructs a missing output word.
+\end{theorem}
+
+\begin{proof}
+Run dynamic programming along the ordered common dominators.  The state at one common
+gate is its pair of branch choices, so there are four states.  Use the previous lemma to
+create transitions between states in consecutive intervals.
+
+Soundness follows because every accepted transition uses gate-disjoint noncommon
+resources, while the two traversals of each common gate require the same target bit.
+The resulting two opposite-phase cycles therefore coexist in one fixed-output 2-CNF and
+force opposite values of the root selector, so the completed target word is missing.
+
+For completeness, take any target-compatible minimum-overlap pair.  By the minimum
+overlap theorem it shares exactly $H$.  Its branch pair at each common gate is one of
+the four DP states.  In every interval its first branches occur in the explicit
+enumeration and its remaining gate-disjoint tails witness the max-flow feasibility
+check.  Hence all of its state transitions are present and the DP accepts.
+\end{proof}
+
+\begin{corollary}[Polynomial scan]
+Scanning every pair of outputs with a repeated selector and every opposite-phase pair of
+first branches remains polynomial.  Therefore V113 finds a missing word whenever any
+such first pair has a target-compatible minimum-overlap return pair.
+\end{corollary}
+
+\begin{theorem}[Nonserial strict family]
+For every $d\ge1$ there is a signed MUX family with
+\[
+ n=7(d+1),\qquad m=n+1,
+\]
+whose distinguished return pair has minimum overlap $d$, while the same optimum face
+contains both a target-compatible and a target-incompatible pair.  The support uses
+three-variable lobes and is outside the exact two-variable-lobe class recognized by
+V112.
+\end{theorem}
+
+\begin{proof}
+Use the periodic $k=3$ signing recorded in the V113 reference implementation.  The
+$d$ hub gates are on every return route, so they are common dominators.  Explicit left
+and right lobe routes are otherwise gate-disjoint and therefore attain overlap $d$.
+For one explicit route pair the two target requirements agree at every shared hub; for
+a second explicit pair they disagree at every repeated block.  Both pairs are overlap
+optimal, but only the first is target-compatible.
+\end{proof}
+
+\begin{theorem}[Exact V102 backdoor]
+For the strict family,
+\[
+ \beta_{\mathrm{V102}}=5(d+1)=\frac{5n}{7}.
+\]
+\end{theorem}
+
+\begin{proof}
+For one three-variable lobe $x_0,x_1,x_2$ with exit hub $z$, the MUX backdoor conditions
+are cyclically
+\[
+ x_i\in B\quad\text{or}\quad (x_{i+1}\in B\text{ and }z\in B).
+\]
+If $z\in B$, the conditions reduce to a vertex cover of a triangle and require two lobe
+variables.  If $z\notin B$, all three lobe variables are forced.  Two lobes therefore
+cost at least four selected lobe variables when $z$ is selected and six otherwise;
+including $z$ gives layer cost at least five or six respectively.  Summing over $d+1$
+layers gives $\beta\ge5(d+1)$.  Selecting every exit hub and any two variables from each
+lobe attains equality and also satisfies the central/shared hub gates.
+\end{proof}
+
+\paragraph{Boundary.}
+V113 solves the zero-excess regime
+\[
+ \Delta=\operatorname{minCompatibleOverlap}-\operatorname{minOverlap}=0
+\]
+for every fixed opposite-phase first pair.  It does not prove that every MUX circuit has
+a compatible optimum.  The case $\Delta>0$, all essential MUX/bijunctive circuits,
+unrestricted $NC^0_3$-Avoid, general circuit lower bounds, and P versus NP remain open.
+Novelty and priority are not established.
+
+\end{document}
