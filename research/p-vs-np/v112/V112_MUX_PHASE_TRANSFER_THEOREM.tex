@@ -1,0 +1,154 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\begin{document}
+\title{V112: Serial Phase Transfer for Ternary MUX Range Avoidance}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+\maketitle
+
+A signed essential ternary MUX gate has the form
+\[
+ g=o\oplus \operatorname{MUX}(s\oplus p_s,a\oplus p_a,b\oplus p_b).
+\]
+Fixing its output gives two exact binary clauses.  Branch $r$ supplies an implication
+whose source phase is fixed by $p_s$ and whose arrival phase is selected by the output
+target.
+
+\paragraph{Serial two-lobe support.}
+One root input selects two central outputs.  Each layer consists of two disjoint
+two-variable lobes whose four selector gates return to a common exit variable.  A
+non-final exit selects one shared MUX whose two data branches enter the next layer,
+one branch per lobe.  The last layer exits to the root.  With $d$ shared hubs,
+\[
+ n=5(d+1),\qquad m=n+1.
+\]
+All prescribed gates may carry arbitrary signed MUX polarities.
+
+\begin{lemma}[Recognition]
+The exact serial two-lobe support template is recognizable in linear time.
+\end{lemma}
+
+\begin{proof}
+The root is the unique selector of two outputs.  The two central gates expose four
+first-layer variables.  Their unique selector supports share exactly one outside
+variable, the first exit, and pair the four variables into two mutual lobes.  At an
+internal exit $z$, its unique selector gate exposes one start variable from each next
+lobe; the two start-selector supports intersect in the next exit and expose the two
+partners.  Walking this pattern processes every gate and variable only constantly many
+times, and the recognizer rejects unless the walk returns to the root using the entire
+instance.
+\end{proof}
+
+For a shared hub traversal $(h,r)$ followed by first lobe branch $(g,c)$, define the
+required target bit on $h$ by
+\[
+ t_h=\alpha(g,c)\oplus p_{\mathrm{data}}(h,r)\oplus o_h.
+\]
+
+\begin{lemma}[Local phase independence]
+Suppose the two routes leave every shared hub into distinct lobes.  Whether their
+target requirements agree at one hub is independent of every later layer.
+\end{lemma}
+
+\begin{proof}
+The two lobes have disjoint output gates and meet only at their common exit.  Hence no
+lobe gate introduces a cross-route target equality.  The current hub target depends
+only on its selected branch and the source phase of the first selected branch in the
+chosen lobe.  Both routes then reach the next common hub, so no other local information
+is carried forward.
+\end{proof}
+
+\begin{theorem}[Serial phase-transfer avoider]
+After recognition, there is a deterministic linear-time algorithm that decides whether
+the circuit admits a lobe-disjoint phase-transfer certificate and constructs a missing
+output whenever it does.
+\end{theorem}
+
+\begin{proof}
+Enumerate the constant number of central branch pairs having opposite source phases and
+entering distinct first lobes.  A two-variable lobe has only constantly many simple
+branch paths to its exit.  At every shared hub enumerate the constant number of branch
+pairs entering distinct next lobes and local lobe paths, retaining a choice exactly
+when the two induced values of $t_h$ agree.  By local phase independence, successful
+choices concatenate without global backtracking.
+
+For the resulting cycles, target each selected gate so its implication arrives at the
+source phase of the next branch, except the final branch, which arrives at the
+complement of that cycle's initial root phase.  Shared hub targets agree by
+construction.  Since the two central source phases are opposite, the two cycles force
+opposite Boolean values on the root.  The fixed-output 2-CNF is therefore inconsistent,
+and arbitrary values on unused outputs complete a missing word.
+\end{proof}
+
+\begin{theorem}[Minimum overlap]
+Every pair of return routes in a depth-$d$ serial chain uses all $d$ shared hub outputs.
+Lobe-disjoint routes therefore have minimum overlap exactly $d$.
+\end{theorem}
+
+\begin{proof}
+Every layer exits at its hub.  Each non-final hub selects exactly one output gate, which
+is the only way to leave that hub toward later layers.  Thus every return route uses
+every shared hub.  Distinct lobes share no other output.
+\end{proof}
+
+\begin{theorem}[Mixed optimum face]
+For every $d\ge1$ there is a periodic signed labeling of the serial support with both a
+target-compatible and a target-incompatible pair at the same minimum overlap $d$.
+\end{theorem}
+
+\begin{proof}
+Use the five-gate periodic signing recorded in the reference implementation.  Every
+shared hub has data polarities $(1,1)$ and output flip zero.  For the compatible pair,
+route zero takes hub branch one followed by the first right-lobe gate on branch one,
+while route one takes hub branch zero followed by the first left-lobe gate on branch
+zero.  The corresponding next source phases are respectively one and one, so both hub
+requirements are zero.
+
+For the incompatible pair, route zero takes hub branch zero followed by the first
+left-lobe gate on branch one, whose source phase is zero, whereas route one takes hub
+branch one followed by the first right-lobe gate on branch one, whose source phase is
+one.  Their hub targets are therefore one and zero.  This repeats at every layer.  Both
+pairs share exactly the mandatory $d$ hubs and no lobe output, so both are overlap
+optimal.
+\end{proof}
+
+\begin{theorem}[Hall minimality]
+The serial support is Hall-minimal for every depth: deleting any one output leaves a
+perfect matching from the remaining $n$ outputs to the $n$ inputs.
+\end{theorem}
+
+\begin{proof}
+Match one central output to the root and every non-central output to its selector,
+leaving only the second central output unmatched.  If a central output is deleted, use
+the other one at the root.  If a non-central selector output of input $x$ is deleted,
+$x$ becomes free.  From the unmatched second central output, alternating support paths
+reach every non-root input: its data variables enter both first lobes; matched lobe
+gates reach their partners and layer exits; matched hub gates reach both starts of the
+next layer.  Flip an alternating path ending at $x$ to obtain a perfect matching.
+\end{proof}
+
+\begin{theorem}[Exact affine backdoor]
+On the periodic family,
+\[
+ \beta_{\mathrm{V102}}=3(d+1)=\frac{3n}{5}.
+\]
+\end{theorem}
+
+\begin{proof}
+The statement is support-only.  For each two-variable lobe, selecting its exit hub
+requires at least one selected lobe variable; omitting the exit hub forces both lobe
+variables.  Summing over two lobes in each of $d+1$ layers gives a lower bound
+$3(d+1)$.  Selecting all $d+1$ exit hubs and one variable from every lobe attains it.
+\end{proof}
+
+\paragraph{Boundary.}
+The algorithm is complete only for the stated lobe-disjoint serial certificate class.
+It does not decide target compatibility over the full optimum-flow face of an arbitrary
+MUX circuit, prove all essential MUX/bijunctive circuits are in P, solve unrestricted
+$NC^0_3$-Avoid, establish a new general circuit lower bound, or resolve P versus NP.
+Novelty and priority are not established.
+
+\end{document}
