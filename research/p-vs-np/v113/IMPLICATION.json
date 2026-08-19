@@ -1,0 +1,24 @@
+{
+  "laboratory": "V113",
+  "classification": "frontier_progress",
+  "target_problem": "essential signed MUX/bijunctive 0x1b range avoidance inside the minimum-overlap return-flow face",
+  "conditional_implication": "if an opposite-phase repeated-selector pair has any target-compatible minimum-overlap return pair, V113 finds one and constructs a missing output in deterministic polynomial time",
+  "current_gap": "V113 does not prove that every MUX circuit has a compatible optimum; a compatible pair may require overlap strictly larger than the unconstrained minimum",
+  "stop_rule": "promote only if the common-dominator equality and optimum-face DP are proved generally, independently verified, and separated from V112 on an infinite nonserial family",
+  "external_validation_target": "graph-algorithm and complexity-theory review of the common-dominator overlap lemma and the MUX phase-DP completeness argument",
+  "bridge_lemmas": [
+    "common gate dominators form a chain via a super-source dominator view",
+    "minimum shared return-gate overlap equals the number of common gate dominators",
+    "minimum-overlap pairs decompose into gate-disjoint intervals between dominators",
+    "target compatibility at a shared MUX gate is decided by a four-state branch pair plus the first local branch phases",
+    "each DP transition reduces to polynomially many ordinary two-flow feasibility tests"
+  ],
+  "material_advance_rule_met": true,
+  "recognized_frontier_implication": false,
+  "delta_zero_case_solved_for_fixed_pair": true,
+  "all_mux_0x1b_in_P": false,
+  "unrestricted_NC0_3_avoid_in_P": false,
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}

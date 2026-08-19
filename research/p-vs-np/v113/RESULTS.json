@@ -1,0 +1,41 @@
+{
+  "laboratory": "V113",
+  "status": "candidate",
+  "primary_result": "common-gate dominator decomposition plus four-state phase DP decides existence of a target-compatible minimum-overlap return pair for every fixed opposite-phase MUX first pair in deterministic polynomial time",
+  "minimum_overlap_theorem": "minimum_overlap_equals_number_of_common_gate_dominators",
+  "optimum_face_completeness": true,
+  "fixed_pair_polynomial": true,
+  "all_repeated_selector_pairs_polynomial_scan": true,
+  "strict_family": {
+    "template": "nonserial_k3_nested_optimum_face",
+    "n": "7(d+1)",
+    "m": "n+1",
+    "minimum_overlap": "d",
+    "compatible_optimum_exists": true,
+    "incompatible_optimum_exists": true,
+    "v112_recognizer_accepts": false,
+    "v102_beta": "5(d+1)=5n/7"
+  },
+  "primary_verifier": {
+    "random_small_exhaustive_crosscheck": true,
+    "strict_family_depth_through": 30,
+    "hall_control_depth_through": 20,
+    "exact_beta_depth_one": 10,
+    "malformed_controls": true
+  },
+  "independent_verifier": {
+    "imports_v113": false,
+    "random_small_path_enumeration": true,
+    "independent_common_dominator_deletion": true,
+    "strict_family_depth_through": 100,
+    "hall_control_depth_through": 30,
+    "independent_signed_mux_2sat": true,
+    "exact_beta_depth_one": 10
+  },
+  "next_residual": "Delta = minimum_target_compatible_overlap - minimum_overlap > 0",
+  "all_mux_0x1b_in_P": false,
+  "unrestricted_NC0_3_avoid_in_P": false,
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
