@@ -1,0 +1,15 @@
+{
+  "laboratory": "V110",
+  "classification": "frontier_progress",
+  "target_problem": "one-gate-bottleneck residual for essential ternary MUX/bijunctive 0x1b range avoidance",
+  "conditional_implication": "if the V109 bottleneck can carry two return routes that share only that output gate and require the same target bit on it, a deterministic polynomial-time missing output is constructible",
+  "current_gap": "phase-conflicting shared-gate routes and nested bottlenecks are not converted into missing outputs",
+  "stop_rule": "do not claim all-MUX or unrestricted NC0_3 avoidance until phase-conflict and nested-bottleneck residuals are constructively closed or replaced by a provably terminating decomposition",
+  "external_validation_target": "verify the single-shared-output target composition lemma, upgraded gate-capacity-two flow correspondence, exact beta formula, Hall-minimality, and separation from V108/V109 on the strict family",
+  "bridge_lemmas": [
+    "two opposite-phase cycles may share exactly one output when both require the same target bit on that output",
+    "upgrading only the V109 bottleneck to capacity two yields routes gate-disjoint outside the shared gate",
+    "the strict family forces V109 into the shared bottleneck and V110 lifts through it",
+    "the strict family has beta_V102=2+4 ceil(k/2) and no V108 certificate under any deletion budget"
+  ]
+}
