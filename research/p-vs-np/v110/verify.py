@@ -21,9 +21,10 @@ from mux_gate_flow import GateBottleneck, MuxGate, find_double_cycle_or_bottlene
 from mux_scc_bridge import find_scc_bridge_certificate as v108_certificate  # noqa: E402
 
 
-def maximum_support_matching(n, gates, indices):
+def maximum_support_matching(n: int, gates: list[MuxGate], indices: list[int]) -> int:
     match = [-1] * n
-    def augment(gi, seen):
+
+    def augment(gi: int, seen: set[int]) -> bool:
         gate = gates[gi]
         for v in (gate.selector, gate.data0, gate.data1):
             if v in seen:
@@ -33,10 +34,11 @@ def maximum_support_matching(n, gates, indices):
                 match[v] = gi
                 return True
         return False
+
     return sum(augment(gi, set()) for gi in indices)
 
 
-def hall_minimality():
+def hall_minimality() -> list[tuple[int, int, int]]:
     rows = []
     for k in range(2, 21):
         n, gates, _h = strict_shared_bottleneck_family(k)
@@ -48,20 +50,20 @@ def hall_minimality():
     return rows
 
 
-def local_backdoor_ok(gate, chosen):
+def local_backdoor_ok(gate: MuxGate, chosen: set[int]) -> bool:
     return gate.selector in chosen or (gate.data0 in chosen and gate.data1 in chosen)
 
 
-def exact_beta(n, gates):
+def exact_beta(n: int, gates: list[MuxGate]) -> int:
     for size in range(n + 1):
         for subset in combinations(range(n), size):
             chosen = set(subset)
             if all(local_backdoor_ok(g, chosen) for g in gates):
                 return size
-    raise AssertionError("all inputs form a backdoor")
+    raise AssertionError("all variables form a backdoor")
 
 
-def beta_small():
+def beta_small() -> dict[int, dict[str, int]]:
     rows = {}
     for k in (2, 3):
         n, gates, _h = strict_shared_bottleneck_family(k)
@@ -72,7 +74,7 @@ def beta_small():
     return rows
 
 
-def strict_family_soundness():
+def strict_family_soundness() -> list[dict[str, object]]:
     rows = []
     for k in range(2, 11):
         n, gates, intended_h = strict_shared_bottleneck_family(k)
@@ -91,7 +93,7 @@ def strict_family_soundness():
     return rows
 
 
-def v108_separation():
+def v108_separation() -> dict[int, int]:
     rows = {}
     for k in (2, 3):
         n, gates, _h = strict_shared_bottleneck_family(k)
@@ -104,7 +106,11 @@ def v108_separation():
     return rows
 
 
-def switched_family(gates, switch, flips):
+def switched_family(
+    gates: list[MuxGate],
+    switch: tuple[int, ...],
+    flips: tuple[int, ...],
+) -> list[MuxGate]:
     out = []
     for i, gate in enumerate(gates):
         ps, p0, p1 = gate.polarity
@@ -122,7 +128,7 @@ def switched_family(gates, switch, flips):
     return out
 
 
-def signed_switching_k2():
+def signed_switching_k2() -> int:
     n, base, intended_h = strict_shared_bottleneck_family(2)
     cases = 0
     # Exhaust a six-dimensional switching slice; every witness is checked
@@ -143,14 +149,14 @@ def signed_switching_k2():
     return cases
 
 
-def main():
+def main() -> None:
     result = {
         "strict_family": strict_family_soundness(),
         "hall_minimality": hall_minimality(),
         "beta_small_exact": beta_small(),
         "v108_no_certificate_all_ignored_subsets": v108_separation(),
         "signed_switching_k2": signed_switching_k2(),
-        "certificate": "single_shared_gate_phase_compatible_double_cycle",
+        "certificate": "phase_compatible_single_shared_gate_double_cycle",
         "failures": 0,
     }
     print(json.dumps(result, sort_keys=True))
