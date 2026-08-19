@@ -1,16 +1,16 @@
 {
-  "schema_version": 63,
-  "updated": "2026-08-17",
+  "schema_version": 64,
+  "updated": "2026-08-18",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V108",
-  "candidate_version": "V109",
-  "highest_directory": "V109",
+  "promoted_version": "V109",
+  "candidate_version": "V110",
+  "highest_directory": "V110",
   "promotion_state": "candidate",
-  "completed_scope": "V109 candidate: polynomial gate-capacitated max-flow detection of output-gate-disjoint opposite-phase MUX cycles, constructive missing outputs in the flow-two branch, an exact flow-one alternative exposing one output gate that dominates both return cones in strongly connected branch graphs, and an infinite Hall-minimal exact-stretch single-SCC family outside the entire V108 kappa_SCC hierarchy with V102 beta=1+2 ceil(k/2)=Theta(n); primary and independent verifier suites included",
+  "completed_scope": "V110 candidate: polynomial phase-compatible composition of two opposite-phase MUX return cycles sharing exactly one V109 bottleneck output, a capacity-two upgraded-flow recognizer and constructive missing-output lift, and an infinite Hall-minimal exact-stretch family with distinct central supports, no V108 certificate under any deletion budget, forced V109 bottleneck, V102 beta=2+4 ceil(k/2)=Theta(n), primary and independent verifier suites, and explicit phase-conflict versus nested-bottleneck residuals",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V109",
-  "next_laboratory_focus": "validate and promote V109; after promotion exploit the one-gate bottleneck alternative by testing phase-compatible shared-gate flows or a provably shrinking decomposition before attempting an all-MUX theorem",
+  "next_laboratory_version": "V110",
+  "next_laboratory_focus": "validate and promote V110; after promotion attack the phase-conflict and nested-bottleneck residuals with a symbolic exchange theorem or provably shrinking dominator decomposition before attempting an all-MUX theorem",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V109",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V110",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -319,6 +319,17 @@
     "v109_gate_bottleneck_alternative_solved": false,
     "v109_all_mux_bijunctive_0x1b_in_P": false,
     "v109_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v109_hlz_worst_case_runtime_improved": false
+    "v109_hlz_worst_case_runtime_improved": false,
+    "v110_mux_single_shared_gate_compatible_avoider_in_P": true,
+    "v110_upgraded_bottleneck_capacity_two": true,
+    "v110_strict_family_hall_minimal": true,
+    "v110_strict_family_outside_all_v108_kappa": true,
+    "v110_strict_family_forces_v109_bottleneck": true,
+    "v110_strict_family_beta_linear": true,
+    "v110_phase_conflict_solved": false,
+    "v110_nested_bottleneck_solved": false,
+    "v110_all_mux_bijunctive_0x1b_in_P": false,
+    "v110_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v110_hlz_worst_case_runtime_improved": false
   }
 }
