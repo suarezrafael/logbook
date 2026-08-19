@@ -1,0 +1,124 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\begin{document}
+\title{V111: Target-Compatible Minimum-Overlap Flows for Ternary MUX Avoidance}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+\maketitle
+
+A signed essential ternary MUX gate has the form
+\[
+ g=o\oplus \operatorname{MUX}(s\oplus p_s,a\oplus p_a,b\oplus p_b).
+\]
+Fixing its output gives two exact binary clauses.  Selecting one branch yields an
+implication whose source phase is fixed by the selector polarity and whose arrival
+phase is chosen by the output target.
+
+\begin{lemma}[Arbitrary compatible overlap]
+Let two directed branch cycles start at one selector $v$ with opposite first
+source phases.  The cycles may share output gates.  If every output gate used by
+both cycles receives the same required target bit from both traversals, then the
+combined target extends to a word outside the circuit range.
+\end{lemma}
+
+\begin{proof}
+Along each cycle choose targets so every selected implication arrives at the
+source phase of the next selected branch, except the last, which arrives at the
+complement of the initial phase.  A cycle beginning with $\alpha$ therefore
+forces $x_v=1\oplus\alpha$.  The two initial phases are opposite, so the two
+cycles force opposite values of $x_v$.  Shared output gates cause no target
+conflict by hypothesis; unused MUX clauses only strengthen the fixed-output
+2-CNF.
+\end{proof}
+
+For a repeated selector $v$ and opposite-phase first branches with destinations
+$d_0,d_1$, remove outputs whose selector is $v$.  Split each remaining output
+$h$ with two parallel unit-capacity arcs
+\[
+ h_{\rm in}\to h_{\rm out}
+\]
+of costs $0$ and $1$.  All other network arcs have cost zero and capacity two.
+A super-source sends one unit to each $d_i$ and the sink is $v$.
+
+\begin{lemma}[Overlap accounting]
+For an integral two-flow in this network, the total cost equals the number of
+output gates used by both decoded source-to-sink routes.
+\end{lemma}
+
+\begin{proof}
+The first unit through a gate uses its zero-cost copy.  A second unit can pass
+only through the cost-one copy.  Thus a gate contributes one exactly when both
+units use it.
+\end{proof}
+
+\begin{theorem}[Recognizable minimum-overlap class]
+There is a deterministic polynomial-time procedure that scans repeated selectors
+and opposite-phase first branches, computes a minimum-cost integral two-flow,
+and constructs a missing output whenever the decoded routes are target-compatible
+on every shared output gate.
+\end{theorem}
+
+\begin{proof}
+Only two flow units are sent.  Successive shortest augmenting paths in the
+residual network compute a minimum-cost integral flow in polynomial time; reverse
+arcs are handled by a negative-edge-capable shortest-path routine.  Decode the
+two source-labeled routes, compare the target requirement at each shared gate,
+and apply the first lemma when all requirements agree.
+\end{proof}
+
+The theorem is a sound recognizer.  It does not assert that the particular
+minimum-cost decomposition chosen by the implementation finds a compatible pair
+whenever some other equal-cost or higher-cost compatible pair exists.
+
+\begin{theorem}[Nested-bottleneck separation]
+For every $d\ge 1$ there is an exact-stretch essential MUX family with
+\[
+ n=5(d+1),\qquad m=n+1,
+\]
+whose two canonical return routes have minimum shared-gate overlap exactly $d$
+and compatible targets on all $d$ shared gates.  For $d\ge2$, the V110
+single-shared-gate procedure still returns a nested bottleneck, whereas V111
+constructs a missing output in polynomial time.
+\end{theorem}
+
+\begin{proof}
+Use $d+1$ two-lobe layers connected by $d$ hub MUX gates.  Every return path from
+either central destination to the root selector must traverse every hub layer,
+and each hub has exactly one outgoing MUX output.  Hence both routes must use all
+$d$ shared hub gates.  Canonical left/right routes share no other output, proving
+minimum overlap $d$.  Their phase propagation assigns the same target to each
+shared hub gate, so the first theorem applies.  If only the first bottleneck is
+upgraded as in V110 and $d\ge2$, the next hub remains unit-capacity and yields a
+nested bottleneck.
+\end{proof}
+
+\begin{theorem}[Exact V102 backdoor]
+On the depth-$d$ family,
+\[
+ \beta_{\rm V102}=3(d+1)=\frac{3n}{5}.
+\]
+\end{theorem}
+
+\begin{proof}
+For one two-variable lobe exiting through hub $z$, the two local V102 constraints
+require at least one lobe variable when $z$ is selected and both lobe variables
+when $z$ is not selected.  Each layer has two lobes, so its lobe contribution is
+at least $4-2z$.  Summing over the $d+1$ exit hubs gives
+\[
+ \sum_j(4-2z_j)+\sum_j z_j
+ =4(d+1)-\sum_j z_j\ge3(d+1).
+\]
+Selecting every exit hub and one variable from each lobe meets all constraints,
+so equality holds.
+\end{proof}
+
+\paragraph{Boundary.}
+V111 does not decide target compatibility over all equal-cost flow decompositions
+or higher-cost reroutings.  It does not prove all essential MUX/bijunctive
+circuits are in P, unrestricted $NC^0_3$-Avoid, a new general circuit lower bound,
+or P versus NP.  Novelty and priority are not established.
+
+\end{document}

@@ -1,0 +1,15 @@
+{
+  "laboratory": "V111",
+  "classification": "frontier_progress",
+  "target_problem": "one-SCC essential ternary MUX/bijunctive 0x1b range avoidance beyond one shared bottleneck",
+  "conditional_implication": "a deterministic minimum-cost two-return-flow whose shared output gates have compatible MUX target requirements yields a polynomial-time missing output, even when the number of shared bottlenecks is unbounded",
+  "current_gap": "the algorithm is not complete over alternative equal-cost or higher-cost flow decompositions; target-conflict cases may still hide a compatible rerouting",
+  "stop_rule": "do not claim all-MUX until target compatibility can be decided constructively over the relevant flow space or the residual is reduced by a provably terminating decomposition",
+  "external_validation_target": "verify arbitrary-overlap target-composition soundness, convex second-use min-cost accounting, and the exact nested-family overlap/beta separation",
+  "bridge_lemmas": [
+    "arbitrary shared-gate overlap is sound when every shared output target agrees",
+    "second-use unit cost exactly counts shared output gates in an integral two-flow",
+    "the depth-d strict family forces overlap cost d and has a compatible canonical pair",
+    "the depth-d k=2 family has exact V102 backdoor beta=3(d+1)=3n/5"
+  ]
+}

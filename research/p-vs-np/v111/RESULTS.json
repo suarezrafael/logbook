@@ -1,0 +1,37 @@
+{
+  "laboratory": "V111",
+  "candidate": true,
+  "class": "essential_signed_mux_target_compatible_minimum_overlap_two_flow",
+  "algorithmic_result": "deterministic polynomial-time missing-output construction when the selected minimum-cost two-flow is target-compatible on every shared output gate",
+  "flow_model": {
+    "first_gate_use_cost": 0,
+    "second_gate_use_cost": 1,
+    "flow_units": 2,
+    "cost_meaning": "number of output gates shared by both decoded return routes"
+  },
+  "strict_family": {
+    "parameter": "depth d>=1 with k=2",
+    "n": "5(d+1)",
+    "m": "n+1",
+    "minimum_overlap_cost": "d",
+    "V109_case": "one_gate_bottleneck",
+    "V110_case_for_d_ge_2": "NestedBottleneck",
+    "beta_V102": "3(d+1)=3n/5",
+    "hall_minimality_finitely_audited": true,
+    "V108_absence_all_deletion_budgets_finitely_audited_depths": [1, 2]
+  },
+  "completeness_boundary": {
+    "finds_every_target_compatible_flow_pair": false,
+    "searches_all_equal_cost_decompositions": false,
+    "searches_higher_cost_compatible_flows": false
+  },
+  "nonclaims": {
+    "all_phase_conflict_solved": false,
+    "all_nested_bottleneck_solved": false,
+    "all_mux_in_P": false,
+    "unrestricted_NC0_3_avoid_in_P": false,
+    "p_vs_np_resolved": false,
+    "novelty_confirmed": false,
+    "peer_reviewed": false
+  }
+}

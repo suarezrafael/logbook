@@ -1,16 +1,16 @@
 {
-  "schema_version": 64,
-  "updated": "2026-08-18",
+  "schema_version": 65,
+  "updated": "2026-08-19",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V109",
-  "candidate_version": "V110",
-  "highest_directory": "V110",
+  "promoted_version": "V110",
+  "candidate_version": "V111",
+  "highest_directory": "V111",
   "promotion_state": "candidate",
-  "completed_scope": "V110 candidate: polynomial phase-compatible composition of two opposite-phase MUX return cycles sharing exactly one V109 bottleneck output, a capacity-two upgraded-flow recognizer and constructive missing-output lift, and an infinite Hall-minimal exact-stretch family with distinct central supports, no V108 certificate under any deletion budget, forced V109 bottleneck, V102 beta=2+4 ceil(k/2)=Theta(n), primary and independent verifier suites, and explicit phase-conflict versus nested-bottleneck residuals",
+  "completed_scope": "V111 candidate: deterministic polynomial minimum-overlap two-flow recognizer for essential signed MUX, arbitrary shared-gate target-compatible cycle composition, and an exact-stretch nested-bottleneck family with n=5(d+1), m=n+1, minimum overlap d, V110 NestedBottleneck for d>=2, and exact V102 beta=3(d+1)=3n/5; primary and independent verifier suites included",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V110",
-  "next_laboratory_focus": "validate and promote V110; after promotion attack the phase-conflict and nested-bottleneck residuals with a symbolic exchange theorem or provably shrinking dominator decomposition before attempting an all-MUX theorem",
+  "next_laboratory_version": "V111",
+  "next_laboratory_focus": "validate and promote V111; after promotion decide target compatibility over alternative minimum-cost flow decompositions or isolate a rigorous hardness/excess-overlap parameter before attempting an all-MUX theorem",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V110",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V111",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -330,6 +330,15 @@
     "v110_nested_bottleneck_solved": false,
     "v110_all_mux_bijunctive_0x1b_in_P": false,
     "v110_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v110_hlz_worst_case_runtime_improved": false
+    "v110_hlz_worst_case_runtime_improved": false,
+    "v111_mux_arbitrary_target_compatible_overlap_sound": true,
+    "v111_minimum_overlap_two_flow_polynomial": true,
+    "v111_strict_nested_chain_overlap_equals_depth": true,
+    "v111_strict_nested_chain_beta_three_fifths_n": true,
+    "v111_strict_nested_chain_v110_nested_bottleneck": true,
+    "v111_optimal_flow_compatibility_complete": false,
+    "v111_all_mux_bijunctive_0x1b_in_P": false,
+    "v111_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v111_hlz_worst_case_runtime_improved": false
   }
 }
