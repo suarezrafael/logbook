@@ -1,0 +1,29 @@
+{
+  "laboratory": "V110",
+  "candidate": true,
+  "class": "essential_signed_mux_0x1b_single_shared_gate",
+  "certificate": "phase_compatible_single_shared_gate_double_cycle",
+  "algorithmic_result": "deterministic polynomial-time missing-output construction when a V109 bottleneck supports two otherwise gate-disjoint return routes with a common target on the shared gate",
+  "strict_family": {
+    "n": "4k+2",
+    "m": "4k+3=n+1",
+    "hall_minimal": true,
+    "central_supports_distinct": true,
+    "v109_returns_one_gate_bottleneck": true,
+    "v110_shared_gate_certificate": true,
+    "outside_all_V108_kappa_SCC_certificates": true,
+    "beta_V102": "2+4*ceil(k/2)=Theta(n)"
+  },
+  "residuals": {
+    "phase_conflict": "two upgraded routes exist but require different target bits on the shared gate",
+    "nested_bottleneck": "capacity two at the first bottleneck still does not produce two return routes"
+  },
+  "nonclaims": {
+    "all_v109_bottlenecks_solved": false,
+    "all_mux_in_P": false,
+    "unrestricted_NC0_3_avoid_in_P": false,
+    "p_vs_np_resolved": false,
+    "novelty_confirmed": false,
+    "peer_reviewed": false
+  }
+}
