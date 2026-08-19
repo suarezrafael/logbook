@@ -199,6 +199,25 @@ def renamed_and_reordered_controls():
     return cases
 
 
+def malformed_selector_controls():
+    n, base, _shared = strict_phase_transfer_family(1)
+    cases = 0
+    for bad_selector in (-1, n):
+        gates = list(base)
+        g = gates[0]
+        gates[0] = MuxGate(
+            bad_selector,
+            g.data0,
+            g.data1,
+            g.polarity,
+            g.out_flip,
+        )
+        assert recognize_serial_chain(n, gates) is None
+        assert find_phase_transfer_certificate(n, gates) is None
+        cases += 1
+    return cases
+
+
 def random_signed_template_soundness():
     rng = random.Random(1112)
     checked = 0
@@ -230,6 +249,7 @@ def main():
         "hall_minimal_depth_through": hall_minimality(),
         "beta_small_exact": beta_small(),
         "renamed_reordered_controls": renamed_and_reordered_controls(),
+        "malformed_selector_controls": malformed_selector_controls(),
         "random_signed_template": random_signed_template_soundness(),
         "certificate": "serial_two_lobe_phase_transfer",
         "failures": 0,
