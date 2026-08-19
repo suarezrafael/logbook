@@ -136,7 +136,10 @@ def recognize_serial_chain(n: int, gates: list[MuxGate]) -> SerialChain | None:
     """Recognize the exact k=2 serial two-lobe support template in O(N)."""
     if n <= 0 or len(gates) != n + 1:
         return None
-    by_selector = _selector_map(n, gates)
+    try:
+        by_selector = _selector_map(n, gates)
+    except ValueError:
+        return None
     roots = [v for v, ids in enumerate(by_selector) if len(ids) == 2]
     if len(roots) != 1:
         return None
