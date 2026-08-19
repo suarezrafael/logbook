@@ -1,16 +1,16 @@
 {
-  "schema_version": 66,
+  "schema_version": 67,
   "updated": "2026-08-19",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V111",
-  "candidate_version": "V112",
-  "highest_directory": "V112",
+  "promoted_version": "V112",
+  "candidate_version": "V113",
+  "highest_directory": "V113",
   "promotion_state": "candidate",
-  "completed_scope": "V112 candidate: linear-time recognition and exact lobe-disjoint phase-transfer compatibility for serial two-lobe signed MUX chains, with a periodic Hall-minimal exact-stretch family whose optimum-flow face contains both compatible and incompatible minimum-overlap pairs, minimum overlap d, and exact V102 beta=3(d+1)=3n/5; primary and independent verifier suites included",
+  "completed_scope": "V113 candidate: common-gate dominator theorem proving minimum return overlap equals the number of common dominators, four-state phase DP complete over the full minimum-overlap face for each fixed opposite-phase MUX first pair, polynomial scan over repeated selectors, and a nonserial k=3 exact-stretch family with n=7(d+1), m=n+1, minimum overlap d, mixed compatible/incompatible optima, and exact V102 beta=5(d+1)=5n/7; primary and independent verifier suites included",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V112",
-  "next_laboratory_focus": "validate and promote V112; after promotion analyze compatibility over the non-serial optimum-flow face via zero-cost residual exchanges, dominator/block decomposition, or an exact MUX hardness barrier before attempting an all-MUX theorem",
+  "next_laboratory_version": "V113",
+  "next_laboratory_focus": "validate and promote V113; after promotion attack Delta = minimum_target_compatible_overlap - minimum_overlap via conflict-directed extra-shared-gate branching, an FPT excess-overlap theorem, or an explicit hardness barrier",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V112",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V113",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -350,6 +350,19 @@
     "v112_general_optimum_flow_compatibility_complete": false,
     "v112_all_mux_bijunctive_0x1b_in_P": false,
     "v112_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v112_hlz_worst_case_runtime_improved": false
+    "v112_hlz_worst_case_runtime_improved": false,
+    "v113_common_gate_dominators_chain": true,
+    "v113_minimum_overlap_equals_common_dominators": true,
+    "v113_optimum_face_compatibility_complete_for_fixed_pair": true,
+    "v113_four_state_phase_dp_polynomial": true,
+    "v113_repeated_selector_scan_polynomial": true,
+    "v113_strict_nonserial_k3_family": true,
+    "v113_strict_family_mixed_optimum_face": true,
+    "v113_strict_family_beta_five_sevenths_n": true,
+    "v113_delta_zero_solved_for_fixed_pair": true,
+    "v113_delta_positive_solved": false,
+    "v113_all_mux_bijunctive_0x1b_in_P": false,
+    "v113_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v113_hlz_worst_case_runtime_improved": false
   }
 }
