@@ -1,0 +1,29 @@
+{
+  "laboratory": "V112",
+  "candidate": true,
+  "class": "recognized_serial_two_lobe_signed_mux_phase_transfer",
+  "algorithmic_result": "linear-time decision and missing-output construction for lobe-disjoint target-compatible phase-transfer certificates after support recognition",
+  "strict_family": {
+    "parameter": "depth d>=1",
+    "n": "5(d+1)",
+    "m": "n+1",
+    "minimum_overlap": "d",
+    "compatible_minimum_overlap_pair": true,
+    "incompatible_minimum_overlap_pair": true,
+    "target_compatibility_is_overlap_invariant": false,
+    "hall_minimal": true,
+    "beta_V102": "3(d+1)=3n/5",
+    "reference_V111_rejection_audited_through_depth": 50
+  },
+  "completeness_boundary": {
+    "serial_lobe_disjoint_certificate_complete": true,
+    "all_optimum_flow_compatibility_complete": false,
+    "all_mux_in_P": false
+  },
+  "nonclaims": {
+    "unrestricted_NC0_3_avoid_in_P": false,
+    "p_vs_np_resolved": false,
+    "novelty_confirmed": false,
+    "peer_reviewed": false
+  }
+}

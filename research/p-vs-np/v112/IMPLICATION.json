@@ -1,0 +1,16 @@
+{
+  "laboratory": "V112",
+  "classification": "frontier_progress",
+  "target_problem": "target compatibility among alternative minimum-overlap return flows for essential ternary MUX/bijunctive 0x1b circuits",
+  "conditional_implication": "on recognized serial two-lobe MUX chains, lobe-disjoint target compatibility factorizes into constant-size local phase-transfer choices, giving a linear-time missing-output constructor whenever the certificate exists",
+  "current_gap": "arbitrary MUX return networks need not have serial lobe separation; selecting a compatible flow over the full optimum-flow face remains unresolved",
+  "stop_rule": "do not claim all-MUX until compatibility over general optimum flows is either solved constructively, shown hard under the actual MUX transition structure, or reduced by a provably shrinking decomposition",
+  "external_validation_target": "verify linear-time serial-template recognition, local-independence of hub phase transfers, the mixed compatible/incompatible optimum-face family, Hall minimality, and beta=3n/5",
+  "bridge_lemmas": [
+    "serial two-lobe support is recognizable in linear time",
+    "lobe-disjoint hub target compatibility is local and independent across layers",
+    "the periodic signed family has compatible and incompatible pairs at the same minimum overlap d",
+    "the serial support is Hall-minimal for every depth",
+    "the periodic family has exact V102 backdoor beta=3(d+1)=3n/5"
+  ]
+}
