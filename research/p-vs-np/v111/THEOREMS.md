@@ -53,7 +53,7 @@ For an integral two-flow, the total cost is exactly the number of output gates u
 
 ## Lemma 3 — polynomial minimum-overlap computation
 
-A minimum-cost integral two-flow in the network above is computable in polynomial time by successive shortest augmenting paths in the residual network.  Only two augmentations are needed.  Residual reverse arcs may have negative cost, so the reference implementation uses Bellman-Ford/SPFA rather than a nonnegative-cost Dijkstra assumption.
+A minimum-cost integral two-flow in the network above is computable in polynomial time by successive shortest augmenting paths in the residual network.  Only two augmentations are needed.  Residual reverse arcs may have negative cost, so the reference implementation uses deterministic Bellman-Ford passes, with `O(VE)` worst-case work per augmentation, rather than a queue-based SPFA or a nonnegative-cost Dijkstra assumption.
 
 The resulting integral flow decomposes into two source-labeled return routes.  The implementation checks that the flow cost equals the number of shared output gates in the decoded routes.
 
