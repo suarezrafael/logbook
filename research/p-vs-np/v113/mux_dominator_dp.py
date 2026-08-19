@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import sys
-from collections import deque
 from dataclasses import dataclass
 from itertools import combinations, product
 from pathlib import Path
