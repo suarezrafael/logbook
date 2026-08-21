@@ -124,7 +124,7 @@ def returns(enc: Encoded, start: int, cap=30000):
             by.setdefault(g.selector, []).append(i)
     out = []
     def dfs(cur, used, path):
-        if len(out) > cap:
+        if len(out) >= cap:
             raise AssertionError("independent census cap exceeded")
         if cur == enc.root:
             out.append(tuple(path)); return
