@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import random
-from itertools import product
 
 import mux_waypoint_barrier as barrier
 
@@ -51,7 +50,7 @@ def enumerate_returns(instance: barrier.BarrierInstance, start: int, cap: int = 
     found = []
 
     def dfs(current: int, used: set[int], path: list[tuple[int, int]]) -> None:
-        if len(found) > cap:
+        if len(found) >= cap:
             raise AssertionError("small-instance route census exceeded cap")
         if current == instance.root:
             found.append(tuple(path))
