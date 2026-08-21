@@ -285,7 +285,7 @@ def bypass_optimum_certificate(instance: BarrierInstance) -> ReturnCertificate:
     cycle1 = ((instance.first_gate1, 0),) + instance.scaffold_return1
     target = _target_word(instance.gates, cycle0, cycle1)
     if target is None:
-        raise AssertionError("private bypass and scaffold are gate-disjoint")
+        raise AssertionError("private bypass/scaffold target construction conflicted unexpectedly")
     cert = ReturnCertificate(instance.bypass_return0, instance.scaffold_return1, target)
     if cert.overlap:
         raise AssertionError("private bypass must witness minimum overlap zero")
