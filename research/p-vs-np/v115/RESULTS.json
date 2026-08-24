@@ -1,0 +1,24 @@
+{
+  "version": "V115",
+  "claim": "all-DAG non-common dominator stages admit polynomial fixed-pair overlap <= minimum_overlap+1 decision",
+  "strict_family": {
+    "n": "8+depth",
+    "m": "9+depth=n+1",
+    "minimum_overlap": 1,
+    "minimum_target_compatible_overlap": 2,
+    "delta": 1,
+    "all_noncommon_stages_dag": true
+  },
+  "verification_contract": {
+    "primary": "seeded small-instance exhaustive cross-check plus strict-family controls",
+    "independent": "standalone strict-family reconstruction, brute target compatibility, DAG audit, prefix/suffix separation and full-image control",
+    "finite_evidence_is_proof": false
+  },
+  "global_nonclaims": {
+    "all_mux_0x1b_in_P": false,
+    "unrestricted_NC0_3_Avoid_in_P": false,
+    "general_circuit_lower_bound": false,
+    "P_vs_NP_resolved": false,
+    "novelty_confirmed": false
+  }
+}
