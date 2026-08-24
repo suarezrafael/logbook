@@ -539,10 +539,16 @@ def fixed_pair_dag_budget_one_certificate(
 
     first_common = common[0]
     first_sink = gates[first_common].selector
-    # Key = (branch pair at current common gate, extra gate already used).
+    # Key = (branch pair at current common gate, budget-used bit).
+    # The concrete extra gate is witness metadata only; it does not affect any
+    # future transition once its local compatibility has been discharged.
     dp: dict[
-        tuple[tuple[int, int], int | None],
-        tuple[tuple[tuple[int, int], ...], tuple[tuple[int, int], ...]],
+        tuple[tuple[int, int], bool],
+        tuple[
+            tuple[tuple[int, int], ...],
+            tuple[tuple[int, int], ...],
+            int | None,
+        ],
     ] = {}
 
     ordinary = _flow_paths(
@@ -550,9 +556,10 @@ def fixed_pair_dag_budget_one_certificate(
     )
     if ordinary is not None:
         for next_state in product((0, 1), repeat=2):
-            dp[(next_state, None)] = (
+            dp[(next_state, False)] = (
                 ordinary[0] + ((first_common, next_state[0]),),
                 ordinary[1] + ((first_common, next_state[1]),),
+                None,
             )
 
     for next_state in product((0, 1), repeat=2):
@@ -568,19 +575,28 @@ def fixed_pair_dag_budget_one_certificate(
             next_gate=first_common,
             next_branches=next_state,
         )
-        if extra is not None:
-            dp[(next_state, extra[2])] = (
+        key = (next_state, True)
+        if extra is not None and key not in dp:
+            dp[key] = (
                 extra[0] + ((first_common, next_state[0]),),
                 extra[1] + ((first_common, next_state[1]),),
+                extra[2],
             )
 
     for j in range(d - 1):
         previous = common[j]
         nxt = common[j + 1]
         sink = gates[nxt].selector
-        new_dp = {}
-        for (state, used_extra), prefixes in sorted(
-            dp.items(), key=lambda item: (item[0][0], -1 if item[0][1] is None else item[0][1])
+        new_dp: dict[
+            tuple[tuple[int, int], bool],
+            tuple[
+                tuple[tuple[int, int], ...],
+                tuple[tuple[int, int], ...],
+                int | None,
+            ],
+        ] = {}
+        for (state, used_budget), (prefix0, prefix1, witness_extra) in sorted(
+            dp.items(), key=lambda item: (item[0][0], item[0][1])
         ):
             starts = (
                 gates[previous].branch(state[0])[1],
@@ -601,13 +617,14 @@ def fixed_pair_dag_budget_one_certificate(
                     nxt,
                     next_state,
                 )
-                key = (next_state, used_extra)
+                key = (next_state, used_budget)
                 if segment is not None and key not in new_dp:
                     new_dp[key] = (
-                        prefixes[0] + segment[0] + ((nxt, next_state[0]),),
-                        prefixes[1] + segment[1] + ((nxt, next_state[1]),),
+                        prefix0 + segment[0] + ((nxt, next_state[0]),),
+                        prefix1 + segment[1] + ((nxt, next_state[1]),),
+                        witness_extra,
                     )
-                if used_extra is not None:
+                if used_budget:
                     continue
                 extra = _one_extra_dag_segment(
                     n,
@@ -623,21 +640,20 @@ def fixed_pair_dag_budget_one_certificate(
                     nxt,
                     next_state,
                 )
-                if extra is None:
-                    continue
-                key = (next_state, extra[2])
-                if key not in new_dp:
+                key = (next_state, True)
+                if extra is not None and key not in new_dp:
                     new_dp[key] = (
-                        prefixes[0] + extra[0] + ((nxt, next_state[0]),),
-                        prefixes[1] + extra[1] + ((nxt, next_state[1]),),
+                        prefix0 + extra[0] + ((nxt, next_state[0]),),
+                        prefix1 + extra[1] + ((nxt, next_state[1]),),
+                        extra[2],
                     )
         dp = new_dp
         if not dp:
             return None
 
     last = common[-1]
-    for (state, used_extra), prefixes in sorted(
-        dp.items(), key=lambda item: (item[0][0], -1 if item[0][1] is None else item[0][1])
+    for (state, used_budget), (prefix0, prefix1, witness_extra) in sorted(
+        dp.items(), key=lambda item: (item[0][0], item[0][1])
     ):
         starts = (
             gates[last].branch(state[0])[1],
@@ -657,13 +673,13 @@ def fixed_pair_dag_budget_one_certificate(
         )
         if segment is not None:
             cert = finish(
-                prefixes[0] + segment[0],
-                prefixes[1] + segment[1],
-                used_extra,
+                prefix0 + segment[0],
+                prefix1 + segment[1],
+                witness_extra,
             )
             if cert is not None:
                 return cert
-        if used_extra is not None:
+        if used_budget:
             continue
         extra = _one_extra_dag_segment(
             n,
@@ -679,8 +695,8 @@ def fixed_pair_dag_budget_one_certificate(
         )
         if extra is not None:
             cert = finish(
-                prefixes[0] + extra[0],
-                prefixes[1] + extra[1],
+                prefix0 + extra[0],
+                prefix1 + extra[1],
                 extra[2],
             )
             if cert is not None:
