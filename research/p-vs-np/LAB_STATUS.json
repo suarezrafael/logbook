@@ -1,16 +1,16 @@
 {
-  "schema_version": 67,
-  "updated": "2026-08-19",
+  "schema_version": 68,
+  "updated": "2026-08-21",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V112",
-  "candidate_version": "V113",
-  "highest_directory": "V113",
+  "promoted_version": "V113",
+  "candidate_version": "V114",
+  "highest_directory": "V114",
   "promotion_state": "candidate",
-  "completed_scope": "V113 candidate: common-gate dominator theorem proving minimum return overlap equals the number of common dominators, four-state phase DP complete over the full minimum-overlap face for each fixed opposite-phase MUX first pair, polynomial scan over repeated selectors, and a nonserial k=3 exact-stretch family with n=7(d+1), m=n+1, minimum overlap d, mixed compatible/incompatible optima, and exact V102 beta=5(d+1)=5n/7; primary and independent verifier suites included",
+  "completed_scope": "V114 candidate: NP-completeness of ONE-EXTRA-OPPOSITE-COMPATIBLE-RETURN via an exact-stretch signed-MUX reduction from directed 2-DDP; construction has m=n+1 and an explicit compatible zero-overlap bypass, proving a barrier to generic guessed-extra-gate completion while deliberately not claiming Delta=1 hardness; primary and independent verifier suites included",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V113",
-  "next_laboratory_focus": "validate and promote V113; after promotion attack Delta = minimum_target_compatible_overlap - minimum_overlap via conflict-directed extra-shared-gate branching, an FPT excess-overlap theorem, or an explicit hardness barrier",
+  "next_laboratory_version": "V114",
+  "next_laboratory_focus": "validate and promote V114; after promotion attack V115 conflict-conditioned excess overlap using V113 rejection certificates, SCC/local cut structure, or strengthen the barrier to actual Delta=1 hardness",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V113",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V114",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -363,6 +363,15 @@
     "v113_delta_positive_solved": false,
     "v113_all_mux_bijunctive_0x1b_in_P": false,
     "v113_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v113_hlz_worst_case_runtime_improved": false
+    "v113_hlz_worst_case_runtime_improved": false,
+    "v114_one_extra_opposite_compatible_return_np_complete": true,
+    "v114_reduction_exact_stretch_n_plus_one": true,
+    "v114_reduction_zero_overlap_compatible_bypass": true,
+    "v114_generic_guessed_extra_gate_oracle_barrier": true,
+    "v114_delta_one_np_hard": false,
+    "v114_delta_fpt_ruled_out": false,
+    "v114_all_mux_bijunctive_0x1b_in_P": false,
+    "v114_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v114_hlz_worst_case_runtime_improved": false
   }
 }

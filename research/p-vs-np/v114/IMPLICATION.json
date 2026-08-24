@@ -1,0 +1,27 @@
+{
+  "laboratory": "V114",
+  "classification": "barrier",
+  "target_problem": "conflict-directed excess-overlap search for fixed opposite-phase signed-MUX return pairs after the V113 optimum-face theorem",
+  "conditional_implication": "if a Delta-parameterized method branches on arbitrary extra shared gates and delegates each branch to a generic polynomial exact-one opposite-branch completion oracle, then already the k=1 oracle would solve classical directed two-disjoint paths in polynomial time",
+  "current_gap": "the reduction instances retain an explicit compatible zero-overlap bypass, so V114 does not prove Delta=1 hardness and does not rule out an FPT algorithm that exploits the special conflict structure produced by V113 rejection",
+  "stop_rule": "stop the unrestricted guessed-X plus generic-flow completion route; reopen it only with a structural restriction tied to V113 conflicts, a tractable directed graph class, or another parameter that bypasses the directed-linkage barrier",
+  "external_validation_target": "Fortune-Hopcroft-Wyllie 1980 directed two-disjoint-path hardness plus graph-algorithm review of the MUX-specific exact-stretch reduction",
+  "bridge_lemmas": [
+    "directed two vertex-disjoint paths is NP-complete for two ordered terminal pairs",
+    "one mandatory MUX resource per logical graph vertex makes gate-simple encoded routes vertex-simple",
+    "an exact-one opposite-branch return certificate can share only the fresh waypoint MUX in the reduction",
+    "the two waypoint branches reconstruct the two prescribed directed paths and exact-one overlap enforces their vertex disjointness",
+    "the waypoint signing makes the two opposite-branch traversals target-compatible",
+    "dead-component padding preserves the reduction while forcing m=n+1"
+  ],
+  "material_advance_rule_met": true,
+  "recognized_frontier_implication": false,
+  "generic_guessed_extra_gate_oracle_np_complete_at_one": true,
+  "delta_one_np_hard": false,
+  "delta_fpt_ruled_out": false,
+  "all_mux_0x1b_in_P": false,
+  "unrestricted_NC0_3_avoid_in_P": false,
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}

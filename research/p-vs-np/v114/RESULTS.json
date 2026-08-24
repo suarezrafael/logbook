@@ -1,0 +1,43 @@
+{
+  "laboratory": "V114",
+  "status": "candidate",
+  "classification": "barrier",
+  "primary_result": "ONE-EXTRA-OPPOSITE-COMPATIBLE-RETURN is NP-complete by a polynomial reduction from directed two vertex-disjoint paths, even on essential signed-MUX circuits with exact stretch m=n+1 and an explicit compatible zero-overlap bypass",
+  "hardness_source": "Fortune-Hopcroft-Wyllie directed 2-DDP",
+  "exact_stretch": "m=n+1",
+  "fixed_first_pair": true,
+  "opposite_first_phases": true,
+  "shared_gate_not_prescribed_by_decision_problem": true,
+  "exactly_one_shared_return_gate": true,
+  "opposite_branches_at_shared_gate": true,
+  "target_compatible": true,
+  "explicit_zero_overlap_compatible_pair": true,
+  "minimum_overlap": 0,
+  "hard_shared_gate_is_common_dominator": false,
+  "primary_verifier": {
+    "seeded_four_vertex_reductions": 96,
+    "yes_instances": 9,
+    "no_instances": 87,
+    "exact_stretch_controls": true,
+    "explicit_zero_overlap_bypass": true,
+    "full_original_range_check": 1
+  },
+  "independent_verifier": {
+    "imports_v114": false,
+    "seeded_four_vertex_reductions": 128,
+    "yes_instances": 13,
+    "no_instances": 115,
+    "adversarial_controls": 4,
+    "standalone_encoder": true,
+    "standalone_route_census": true,
+    "full_original_range_check": 1
+  },
+  "track_a_generic_oracle_barrier": true,
+  "delta_one_np_hard": false,
+  "delta_fpt_ruled_out": false,
+  "all_mux_0x1b_in_P": false,
+  "unrestricted_NC0_3_avoid_in_P": false,
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
