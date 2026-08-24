@@ -1,16 +1,16 @@
 {
-  "schema_version": 68,
-  "updated": "2026-08-21",
+  "schema_version": 69,
+  "updated": "2026-08-24",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V113",
-  "candidate_version": "V114",
-  "highest_directory": "V114",
+  "promoted_version": "V114",
+  "candidate_version": "V115",
+  "highest_directory": "V115",
   "promotion_state": "candidate",
-  "completed_scope": "V114 candidate: NP-completeness of ONE-EXTRA-OPPOSITE-COMPATIBLE-RETURN via an exact-stretch signed-MUX reduction from directed 2-DDP; construction has m=n+1 and an explicit compatible zero-overlap bypass, proving a barrier to generic guessed-extra-gate completion while deliberately not claiming Delta=1 hardness; primary and independent verifier suites included",
+  "completed_scope": "V115 candidate: polynomial fixed-pair decision for target-compatible overlap <= minimum_overlap+1 when every non-common V113 dominator stage is acyclic; one-budget phase DP with prefix/suffix gate-flow factorization around the unique extra shared gate; infinite exact-stretch family n=8+t, m=n+1 with minimum_overlap=1, minimum_target_compatible_overlap=2 and Delta=1; primary and independent verifier suites included",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V114",
-  "next_laboratory_focus": "validate and promote V114; after promotion attack V115 conflict-conditioned excess overlap using V113 rejection certificates, SCC/local cut structure, or strengthen the barrier to actual Delta=1 hardness",
+  "next_laboratory_version": "V115",
+  "next_laboratory_focus": "validate and promote V115; after promotion attack V116 bounded cyclic interaction using feedback-set or cyclic-SCC parameters, or prove hardness at the first cyclic level",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V114",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V115",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -372,6 +372,15 @@
     "v114_delta_fpt_ruled_out": false,
     "v114_all_mux_bijunctive_0x1b_in_P": false,
     "v114_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v114_hlz_worst_case_runtime_improved": false
+    "v114_hlz_worst_case_runtime_improved": false,
+    "v115_all_noncommon_dominator_stages_dag": true,
+    "v115_dag_stage_delta_at_most_one_in_P": true,
+    "v115_strict_exact_stretch_delta_one_family": true,
+    "v115_v113_optimum_face_strictly_extended": true,
+    "v115_delta_one_unrestricted_in_P": false,
+    "v115_delta_one_np_hard": false,
+    "v115_all_mux_bijunctive_0x1b_in_P": false,
+    "v115_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v115_hlz_worst_case_runtime_improved": false
   }
 }
