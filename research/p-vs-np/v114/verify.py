@@ -41,6 +41,41 @@ def ddp_witness(n: int, edges: list[tuple[int, int]]):
     return None
 
 
+def target_word(gates, cycle0, cycle1):
+    target = [0] * len(gates)
+    assigned: dict[int, int] = {}
+    for cycle in (cycle0, cycle1):
+        if not cycle:
+            return None
+        initial_alpha = gates[cycle[0][0]].branch(cycle[0][1])[2]
+        for pos, (gi, branch) in enumerate(cycle):
+            if pos + 1 < len(cycle):
+                ngi, nb = cycle[pos + 1]
+                desired = gates[ngi].branch(nb)[2]
+            else:
+                desired = 1 ^ initial_alpha
+            bit = gates[gi].target_for_arrival(branch, desired)
+            if gi in assigned and assigned[gi] != bit:
+                return None
+            assigned[gi] = bit
+            target[gi] = bit
+    return tuple(target)
+
+
+def check_return_path(instance: barrier.BarrierInstance, start: int, path) -> bool:
+    current = start
+    used: set[int] = set()
+    for gi, branch in path:
+        if not (0 <= gi < len(instance.gates)) or branch not in (0, 1) or gi in used:
+            return False
+        gate = instance.gates[gi]
+        if gate.selector != current or gate.selector == instance.root:
+            return False
+        current = gate.branch(branch)[1]
+        used.add(gi)
+    return current == instance.root
+
+
 def enumerate_returns(instance: barrier.BarrierInstance, start: int, cap: int = 20000):
     by_selector: dict[int, list[int]] = {}
     for gi, gate in enumerate(instance.gates):
@@ -83,7 +118,7 @@ def exact_one_opposite_pair_exists(instance: barrier.BarrierInstance) -> bool:
             b1 = next(b for gi, b in r1 if gi == h)
             if b0 == b1:
                 continue
-            target = barrier._target_word(
+            target = target_word(
                 instance.gates,
                 ((instance.first_gate0, 0),) + r0,
                 ((instance.first_gate1, 0),) + r1,
@@ -102,8 +137,8 @@ def check_structure(instance: barrier.BarrierInstance) -> None:
         assert 0 <= gate.data1 < instance.n
     bypass = barrier.bypass_optimum_certificate(instance)
     assert not bypass.overlap
-    assert barrier._check_return_path(instance, instance.route0_start, bypass.return_path0)
-    assert barrier._check_return_path(instance, instance.route1_start, bypass.return_path1)
+    assert check_return_path(instance, instance.route0_start, bypass.return_path0)
+    assert check_return_path(instance, instance.route1_start, bypass.return_path1)
     alpha0 = instance.gates[instance.first_gate0].branch(0)[2]
     alpha1 = instance.gates[instance.first_gate1].branch(0)[2]
     assert alpha0 != alpha1
