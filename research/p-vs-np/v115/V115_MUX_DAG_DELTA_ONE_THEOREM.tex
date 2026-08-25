@@ -1,0 +1,93 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\title{V115: Budget-One Target-Compatible MUX Returns on Acyclic Dominator Stages}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+
+\begin{document}
+\maketitle
+
+\paragraph{Scope.}
+This note records a structured signed-MUX theorem inside the laboratory's range-avoidance program.  It does not prove unrestricted MUX avoidance, unrestricted $NC^0_3$-Avoid, a general circuit lower bound, or $P\neq NP$ / $P=NP$.
+
+\section{Setup}
+Fix two distinct first outputs of a signed essential ternary MUX circuit at a common selector $r$, and fix branches with opposite selector-source phases.  Delete all outputs whose selector is $r$ from the return graph, as in V109--V114.  Apply the V113 common gate-dominator decomposition to the two first destinations.  Let
+\[
+H=(h_1,\ldots,h_d)
+\]
+be the ordered common gate dominators.  V113 proves that the minimum return-gate overlap is exactly $d=|H|$ and partitions all non-common return gates into $d+1$ dominator stages.
+
+For a stage, its \emph{branch graph} contains the stage variables as vertices and both directed selector-to-data arcs of each allowed stage MUX gate.  We call the fixed pair \emph{all-DAG-stage} when every non-common stage branch graph is acyclic.
+
+\begin{lemma}[Unique-extra localization]
+If a return-pair has overlap at most $d+1$, then outside $H$ it shares at most one output gate, and that gate lies in one dominator stage.
+\end{lemma}
+\begin{proof}
+Every return-pair shares all $d$ common gate dominators by V113.  The remaining overlap budget is at most one.  The V113 stage map assigns each non-common gate to one stage.
+\end{proof}
+
+\begin{lemma}[Acyclic prefix/suffix separation]
+Let a stage branch graph be acyclic.  Suppose two gate-simple route segments share exactly one stage gate $g$.  Split both route segments at $g$.  No gate occurring in either prefix can occur in either suffix.
+\end{lemma}
+\begin{proof}
+Assume a gate $q$ occurs before $g$ on one route and after $g$ on one of the two routes.  The prefix supplies a directed branch walk from the selector of $q$, through $q$, to the selector of $g$.  The suffix supplies a directed branch walk from the selector of $g$, through $g$, and eventually to the selector of $q$.  Concatenating these walks contains a directed cycle in the stage branch graph, a contradiction.
+\end{proof}
+
+\begin{lemma}[Fixed extra gate]
+In an acyclic stage, after fixing a candidate extra shared gate $g$ and the two branches used at $g$, feasibility of a target-compatible stage transition can be decided in polynomial time.
+\end{lemma}
+\begin{proof}
+Find two gate-disjoint prefixes from the two stage starts to the selector of $g$ with unit capacity on every output gate other than $g$.  Independently find two gate-disjoint suffixes from the chosen data destinations of $g$ to the stage sink.  Both are integral max-flow problems in a gate-split network.
+
+Check the target bit induced on the preceding common gate from the source phases of the first prefix gates.  Check the target bit induced on $g$ from the source phases of the first suffix gates, or from the next common gate / closing phase when a suffix is empty.  If the two route requirements agree at each shared gate, concatenate the flows with the two traversals of $g$.  The previous lemma excludes any hidden prefix/suffix gate reuse, hence the concatenation shares only $g$ inside this stage.
+\end{proof}
+
+\begin{theorem}[All-DAG-stage budget one]
+For an all-DAG-stage fixed opposite-phase first pair, the existence of a target-compatible return-pair with
+\[
+\operatorname{overlap}\leq \operatorname{minimumOverlap}+1
+\]
+can be decided in polynomial time, and a witness can be constructed when one exists.
+\end{theorem}
+\begin{proof}
+Compute the V113 dominator chain, stage map and $d=|H|$.  Process stages in chain order.  An ordinary transition is exactly the V113 gate-disjoint segment transition.  If the one-unit excess-overlap budget has not been spent, also scan every stage gate $g$ and four ordered branch pairs and apply the fixed-extra-gate lemma.
+
+At a common dominator, target compatibility depends only on the branch pair at that common gate and the source phases of the first gates of the next segment, as in V113.  The target compatibility of a unique extra gate is completely discharged inside its stage.  Therefore the future state consists only of the two branches chosen at the current common dominator and one bit recording whether the extra-overlap budget has been used.  The unique-extra localization lemma gives completeness, and the acyclic separation lemma gives sound composition.  There are polynomially many stage/gate scans and each uses polynomial max-flow computations.
+\end{proof}
+
+\section{Strict exact-stretch separation family}
+For every integer $t\geq0$, define the family implemented by \texttt{strict\_dag\_delta\_one\_family(t)}.  It has
+\[
+n=8+t,\qquad m=9+t=n+1.
+\]
+The private route-0 prefix is subdivided by $t$ fresh selector variables.  The only common non-root gate dominator is a central gate $c$.  Its left continuation begins with source phase $0$, while its right continuation begins with source phase $1$.
+
+\begin{theorem}[Infinite separation from V113]
+For every $t\geq0$ in the family above,
+\[
+\operatorname{minimumOverlap}=1,
+\qquad
+\operatorname{minimumCompatibleOverlap}=2,
+\qquad
+\Delta=1.
+\]
+Every non-common stage is acyclic and $m=n+1$.
+\end{theorem}
+\begin{proof}
+Every return from either first destination must pass through the central gate $c$, so the common-dominator lower bound is one, and there are routes whose only shared output is $c$.  Any such minimum-overlap pair must take opposite left/right continuations of $c$; their immediate successor source phases are $0$ and $1$, forcing different target requirements on $c$.  Hence the whole minimum-overlap face is incompatible.
+
+A compatible pair instead sends both routes through the left branch of $c$, shares one additional gate $g$, and then separates through two distinct outputs with the same selector/source phase but different output flips.  The two routes induce the same target bit on both shared gates $c$ and $g$, so compatible overlap two is achievable.  The previous incompatibility gives the matching lower bound.  Subdivision of the private prefix changes neither overlap nor phase constraints and adds one variable and one MUX per step, preserving $m=n+1$.  The branch directions are forward along the construction, so every non-common stage remains acyclic.
+\end{proof}
+
+\section{Literature and boundary}
+The graph-level tractability of two directed disjoint paths on DAGs is prior art; see T.~Tholey, \emph{Linear time algorithms for two disjoint paths problems on directed acyclic graphs}, Theoretical Computer Science 465 (2012), 35--48, DOI 10.1016/j.tcs.2012.09.025.  General directed linkage already exhibits NP-completeness at two terminal pairs; see S.~Fortune, J.~Hopcroft and J.~Wyllie, \emph{The directed subgraph homeomorphism problem}, Theoretical Computer Science 10(2) (1980), 111--121, DOI 10.1016/0304-3975(80)90009-2.
+
+The internally proved statement here is the transfer through signed-MUX target phases and the V113 dominator-stage decomposition with one excess shared gate, together with the exact-stretch separation family.  Novelty relative to the broader literature is not claimed without external review.
+
+\end{document}

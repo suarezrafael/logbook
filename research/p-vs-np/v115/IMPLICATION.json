@@ -1,0 +1,30 @@
+{
+  "laboratory": "V115",
+  "classification": "frontier_progress",
+  "target_problem": "target-compatible excess-overlap at most one for a fixed opposite-phase signed-MUX first pair after the V113 common-dominator optimum-face decomposition",
+  "conditional_implication": "if every non-common V113 dominator stage is acyclic, then target-compatible overlap at most minimum_overlap+1 is decidable in polynomial time by a one-budget extension of the V113 phase DP using independent prefix/suffix gate flows around the unique extra shared gate",
+  "current_gap": "the theorem requires every non-common dominator stage to be acyclic; no argument shows this structural condition is universal, and V114 shows that unrestricted directed extra-gate completion already contains a two-linkage hardness barrier",
+  "stop_rule": "do not extend the DAG proof to cyclic stages without an explicit bounded interface parameter or a new structural lemma; V116 must parameterize cyclic interaction or prove hardness at the first cyclic level",
+  "external_validation_target": "Tholey 2012 DAG two-disjoint-path tractability, Fortune-Hopcroft-Wyllie 1980 general directed linkage hardness, and specialist review of the signed-MUX dominator-stage transfer",
+  "bridge_lemmas": [
+    "V113 minimum overlap equals the number of common gate dominators",
+    "an overlap budget of minimum+1 permits at most one non-common shared gate",
+    "in an acyclic dominator stage no output gate can occur both before and after the unique extra shared gate without creating a directed cycle",
+    "fixed extra gate and branch choices therefore factor into two gate-disjoint prefix and suffix flow problems",
+    "signed target compatibility at common gates and the extra gate is determined by local successor source phases",
+    "a constant phase state plus one excess-budget bit gives a polynomial dynamic program",
+    "the exact-stretch family n=8+t, m=9+t has minimum overlap one and minimum compatible overlap two for every t>=0"
+  ],
+  "material_advance_rule_met": true,
+  "recognized_frontier_implication": false,
+  "all_noncommon_dominator_stages_dag": true,
+  "dag_stage_delta_at_most_one_in_P": true,
+  "strict_exact_stretch_delta_one_family": true,
+  "delta_one_unrestricted_in_P": false,
+  "delta_one_np_hard": false,
+  "all_mux_0x1b_in_P": false,
+  "unrestricted_NC0_3_avoid_in_P": false,
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
