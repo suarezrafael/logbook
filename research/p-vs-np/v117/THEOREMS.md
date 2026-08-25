@@ -12,13 +12,13 @@ The parameter is the total number `k` of requests.
 
 ### Proof
 
-Slivkins (2010) proves W[1]-hardness of Edge-Disjoint Paths on DAGs parameterized by the number of requests even when the demand graph is the union of two sets of parallel edges.
+Slivkins (2010) proves W[1]-hardness of Edge-Disjoint Paths on DAGs parameterized by the number of requests even when the demand graph is the union of two sets of parallel edges. We may assume both parallel classes are nonempty: if one class is empty, add two fresh vertices joined by one private source edge and add the forced request between them as the missing class. This preserves yes/no, preserves acyclicity and increases `k` by exactly one.
 
-For every source DAG edge `e=(u,v)`, introduce a fresh capacity-one gate resource `g_e` and replace the edge by `u -> g_e -> v`. Keep the source terminals and place the two parallel demand classes into the two chains.
+For every source DAG edge `e=(u,v)`, introduce a fresh capacity-one gate resource `g_e` and replace the edge by `u -> g_e -> v`. Keep the source terminals and place the two nonempty parallel demand classes into the two chains.
 
 The transformed graph is acyclic: contracting every `g_e` recovers the source DAG, so a directed cycle after subdivision would contract to a directed cycle before subdivision.
 
-A source path uses an edge `e` iff the transformed path uses `g_e`. Hence a family of source paths is edge-disjoint iff the corresponding transformed family is gate-resource-disjoint. The number of requests is unchanged. This is a parameter-preserving reduction.
+A source path uses an edge `e` iff the transformed path uses `g_e`. Hence a family of source paths is edge-disjoint iff the corresponding transformed family is gate-resource-disjoint. The number of requests changes by at most the one-request padding above. This is an FPT parameter-preserving reduction.
 
 ## Definition — prescribed two-route feedback closure
 
@@ -34,7 +34,7 @@ feedback gates. Feasibility of the prescribed two-route feedback instance is equ
 
 ### Proof
 
-Concatenate the request paths of one chain with its private feedback gates. Gate-resource disjointness of the request paths makes the resulting walk gate-simple. Conversely split any accepting prescribed walk at the private feedback gates; the pieces solve the original request chain. Private feedback gates are distinct between chains and do not consume any base DAG resource. The parameter identity above is immediate.
+Concatenate the request paths of one chain with its private feedback gates. Gate-resource disjointness of the request paths makes the resulting walk gate-simple. Conversely split any accepting prescribed walk at the private feedback gates; the pieces solve the original request chain. Private feedback gates are distinct between chains and do not consume any base DAG resource. The parameter identity above is immediate. Combined with the optional one-request padding in Theorem 1, `tau` differs from the original hard parameter by only an additive constant.
 
 ## Corollary — generic XP-to-FPT compression is blocked
 
