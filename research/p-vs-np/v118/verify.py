@@ -228,7 +228,13 @@ def random_signed_crosscheck():
         else:
             rejected += 1
         compared += 1
-    assert accepted and rejected
+    # This strict topology always has its Delta=1 repair: the two routes
+    # take the same branch at the common gate and at q, then distinct exact
+    # clones. Random signs therefore stress target reconstruction but are not
+    # expected to manufacture negative instances.
+    assert compared == 96
+    assert accepted == compared
+    assert rejected == 0
     return {
         "fixed_pairs": compared,
         "accepted_within_budget": accepted,
