@@ -1,0 +1,25 @@
+{
+  "laboratory": "V117",
+  "classification": "barrier",
+  "target_problem": "XP-to-FPT compression for the two-chain residual DAG linkage created after cutting two gate-simple routes at a supplied feedback-gate set",
+  "conditional_implication": "Slivkins' W[1]-hard two-parallel-demand DAG edge-disjoint-path instances transfer parameter-preservingly to two-chain gate-resource linkage; reconnecting consecutive requests by private prescribed feedback gates gives tau=k-2, so a generic f(tau) poly(N) solver for this residual abstraction would imply FPT=W[1]",
+  "current_gap": "the reduction is graph-level and does not show that the hard residual instances are realizable as signed essential ternary MUX dominator stages with the required phase and target-compatibility constraints",
+  "stop_rule": "do not pursue generic two-chain frontier compression as an FPT proof; V118 must exploit signed-MUX-specific realizability or lift the barrier through those constraints",
+  "external_validation_target": "Slivkins 2010 source theorem and specialist review of the gate-resource/feedback-chain transfer",
+  "bridge_lemmas": [
+    "edge subdivision preserves DAG acyclicity",
+    "edge-disjoint source paths correspond exactly to gate-resource-disjoint subdivided paths",
+    "the two parallel demand classes become two request chains without increasing k",
+    "private feedback closure turns each request chain into one prescribed gate-simple walk",
+    "for two nonempty chains the supplied feedback-interface size is tau=k-2"
+  ],
+  "material_advance_rule_met": true,
+  "two_chain_gate_linkage_w1_hard": true,
+  "supplied_feedback_two_route_residual_w1_hard": true,
+  "signed_mux_feedback_parameter_w1_hard": false,
+  "minimum_feedback_gate_parameter_w1_hard": false,
+  "unrestricted_NC0_3_avoid_in_P": false,
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
