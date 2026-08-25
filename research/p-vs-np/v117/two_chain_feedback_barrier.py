@@ -75,6 +75,27 @@ def validate_source(instance: ParallelTwoChainEDP) -> None:
             raise ValueError("terminal outside source graph")
 
 
+def validate_gate_chain(instance: GateChainInstance) -> None:
+    if instance.n_variables <= 0:
+        raise ValueError("gate-chain variable count must be positive")
+    resource_ids = [resource_id for resource_id, _u, _v in instance.resources]
+    if len(resource_ids) != len(set(resource_ids)):
+        raise ValueError("gate resource IDs must be unique")
+    edges: list[tuple[int, int]] = []
+    for _resource_id, u, v in instance.resources:
+        if not (0 <= u < instance.n_variables and 0 <= v < instance.n_variables):
+            raise ValueError("gate resource endpoint outside variable graph")
+        edges.append((u, v))
+    if not _is_dag(instance.n_variables, tuple(edges)):
+        raise ValueError("gate-chain resource graph must be a DAG")
+    for source, target in instance.chain0 + instance.chain1:
+        if not (
+            0 <= source < instance.n_variables
+            and 0 <= target < instance.n_variables
+        ):
+            raise ValueError("gate-chain terminal outside variable graph")
+
+
 def edge_to_gate_chain(instance: ParallelTwoChainEDP) -> GateChainInstance:
     """Subdivide each source edge by one capacity-one gate resource."""
     validate_source(instance)
@@ -91,11 +112,10 @@ def close_parallel_chains_with_feedback(
     instance: GateChainInstance,
 ) -> PrescribedFeedbackInstance:
     """Reconnect each repeated demand chain by private prescribed feedback gates."""
+    validate_gate_chain(instance)
     feedback: list[tuple[int, int, int, int]] = []
     prescribed = [[], []]
     resource_ids = [resource_id for resource_id, _u, _v in instance.resources]
-    if len(resource_ids) != len(set(resource_ids)):
-        raise ValueError("base gate resource IDs must be unique")
     next_gate = 0 if not resource_ids else max(resource_ids) + 1
     for chain_index, chain in enumerate((instance.chain0, instance.chain1)):
         for pos in range(len(chain) - 1):
@@ -154,6 +174,7 @@ def source_edge_disjoint_feasible(instance: ParallelTwoChainEDP) -> bool:
 
 
 def gate_chain_feasible(instance: GateChainInstance) -> bool:
+    validate_gate_chain(instance)
     adjacency: list[list[tuple[int, int]]] = [
         [] for _ in range(instance.n_variables)
     ]
