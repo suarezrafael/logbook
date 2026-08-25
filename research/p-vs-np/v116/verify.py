@@ -16,7 +16,10 @@ sys.path.insert(0, str(V115_DIR))
 
 from mux_gate_flow import MuxGate  # noqa: E402
 from mux_dominator_dp import fixed_pair_minimum_overlap_certificate, in_range  # noqa: E402
-from mux_dag_budget_one import fixed_pair_dag_budget_one_certificate  # noqa: E402
+from mux_dag_budget_one import (  # noqa: E402
+    fixed_pair_dag_budget_one_certificate,
+    strict_dag_delta_one_family,
+)
 from mux_one_feedback_gate import (  # noqa: E402
     fixed_pair_one_feedback_budget_one_certificate,
     strict_tau_one_delta_one_family,
@@ -168,6 +171,31 @@ def check_seeded_crosscheck():
     return checked
 
 
+def check_unused_feedback_regression():
+    """A disconnected cycle must be removable even when neither route uses its FVS gate."""
+    n0, gates, ids = strict_dag_delta_one_family(0)
+    first0, first1, _common, _extra = ids
+    assert n0 == 8
+    first_cycle = len(gates)
+    # Two new selectors form a disconnected 8<->9 cycle inside a V113 stage.
+    # Either cycle output is a valid one-gate feedback set, but the compatible
+    # return witness stays entirely in the original V115 component.
+    gates.append(MuxGate(8, 9, 10))
+    gates.append(MuxGate(9, 8, 10))
+    n = 11
+    cycle_ids = {first_cycle, first_cycle + 1}
+
+    cert = fixed_pair_one_feedback_budget_one_certificate(
+        n, gates, gates[first0].selector, first0, 0, first1, 0
+    )
+    assert cert is not None
+    selected_feedback = {gi for gi in cert.feedback_gates if gi is not None}
+    assert selected_feedback & cycle_ids
+    used = {gi for gi, _ in cert.return_path0} | {gi for gi, _ in cert.return_path1}
+    assert not (used & cycle_ids)
+    assert target_word(gates, cert.cycle0, cert.cycle1) == cert.target
+
+
 def check_strict_family():
     for depth in range(41):
         n, gates, ids = strict_tau_one_delta_one_family(depth)
@@ -217,11 +245,12 @@ def check_strict_family():
 
 def main():
     checked = check_seeded_crosscheck()
+    check_unused_feedback_regression()
     check_strict_family()
     print(
         "V116 primary verifier passed: "
         f"{checked} seeded tau<=1 fixed pairs cross-checked; "
-        "strict cyclic Delta=1 family verified through depth 40."
+        "unused-feedback regression and strict cyclic Delta=1 family through depth 40 passed."
     )
 
 
