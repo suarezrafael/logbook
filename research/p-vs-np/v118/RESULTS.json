@@ -1,0 +1,41 @@
+{
+  "laboratory": "V118",
+  "classification": "frontier_progress",
+  "claim": "Polynomial Delta<=1 decision for fixed opposite-phase signed-MUX pairs when every non-common V113 stage is a DAG or becomes a DAG after deleting one exact MUX-clone class.",
+  "structural_invariant": {
+    "name": "one_exact_clone_bank_per_stage",
+    "bank_size_bounded": false,
+    "normalized_clone_uses_per_route_segment": 2,
+    "segments_per_route_with_one_extra_gate": 2,
+    "maximum_normalized_clone_uses_per_route": 4,
+    "maximum_residual_dag_requests": 12,
+    "maximum_phase_sensitive_first_traversals": 4
+  },
+  "strict_family": {
+    "parameters": "depth>=0, width>=2",
+    "n": "7 + depth + 2*width",
+    "m": "8 + depth + 2*width",
+    "exact_stretch": "m=n+1",
+    "minimum_overlap": 1,
+    "minimum_compatible_overlap": 2,
+    "delta": 1,
+    "feedback_gate_number": "width",
+    "feedback_gate_number_unbounded": true
+  },
+  "verification": {
+    "primary_random_signed_crosscheck": 96,
+    "independent_bruteforce_widths": [2, 3],
+    "independent_exact_feedback_widths": [2, 3, 4],
+    "independent_loop_erasure_family_width": 3
+  },
+  "nonclaims": {
+    "arbitrary_feedback_gate_number_in_P": false,
+    "arbitrary_clone_class_count_fpt": false,
+    "signed_mux_feedback_parameter_w1_hard": false,
+    "unrestricted_signed_mux_delta_one_solved": false,
+    "unrestricted_NC0_3_avoid_in_P": false,
+    "p_vs_np_resolved": false,
+    "novelty_confirmed": false,
+    "peer_reviewed": false
+  }
+}
