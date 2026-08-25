@@ -64,7 +64,10 @@ def validate_source(instance: ParallelTwoChainEDP) -> None:
     if instance.n <= 0 or not _is_dag(instance.n, instance.edges):
         raise ValueError("source graph must be a DAG")
     if not instance.chain0 or not instance.chain1:
-        raise ValueError("both parallel demand classes must be nonempty")
+        raise ValueError(
+            "this reducer expects the normalized nonempty-class promise; "
+            "pad an empty parallel demand class by one private forced request first"
+        )
     if not _parallel(instance.chain0) or not _parallel(instance.chain1):
         raise ValueError("each demand class must consist of parallel requests")
     for s, t in instance.chain0 + instance.chain1:
@@ -90,7 +93,10 @@ def close_parallel_chains_with_feedback(
     """Reconnect each repeated demand chain by private prescribed feedback gates."""
     feedback: list[tuple[int, int, int, int]] = []
     prescribed = [[], []]
-    next_gate = len(instance.resources)
+    resource_ids = [resource_id for resource_id, _u, _v in instance.resources]
+    if len(resource_ids) != len(set(resource_ids)):
+        raise ValueError("base gate resource IDs must be unique")
+    next_gate = 0 if not resource_ids else max(resource_ids) + 1
     for chain_index, chain in enumerate((instance.chain0, instance.chain1)):
         for pos in range(len(chain) - 1):
             target = chain[pos][1]
