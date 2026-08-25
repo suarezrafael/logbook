@@ -1,0 +1,46 @@
+{
+  "laboratory": "V119",
+  "classification": "frontier_progress",
+  "claim": "For every fixed branch-image bound d, fixed-pair signed-MUX Delta<=1 is decidable in N^{O(d)} when every non-common V113 stage is DAG after deleting one full branch-image bank B_D with |D|<=d; in particular d=2 is in P.",
+  "algorithm": {
+    "parameter": "branch_image_bound_d",
+    "runtime": "N^{O(d)}",
+    "d_two_polynomial": true,
+    "normalized_bank_traversals_per_private_segment": "<= d",
+    "maximum_residual_dag_requests_with_one_extra_gate": "4d+4",
+    "global_dp_state": "(common_branch_pair, extra_budget_used)"
+  },
+  "strict_family": {
+    "name": "strict_branch_image_delta_one_family",
+    "depth": ">=0",
+    "width": ">=2",
+    "stretch": "m=n+1",
+    "minimum_overlap": 1,
+    "minimum_compatible_overlap": 2,
+    "delta": 1,
+    "feedback_gate_number": "width",
+    "branch_image_bound": 2,
+    "covered_by_v118_exact_clone_promise": false
+  },
+  "verification": {
+    "primary_widths": [2,3,4,5,6,7,8],
+    "primary_depths": [0,1,3,7],
+    "private_signed_variants": 32,
+    "exact_feedback_number_through_width": 4,
+    "independent_bruteforce_widths": [2,3],
+    "independent_loop_erasure_routes": 138,
+    "independent_strictly_shortened_routes": 126,
+    "independent_imports_v119_code": false
+  },
+  "nonclaims": {
+    "fpt_in_d": false,
+    "unbounded_d_polynomial": false,
+    "signed_mux_branch_image_w1_hard": false,
+    "delta_one_unrestricted_in_P": false,
+    "all_mux_0x1b_in_P": false,
+    "unrestricted_NC0_3_avoid_in_P": false,
+    "p_vs_np_resolved": false,
+    "novelty_confirmed": false,
+    "peer_reviewed": false
+  }
+}
