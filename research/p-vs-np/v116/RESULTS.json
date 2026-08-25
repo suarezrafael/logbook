@@ -1,0 +1,36 @@
+{
+  "version": "V116",
+  "claim": "feedback-gate-number-at-most-one non-common dominator stages admit polynomial fixed-pair overlap <= minimum_overlap+1 decision",
+  "strict_family": {
+    "n": "8+depth",
+    "m": "9+depth=n+1",
+    "minimum_overlap": 1,
+    "minimum_target_compatible_overlap": 2,
+    "delta": 1,
+    "cyclic_noncommon_stage": true,
+    "maximum_stage_feedback_gate_number": 1,
+    "outside_v115_all_dag_class": true
+  },
+  "algorithmic_core": {
+    "maximum_residual_dag_requests": 5,
+    "residual_solver": "fixed-dimension product-state token DP on a gate-split DAG",
+    "outer_state": "common-gate branch pair plus one excess-budget bit",
+    "running_time_class": "polynomial for feedback-gate number <=1"
+  },
+  "verification_contract": {
+    "primary": "300 seeded small tau<=1 fixed-pair exhaustive cross-checks plus strict-family controls through depth 40",
+    "independent": "standalone strict-family reconstruction, exact route census through depth 60, feedback-cycle audit and full-image control",
+    "finite_evidence_is_proof": false
+  },
+  "parameterized_boundary": {
+    "naive_arbitrary_tau_extension": "XP-style N^O(tau)",
+    "arbitrary_tau_fpt_proved": false
+  },
+  "global_nonclaims": {
+    "all_mux_0x1b_in_P": false,
+    "unrestricted_NC0_3_Avoid_in_P": false,
+    "general_circuit_lower_bound": false,
+    "P_vs_NP_resolved": false,
+    "novelty_confirmed": false
+  }
+}
