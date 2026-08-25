@@ -16,7 +16,7 @@ The relevant boundary for V117 is that allowing the number of DAG requests to gr
 
 A modern strengthening of this parameterized hardness landscape is:
 
-Ken-ichi Kawarabayashi, Andreas Emil Feldmann Lorenz, Samuel Milani and Felix Stegemann, *Directed Disjoint Paths Remains W[1]-Hard on Acyclic Digraphs Without Large Grid Minors*, IPEC 2025, LIPIcs, DOI `10.4230/LIPIcs.IPEC.2025.2`.
+Ken-ichi Kawarabayashi, Nicola Lorenz, Marcelo Garlet Milani and Jacob Stegemann, *Directed Disjoint Paths Remains W[1]-Hard on Acyclic Digraphs Without Large Grid Minors*, IPEC 2025, LIPIcs, DOI `10.4230/LIPIcs.IPEC.2025.2`.
 
 The V116 theorem does not depend on this later strengthening; it is recorded to prevent V117 from mistaking a variable-dimensional product DP for an FPT result.
 
