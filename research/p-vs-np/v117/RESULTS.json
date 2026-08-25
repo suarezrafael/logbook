@@ -1,0 +1,23 @@
+{
+  "version": "V117",
+  "claim": "generic two-chain gate-linkage compression beyond V116 is W[1]-hard via a parameter-preserving transfer from Slivkins' two-parallel-demand DAG EDP restriction",
+  "reduction": {
+    "source_parameter": "k total requests",
+    "edge_to_gate_parameter": "k unchanged",
+    "feedback_closure_parameter": "tau=k-2 for two nonempty demand chains",
+    "residual_after_feedback_deletion": "gate-subdivided DAG"
+  },
+  "verification_contract": {
+    "primary": "500 seeded promised small DAG instances exhaustively checked before and after the edge-to-gate transfer",
+    "independent": "fresh standalone edge/resource equivalence audit without importing the V117 reducer",
+    "finite_evidence_is_hardness_proof": false
+  },
+  "global_nonclaims": {
+    "signed_mux_feedback_parameter_w1_hard": false,
+    "minimum_feedback_gate_parameter_w1_hard": false,
+    "all_mux_0x1b_in_P": false,
+    "unrestricted_NC0_3_Avoid_in_P": false,
+    "P_vs_NP_resolved": false,
+    "novelty_confirmed": false
+  }
+}
