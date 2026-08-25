@@ -5,7 +5,7 @@ export PYTHONDONTWRITEBYTECODE=1
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODE="quick"
-FOCUSED_VERSIONS=(V53 V54 V55 V56 V57 V58 V59 V78 V79 V80 V81 V82 V83 V84 V85 V86 V87 V88 V89 V90 V91 V92 V93 V94 V95 V96 V97 V98 V99 V100 V101 V102 V103 V104 V105 V106 V107 V108 V109 V110 V111 V112 V113 V114 V115 V116 V117 V118)
+FOCUSED_VERSIONS=(V53 V54 V55 V56 V57 V58 V59 V78 V79 V80 V81 V82 V83 V84 V85 V86 V87 V88 V89 V90 V91 V92 V93 V94 V95 V96 V97 V98 V99 V100 V101 V102 V103 V104 V105 V106 V107 V108 V109 V110 V111 V112 V113 V114 V115 V116 V117 V118 V119)
 
 case "${1:-}" in
   "") ;;
@@ -16,7 +16,7 @@ case "${1:-}" in
     cat <<'HELP'
 Usage: ./verify_all.sh [--compat|--full|--list]
 
-  default   Run the focused regression gate for V53-V59 and V78-V118.
+  default   Run the focused regression gate for V53-V59 and V78-V119.
   --compat  Run every ordinary historical verifier, excluding exact replay tier.
   --full    Run the complete historical suite including exact replay tier.
   --list    Print every registered check without executing it.
@@ -191,6 +191,8 @@ CHECKS=(
   "V117|independent|v117/verify_independent.py|quick|"
   "V118|primary|v118/verify.py|quick|"
   "V118|independent|v118/verify_independent.py|quick|"
+  "V119|primary|v119/verify.py|quick|"
+  "V119|independent|v119/verify_independent.py|quick|"
 )
 
 printf '%-6s | %-24s | %-6s | %s\n' "LAB" "CHECK" "STATUS" "DETAIL"
