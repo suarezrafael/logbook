@@ -3,6 +3,7 @@ from __future__ import annotations
 import random
 
 from two_chain_feedback_barrier import (
+    GateChainInstance,
     ParallelTwoChainEDP,
     close_parallel_chains_with_feedback,
     edge_to_gate_chain,
@@ -29,6 +30,21 @@ def random_instance(seed: int) -> ParallelTwoChainEDP:
     return ParallelTwoChainEDP(n, edges, chains[0], chains[1])
 
 
+def check_noncontiguous_feedback_ids() -> None:
+    instance = GateChainInstance(
+        3,
+        ((10, 0, 1), (40, 1, 2)),
+        ((0, 2), (0, 2)),
+        ((1, 2), (1, 2)),
+    )
+    closed = close_parallel_chains_with_feedback(instance)
+    base_ids = {resource_id for resource_id, _u, _v in instance.resources}
+    feedback_ids = {gate_id for gate_id, _chain, _u, _v in closed.feedback}
+    assert base_ids.isdisjoint(feedback_ids)
+    assert min(feedback_ids) == 41
+    assert closed.tau == 2
+
+
 def main() -> None:
     yes = 0
     no = 0
@@ -46,11 +62,12 @@ def main() -> None:
             yes += 1
         else:
             no += 1
+    check_noncontiguous_feedback_ids()
     assert yes and no
     print(
         "V117 primary verifier passed: 500 promised two-parallel-demand DAG "
         f"instances; edge/gate equivalence exact ({yes} yes, {no} no); "
-        "tau=k-2 checked."
+        "tau=k-2 and noncontiguous feedback IDs checked."
     )
 
 
