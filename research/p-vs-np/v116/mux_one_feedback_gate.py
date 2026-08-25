@@ -274,9 +274,16 @@ def _realize_special_plan(
     starts: tuple[int, int],
     sink: int,
     special_routes: tuple[tuple[tuple[int, int], ...], tuple[tuple[int, int], ...]],
+    feedback_gate: int | None,
 ) -> tuple[tuple[tuple[int, int], ...], tuple[tuple[int, int], ...]] | None:
     special = {gi for route in special_routes for gi, _branch in route}
-    residual = allowed_stage - special
+    # The selected feedback gate is removed from the residual DAG even when
+    # neither route uses it. If a route does use it, its traversal is represented
+    # explicitly in special_routes and the same deletion is still correct.
+    banned = set(special)
+    if feedback_gate is not None:
+        banned.add(feedback_gate)
+    residual = allowed_stage - banned
     requests: list[tuple[int, int]] = []
     slots: list[list[int | None]] = [[], []]
 
@@ -428,7 +435,13 @@ def _local_stage_options(
         for pattern in _special_patterns(feedback, extra):
             for special_routes in _branch_realizations(pattern):
                 realized = _realize_special_plan(
-                    n, gates, allowed_stage, starts, sink, special_routes
+                    n,
+                    gates,
+                    allowed_stage,
+                    starts,
+                    sink,
+                    special_routes,
+                    feedback,
                 )
                 if realized is None:
                     continue
