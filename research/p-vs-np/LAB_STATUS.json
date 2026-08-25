@@ -1,16 +1,16 @@
 {
-  "schema_version": 72,
+  "schema_version": 73,
   "updated": "2026-08-25",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V117",
-  "candidate_version": "V118",
-  "highest_directory": "V118",
+  "promoted_version": "V118",
+  "candidate_version": "V119",
+  "highest_directory": "V119",
   "promotion_state": "candidate",
-  "completed_scope": "V118 candidate: signed-MUX Delta<=1 polynomial-time theorem for V113 dominator stages that are DAGs or become DAG after deleting one exact MUX-clone bank; signed loop erasure bounds the normalized clone interface independently of raw bank width; strict exact-stretch family has minimumOverlap=1, minimumCompatibleOverlap=2 and unbounded feedback-gate number; no claim for arbitrary feedback structure or multiple-clone-type FPT",
+  "completed_scope": "V119 candidate: signed-MUX Delta<=1 N^{O(d)} theorem for V113 dominator stages that become DAG after deleting a full branch-image bank B_D with |D|<=d; destination loop erasure normalizes each private segment to at most d bank traversals, giving at most 4d+4 residual DAG requests; d=2 is in P; strict exact-stretch Delta=1 family has unbounded feedback-gate number and lies outside the V118 exact-clone promise; no claim for FPT in d or unbounded branch-image number",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V118",
-  "next_laboratory_focus": "validate and promote V118; after promotion attack V119 clone-type count c: polynomial/FPT compression for multiple exact clone banks versus a small-c hardness barrier",
+  "next_laboratory_version": "V119",
+  "next_laboratory_focus": "validate and promote V119; after promotion attack V120 branch-image number d: FPT compression versus fixed-small-d signed-MUX hardness, or multiple bounded-image banks",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V118",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V119",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -412,6 +412,18 @@
     "v118_signed_mux_feedback_parameter_w1_hard": false,
     "v118_all_mux_bijunctive_0x1b_in_P": false,
     "v118_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v118_hlz_worst_case_runtime_improved": false
+    "v118_hlz_worst_case_runtime_improved": false,
+    "v119_fixed_d_branch_image_budget_one_in_P": true,
+    "v119_d_two_branch_image_budget_one_in_P": true,
+    "v119_destination_loop_erasure": true,
+    "v119_strict_delta_one_outside_v118_exact_clone_family": true,
+    "v119_unbounded_feedback_number_branch_image_two_in_P": true,
+    "v119_branch_image_parameter_fpt": false,
+    "v119_unbounded_branch_image_number_in_P": false,
+    "v119_signed_mux_branch_image_w1_hard": false,
+    "v119_delta_one_unrestricted_in_P": false,
+    "v119_all_mux_bijunctive_0x1b_in_P": false,
+    "v119_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v119_hlz_worst_case_runtime_improved": false
   }
 }
