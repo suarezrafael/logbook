@@ -1,0 +1,115 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\title{V116: Budget-One Signed-MUX Returns with One Feedback Gate per Dominator Stage}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+
+\begin{document}
+\maketitle
+
+\paragraph{Scope.}
+This note proves a structured signed-MUX theorem at the first genuinely cyclic extension of V115. It does not prove arbitrary-parameter FPT, unrestricted signed-MUX avoidance, unrestricted $NC^0_3$-Avoid, a general circuit lower bound, or $P\neq NP$ / $P=NP$.
+
+\section{Setup}
+Fix two distinct first outputs at a common selector $r$ and branches with opposite selector-source phases. Apply the V113 common gate-dominator decomposition to the two first destinations. Let
+\[
+H=(h_1,\ldots,h_d)
+\]
+be the common return-gate dominators. V113 proves that the minimum return-gate overlap is exactly $d$ and partitions every other allowed return gate into one of $d+1$ non-common stages.
+
+For a stage $S$, let $\tau_g(S)$ be the minimum number of output gates whose deletion makes the directed stage branch graph acyclic. V116 assumes
+\[
+\max_S \tau_g(S)\leq 1.
+\]
+
+\begin{lemma}[Unique excess gate]
+Any return pair of overlap at most $d+1$ shares at most one non-common output gate.
+\end{lemma}
+\begin{proof}
+Every return pair shares the $d$ common gate dominators by V113. Only one additional overlap unit remains.
+\end{proof}
+
+\begin{lemma}[At most five residual DAG requests]
+Let $S$ satisfy $\tau_g(S)\leq1$, and choose a feedback gate $f$ whose deletion makes $S$ acyclic, with $f$ absent when $S$ is already acyclic. Fix a candidate unique extra shared gate $q$, which may equal $f$. After fixing route use/order of $f,q$ and all branches at those gates, the two gate-simple stage routes reduce to at most five pairwise output-gate-disjoint source--target requests in a DAG.
+\end{lemma}
+\begin{proof}
+A gate-simple route uses each of $f$ and $q$ at most once. If $q=f$, each route is split into at most a prefix and suffix, hence at most four requests. If $q\neq f$, both routes use $q$, but at most one may also use $f$, otherwise $f$ would be a second shared non-common gate. The route using both special gates has at most three residual pieces and the other has at most two, giving at most five requests. Deleting $f$ and $q$ leaves an acyclic branch graph. Any residual output gate appearing in two pieces would either repeat on one gate-simple route or create a second non-common overlap.
+\end{proof}
+
+\begin{lemma}[Fixed-request gate linkage in a DAG]
+For fixed $r_0$, $r\leq r_0$ ordered source--target requests in a directed acyclic MUX branch graph can be tested for pairwise output-gate-disjoint realization in polynomial time.
+\end{lemma}
+\begin{proof}
+Split each output gate into a capacity-one resource node between its selector variable and its two data destinations. Variables themselves may be shared. Topologically order the resulting DAG.
+
+Use a product state containing the current node of every request. At each step advance only a token whose current node has minimum topological rank among unfinished tokens. A token cannot enter a gate-resource node currently occupied by another token.
+
+No history set is needed. Once a token leaves a resource node $g$, every unfinished token has current rank at least that of $g$. Entering $g$ later would require first occupying the selector predecessor of $g$, which has strictly smaller rank, impossible under monotone forward movement in the DAG. Hence every accepted product walk is globally gate-disjoint.
+
+Conversely, serialize any fixed collection of gate-disjoint request paths by repeatedly advancing an unfinished token of minimum current rank along its prescribed path. Gate-disjointness prevents a resource collision. Thus the product search is complete. For fixed $r_0$ its state space is polynomial; V116 uses $r_0=5$.
+\end{proof}
+
+\begin{lemma}[Local signed compatibility]
+For a fixed special-gate plan, cross-route target constraints inside a stage need be checked only at the preceding common gate and at the optional shared gate $q$.
+\end{lemma}
+\begin{proof}
+All residual gates are gate-disjoint between the routes. The feedback gate is private unless it equals $q$. A private output target bit may be chosen independently. At a shared gate, the required target bit is determined by the selected branch and the source phase of the next output, or by the next common-gate/closing phase when the local suffix is empty. Equality of the two route requirements is therefore necessary and sufficient at precisely the shared gates.
+\end{proof}
+
+\begin{theorem}[One-feedback-stage budget one]
+For a fixed opposite-phase signed-MUX first pair satisfying $\max_S\tau_g(S)\leq1$, the existence of a target-compatible return pair with
+\[
+\operatorname{overlap}\leq \operatorname{minimumOverlap}+1
+\]
+can be decided in polynomial time and a witness can be constructed.
+\end{theorem}
+\begin{proof}
+Compute the V113 dominator chain and stage partition. For every stage, test acyclicity; if cyclic, scan its output gates until finding one whose deletion makes the stage acyclic. If no such gate exists the fixed pair lies outside the theorem class.
+
+Process stages in dominator order. The outer dynamic-programming state contains the ordered branch pair at the current common gate and one bit recording whether the unique excess-overlap budget has been spent. For one transition, enumerate $q$ (or no $q$), the finite route use/order patterns of $f$ and $q$, and their Boolean branches. The preceding lemmas reduce each candidate to at most five fixed gate-disjoint requests in a DAG and test its signed compatibility in polynomial time. The concrete identity of $q$ is retained only in witness metadata, not in the future DP key.
+
+Every feasible overlap-$d+1$ pair is represented by one such enumeration because it has at most one shared non-common gate. Conversely, every accepted local transition is gate-simple, uses no hidden shared residual gate, and satisfies all local shared-gate target equalities. V113's ordered common-dominator composition then yields a valid global certificate. All enumeration ranges and fixed-five-token product searches are polynomial.
+\end{proof}
+
+\section{A strict cyclic exact-stretch family}
+For every integer $t\geq0$, let the family be the instance generated by \texttt{strict\_tau\_one\_delta\_one\_family(t)}. It has
+\[
+n=8+t,\qquad m=9+t=n+1.
+\]
+It is obtained from the V115 strict family by changing one formerly dead branch to create
+\[
+\texttt{left}\longrightarrow\texttt{split}\longrightarrow\texttt{left}.
+\]
+
+\begin{theorem}[Infinite cyclic separation from V115]
+For every $t\geq0$ in this family,
+\[
+\operatorname{minimumOverlap}=1,\qquad
+\operatorname{minimumCompatibleOverlap}=2,\qquad
+\Delta=1.
+\]
+The final non-common stage is cyclic and has feedback-gate number exactly one.
+\end{theorem}
+\begin{proof}
+The displayed cycle proves non-acyclicity. Deleting the left-to-split repair gate breaks the cycle, so $\tau_g=1$. The new branch from split back to left cannot occur in a gate-simple return to the root: reaching split through left already consumes the only left-to-split gate, and returning to left would require that output again to continue. Consequently the gate-simple return-route set relevant to the fixed pair is unchanged from the V115 strict family.
+
+Thus the V115 minimum-face argument still gives minimum overlap one and incompatibility of every minimum-overlap pair. The original compatible repair pair still shares exactly one additional gate and induces consistent target requirements, giving compatible overlap two. The branch mutation changes neither the variable nor gate count, so $m=n+1$ remains exact.
+\end{proof}
+
+\section{Parameterized boundary}
+The same decomposition suggests an XP extension for a supplied feedback-gate set of size $\tau$: enumerate route visits to those gates and to the optional excess shared gate, then solve the residual DAG pieces in a product state of dimension $O(\tau)$. This gives only $N^{O(\tau)}$ by the direct argument, not $f(\tau)N^{O(1)}$.
+
+This distinction is essential because directed disjoint-path routing on DAGs is known to be W[1]-hard when parameterized by a variable number of requests. V117 must exploit additional two-route ordered-interface structure or prove a matching parameterized barrier; V116 does not claim that step.
+
+\section{Literature boundary}
+General directed two-linkage hardness goes back to Fortune, Hopcroft and Wyllie, \emph{The directed subgraph homeomorphism problem}, Theoretical Computer Science 10(2) (1980), 111--121, DOI 10.1016/0304-3975(80)90009-2. Parameterized hardness of edge-disjoint routing on DAGs is due to A.~Slivkins, \emph{Parameterized Tractability of Edge-Disjoint Paths on Directed Acyclic Graphs}, SIAM Journal on Discrete Mathematics 24(1) (2010), 146--157, DOI 10.1137/070697781.
+
+The internally proved contribution here is the one-feedback-gate signed-MUX dominator-stage transfer and its strict exact-stretch cyclic family. Novelty and priority are not claimed without external review.
+
+\end{document}

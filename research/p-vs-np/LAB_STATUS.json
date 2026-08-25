@@ -1,16 +1,16 @@
 {
-  "schema_version": 69,
+  "schema_version": 70,
   "updated": "2026-08-24",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V114",
-  "candidate_version": "V115",
-  "highest_directory": "V115",
+  "promoted_version": "V115",
+  "candidate_version": "V116",
+  "highest_directory": "V116",
   "promotion_state": "candidate",
-  "completed_scope": "V115 candidate: polynomial fixed-pair decision for target-compatible overlap <= minimum_overlap+1 when every non-common V113 dominator stage is acyclic; one-budget phase DP with prefix/suffix gate-flow factorization around the unique extra shared gate; infinite exact-stretch family n=8+t, m=n+1 with minimum_overlap=1, minimum_target_compatible_overlap=2 and Delta=1; primary and independent verifier suites included",
+  "completed_scope": "V116 candidate: polynomial fixed-pair decision for target-compatible overlap <= minimum_overlap+1 when every non-common V113 dominator stage has feedback-gate number at most one; each cyclic stage is reduced by feedback/extra-gate enumeration to at most five fixed gate-disjoint requests in a DAG; infinite exact-stretch cyclic family n=8+t, m=n+1 with minimum_overlap=1, minimum_target_compatible_overlap=2 and Delta=1; primary and independent verifier suites included",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V115",
-  "next_laboratory_focus": "validate and promote V115; after promotion attack V116 bounded cyclic interaction using feedback-set or cyclic-SCC parameters, or prove hardness at the first cyclic level",
+  "next_laboratory_version": "V116",
+  "next_laboratory_focus": "validate and promote V116; after promotion attack V117 XP-versus-FPT for arbitrary feedback-gate number using the two-chain residual DAG linkage structure or prove a parameterized hardness barrier",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V115",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V116",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -381,6 +381,17 @@
     "v115_delta_one_np_hard": false,
     "v115_all_mux_bijunctive_0x1b_in_P": false,
     "v115_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v115_hlz_worst_case_runtime_improved": false
+    "v115_hlz_worst_case_runtime_improved": false,
+    "v116_feedback_gate_number_one_delta_at_most_one_in_P": true,
+    "v116_fixed_five_request_dag_product_dp": true,
+    "v116_strict_cyclic_exact_stretch_delta_one_family": true,
+    "v116_strict_family_feedback_gate_number_one": true,
+    "v116_v115_strictly_extended": true,
+    "v116_naive_arbitrary_feedback_gate_XP": true,
+    "v116_arbitrary_feedback_gate_FPT": false,
+    "v116_delta_one_unrestricted_in_P": false,
+    "v116_all_mux_bijunctive_0x1b_in_P": false,
+    "v116_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v116_hlz_worst_case_runtime_improved": false
   }
 }

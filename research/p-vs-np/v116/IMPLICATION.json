@@ -1,0 +1,30 @@
+{
+  "laboratory": "V116",
+  "classification": "frontier_progress",
+  "target_problem": "target-compatible excess-overlap at most one for a fixed opposite-phase signed-MUX first pair when non-common V113 dominator stages may contain bounded cyclic interaction",
+  "conditional_implication": "if every non-common V113 dominator stage has feedback-gate number at most one, then target-compatible overlap at most minimum_overlap+1 is decidable in polynomial time by enumerating the feedback/extra shared gates and reducing each stage to at most five fixed gate-disjoint requests in a DAG",
+  "current_gap": "the theorem handles the first genuinely cyclic level but does not give f(tau) poly(N) time for arbitrary feedback-gate number tau; the direct extension grows the residual DAG request dimension with tau and yields only an XP-style route",
+  "stop_rule": "do not claim an arbitrary-tau FPT extension from the product-state DAG DP alone; V117 must exploit the special ordered two-route interface to beat the variable-request DAG linkage barrier or establish a matching parameterized/hardness boundary",
+  "external_validation_target": "Fortune-Hopcroft-Wyllie 1980 general directed linkage hardness, Slivkins 2010 parameterized DAG edge-disjoint-path hardness, and specialist review of the signed-MUX one-feedback-stage transfer",
+  "bridge_lemmas": [
+    "V113 minimum overlap equals the number of common gate dominators",
+    "an overlap budget of minimum+1 permits at most one shared non-common gate",
+    "deleting one feedback gate and the optional shared gate leaves an acyclic stage",
+    "two gate-simple routes then decompose into at most five globally gate-disjoint DAG requests",
+    "fixed-five gate-disjoint DAG requests are solvable by a product-state token DP with no gate-history set",
+    "cross-route target constraints remain local to the preceding common gate and the optional shared gate",
+    "the exact-stretch cyclic family has feedback-gate number one and Delta exactly one for every depth"
+  ],
+  "material_advance_rule_met": true,
+  "recognized_frontier_implication": false,
+  "feedback_gate_number_one_delta_at_most_one_in_P": true,
+  "strict_cyclic_exact_stretch_delta_one_family": true,
+  "naive_arbitrary_tau_XP_route": true,
+  "arbitrary_tau_FPT": false,
+  "delta_one_unrestricted_in_P": false,
+  "all_mux_0x1b_in_P": false,
+  "unrestricted_NC0_3_avoid_in_P": false,
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
