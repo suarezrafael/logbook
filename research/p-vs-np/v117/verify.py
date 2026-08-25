@@ -45,6 +45,18 @@ def check_noncontiguous_feedback_ids() -> None:
     assert closed.tau == 2
 
 
+def check_malformed_gate_chain_rejected() -> None:
+    bad_endpoint = GateChainInstance(2, ((7, 0, 2),), ((0, 1),), ((0, 1),))
+    bad_terminal = GateChainInstance(2, ((7, 0, 1),), ((0, 2),), ((0, 1),))
+    for instance in (bad_endpoint, bad_terminal):
+        try:
+            gate_chain_feasible(instance)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("malformed gate-chain instance was not rejected")
+
+
 def main() -> None:
     yes = 0
     no = 0
@@ -63,11 +75,12 @@ def main() -> None:
         else:
             no += 1
     check_noncontiguous_feedback_ids()
+    check_malformed_gate_chain_rejected()
     assert yes and no
     print(
         "V117 primary verifier passed: 500 promised two-parallel-demand DAG "
         f"instances; edge/gate equivalence exact ({yes} yes, {no} no); "
-        "tau=k-2 and noncontiguous feedback IDs checked."
+        "tau=k-2, sparse feedback IDs, and malformed-input rejection checked."
     )
 
 
