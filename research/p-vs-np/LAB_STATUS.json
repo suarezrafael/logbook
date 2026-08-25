@@ -1,16 +1,16 @@
 {
-  "schema_version": 71,
-  "updated": "2026-08-24",
+  "schema_version": 72,
+  "updated": "2026-08-25",
   "program": "NC0_k-Avoid Laboratory",
-  "promoted_version": "V116",
-  "candidate_version": "V117",
-  "highest_directory": "V117",
+  "promoted_version": "V117",
+  "candidate_version": "V118",
+  "highest_directory": "V118",
   "promotion_state": "candidate",
-  "completed_scope": "V117 candidate: W[1]-hard barrier for generic two-chain gate-resource linkage in DAGs via a parameter-preserving transfer from Slivkins' two-parallel-demand EDP restriction; prescribed feedback closure uses tau=k-2 for two nonempty chains and shows generic supplied-feedback two-route residual compression cannot be FPT unless FPT=W[1]; graph-level only, with no signed-MUX or minimum-feedback hardness claim; primary and independent reduction-mechanics verifiers included",
+  "completed_scope": "V118 candidate: signed-MUX Delta<=1 polynomial-time theorem for V113 dominator stages that are DAGs or become DAG after deleting one exact MUX-clone bank; signed loop erasure bounds the normalized clone interface independently of raw bank width; strict exact-stretch family has minimumOverlap=1, minimumCompatibleOverlap=2 and unbounded feedback-gate number; no claim for arbitrary feedback structure or multiple-clone-type FPT",
   "infrastructure_freeze_after_candidate": true,
   "infrastructure_frozen": true,
-  "next_laboratory_version": "V117",
-  "next_laboratory_focus": "validate and promote V117; after promotion attack V118 signed-MUX realizability of the two-chain feedback barrier or isolate a MUX-specific obstruction that yields an algorithmic invariant",
+  "next_laboratory_version": "V118",
+  "next_laboratory_focus": "validate and promote V118; after promotion attack V119 clone-type count c: polynomial/FPT compression for multiple exact clone banks versus a small-c hardness barrier",
   "next_front": "algorithmic_method_and_meta_complexity",
   "research_budget": {
     "eval_h_constructor_front_deadline": "V90",
@@ -55,7 +55,7 @@
     ]
   },
   "verification_policy": {
-    "quick": "focused read-only regression gate for V53-V59 and V78-V117",
+    "quick": "focused read-only regression gate for V53-V59 and V78-V118",
     "compatibility": "all ordinary historical verifiers; exact replay tier excluded",
     "full": "cumulative historical verification including exact replays",
     "quick_expected_mutations": 0,
@@ -401,6 +401,17 @@
     "v117_minimum_feedback_gate_parameter_w1_hard": false,
     "v117_all_mux_bijunctive_0x1b_in_P": false,
     "v117_unrestricted_nc0_3_avoid_polynomial_time": false,
-    "v117_hlz_worst_case_runtime_improved": false
+    "v117_hlz_worst_case_runtime_improved": false,
+    "v118_unbounded_feedback_number_under_clone_promise_in_P": true,
+    "v118_signed_clone_loop_erasure": true,
+    "v118_constant_residual_request_bound_twelve": true,
+    "v118_strict_delta_one_unbounded_feedback_family": true,
+    "v118_v116_strictly_extended": true,
+    "v118_arbitrary_feedback_number_in_P": false,
+    "v118_multiple_clone_type_fpt": false,
+    "v118_signed_mux_feedback_parameter_w1_hard": false,
+    "v118_all_mux_bijunctive_0x1b_in_P": false,
+    "v118_unrestricted_nc0_3_avoid_polynomial_time": false,
+    "v118_hlz_worst_case_runtime_improved": false
   }
 }

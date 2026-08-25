@@ -1,0 +1,93 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+
+\title{V118: Signed-MUX Clone-Bank Loop Erasure Beyond Bounded Feedback Number}
+\author{NC0\_k-Avoid Laboratory}
+\date{}
+
+\begin{document}
+\maketitle
+
+\paragraph{Scope.}
+This note proves a structured polynomial-time theorem for budget-one signed-MUX return pairs. It does not prove polynomial time for arbitrary feedback structure, unrestricted signed-MUX avoidance, unrestricted $NC^0_3$-Avoid, a circuit lower bound, or $P\neq NP$ / $P=NP$.
+
+\section{Setup}
+Fix two distinct first outputs at a common selector with opposite selector-source phases. Apply the V113 common return-gate dominator decomposition and write the common gate chain as
+\[
+H=(h_1,\ldots,h_d).
+\]
+V113 gives minimum return-gate overlap exactly $d$.
+
+Two outputs are \emph{exact signed MUX clones} when their selector, both data inputs, all three input polarity bits, and output flip agree. A non-common dominator stage has the \emph{one-clone-bank DAG property} when it is already acyclic or deletion of one exact-clone class $B$ makes the stage acyclic.
+
+\begin{lemma}[Signed clone loop erasure]
+Let one gate-simple route segment contain two gates $g,h\in B$ traversed with the same branch $b$, with no shared boundary strictly between the two traversals. Then the route can be shortened so that one of those two clone traversals and the intervening closed subwalk disappear. The shortened route remains gate-simple, introduces no new overlap, and preserves the source phase first seen from each adjacent shared boundary.
+\end{lemma}
+\begin{proof}
+Because $g$ and $h$ are exact clones, branch $b$ has the same selector $s$, destination $d_b$, and source phase $\alpha_b$ at both gates. The route contains
+\[
+g(b)\to d_b\leadsto s\to h(b)\to d_b.
+\]
+Delete the subwalk from the first occurrence of $d_b$ through $h(b)$ and splice the suffix after $h$ directly after $g(b)$. Both splice points are the same variable $d_b$, so the route remains valid. Only gates are deleted. If the segment begins at a previous common gate or at the unique extra shared gate, its first traversal is unchanged; therefore the target requirement at that shared boundary is unchanged.
+\end{proof}
+
+\begin{corollary}[Constant clone interface]
+After cutting each route at the possible unique extra shared gate $q$, every valid budget-one certificate has an equivalent normalized form using at most one branch-0 and one branch-1 clone in each route segment. Hence each route uses at most four bank gates, independently of $|B|$.
+\end{corollary}
+
+\begin{lemma}[Constant residual DAG linkage]
+Fix a normalized special-gate pattern and a candidate $q$. After deleting $B\cup\{q\}$, the two routes reduce to at most twelve jointly output-gate-disjoint source--target requests in a DAG. At most four first traversals need explicit phase constraints.
+\end{lemma}
+\begin{proof}
+Each route has at most four clone traversals and one $q$, so it is cut into at most six DAG pieces. Across two routes this gives at most twelve requests. Shared-gate target bits depend only on the first source phase after the preceding common gate and after $q$; there are at most two routes times two such boundaries. Enumerate those source phases and, when the corresponding residual request is nonempty, its concrete first gate and branch. The remaining requests are fixed-cardinality gate-disjoint DAG linkage, solved by the V116 product-state token DP.
+\end{proof}
+
+\begin{theorem}[One-clone-bank budget-one theorem]
+For a fixed opposite-phase signed-MUX first pair, suppose every non-common V113 dominator stage has the one-clone-bank DAG property. Then the existence of a target-compatible gate-simple return pair satisfying
+\[
+\operatorname{overlap}\leq \operatorname{minimumOverlap}+1
+\]
+is decidable in deterministic polynomial time, and a certificate can be constructed.
+\end{theorem}
+\begin{proof}
+The $d$ common dominators are unavoidable, so a budget-one pair shares at most one additional non-common gate $q$. Recognize a clone bank in each stage by grouping gates by exact signed MUX signature and testing acyclicity after each group deletion.
+
+For a local transition, enumerate whether the excess gate occurs in the stage, its identity and two branches, and the constant normalized clone-branch patterns from the loop-erasure corollary. Delete the bank and $q$. By the preceding lemma, enumerate at most four phase-sensitive first traversals and solve at most twelve gate-disjoint DAG requests by the fixed-dimensional product-state DP. Soundness follows from reconstruction; completeness follows by loop-erasing any valid witness before selecting its enumerated pattern.
+
+Compose local transitions along $H$ with the V113/V116 state consisting only of the ordered branch pair at the next common gate and one bit recording whether the excess-overlap budget was already used. The state space is constant and all nonconstant enumerations are polynomial.
+\end{proof}
+
+\section{An exact-stretch family with unbounded feedback number}
+For $t\geq0$ and $r\geq2$, let $F_{t,r}$ be the circuit produced by \texttt{strict\_clone\_bank\_delta\_one\_family(t,r)}. It has
+\[
+n=7+t+2r,\qquad m=8+t+2r=n+1.
+\]
+After the unique common gate $H$, its left branch passes through a unique gate $q$ to a bank input $A$. There are $r$ exact forward clones from $A$ to $B$, and $r$ exact backward clones having one branch from $B$ back to $A$. The right branch of $H$ has a private return to the root.
+
+\begin{proposition}[Strict $\Delta=1$ separation]
+For every $t\geq0$ and $r\geq2$,
+\[
+\operatorname{minimumOverlap}=1,\qquad
+\operatorname{minimumCompatibleOverlap}=2,\qquad
+\Delta=1,
+\]
+and the relevant post-common stage has feedback-gate number exactly $r$.
+\end{proposition}
+\begin{proof}
+Every return pair shares $H$. An overlap-one pair exists by sending one route through the left branch and one through the right branch. These branches force first post-$H$ source phases $0$ and $1$, respectively, so the two target requirements at $H$ conflict. Any overlap-one pair must use opposite branches of $H$: two left routes also share the unique $q$, while two right routes share the unique right exit. Thus no overlap-one pair is target-compatible.
+
+For overlap two, send both routes through the left branch and the shared gate $q$, then use two distinct forward clones and two distinct exits from $B$. The first phases following both $H$ and $q$ agree, so the shared target requirements agree.
+
+For feedback number, every surviving forward clone together with every surviving backward clone yields an $A\to B\to A$ cycle. Deleting fewer than $r$ gates leaves at least one gate of each class and hence a cycle. Deleting all $r$ forward clones makes the stage acyclic. Therefore the minimum feedback-gate deletion number is exactly $r$.
+\end{proof}
+
+\section{Boundary after V117}
+V117 proves a W[1]-hard barrier for generic supplied-feedback two-chain gate linkage using Slivkins' DAG edge-disjoint-path theorem. V118 does not contradict that barrier: the exact-clone promise supplies an interchangeability and loop-erasure invariant not present in arbitrary gate-resource instances. Novelty of the exact formulation is not claimed without external review.
+
+\end{document}

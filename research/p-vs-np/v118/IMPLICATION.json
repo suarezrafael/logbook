@@ -1,0 +1,27 @@
+{
+  "laboratory": "V118",
+  "classification": "frontier_progress",
+  "target_problem": "signed-MUX Delta<=1 decision beyond the V116 feedback-gate-number-one class while respecting the V117 generic W[1]-hard feedback-interface barrier",
+  "conditional_implication": "exact MUX-clone banks admit signed loop erasure, bounding every normalized budget-one witness to a constant clone interface even when the raw feedback-gate number is unbounded; after deleting the bank and the possible extra shared gate, fixed-dimensional DAG linkage plus the V113 dominator DP gives polynomial-time decision",
+  "current_gap": "arbitrary signed-MUX stages may require multiple unrelated clone types or have no clone compression at all; V118 does not give FPT in clone-type count and does not lift or refute the V117 hardness barrier for general feedback interfaces",
+  "stop_rule": "do not return to raw feedback-gate-number FPT without additional MUX structure; V119 must either compress multiple clone types, prove hardness for small clone-type count, or isolate another signed-MUX invariant that dominates clone-bank width",
+  "external_validation_target": "specialist review of the signed loop-erasure proof, the constant-request reduction, and novelty relative to routing with interchangeable parallel resources",
+  "bridge_lemmas": [
+    "V113 common return-gate dominators form the baseline minimum-overlap chain",
+    "same-branch traversals of exact MUX clones have identical selector, destination, and source phase",
+    "same-branch repeated clone traversals can be loop-erased without changing shared-boundary target requirements",
+    "one extra shared gate cuts each route into at most two clone-normalizable segments",
+    "removing the clone bank and extra gate leaves at most twelve fixed gate-disjoint DAG requests",
+    "only four first traversals can be phase-sensitive at shared boundaries"
+  ],
+  "material_advance_rule_met": true,
+  "unbounded_feedback_number_under_clone_promise_in_P": true,
+  "strict_delta_one_unbounded_feedback_family": true,
+  "arbitrary_feedback_number_in_P": false,
+  "multiple_clone_type_fpt": false,
+  "signed_mux_feedback_parameter_w1_hard": false,
+  "unrestricted_NC0_3_avoid_in_P": false,
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
