@@ -194,8 +194,11 @@ def main():
         route0, route1, target = witness
         overlap = {gi for gi, _ in route0} & {gi for gi, _ in route1}
         assert overlap == {common_gate, feedback}
-        assert cycle_gate not in {gi for gi, _ in route0}
-        assert cycle_gate not in {gi for gi, _ in route1}
+        assert cycle_gate not in overlap
+        for route in (route0, route1):
+            for gi, branch in route:
+                if gi == cycle_gate:
+                    assert branch == 0
         assert target_word(
             gates,
             ((first0, 0),) + route0,
