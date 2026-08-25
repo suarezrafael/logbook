@@ -1,0 +1,92 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+
+\title{V119: Bounded branch-image feedback banks for signed-MUX budget-one repair}
+\author{NC0\_k-Avoid Laboratory}
+\date{August 25, 2026}
+
+\begin{document}
+\maketitle
+
+\paragraph{Scope.}
+All statements concern one fixed opposite-phase repeated-selector first pair in the signed-MUX model and the common-return-gate dominator decomposition inherited from V113.  The objective is to decide whether a target-compatible return pair exists with overlap at most one above the minimum-overlap face.  No statement below concerns unrestricted $\mathrm{NC}^0_3$-Avoid or P versus NP.
+
+\begin{definition}[Branch-image feedback bank]
+Fix one non-common dominator stage with allowed output gates $A$.  For a set $D$ of variables, define
+\[
+ B_D=\{g\in A: \operatorname{data}_0(g)\in D\text{ and }\operatorname{data}_1(g)\in D\}.
+\]
+The stage is \emph{$d$-image-reducible} if there is a set $D$, $|D|\le d$, such that deleting all gates in $B_D$ leaves a directed acyclic stage.
+\end{definition}
+
+Unlike the exact-clone promise of V118, gates in $B_D$ need not have equal selectors, polarities, or output flips.
+
+\begin{lemma}[Destination loop erasure]
+Let $P$ be a gate-simple route segment whose interior contains no gate shared with the other return route.  Suppose two traversals of bank gates $e_i,e_j\in B_D$, with $i<j$, both arrive at the same variable $v\in D$.  Then $P$ can be replaced by a route segment with the same endpoints and no more gates, obtained by retaining the first arrival at $v$ and deleting the excursion through the second arrival.  The replacement remains gate-simple and preserves the first traversal of the segment.
+\end{lemma}
+
+\begin{proof}
+Immediately after $e_i$ the route is at $v$, and immediately after $e_j$ it is again at $v$.  Delete every traversal strictly after $e_i$ through and including $e_j$, and concatenate the suffix that originally followed $e_j$.  The concatenation is valid because that suffix starts at the same variable $v$.  Deletion cannot introduce a repeated gate, so gate-simplicity is preserved.  The first traversal of the segment is untouched.
+
+For signed target compatibility, only a shared boundary gate can impose a cross-route equality on its target bit.  Its required bit depends on the source phase of the first traversal following that boundary.  Because the first traversal of the segment is preserved, that phase is preserved.  Changes to target requirements of private gates inside the modified segment can be absorbed independently.
+\end{proof}
+
+\begin{corollary}[Normalized bank interface]
+Every private route segment has an equivalent normalized representative that uses at most one bank traversal arriving at each variable of $D$, hence at most $|D|\le d$ bank traversals.
+\end{corollary}
+
+\begin{lemma}[Budget-one request bound]
+Assume a target-compatible witness shares at most one non-dominator gate $q$ in addition to the V113 common dominators.  In any stage containing $q$, the two routes can be normalized so that, after deleting $B_D$ and $q$, the residual DAG linkage instance contains at most $4d+4$ source--target requests.
+\end{lemma}
+
+\begin{proof}
+The extra shared gate $q$ splits each of the two routes into at most two private segments.  By destination loop erasure, each segment uses at most $d$ bank traversals.  Thus there are at most $4d$ bank traversals total.  Treating the bank traversals and $q$ as fixed special resources cuts the two routes into at most $4d+4$ residual connector pieces.  All remaining allowed gates lie in the DAG obtained after deleting $B_D$ and $q$.
+\end{proof}
+
+\begin{lemma}[Fixed-$d$ local decision]
+For fixed $d$, one $d$-image-reducible stage can be solved in deterministic time $N^{O(d)}$.
+\end{lemma}
+
+\begin{proof}
+Enumerate a candidate set $D$, $|D|\le d$, and verify that deletion of the full bank $B_D$ exposes a DAG.  Enumerate whether the unique extra shared gate lies in this stage, its two branch choices, and the normalized bank traversals on each private segment.  There are only $O(d)$ special traversals, so this costs $N^{O(d)}$.
+
+After fixing those special traversals, delete $B_D$ and the optional extra gate.  The residual problem contains at most $4d+4$ gate-disjoint requests in a DAG.  Because the number of requests is fixed for fixed $d$, the standard product-state DAG linkage dynamic program is polynomial.  The concrete first traversals adjacent to a common gate or to the extra shared gate determine the relevant signed source phases, so the target-compatibility equalities are checked explicitly.
+\end{proof}
+
+\begin{theorem}[Bounded branch-image budget-one tractability]
+For every fixed constant $d$, suppose every non-common V113 dominator stage of a fixed opposite-phase signed-MUX first pair is $d$-image-reducible.  Then one can decide in deterministic time $N^{O(d)}$ whether there is a target-compatible return pair with
+\[
+ \operatorname{overlap}\le \operatorname{minimumOverlap}+1.
+\]
+\end{theorem}
+
+\begin{proof}
+Apply the fixed-$d$ local decision procedure to every stage.  Compose local transitions along the V113 common-dominator chain using the constant global state consisting of the two branches selected at the current common gate and one Boolean recording whether the extra-overlap budget has already been used.  Completeness follows from destination loop erasure applied independently to each private segment of any budget-one witness; soundness follows because every returned local plan is explicitly realized as gate-disjoint DAG connectors plus its enumerated special traversals and is checked for signed target compatibility.
+\end{proof}
+
+\begin{corollary}
+The entire promised class with $d=2$ is decidable in polynomial time.
+\end{corollary}
+
+\begin{theorem}[Strict exact-stretch family]
+For every depth $t\ge0$ and width $r\ge2$, the V119 family has $m=n+1$, minimum overlap one, minimum target-compatible overlap two, and feedback-gate number exactly $r$.  Its cyclic stage is $2$-image-reducible, but no single exact signed-MUX clone class has a deletion that makes the stage acyclic.
+\end{theorem}
+
+\begin{proof}
+The construction contains one unique common return-gate dominator.  Any overlap-one pair therefore shares exactly that gate.  The two available minimum-overlap returns use opposite branches there and induce incompatible target requirements.  A compatible overlap-two pair uses the same common branch, shares the designated repair gate, and then uses distinct private bank resources, so its only shared gates are the common dominator and repair gate.
+
+The cyclic bank consists of $r$ forward and $r$ backward resources; every forward/backward pair forms a directed two-cycle.  Breaking every such cycle is equivalent to covering every edge of $K_{r,r}$ and therefore requires at least $r$ gate resources, while deleting all resources on either side suffices.  The construction deliberately uses at least two exact signed signatures on each side for $r\ge2$, so deleting any one exact-clone class leaves at least one forward and one backward resource and hence a cycle.  On the other hand, all forward gates have both destinations in one fixed two-variable set, so deleting the corresponding full branch-image bank exposes a DAG.  Direct counting gives $m=n+1$.
+\end{proof}
+
+\paragraph{Boundary.}
+The theorem is XP rather than FPT in $d$: the exponent of $N$ depends on $d$.  No claim is made for unbounded $d$, for hardness at fixed $d$, for unrestricted signed-MUX $\Delta=1$, for all $0x1b$ instances, for unrestricted $\mathrm{NC}^0_3$-Avoid, or for P versus NP.  Novelty is not externally confirmed and the result is not peer reviewed.
+
+\end{document}
