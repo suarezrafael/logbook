@@ -1,0 +1,29 @@
+{
+  "laboratory": "V119",
+  "classification": "frontier_progress",
+  "target_problem": "signed-MUX Delta<=1 decision beyond exact clone banks by bounding only the branch-image feedback interface of each non-common V113 stage",
+  "conditional_implication": "if every non-common stage becomes acyclic after deleting a bank whose two branch destinations lie in a set D of fixed size d, destination loop erasure bounds each private segment to at most d bank traversals; one extra shared gate yields at most 4d+4 residual DAG linkage requests, so the fixed-pair problem is decidable in N^{O(d)} time and the d=2 class is in P",
+  "current_gap": "the exponent depends on d; arbitrary branch-image number and FPT in d remain open, and V119 does not realize or refute the V117 W[1]-hard barrier under bounded branch-image structure",
+  "stop_rule": "do not return to exact-clone counting as the main parameter; V120 must attack branch-image size d itself, multiple bounded-image banks, or a hardness boundary under the actual signed-MUX dominator/phase constraints",
+  "external_validation_target": "specialist review of destination loop erasure, the 4d+4 request bound, completeness of the stage enumeration, and novelty relative to routing through bounded-image feedback modules",
+  "bridge_lemmas": [
+    "V113 common return-gate dominators give the baseline minimum-overlap chain",
+    "repeated arrival at the same bank destination can be loop-erased while preserving the first traversal after a shared boundary",
+    "a normalized private segment uses at most |D| bank gates",
+    "one extra shared gate splits each route into at most two private segments",
+    "deleting the bank and optional extra gate leaves at most 4d+4 fixed DAG linkage requests",
+    "actual signed source phases are enforced only at shared boundaries and first residual traversals"
+  ],
+  "material_advance_rule_met": true,
+  "fixed_d_branch_image_budget_one_in_P": true,
+  "d_two_branch_image_budget_one_in_P": true,
+  "strict_delta_one_outside_exact_clone_family": true,
+  "unbounded_feedback_number_under_branch_image_two_in_P": true,
+  "branch_image_parameter_fpt": false,
+  "unbounded_branch_image_number_in_P": false,
+  "signed_mux_branch_image_w1_hard": false,
+  "unrestricted_NC0_3_avoid_in_P": false,
+  "p_vs_np_resolved": false,
+  "novelty_confirmed": false,
+  "peer_reviewed": false
+}
