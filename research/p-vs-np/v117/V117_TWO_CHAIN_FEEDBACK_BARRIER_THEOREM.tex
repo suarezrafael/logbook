@@ -22,9 +22,11 @@ A DAG has unrestricted variable vertices and capacity-one gate resources. The re
 Parallel two-chain gate linkage on DAGs is W[1]-hard parameterized by the total number $k=|C_0|+|C_1|$ of requests.
 \end{theorem}
 \begin{proof}
-Slivkins~\cite{Slivkins2010} proves that Edge-Disjoint Paths on DAGs is W[1]-hard in the number of requests even when the demand graph consists of two sets of parallel edges. Take such an instance. For every source edge $e=(u,v)$ insert one fresh capacity-one gate resource $g_e$ and replace $e$ by $u\to g_e\to v$. Put the two parallel demand classes into $C_0,C_1$.
+Slivkins~\cite{Slivkins2010} proves that Edge-Disjoint Paths on DAGs is W[1]-hard in the number of requests even when the demand graph consists of two sets of parallel edges. We may assume both sets are nonempty. If one set is empty, add two fresh vertices joined by one private edge and put the forced request between them into the missing set. This preserves acyclicity and feasibility and increases the request parameter by only one.
 
-The subdivision is acyclic because contracting all $g_e$ recovers the source DAG. A source path uses $e$ exactly when its subdivision uses $g_e$. Hence source paths are pairwise edge-disjoint iff the transformed request paths are pairwise gate-resource-disjoint. The request parameter $k$ is unchanged.
+For every source edge $e=(u,v)$ insert one fresh capacity-one gate resource $g_e$ and replace $e$ by $u\to g_e\to v$. Put the two nonempty parallel demand classes into $C_0,C_1$.
+
+The subdivision is acyclic because contracting all $g_e$ recovers the source DAG. A source path uses $e$ exactly when its subdivision uses $g_e$. Hence source paths are pairwise edge-disjoint iff the transformed request paths are pairwise gate-resource-disjoint. The request parameter is preserved up to the optional additive-one padding, hence this is an FPT parameter-preserving reduction.
 \end{proof}
 
 \begin{definition}[Prescribed feedback closure]
@@ -35,7 +37,7 @@ For each consecutive pair of requests in a chain, add a fresh private feedback g
 If both chains are nonempty, the feedback closure has $|F|=k-2$. Deleting $F$ leaves the gate-subdivided DAG, and feasibility is equivalent to the two-chain instance. Consequently the prescribed two-route residual problem is W[1]-hard parameterized by the supplied feedback-interface size $\tau=|F|$.
 \end{theorem}
 \begin{proof}
-A chain with $r$ requests receives $r-1$ private feedback gates. Concatenating its $r$ gate-disjoint request paths with those gates gives one gate-simple prescribed walk. Conversely, splitting such a walk at its prescribed feedback gates recovers the $r$ request paths. Summing over two nonempty chains gives $\tau=(|C_0|-1)+(|C_1|-1)=k-2$.
+A chain with $r$ requests receives $r-1$ private feedback gates. Concatenating its $r$ gate-disjoint request paths with those gates gives one gate-simple prescribed walk. Conversely, splitting such a walk at its prescribed feedback gates recovers the $r$ request paths. Summing over two nonempty chains gives $\tau=(|C_0|-1)+(|C_1|-1)=k-2$. With the optional padding above, $\tau$ differs from the original hard parameter by at most an additive constant.
 \end{proof}
 
 \begin{corollary}
