@@ -133,12 +133,30 @@ def _segment_realizations(
     return tuple(output)
 
 
+def _route_special_options(
+    segment_options: tuple[tuple[tuple[int, int], ...], ...],
+    extra: int,
+    branch: int,
+) -> tuple[tuple[tuple[tuple[int, int], ...], frozenset[int]], ...]:
+    """Join before/after segments and prune repeated private bank gates early."""
+    output: list[tuple[tuple[tuple[int, int], ...], frozenset[int]]] = []
+    for before, after in product(segment_options, repeat=2):
+        bank_ids = tuple(gi for gi, _ in before + after)
+        used_bank = frozenset(bank_ids)
+        if len(used_bank) != len(bank_ids):
+            continue
+        output.append((before + ((extra, branch),) + after, used_bank))
+    return tuple(output)
+
+
 def _local_stage_options(
     n: int,
     gates: list[MuxGate],
     stage: tuple[int, ...],
     stage_index: int,
     allowed_stage: set[int],
+    D: tuple[int, ...],
+    bank: tuple[int, ...],
     starts: tuple[int, int],
     sink: int,
     initial_alphas: tuple[int, int],
@@ -147,7 +165,6 @@ def _local_stage_options(
     next_gate: int | None = None,
     next_branches: tuple[int, int] | None = None,
     allow_extra: bool = True,
-    image_bound: int = 2,
 ) -> dict[
     bool,
     tuple[
@@ -156,9 +173,7 @@ def _local_stage_options(
         int | None,
     ],
 ]:
-    D, bank = _branch_image_bank(
-        n, gates, stage, stage_index, allowed_stage, image_bound=image_bound
-    )
+    # D and bank are computed once by _stage_partition and reused for every DP state.
     extras: list[int | None] = [None]
     if allow_extra:
         extras.extend(sorted(allowed_stage))
@@ -182,6 +197,10 @@ def _local_stage_options(
         for extra_branches in branch_pairs:
             if extra is None:
                 for route0, route1 in product(segment_options, repeat=2):
+                    used0 = {gi for gi, _ in route0}
+                    used1 = {gi for gi, _ in route1}
+                    if used0 & used1:
+                        continue
                     realized = v118._realize_plan(
                         n,
                         gates,
@@ -202,11 +221,18 @@ def _local_stage_options(
                         break
             else:
                 found = False
-                for before0, after0, before1, after1 in product(
-                    segment_options, repeat=4
+                route0_options = _route_special_options(
+                    segment_options, extra, extra_branches[0]
+                )
+                route1_options = _route_special_options(
+                    segment_options, extra, extra_branches[1]
+                )
+                for (specials0, used0), (specials1, used1) in product(
+                    route0_options, route1_options
                 ):
-                    specials0 = before0 + ((extra, extra_branches[0]),) + after0
-                    specials1 = before1 + ((extra, extra_branches[1]),) + after1
+                    # The designated extra gate is the only allowed non-dominator overlap.
+                    if used0 & used1:
+                        continue
                     realized = v118._realize_plan(
                         n,
                         gates,
@@ -352,11 +378,12 @@ def fixed_pair_branch_image_budget_one_certificate(
             stage,
             0,
             set(stage_sets[0]),
+            image_sets[0],
+            banks[0],
             (dest0, dest1),
             selector,
             initial_alphas,
             allow_extra=True,
-            image_bound=image_bound,
         )
         for used_budget in (False, True):
             if used_budget not in options:
@@ -384,13 +411,14 @@ def fixed_pair_branch_image_budget_one_certificate(
             stage,
             0,
             set(stage_sets[0]),
+            image_sets[0],
+            banks[0],
             (dest0, dest1),
             first_sink,
             initial_alphas,
             next_gate=first_common,
             next_branches=next_state,
             allow_extra=True,
-            image_bound=image_bound,
         )
         for used_budget, (path0, path1, extra) in options.items():
             key = (next_state, used_budget)
@@ -423,12 +451,15 @@ def fixed_pair_branch_image_budget_one_certificate(
                 gates[previous].branch(state[1])[1],
             )
             for next_state in product((0, 1), repeat=2):
+                local_stage_index = stage_index + 1
                 options = _local_stage_options(
                     n,
                     gates,
                     stage,
-                    stage_index + 1,
-                    set(stage_sets[stage_index + 1]),
+                    local_stage_index,
+                    set(stage_sets[local_stage_index]),
+                    image_sets[local_stage_index],
+                    banks[local_stage_index],
                     starts,
                     sink,
                     initial_alphas,
@@ -437,7 +468,6 @@ def fixed_pair_branch_image_budget_one_certificate(
                     next_gate=nxt,
                     next_branches=next_state,
                     allow_extra=not used_budget,
-                    image_bound=image_bound,
                 )
                 for local_used, (path0, path1, local_extra) in options.items():
                     if used_budget and local_used:
@@ -471,13 +501,14 @@ def fixed_pair_branch_image_budget_one_certificate(
             stage,
             depth,
             set(stage_sets[depth]),
+            image_sets[depth],
+            banks[depth],
             starts,
             selector,
             initial_alphas,
             previous_gate=last,
             previous_branches=state,
             allow_extra=not used_budget,
-            image_bound=image_bound,
         )
         for local_used, (path0, path1, local_extra) in sorted(
             options.items(), key=lambda item: item[0]
