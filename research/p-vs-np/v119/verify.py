@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import random
 import sys
 from collections import defaultdict, deque
 from itertools import combinations
@@ -184,23 +183,34 @@ def strict_family_checks():
 
 def signed_private_variants():
     """Vary only private data signs/out flips; selector phases stay fixed."""
-    rng = random.Random(119)
     compared = 0
+    seen_signatures = set()
     for seed in range(32):
         n, base, (g0, g1, common, extra, forward, backward) = (
             strict_branch_image_delta_one_family(0, 2)
         )
         gates = list(base)
-        for gi in tuple(forward + backward):
+        private = tuple(forward + backward)
+        for pos, gi in enumerate(private):
             gate = gates[gi]
             ps, _p0, _p1 = gate.polarity
+            shift = 3 * pos
+            p0 = (seed >> shift) & 1
+            p1 = (seed >> (shift + 1)) & 1
+            out_flip = (seed >> (shift + 2)) & 1
             gates[gi] = MuxGate(
                 gate.selector,
                 gate.data0,
                 gate.data1,
-                (ps, rng.randrange(2), rng.randrange(2)),
-                rng.randrange(2),
+                (ps, p0, p1),
+                out_flip,
             )
+        signature = tuple(
+            (gates[gi].polarity[1], gates[gi].polarity[2], gates[gi].out_flip)
+            for gi in private
+        )
+        assert signature not in seen_signatures, ("duplicate private-sign seed", seed)
+        seen_signatures.add(signature)
         brute = brute_fixed_pair(n, gates, 0, g0, 0, g1, 0)
         assert brute == (1, 2), (seed, brute)
         cert = fixed_pair_branch_image_budget_one_certificate(
@@ -210,6 +220,7 @@ def signed_private_variants():
         assert set(cert.overlap) == {common, extra}
         assert target_word(gates, cert.cycle0, cert.cycle1) == cert.target
         compared += 1
+    assert len(seen_signatures) == 32
     return compared
 
 
