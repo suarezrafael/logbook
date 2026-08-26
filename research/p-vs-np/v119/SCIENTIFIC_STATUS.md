@@ -22,6 +22,8 @@ Independent verification imports no V119 implementation.  It reconstructs the fa
 
 These checks validate the implementation and intended examples.  They are not the proof of the asymptotic theorem.
 
+The implementation reuses the per-stage branch-image set/bank already found during stage partitioning and prunes special plans that repeat a private bank gate within one route or share a private bank gate across the two routes before invoking the residual realizer.  These are sound implementation-level pruning steps only; they do not strengthen the stated `N^{O(d)}` runtime bound or any scientific claim.
+
 ## Open boundary
 
 The exponent of the direct algorithm grows with `d`.  V119 does not decide whether branch-image number admits an FPT algorithm `f(d) poly(N)`, nor whether the generic V117 W[1]-hard barrier can be realized under bounded branch-image structure.
