@@ -182,22 +182,25 @@ def strict_family_checks():
 
 
 def signed_private_variants():
-    """Vary only private data signs/out flips; selector phases stay fixed."""
+    """Vary every private data-sign/out-flip field across reproducible seeds."""
+    masks = (1, 2, 4, 8, 16, 3, 5, 9, 17, 6, 10, 18)
     compared = 0
     seen_signatures = set()
+    field_values = [set() for _ in masks]
     for seed in range(32):
         n, base, (g0, g1, common, extra, forward, backward) = (
             strict_branch_image_delta_one_family(0, 2)
         )
         gates = list(base)
         private = tuple(forward + backward)
+        assert 3 * len(private) == len(masks)
         for pos, gi in enumerate(private):
             gate = gates[gi]
             ps, _p0, _p1 = gate.polarity
-            shift = 3 * pos
-            p0 = (seed >> shift) & 1
-            p1 = (seed >> (shift + 1)) & 1
-            out_flip = (seed >> (shift + 2)) & 1
+            field_index = 3 * pos
+            p0 = (seed & masks[field_index]).bit_count() & 1
+            p1 = (seed & masks[field_index + 1]).bit_count() & 1
+            out_flip = (seed & masks[field_index + 2]).bit_count() & 1
             gates[gi] = MuxGate(
                 gate.selector,
                 gate.data0,
@@ -211,6 +214,9 @@ def signed_private_variants():
         )
         assert signature not in seen_signatures, ("duplicate private-sign seed", seed)
         seen_signatures.add(signature)
+        flattened = tuple(value for triple in signature for value in triple)
+        for index, value in enumerate(flattened):
+            field_values[index].add(value)
         brute = brute_fixed_pair(n, gates, 0, g0, 0, g1, 0)
         assert brute == (1, 2), (seed, brute)
         cert = fixed_pair_branch_image_budget_one_certificate(
@@ -221,6 +227,7 @@ def signed_private_variants():
         assert target_word(gates, cert.cycle0, cert.cycle1) == cert.target
         compared += 1
     assert len(seen_signatures) == 32
+    assert all(values == {0, 1} for values in field_values), field_values
     return compared
 
 
