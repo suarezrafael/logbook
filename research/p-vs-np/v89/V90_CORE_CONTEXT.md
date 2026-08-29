@@ -1,6 +1,26 @@
 # V90 core context — final budgeted Eval_H constructor laboratory
 
-V90 is reserved while V89 remains a draft candidate.
+V90 is reserved after the promotion of V89. It is the final result-oriented
+laboratory on the current `Eval_H` constructor front.
+
+## Trajectory classification
+
+V90 is classified as a final bridge-or-barrier attempt, not an open-ended
+certificate search. Its only admissible trajectory claim is:
+
+```text
+Eval_H constructor theorem
+  -> constructive support-only target list or a growing constructor lower bound
+  -> an explicitly cited rigidity, remote-point, or lower-bound bridge.
+```
+
+If no such bridge is closed, V90 remains a legitimate barrier/closure
+laboratory but is not counted as movement toward a circuit lower bound.
+
+No new generic Hall, syndrome, width, coloring, peeling, or other
+polynomially-verifiable certificate family may be opened inside V90. The
+remaining budget is restricted to the frozen overlap problems, the stated
+superconstant lower-bound target, or a source-matched external bridge.
 
 ## Frozen V89 contribution
 
@@ -101,7 +121,8 @@ logically excluded, but it is now secondary to the exact overlap program.
 ## Priority three — superconstant constructor lower bound
 
 Even a nine-row result is constant. Seek a mechanism that grows with `n`, or
-prove a lower bound for a precise constructor class whose parameter grows.
+prove a lower bound for a precise constructor class whose parameter grows and
+whose relevance is stated through a source-verified implication chain.
 
 ## Stop rule
 
@@ -114,14 +135,44 @@ If V90 produces neither:
 
 then close the `Eval_H` constructor front.
 
-The next laboratory must return to one of:
+The stop rule cannot be reset by:
 
-1. rigidity or remote-point bridges;
-2. average-case hardness tied to an established reduction;
+- a larger finite census;
+- a new constant-row bound;
+- a different polynomially checkable certificate;
+- a constant-factor width or state-count optimization;
+- a heuristic overlap scan without a rigorous global conclusion.
+
+## Mandatory V91 transition
+
+After V90, the next laboratory is V91, a reorientation laboratory. It must not
+begin with a new result search. It must first execute the documents reserved in
+this directory:
+
+- `V91_CORE_CONTEXT.md`;
+- `TRAJECTORY_GATE_TEMPLATE.md`;
+- `NATURALNESS_AND_BARRIER_AUDIT.md`;
+- `ALGORITHM_TO_LOWER_BOUND_AUDIT.md`;
+- `METACOMPLEXITY_REDUCTION_LEDGER.md`;
+- `EXTERNAL_VALIDATION_PLAN.md`.
+
+V91 will rank three possible continuations only after their implication and
+barrier audits:
+
+1. SAT or `#SAT` algorithms tied to a Williams transference theorem;
+2. range-avoidance and remote-point reductions in meta-complexity;
 3. bounded-arithmetic or proof-complexity parameter matching.
+
+The algorithms-to-lower-bounds audit is the primary front. Meta-complexity is
+the secondary front. External validation is permanent.
 
 ## Nonclaims
 
 Local Hessian stability, finite scans, empty random cores, and the absence of
 fixed obstructions do not prove asymptotic basis colorability and are not
 evidence that `P != NP`.
+
+The V91 reservation does not claim that the V85--V89 certificates formally
+satisfy the Razborov--Rudich definition, that the V74--V77 engine already gives
+a Williams-qualified SAT algorithm, or that posting a note publicly constitutes
+peer review.
